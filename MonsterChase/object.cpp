@@ -20,6 +20,7 @@ Object::Object()
 Object::~Object()
 {
 	delete name_;
+	name_ = nullptr;
 }
 
 Object::Object(char* name, int moveSpeed, int health)
