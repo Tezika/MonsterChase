@@ -85,7 +85,7 @@ void Enemy::PrintOutInfo()
 {
 	Object::PrintOutInfo();
 	std::cout << "The " << this->GetName() << " with the attack " << this->GetAttack()
-		<< " position is  [" << this->GetPosX() << "," << this->GetPosY() << "]." << std::endl;
+		<<" and the health "<< this->GetHealth() << ", position is  [" << this->GetPosX() << "," << this->GetPosY() << "]." << std::endl;
 }
 
 Enemy* Enemy::GetNext()

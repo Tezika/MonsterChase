@@ -11,4 +11,5 @@ int main()
 		Game::GetInstance().Run();
 	}
 	Game::GetInstance().Stop();
+	system("pause");
 }
