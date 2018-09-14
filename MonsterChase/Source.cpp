@@ -1,4 +1,5 @@
 #include "game.h"
+#include  "Engine-init.h"
 
 using namespace MonsterChase;
 
@@ -11,5 +12,6 @@ int main()
 		Game::GetInstance().Run();
 	}
 	Game::GetInstance().Stop();
+	Engine::Initialize();
 	system("pause");
 }
