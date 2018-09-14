@@ -13,5 +13,6 @@ int main()
 	}
 	Game::GetInstance().Stop();
 	Engine::Initialize();
+	_CrtDumpMemoryLeaks();
 	system("pause");
 }

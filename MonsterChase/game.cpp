@@ -32,6 +32,7 @@ void Game::Initialize()
 	player_->SetPosX(1);
 	player_->SetPosY(1);
 
+
 	//Enemy initialization
 	int num_enemy = 0;
 	std::cout << "Hi " << playerName << "! How many enemy do you want to fight with? ";
