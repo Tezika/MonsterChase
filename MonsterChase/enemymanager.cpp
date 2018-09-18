@@ -10,6 +10,7 @@
 #include <math.h>
 #include "enemymanager.h"
 #include "game.h"
+#include <assert.h>
 
 using namespace MonsterChase;
 
@@ -53,6 +54,7 @@ Enemy* EnemyManager::CreateEnemy()
 
 Enemy* EnemyManager::GetEnemyByName(const char* name)
 {
+	assert(name != nullptr);
 	auto ptr = head_;
 	while (ptr != nullptr)
 	{
@@ -67,6 +69,7 @@ Enemy* EnemyManager::GetEnemyByName(const char* name)
 
 Enemy* EnemyManager::InsertEnemy(Enemy* node)
 {
+	assert(node != nullptr);
 	//Insert the first node
 	if (head_ == nullptr)
 	{
@@ -104,6 +107,7 @@ void EnemyManager::MoveEnemies()
 
 void EnemyManager::BattleWithPlayer(Player *player)
 {
+	assert(player != nullptr);
 	auto ptr = head_;
 	while (ptr != nullptr)
 	{

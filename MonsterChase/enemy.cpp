@@ -36,7 +36,6 @@ void Enemy::Move()
 	auto player = Game::GetInstance().GetCurPlayer();
 	int playerPosX = player->GetPosX();
 	int playerPosY = player->GetPosY();
-
 	int xDelta = playerPosX - this->GetPosX();
 	int yDelta = playerPosY - this->GetPosY();
 
