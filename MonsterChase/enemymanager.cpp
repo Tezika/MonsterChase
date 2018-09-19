@@ -47,8 +47,7 @@ Enemy* EnemyManager::CreateEnemy()
 	//The movespeed ranges from 1 ~ 4, health ranges from 4 ~ 7, attack ranges from 1 ~ 4
 	auto newEnemy = this->InsertEnemy(new Enemy(name, rand() % 5 + 3, rand() % 3 + 4, rand() % 3 + 1));
 	//Set the random position for the new enemy
-	newEnemy->SetPosX(rand() % Game::GetInstance().GetGridWidth() + 1);
-	newEnemy->SetPosY(rand() % Game::GetInstance().GetGridHeight() + 1);
+	newEnemy->SetPosition(Point2D(rand() % Game::GetInstance().GetGridWidth() + 1, rand() % Game::GetInstance().GetGridHeight() + 1));
 	return newEnemy;
 }
 
@@ -111,8 +110,7 @@ void EnemyManager::BattleWithPlayer(Player *player)
 	auto ptr = head_;
 	while (ptr != nullptr)
 	{
-		if (ptr->GetPosX() == player->GetPosX() &&
-			ptr->GetPosY() == player->GetPosY())
+		if (ptr->GetPosition() == player->GetPosition())
 		{
 			player->SetHealth(player->GetHealth() - ptr->GetAttack());
 			std::cout << "The player got a damage by " << ptr->GetAttack() << std::endl;

@@ -34,10 +34,8 @@ void Enemy::Move()
 {
 	Object::Move();
 	auto player = Game::GetInstance().GetCurPlayer();
-	int playerPosX = player->GetPosX();
-	int playerPosY = player->GetPosY();
-	int xDelta = playerPosX - this->GetPosX();
-	int yDelta = playerPosY - this->GetPosY();
+	int xDelta = player->GetPosition().x - this->position_.x;
+	int yDelta = player->GetPosition().y - this->position_.y;
 
 
 	if (abs(xDelta) > abs(yDelta))
@@ -47,12 +45,12 @@ void Enemy::Move()
 		if (xDelta > 0)
 		{
 			//move right
-			this->SetPosX(this->GetPosX() + moveDis);
+			this->position_ += Point2D(moveDis, 0);
 		}
 		else if (xDelta < 0)
 		{
 			//move left
-			this->SetPosX(this->GetPosX() - moveDis);
+			this->position_ -= Point2D(moveDis, 0);
 		}
 	}
 	else
@@ -62,20 +60,18 @@ void Enemy::Move()
 		if (yDelta > 0)
 		{
 			//move up
-			this->SetPosY(this->GetPosY() + moveDis);
+			this->position_ += Point2D(0, moveDis);
 
 		}
 		else if (yDelta < 0)
 		{
 			//move down
-			this->SetPosY(this->GetPosY() - moveDis);
+			this->position_ -= Point2D(0, moveDis);
 		}
 	}
 
 	//Clamp the position
-	this->SetPosX(Game::GetInstance().ClampForMap(this->GetPosX(), Game::GetInstance().GetGridWidth()));
-	this->SetPosY(Game::GetInstance().ClampForMap(this->GetPosY(), Game::GetInstance().GetGridHeight()));
-
+	this->position_ = Point2D(Game::GetInstance().ClampForMap(this->position_.x, Game::GetInstance().GetGridWidth()), Game::GetInstance().ClampForMap(this->position_.y, Game::GetInstance().GetGridHeight()));
 	//When the enemy finishes one move, its hp decrease by 1.
 	this->SetHealth(this->GetHealth() - 1);
 }
@@ -84,7 +80,7 @@ void Enemy::PrintOutInfo()
 {
 	Object::PrintOutInfo();
 	std::cout << "The " << this->GetName() << " with the attack " << this->GetAttack()
-		<<" and the health "<< this->GetHealth() << ", position is  [" << this->GetPosX() << "," << this->GetPosY() << "]." << std::endl;
+		<<" and the health "<< this->GetHealth() << ", position is  [" << this->position_.x << "," << this->position_.y<< "]." << std::endl;
 }
 
 Enemy* Enemy::GetNext()

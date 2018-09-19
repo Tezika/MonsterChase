@@ -8,6 +8,7 @@
 
 #ifndef Object_h
 #define Object_h
+#include "Point2D.h"
 
 namespace MonsterChase
 {
@@ -19,31 +20,27 @@ namespace MonsterChase
 		virtual ~Object();
 
 		//old school properties
-		const int GetPosX() { return pos_x_; }
-		void SetPosX(int val) { pos_x_ = val; }
+		inline const Point2D& GetPosition() { return position_; };
+		inline void SetPosition(const Point2D& pos) { this->position_ = pos; }
 
-		const int GetPosY() { return pos_y_; }
-		void SetPosY(int val) { pos_y_ = val; }
+		inline const char* GetName() { return name_; }
+		inline void SetName(char* name) { name_ = name; }
 
-		const char* GetName() { return name_; }
-		void SetName(char* name) { name_ = name; }
+		inline const int GetHealth() { return health_; }
+		inline void SetHealth(int health) { health_ = health; }
 
-		const int GetHealth() { return health_; }
-		void SetHealth(int health) { health_ = health; }
-
-		const int GetMoveSpeed() { return moveSpeed_; }
+		inline const int GetMoveSpeed() { return moveSpeed_; }
 
 		virtual void Move();
 		virtual void PrintOutInfo();
 
 	private:
-		int pos_x_;
-		int pos_y_;
 		int moveSpeed_;
 		int health_;
 		char* name_;
 
 	protected:
+		Point2D position_;
 	};
 
 }

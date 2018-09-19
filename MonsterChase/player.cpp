@@ -59,19 +59,19 @@ void Player::Move()
 	switch (input) {
 	case 'w':
 	case 'W':
-		this->SetPosY(this->GetPosY() + this->GetMoveSpeed());
+		this->position_ += Point2D(0, this->GetMoveSpeed());
 		break;
 	case 's':
 	case 'S':
-		this->SetPosY(this->GetPosY() - this->GetMoveSpeed());
+		this->position_ -= Point2D(0, this->GetMoveSpeed());
 		break;
 	case 'a':
 	case 'A':
-		this->SetPosX(this->GetPosX() - this->GetMoveSpeed());
+		this->position_ -= Point2D(this->GetMoveSpeed(), 0);
 		break;
 	case 'd':
 	case 'D':
-		this->SetPosX(this->GetPosX() + this->GetMoveSpeed());
+		this->position_ -= Point2D(this->GetMoveSpeed(), 0);
 		break;
 	case 'q':
 	case 'Q':
@@ -81,14 +81,13 @@ void Player::Move()
 		std::cout << ":<.The input you did is invalid" << std::endl;
 		break;
 	}
+	this->position_ = Point2D(Game::GetInstance().ClampForMap(this->position_.x, Game::GetInstance().GetGridWidth()), Game::GetInstance().ClampForMap(this->position_.y, Game::GetInstance().GetGridHeight()));
 
-	this->SetPosX(Game::GetInstance().ClampForMap(this->GetPosX(), Game::GetInstance().GetGridWidth()));
-	this->SetPosY(Game::GetInstance().ClampForMap(this->GetPosY(), Game::GetInstance().GetGridHeight()));
 }
 
 void Player::PrintOutInfo()
 {
 	Object::PrintOutInfo();
-	std::cout << "The " << this->GetName() << " current position is  [" << this->GetPosX() << "," << this->GetPosY() << "]." << std::endl;
+	std::cout << "The " << this->GetName() << " current position is  [" << this->position_.x << "," << this->position_.y << "]." << std::endl;
 }
 
