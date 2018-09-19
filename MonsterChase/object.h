@@ -9,6 +9,7 @@
 #ifndef Object_h
 #define Object_h
 #include "Point2D.h"
+#include "TString.h"
 
 namespace MonsterChase
 {
@@ -23,13 +24,12 @@ namespace MonsterChase
 		inline const Point2D& GetPosition() { return position_; };
 		inline void SetPosition(const Point2D& pos) { this->position_ = pos; }
 
-		inline const char* GetName() { return name_; }
-		inline void SetName(char* name) { name_ = name; }
-
 		inline const int GetHealth() { return health_; }
 		inline void SetHealth(int health) { health_ = health; }
 
 		inline const int GetMoveSpeed() { return moveSpeed_; }
+
+		inline const TString& GetName() { return name_; }
 
 		virtual void Move();
 		virtual void PrintOutInfo();
@@ -37,7 +37,7 @@ namespace MonsterChase
 	private:
 		int moveSpeed_;
 		int health_;
-		char* name_;
+		TString name_;
 
 	protected:
 		Point2D position_;

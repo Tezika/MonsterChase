@@ -19,13 +19,12 @@ Object::Object()
 
 Object::~Object()
 {
-	delete name_;
-	name_ = nullptr;
 }
 
 Object::Object(char* name, int moveSpeed, int health)
 {
 	name_ = name;
+	name_ += name_;
 	health_ = health;
 	moveSpeed_ = moveSpeed;
 }

@@ -11,6 +11,11 @@ Point2D::Point2D(int x, int y)
 	this->x = x;
 	this->y= y;
 }
+Point2D::Point2D(const Point2D& other)
+{
+	this->x = other.x;
+	this->y = other.y;
+}
 
 Point2D::~Point2D()
 {
