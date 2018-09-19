@@ -1,4 +1,5 @@
 #pragma once
+
 struct Point2D 
 {
 	Point2D();
@@ -9,9 +10,6 @@ struct Point2D
 	Point2D& operator=(const Point2D&);
 	Point2D& operator+=(const Point2D&);
 	Point2D& operator-=(const Point2D&);
-
-	//Point2D operator+(const Point2D&);
-	//Point2D operator-(const Point2D&);
 
 	~Point2D();
 
