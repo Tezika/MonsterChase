@@ -11,6 +11,7 @@
 #include "Point2D.h"
 #include "TString.h"
 
+
 namespace MonsterChase
 {
 	class Object

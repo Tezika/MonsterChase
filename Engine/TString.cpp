@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TString.h"
 
+
 TString::TString()
 {
 	buffer_ = nullptr;

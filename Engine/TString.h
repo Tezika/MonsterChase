@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
-
-class TString 
+class TString
 {
 public:
 	TString();
@@ -18,11 +17,12 @@ public:
 
 	friend bool operator==(const TString &lhs, const TString &rhs);
 	friend std::ostream& operator<<(std::ostream & os, const TString & str);
+	                   
+	inline char* GetBuffer() { return buffer_; }
 
 	~TString();
-	
+
 private:
 	unsigned int size_;
 	char* buffer_;
 };
-
