@@ -45,5 +45,4 @@ namespace MonsterChase
 
 }
 
-
 #endif /* Object_h */

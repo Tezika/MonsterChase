@@ -74,7 +74,7 @@ void TString::operator+=(const TString& str)
 
 void TString::operator+=(const char* p)
 {
-	
+	 
 }
 
 bool operator==(const TString &lhs, const TString &rhs)
@@ -98,10 +98,7 @@ bool operator==(const TString &lhs, const TString &rhs)
 
 std::ostream & operator<<(std::ostream & os, const TString & str)
 {
-	for (size_t i = 0; i < str.Length(); i++)
-	{
-		os << str.buffer_[i];
-	}
+	os << str.buffer_;
 	return os;
 }
 
