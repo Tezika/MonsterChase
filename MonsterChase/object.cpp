@@ -23,6 +23,8 @@ Object::~Object()
 Object::Object(char* name, int moveSpeed, int health)
 {
 	name_ = name;
+	TString str("haha");
+	name_ += str;
 	std::cout << name_ << std::endl;
 	health_ = health;
 	moveSpeed_ = moveSpeed;
