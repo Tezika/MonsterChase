@@ -11,6 +11,10 @@
 
 #include "enemy.h"
 #include "player.h"
+#include "TList.h"
+
+using namespace Engine;
+
 namespace MonsterChase
 {
 	class EnemyManager
@@ -19,19 +23,20 @@ namespace MonsterChase
 		EnemyManager();
 		~EnemyManager();
 
-		Enemy* CreateEnemy();
 		Enemy* GetEnemyByName(const char* name);
 		bool DestroyAll();
 		void MoveEnemies();
 		void PrintAllEnemiesInfo();
 		void BattleWithPlayer(Player* player);
 		void RemoveDiedEnemy();
+		Enemy* CreateEnemy();
 
 	private:
+		TList<Enemy>* enemyList_;
 		Enemy * head_;
 		Enemy* rear_;
-
 		Enemy* InsertEnemy(Enemy* node);
+
 	};
 }
 

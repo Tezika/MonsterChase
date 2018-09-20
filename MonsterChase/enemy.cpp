@@ -27,7 +27,6 @@ Enemy::Enemy(char* name, int moveSpeed, int health, int attack) :Object::Object(
 
 Enemy::~Enemy()
 {
-	//    std::cout<<"Desconstruct the enemy: "<< this->GetName() << std::endl;
 }
 
 void Enemy::Move()

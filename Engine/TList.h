@@ -13,22 +13,22 @@ namespace Engine
 			Node<T>* next;
 			Node<T>(const T& d) : data(d), next(nullptr) {}
 			Node<T>(const Node<T>& copyNode) : data(copyNode.data), next(copyNode.next) {}
-			~Node<T>(){ delete data; }
+			~Node<T>() { delete data; }
 		private:
 			Node<T>& operator=(const Node<T>&);
 		};
 
 	public:
 		TList(const TList&);
-		TList& operator=(TList);
+		//TList& operator=(TList);
 		TList() : head(NULL), tail(NULL) {}
 		TList(Node<T> * newNode) : head(newNode), tail(newNode) {}
 		~TList();
 
-		Node<T> InsertToTail(T);
-		bool Remove(Node<T>);
-	private:
-		Node<T>* head_;
-		Node<T>* tail_;
+		bool Remove(Node<T>* node);
+		Node<T>* InsertToTail(T* val);
+
+		Node<T>* head;
+		Node<T>* tail;
 	};
 }

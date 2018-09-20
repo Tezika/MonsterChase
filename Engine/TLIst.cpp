@@ -4,30 +4,13 @@
 using namespace Engine;
 
  template<class T>
- TList<T>::TList(const TList<T>& List) : head_(nullptr), tail_(nullptr)
+ TList<T>::TList(const TList<T>& List) : head(nullptr), tail(nullptr)
  {
 
  }
 
  template<class T>
- TList<T>::Node<T> TList<T>::InsertToTail(T val)
- {
-	 auto newNode = new Node<T>(val);
-	 if (head_ == nullptr)
-	 {
-		 head_ = newNode;
-		 tail_ = newNode;
-	 }
-	 else
-	 {
-		 tail_->next = node;
-		 tail_ = node;
-	 }
-	 return newNode;
- }
-
- template<class T>
- bool TList<T>::Remove(Node<T> node)
+ bool TList<T>::Remove(Node<T>* node)
  {
 	 return true;
  }
@@ -35,14 +18,31 @@ using namespace Engine;
  template<class T>
  TList<T>::~TList() 
  {
-	 auto cur = head_;
-	 while (head_)
+	 auto cur = head;
+	 while (head)
 	 {
-		 head_ = head_->next;
+		 head = head->next;
 		 delete cur;
-		 cur = head_;
+		 cur = head;
 	 }
-	 head_ = nullptr;
-	 tail_ = nullptr;
+	 head = nullptr;
+	 tail = nullptr;
+ }
+
+ template<class T>
+ TList<T>::Node<T>* TList<T>::InsertToTail(T* val)
+ {
+	 auto newNode = new Node<T>(val);
+	 if (head == nullptr)
+	 {
+		 head = newNode;
+		 tail = newNode;
+	 }
+	 else
+	 {
+		 tail->next = node;
+		 tail = node;
+	 }
+	 return newNode;
  }
 
