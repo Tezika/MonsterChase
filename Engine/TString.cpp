@@ -53,9 +53,9 @@ void TString::operator=(const char* p)
 
 void TString::operator+=(const TString& str)
 {
-	auto newSize = str.Length() + this->Length();
+	size_t newSize = str.Length() + this->Length() - 1;
 	char* newBuffer = new char[newSize];
-	for (size_t i = 0; i < str.Length()- 1; i++)
+	for (size_t i = 0; i < str.Length(); i++)
 	{
 		newBuffer[i] = buffer_[i];
 	}
@@ -64,9 +64,8 @@ void TString::operator+=(const TString& str)
 	{
 		newBuffer[j + count] = str.buffer_[j];
 	}
-
-	newBuffer[newSize] = '\0';
 	size_ = newSize;
+	newBuffer[size_] = '\0';
 
 	delete[] buffer_;
 	buffer_ = newBuffer;
@@ -74,7 +73,25 @@ void TString::operator+=(const TString& str)
 
 void TString::operator+=(const char* p)
 {
-	 
+	size_t newSize = strlen(p) + this->Length() - 1;
+	char* newBuffer = new char[newSize];
+	for (size_t i = 0; i < this->Length(); i++)
+	{
+		newBuffer[i] = buffer_[i];
+	}
+	size_t count = this->Length() - 1;
+	size_t counter = 0;
+	while (*p)
+	{
+		newBuffer[counter + count] = *p;
+		counter++;
+		p++;
+	}
+	size_ = newSize;
+	newBuffer[size_] = '\0';
+
+	delete[] buffer_;
+	buffer_ = newBuffer;
 }
 
 bool operator==(const TString &lhs, const TString &rhs)

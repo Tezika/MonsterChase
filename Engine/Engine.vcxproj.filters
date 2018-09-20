@@ -60,7 +60,7 @@
       <Filter>Source Files\Container</Filter>
     </ClCompile>
     <ClCompile Include="TString.cpp">
-      <Filter>Source Files\Container</Filter>
+      <Filter>Source Files\DataStructure</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

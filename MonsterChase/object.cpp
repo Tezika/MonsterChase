@@ -7,7 +7,6 @@
 //
 
 #include <stdio.h>
-#include "Object.h"
 #include "object.h"
 
 using namespace MonsterChase;
@@ -24,6 +23,7 @@ Object::~Object()
 Object::Object(char* name, int moveSpeed, int health)
 {
 	name_ = name;
+	std::cout << name_ << std::endl;
 	health_ = health;
 	moveSpeed_ = moveSpeed;
 }
