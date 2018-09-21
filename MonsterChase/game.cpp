@@ -78,7 +78,6 @@ void Game::Run()
 void Game::Stop()
 {
 	std::cout << "Your will quit the game :)" << std::endl;
-	enemyManager_->DestroyAll();
 	delete enemyManager_;
 	enemyManager_ = nullptr;
 	delete player_;

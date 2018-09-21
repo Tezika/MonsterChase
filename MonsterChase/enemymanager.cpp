@@ -17,8 +17,6 @@ using namespace Engine;
 
 EnemyManager::EnemyManager()
 {
-	head_ = nullptr;
-	rear_ = nullptr;
 	enemyList_ = new TList<Enemy>();
 }
 
@@ -119,45 +117,19 @@ void EnemyManager::BattleWithPlayer(Player *player)
 
 void EnemyManager::RemoveDiedEnemy()
 {
-	Enemy* ptr = head_;
-	Enemy* ptr_previous = nullptr;
+	auto ptr = enemyList_->head;
 	while (ptr != nullptr)
 	{
-		//if the enemy's hp is 0
-		if (ptr->GetHealth() == 0)
+		if (ptr->data->GetHealth() == 0)
 		{
-			std::cout << "The " << ptr->GetName() << " died by its health is 0. " << std::endl;
-			if (ptr_previous == nullptr)
-			{
-				head_ = head_->GetNext();
-				delete ptr;
-				ptr = head_;
-			}
-			else
-			{
-				ptr_previous->SetNext(ptr->GetNext());
-				delete ptr;
-				ptr = ptr_previous->GetNext();
-			}
+			std::cout << "The " << ptr->data->GetName() << " died by its health is 0" << std::endl;
+			auto removeNode = ptr;
+			ptr = ptr->next;
+			enemyList_->Remove(removeNode);
 		}
 		else
 		{
-			ptr_previous = ptr;
-			ptr = ptr->GetNext();
+			ptr = ptr->next;
 		}
 	}
-}
-
-bool EnemyManager::DestroyAll()
-{
-	auto ptr = head_;
-	while (ptr != nullptr)
-	{
-		auto curEnemy = ptr;
-		ptr = ptr->GetNext();
-		delete curEnemy;
-	}
-	head_ = nullptr;
-	rear_ = nullptr;
-	return true;
 }

@@ -24,7 +24,6 @@ namespace MonsterChase
 		~EnemyManager();
 
 		Enemy* GetEnemyByName(const char* name);
-		bool DestroyAll();
 		void MoveEnemies();
 		void PrintAllEnemiesInfo();
 		void BattleWithPlayer(Player* player);
@@ -33,8 +32,6 @@ namespace MonsterChase
 
 	private:
 		TList<Enemy>* enemyList_;
-		Enemy * head_;
-		Enemy* rear_;
 		Enemy* InsertEnemy(Enemy* node);
 
 	};

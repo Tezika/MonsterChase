@@ -19,9 +19,6 @@ namespace MonsterChase
 		Enemy(char* name, int moveSpeed, int health, int attack);
 		~Enemy();
 
-		Enemy* GetNext();
-		void SetNext(Enemy* node);
-
 		void SetAttack(int attack) { attack_ = attack; }
 		int  GetAttack() { return attack_; }
 
@@ -30,7 +27,6 @@ namespace MonsterChase
 		void PrintOutInfo() override;
 
 	private:
-		Enemy * next_;
 		int attack_;
 
 	protected:

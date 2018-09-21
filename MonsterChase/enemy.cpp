@@ -15,13 +15,11 @@ using namespace MonsterChase;
 
 Enemy::Enemy() :Object::Object()
 {
-	next_ = nullptr;
 	attack_ = 3;
 }
 
 Enemy::Enemy(char* name, int moveSpeed, int health, int attack) :Object::Object(name, moveSpeed, health)
 {
-	next_ = nullptr;
 	attack_ = attack;
 }
 
@@ -80,21 +78,4 @@ void Enemy::PrintOutInfo()
 	Object::PrintOutInfo();
 	std::cout << "The " << this->GetName() << " with the attack " << this->GetAttack()
 		<<" and the health "<< this->GetHealth() << ", position is  [" << this->position_.x << "," << this->position_.y<< "]." << std::endl;
-}
-
-Enemy* Enemy::GetNext()
-{
-	if (next_ == nullptr)
-	{
-		return nullptr;
-	}
-	else
-	{
-		return next_;
-	}
-}
-
-void Enemy::SetNext(Enemy* node)
-{
-	next_ = node;
 }

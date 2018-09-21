@@ -6,7 +6,7 @@ namespace Engine
 	class Node
 	{
 	public:
-		T* data;
+		T * data;
 		Node<T>* next;
 		Node<T>(T&);
 		Node<T>(T*);
@@ -71,6 +71,31 @@ namespace Engine
 	template<class T>
 	inline bool TList<T>::Remove(Node<T>* node)
 	{
+		Node<T>* ptr = this->head;
+		Node<T>* ptr_previous = nullptr;
+		while (ptr != nullptr)
+		{
+			if (ptr == node)
+			{
+				if (ptr_previous == nullptr)
+				{
+					this->head = this->head->next;
+					delete ptr;
+					ptr = this->head;
+				}
+				else
+				{
+					ptr_previous->next = ptr->next;
+					delete ptr;
+					ptr = ptr_previous->next;;
+				}
+			}
+			else
+			{
+				ptr_previous = ptr;
+				ptr = ptr->next;
+			}
+		}
 		return true;
 	}
 
@@ -104,5 +129,4 @@ namespace Engine
 		}
 		return newNode;
 	}
-
 }
