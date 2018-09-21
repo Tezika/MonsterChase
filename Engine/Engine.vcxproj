@@ -156,7 +156,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine-init.cpp" />
-    <ClCompile Include="TLIst.cpp" />
     <ClCompile Include="Point2D.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
