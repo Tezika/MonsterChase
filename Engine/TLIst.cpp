@@ -1,9 +1,11 @@
 #include  "stdafx.h"
 #include  "TList.h"
 
+/*
+
 using namespace Engine;
 
- template<class T>
+template<class T>
  TList<T>::TList(const TList<T>& List) : head(nullptr), tail(nullptr)
  {
 
@@ -45,4 +47,5 @@ using namespace Engine;
 	 }
 	 return newNode;
  }
+ */
 

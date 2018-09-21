@@ -47,6 +47,7 @@ void Game::Initialize()
 		}
 	}
 	std::cout << "----------Setup End-----------" << std::endl;
+	delete playerName;
 }
 
 void Game::Run()

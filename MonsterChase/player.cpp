@@ -56,6 +56,7 @@ void Player::Move()
 		}
 	}
 
+
 	switch (input) {
 	case 'w':
 	case 'W':
@@ -67,7 +68,7 @@ void Player::Move()
 		break;
 	case 'a':
 	case 'A':
-		this->position_ -= Point2D(this->GetMoveSpeed(), 0);
+		this->position_ = Point2D(this->GetMoveSpeed(), 0);
 		break;
 	case 'd':
 	case 'D':

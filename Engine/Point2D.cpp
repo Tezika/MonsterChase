@@ -17,6 +17,7 @@ Point2D::Point2D(const Point2D& other)
 	this->y = other.y;
 }
 
+
 Point2D::~Point2D()
 {
 
@@ -38,8 +39,8 @@ Point2D& Point2D::operator+=(const Point2D& other)
 
 Point2D& Point2D::operator-=(const Point2D& other)
 {
-	this->x = other.x + this->x;
-	this->y = other.y + this->y;
+	this->x = this->x - other.x;
+	this->y = this->y - other.y;
 	return *this;
 }
 
