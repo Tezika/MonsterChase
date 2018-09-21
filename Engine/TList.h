@@ -55,7 +55,7 @@ namespace Engine
 		TList(Node<T> * newNode) : head(newNode), tail(newNode) {}
 		~TList();
 
-		bool Remove(Node<T>*);
+		Node<T>* Remove(Node<T>*);
 		Node<T>* InsertToTail(T*);
 
 		Node<T>* head;
@@ -69,7 +69,7 @@ namespace Engine
 	}
 
 	template<class T>
-	inline bool TList<T>::Remove(Node<T>* node)
+	inline Node<T>* TList<T>::Remove(Node<T>* node)
 	{
 		Node<T>* ptr = this->head;
 		Node<T>* ptr_previous = nullptr;
@@ -77,17 +77,25 @@ namespace Engine
 		{
 			if (ptr == node)
 			{
+				//if deleted is the head
 				if (ptr_previous == nullptr)
 				{
 					this->head = this->head->next;
 					delete ptr;
 					ptr = this->head;
+					break;
 				}
 				else
 				{
+					//if the deleted is the end
+					if (ptr == this->tail)
+					{
+						this->tail = ptr_previous;
+					}
 					ptr_previous->next = ptr->next;
 					delete ptr;
-					ptr = ptr_previous->next;;
+					ptr = ptr_previous->next;
+					break;
 				}
 			}
 			else
@@ -96,7 +104,7 @@ namespace Engine
 				ptr = ptr->next;
 			}
 		}
-		return true;
+		return ptr;
 	}
 
 	template<class T>

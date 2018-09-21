@@ -123,9 +123,7 @@ void EnemyManager::RemoveDiedEnemy()
 		if (ptr->data->GetHealth() == 0)
 		{
 			std::cout << "The " << ptr->data->GetName() << " died by its health is 0" << std::endl;
-			auto removeNode = ptr;
-			ptr = ptr->next;
-			enemyList_->Remove(removeNode);
+			ptr = enemyList_->Remove(ptr);
 		}
 		else
 		{
