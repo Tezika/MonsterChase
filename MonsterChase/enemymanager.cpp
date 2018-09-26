@@ -34,7 +34,7 @@ Enemy* EnemyManager::CreateEnemy()
 	auto ptr = enemyList_->head;
 	while (ptr != nullptr)
 	{
-		if (ptr->data->GetName() == name)
+		if ( ptr->data->GetName() == name )
 		{
 			std::cout << "The name '" << name << "' has already exist, please try anthor one." << std::endl;
 			return nullptr;

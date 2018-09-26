@@ -77,7 +77,6 @@ namespace Engine
 		{
 			if (ptr == node)
 			{
-				//if deleted is the head
 				if (ptr_previous == nullptr)
 				{
 					this->head = this->head->next;
@@ -87,15 +86,16 @@ namespace Engine
 				}
 				else
 				{
-					//if the deleted is the end
-					if (ptr == this->tail)
-					{
-						this->tail = ptr_previous;
-					}
 					ptr_previous->next = ptr->next;
 					delete ptr;
 					ptr = ptr_previous->next;
 					break;
+				}
+
+				//if the removed node is the tail
+				if (ptr == this->tail)
+				{
+					this->tail = ptr_previous;
 				}
 			}
 			else

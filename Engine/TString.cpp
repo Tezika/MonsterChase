@@ -114,6 +114,11 @@ bool operator==(const TString &lhs, const TString &rhs)
 	return true;
 }
 
+bool operator==(const TString &lhs, const char* rhs)
+{
+	return strcmp(lhs.buffer_, rhs) == 0 ? true : false;
+}
+
 std::ostream & operator<<(std::ostream & os, const TString & str)
 {
 	os << str.buffer_;

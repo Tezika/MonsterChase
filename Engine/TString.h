@@ -16,6 +16,7 @@ public:
 	void operator += (const char*);
 
 	friend bool operator==(const TString &lhs, const TString &rhs);
+	friend bool operator==(const TString &lhs, const char* rhs);
 	friend std::ostream& operator<<(std::ostream & os, const TString & str);
 	                   
 	inline char* GetBuffer() { return buffer_; }
