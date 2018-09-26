@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Container">
       <UniqueIdentifier>{735f3e21-d0d3-4b0f-889c-a0a12c152fad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Console">
+      <UniqueIdentifier>{a353e3e0-758f-4b2f-bc2b-cf4bef896474}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Console">
+      <UniqueIdentifier>{9c22c840-5e2e-4b6d-9e66-160cf9205dec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
