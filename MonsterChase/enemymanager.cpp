@@ -53,6 +53,7 @@ Enemy* EnemyManager::CreateEnemy()
 Enemy* EnemyManager::GetEnemyByName(const char* name)
 {
 	assert(name != nullptr);
+
 	auto ptr = enemyList_->head;
 	while (ptr != nullptr)
 	{
