@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ConsolePrint.h" />
     <ClInclude Include="Engine-init.h" />
     <ClInclude Include="TList.h" />
     <ClInclude Include="Point2D.h" />
@@ -155,6 +156,7 @@
     <ClInclude Include="TString.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ConsolePrint.cpp" />
     <ClCompile Include="Engine-init.cpp" />
     <ClCompile Include="Point2D.cpp" />
     <ClCompile Include="stdafx.cpp">

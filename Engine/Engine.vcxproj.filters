@@ -51,6 +51,9 @@
     <ClInclude Include="TString.h">
       <Filter>Header Files\DataStructure</Filter>
     </ClInclude>
+    <ClInclude Include="ConsolePrint.h">
+      <Filter>Header Files\Console</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -64,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="TString.cpp">
       <Filter>Source Files\DataStructure</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsolePrint.cpp">
+      <Filter>Source Files\Console</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

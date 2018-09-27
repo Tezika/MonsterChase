@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "TString.h"
+#include "ConsolePrint.h"
 
 
 TString::TString()
@@ -20,6 +21,7 @@ TString::TString(const char* p)
 	size_ = strlen(p) + 1;
 	buffer_ = new char[size_];
 	strcpy_s(buffer_, size_, p);
+	DEBUG_PRINT("Creating a TString");
 }
 
 unsigned int TString::Length() const
@@ -124,7 +126,6 @@ std::ostream & operator<<(std::ostream & os, const TString & str)
 	os << str.buffer_;
 	return os;
 }
-
 
 TString::~TString()
 {

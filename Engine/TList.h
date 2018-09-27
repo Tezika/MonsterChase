@@ -1,5 +1,5 @@
 #pragma once
-
+#include "ConsolePrint.h"
 namespace Engine
 {
 	template<class T>
@@ -135,6 +135,7 @@ namespace Engine
 			tail->next = newNode;
 			tail = newNode;
 		}
+		DEBUG_PRINT("Creating a new node for the linked list");
 		return newNode;
 	}
 }
