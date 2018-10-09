@@ -39,7 +39,7 @@ namespace Engine
 	}
 
 	template<class T>
-	inline Node<T>& Engine::Node<T>::operator=(const Node<T> *)
+	inline Node<T>& Engine::Node<T>::operator=(const Node<T> *other)
 	{
 		this->data = other->data;
 		this->next = other->next;
