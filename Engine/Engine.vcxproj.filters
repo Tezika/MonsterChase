@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Console">
       <UniqueIdentifier>{9c22c840-5e2e-4b6d-9e66-160cf9205dec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\MemoryManagement">
+      <UniqueIdentifier>{b29a7669-74ac-456c-9d1c-90264c0f7e7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MemoryManagement">
+      <UniqueIdentifier>{12f478e1-6001-407c-883d-45c990766dbe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -54,6 +60,9 @@
     <ClInclude Include="ConsolePrint.h">
       <Filter>Header Files\Console</Filter>
     </ClInclude>
+    <ClInclude Include="HeapManager.h">
+      <Filter>Header Files\MemoryManagement</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -70,6 +79,9 @@
     </ClCompile>
     <ClCompile Include="ConsolePrint.cpp">
       <Filter>Source Files\Console</Filter>
+    </ClCompile>
+    <ClCompile Include="HeapManagement.cpp">
+      <Filter>Source Files\MemoryManagement</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

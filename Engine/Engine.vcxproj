@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClInclude Include="ConsolePrint.h" />
     <ClInclude Include="Engine-init.h" />
+    <ClInclude Include="HeapManager.h" />
     <ClInclude Include="TList.h" />
     <ClInclude Include="Point2D.h" />
     <ClInclude Include="stdafx.h" />
@@ -160,6 +161,7 @@
   <ItemGroup>
     <ClCompile Include="ConsolePrint.cpp" />
     <ClCompile Include="Engine-init.cpp" />
+    <ClCompile Include="HeapManagement.cpp" />
     <ClCompile Include="Point2D.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
