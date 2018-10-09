@@ -2,6 +2,12 @@
 
 namespace Engine
 {
+	struct BlockDescriptor
+	{
+		
+		void* m_pBlockSAtartAddr; // pointer to the block of memory this BlockDescriptor describes
+		size_t m_sizeBlock; // size of that block of memory
+	};
 	class HeapManager
 	{
 	public:

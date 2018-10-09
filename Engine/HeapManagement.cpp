@@ -15,6 +15,7 @@ void Engine::HeapManager::Destroy()
 
 void* Engine::HeapManager::Alloc(size_t i_size)
 {
+
 	return nullptr;
 }
 
