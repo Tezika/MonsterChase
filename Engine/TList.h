@@ -2,7 +2,7 @@
 #include "ConsolePrint.h"
 namespace Engine
 {
-	template<class T>
+	template<typename T>
 	class Node
 	{
 	public:
@@ -16,21 +16,21 @@ namespace Engine
 		Node<T>& operator=(const Node<T> *);
 	};
 
-	template<class T>
+	template<typename T>
 	inline Node<T>::Node(T& d)
 	{
 		this->data = &d;
 		this->next = nullptr;
 	}
 
-	template<class T>
+	template<typename T>
 	inline Node<T>::Node(T* d)
 	{
 		this->data = d;
 		this->next = nullptr;
 	}
 
-	template<class T>
+	template<typename T>
 	inline Node<T>& Engine::Node<T>::operator=(const Node<T>& other)
 	{
 		this->data = other.data;
@@ -38,7 +38,7 @@ namespace Engine
 		return *this;
 	}
 
-	template<class T>
+	template<typename T>
 	inline Node<T>& Engine::Node<T>::operator=(const Node<T> *other)
 	{
 		this->data = other->data;
@@ -46,12 +46,12 @@ namespace Engine
 		return *this;
 	}
 
-	template<class T>
+	template<typename T>
 	class TList
 	{
 	public:
 		TList(const TList&);
-		TList() : head(NULL), tail(NULL) {}
+		TList() : head(nullptr), tail(nullptr) {}
 		TList(Node<T> * newNode) : head(newNode), tail(newNode) {}
 		~TList();
 
@@ -62,13 +62,13 @@ namespace Engine
 		Node<T>* tail;
 	};
 
-	template<class T>
+	template<typename T>
 	inline TList<T>::TList(const TList<T>& List) : head(nullptr), tail(nullptr)
 	{
 
 	}
 
-	template<class T>
+	template<typename T>
 	inline Node<T>* TList<T>::Remove(Node<T>* node)
 	{
 		Node<T>* ptr = this->head;
@@ -107,7 +107,7 @@ namespace Engine
 		return ptr;
 	}
 
-	template<class T>
+	template<typename T>
 	inline TList<T>::~TList()
 	{
 		auto cur = head;
@@ -121,7 +121,7 @@ namespace Engine
 		tail = nullptr;
 	}
 
-	template<class T>
+	template<typename T>
 	inline Node<T>* TList<T>::InsertToTail(T* val)
 	{
 		Node<T>* newNode = new Node<T>(val);

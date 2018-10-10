@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MonsterChase", "MonsterChas
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{064C9BBD-CEC0-4AD9-A4DE-1B570BC9072A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HeapManagerUnitTest", "HeapManagerUnitTest\HeapManagerUnitTest.vcxproj", "{826A644E-5DF6-4F9C-B4A9-CFA0B67F6A20}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{064C9BBD-CEC0-4AD9-A4DE-1B570BC9072A}.Release|x64.Build.0 = Release|x64
 		{064C9BBD-CEC0-4AD9-A4DE-1B570BC9072A}.Release|x86.ActiveCfg = Release|Win32
 		{064C9BBD-CEC0-4AD9-A4DE-1B570BC9072A}.Release|x86.Build.0 = Release|Win32
+		{826A644E-5DF6-4F9C-B4A9-CFA0B67F6A20}.Debug|x64.ActiveCfg = Debug|x64
+		{826A644E-5DF6-4F9C-B4A9-CFA0B67F6A20}.Debug|x64.Build.0 = Debug|x64
+		{826A644E-5DF6-4F9C-B4A9-CFA0B67F6A20}.Debug|x86.ActiveCfg = Debug|Win32
+		{826A644E-5DF6-4F9C-B4A9-CFA0B67F6A20}.Debug|x86.Build.0 = Debug|Win32
+		{826A644E-5DF6-4F9C-B4A9-CFA0B67F6A20}.Release|x64.ActiveCfg = Release|x64
+		{826A644E-5DF6-4F9C-B4A9-CFA0B67F6A20}.Release|x64.Build.0 = Release|x64
+		{826A644E-5DF6-4F9C-B4A9-CFA0B67F6A20}.Release|x86.ActiveCfg = Release|Win32
+		{826A644E-5DF6-4F9C-B4A9-CFA0B67F6A20}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
