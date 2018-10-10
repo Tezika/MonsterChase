@@ -234,6 +234,7 @@ bool HeapManager_UnitTest()
 	pHeapManager = nullptr;
 
 	HeapFree(GetProcessHeap(), 0, pHeapMemory);
+	printf("Congrat! You passed the unit test.");
 
 	// we succeeded
 	return true;
