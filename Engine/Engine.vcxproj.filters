@@ -80,7 +80,7 @@
     <ClCompile Include="ConsolePrint.cpp">
       <Filter>Source Files\Console</Filter>
     </ClCompile>
-    <ClCompile Include="HeapManagement.cpp">
+    <ClCompile Include="HeapManager.cpp">
       <Filter>Source Files\MemoryManagement</Filter>
     </ClCompile>
   </ItemGroup>

@@ -163,7 +163,7 @@
   <ItemGroup>
     <ClCompile Include="ConsolePrint.cpp" />
     <ClCompile Include="Engine-init.cpp" />
-    <ClCompile Include="HeapManagement.cpp" />
+    <ClCompile Include="HeapManager.cpp" />
     <ClCompile Include="Point2D.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

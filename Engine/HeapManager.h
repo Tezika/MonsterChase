@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TList.h"
+
 namespace Engine
 {
 	struct BlockDescriptor
@@ -16,7 +17,7 @@ namespace Engine
 		~HeapManager();
 		void* Alloc(size_t );
 		void* Alloc(size_t, unsigned int);
-		HeapManager* Create(void*, size_t, unsigned int);
+		static HeapManager* Create(void*, size_t, unsigned int);
 		bool Free(void*);
 		void Destroy();
 	private:
