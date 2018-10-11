@@ -6,20 +6,17 @@
 
 Engine::HeapManager::HeapManager()
 {
-	pFreeDesciptorList_ = new TList<BlockDescriptor>();
-	pFreeMemoryList_ = new TList<BlockDescriptor>();
-	pOutstandingAllocationList_ = new TList<BlockDescriptor>();
 }
 
 Engine::HeapManager::HeapManager(void* pMemory, size_t i_sizeMemory, unsigned int i_numDescription)
 {
-	HeapManager::HeapManager();
+	pFreeDesciptorList_ = new TList<BlockDescriptor>();
+	pFreeMemoryList_ = new TList<BlockDescriptor>();
+	pOutstandingAllocationList_ = new TList<BlockDescriptor>();
 	pMemory_ = pMemory;
 	i_sizeOfMemory_ = i_sizeMemory;
 	i_numOfDescription_ = i_numDescription;
-	//Initialize the mananger;
-
-	Initialize();
+	this->Initialize();
 }
 
 Engine::HeapManager::~HeapManager()
@@ -38,6 +35,11 @@ void Engine::HeapManager::Destroy()
 
 void* Engine::HeapManager::Alloc(size_t i_size)
 {
+	//Find an apporiate block
+	for (size_t i = 0; i < pFreeMemoryList_->Length(); i++)
+	{
+		
+	}
 	return nullptr;
 }
 
@@ -56,7 +58,7 @@ void Engine::HeapManager::Initialize()
 {
 	pDescriptor_ = pMemory_;
 	pDescriptor_ = static_cast<char*>(pDescriptor_) + sizeof(BlockDescriptor) * i_numOfDescription_;
-	InitializeDescriptors(64);
+	this->InitializeDescriptors(64);
 	DEBUG_PRINT("The heapmanager initiaized successfully.");
 }
 
@@ -72,10 +74,8 @@ void Engine::HeapManager::InitializeDescriptors(size_t size)
 		pDescriptor_ = static_cast<char*>(pDescriptor_) + sizeof(size_t);
 		pBlock->m_sizeBlock = size;
 		pMemory_ = static_cast<char*>(pMemory_) + size;
-		pDescriptor_ = static_cast<char*>(pDescriptor_) + sizeof(BlockDescriptor*);
-		pBlock->m_pNext = nullptr;
-
 		pFreeDesciptorList_->InsertToTail(pBlock);
 	}
+	DEBUG_PRINT("The free descriptorlist lenght is %d", pFreeDesciptorList_->Length());
 }
 

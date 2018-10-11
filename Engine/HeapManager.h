@@ -1,5 +1,4 @@
 #pragma once
-
 #include "TList.h"
 
 namespace Engine
@@ -9,7 +8,6 @@ namespace Engine
 	public:
 		void* m_pBlockSAtartAddr; // pointer to the block of memory this BlockDescriptor describes
 		size_t m_sizeBlock; // size of that block of memory
-		BlockDescriptor* m_pNext; //The next block's pointer
 	};
 
 	class HeapManager
@@ -25,9 +23,9 @@ namespace Engine
 		void Destroy();
 
 	private:
-		TList<BlockDescriptor>* pFreeMemoryList_;
-		TList<BlockDescriptor>* pOutstandingAllocationList_;
-		TList<BlockDescriptor>* pFreeDesciptorList_;
+		TList<BlockDescriptor> *pFreeMemoryList_;
+		TList<BlockDescriptor> *pOutstandingAllocationList_;
+		TList<BlockDescriptor> *pFreeDesciptorList_;
 
 		void* pMemory_;
 		void* pDescriptor_;

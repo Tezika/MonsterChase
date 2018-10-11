@@ -51,15 +51,20 @@ namespace Engine
 	{
 	public:
 		TList(const TList&);
-		TList() : head(nullptr), tail(nullptr) {}
-		TList(Node<T> * newNode) : head(newNode), tail(newNode) {}
+		TList() : head(nullptr), tail(nullptr) { length_ = 0; }
+		TList(Node<T> * newNode) : head(newNode), tail(newNode) { length_ = 0; }
 		~TList();
+
+		const size_t Length() { return length_; }
 
 		Node<T>* Remove(Node<T>*);
 		Node<T>* InsertToTail(T*);
 
 		Node<T>* head;
 		Node<T>* tail;
+
+	private:
+		size_t length_;
 	};
 
 	template<typename T>
@@ -104,6 +109,7 @@ namespace Engine
 				ptr = ptr->next;
 			}
 		}
+		length_--;
 		return ptr;
 	}
 
@@ -136,6 +142,7 @@ namespace Engine
 			tail = newNode;
 		}
 		DEBUG_PRINT("Creating a new node for the linked list");
+		length_++;
 		return newNode;
 	}
 }
