@@ -6,9 +6,10 @@ namespace Engine
 {
 	struct BlockDescriptor
 	{
+	public:
 		void* m_pBlockSAtartAddr; // pointer to the block of memory this BlockDescriptor describes
 		size_t m_sizeBlock; // size of that block of memory
-		BlockDescriptor* next;
+		BlockDescriptor* m_pNext; //The next block's pointer
 	};
 
 	class HeapManager
@@ -29,9 +30,11 @@ namespace Engine
 		TList<BlockDescriptor>* pFreeDesciptorList_;
 
 		void* pMemory_;
+		void* pDescriptor_;
 		size_t i_sizeOfMemory_;
 		size_t i_numOfDescription_;
 
 		void Initialize();
+		void InitializeDescriptors(size_t);
 	};
 }

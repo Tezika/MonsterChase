@@ -38,7 +38,6 @@ void Engine::HeapManager::Destroy()
 
 void* Engine::HeapManager::Alloc(size_t i_size)
 {
-
 	return nullptr;
 }
 
@@ -55,10 +54,28 @@ bool Engine::HeapManager::Free(void* i_ptr)
 
 void Engine::HeapManager::Initialize()
 {
-	//Only test for understanding the memory layout and format
+	pDescriptor_ = pMemory_;
+	pDescriptor_ = static_cast<char*>(pDescriptor_) + sizeof(BlockDescriptor) * i_numOfDescription_;
+	InitializeDescriptors(64);
+	DEBUG_PRINT("The heapmanager initiaized successfully.");
+}
+
+void Engine::HeapManager::InitializeDescriptors(size_t size)
+{
+	//Create the new block descriptors
 	for (size_t i = 0; i < i_numOfDescription_; i++)
 	{
-		//Create the new descriptors to
+		//Setup a block
+		BlockDescriptor* pBlock = static_cast<BlockDescriptor*>(pDescriptor_);
+		pDescriptor_ = static_cast<char*>(pDescriptor_) + sizeof(void*);
+		pBlock->m_pBlockSAtartAddr = pMemory_;
+		pDescriptor_ = static_cast<char*>(pDescriptor_) + sizeof(size_t);
+		pBlock->m_sizeBlock = size;
+		pMemory_ = static_cast<char*>(pMemory_) + size;
+		pDescriptor_ = static_cast<char*>(pDescriptor_) + sizeof(BlockDescriptor*);
+		pBlock->m_pNext = nullptr;
+
+		pFreeDesciptorList_->InsertToTail(pBlock);
 	}
-	DEBUG_PRINT("The size of block descriptor is %d\n", sizeof(BlockDescriptor));
 }
+
