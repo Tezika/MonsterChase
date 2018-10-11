@@ -141,7 +141,6 @@ namespace Engine
 			tail->next = newNode;
 			tail = newNode;
 		}
-		DEBUG_PRINT("Creating a new node for the linked list");
 		length_++;
 		return newNode;
 	}
