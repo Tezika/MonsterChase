@@ -46,7 +46,5 @@ namespace Engine
 
 
 		BlockDescriptor* GetDescriptorFromPool();
-
-		void DestroyDescriptorList(TList<BlockDescriptor>*);
 	};
 }

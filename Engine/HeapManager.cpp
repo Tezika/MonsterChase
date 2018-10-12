@@ -33,9 +33,11 @@ Engine::HeapManager* Engine::HeapManager::Create(void* i_pMemory, size_t i_sizeM
 void Engine::HeapManager::Destroy()
 {
 	//clear three list data
-
+	delete pFreeDesciptorList_;
+	delete pFreeMemoryList_;
+	delete pOutstandingAllocationList_;
+	//clear other data;
 	DEBUG_PRINT("The heapmanager destroy successfully.");
-
 }
 
 void* Engine::HeapManager::Alloc(size_t i_size)

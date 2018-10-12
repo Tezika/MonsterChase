@@ -231,6 +231,7 @@ bool HeapManager_UnitTest()
 	*/
 
 	Destroy(pHeapManager);
+	delete pHeapManager;
 	pHeapManager = nullptr;
 
 	HeapFree(GetProcessHeap(), 0, pHeapMemory);
