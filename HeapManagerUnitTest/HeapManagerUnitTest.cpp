@@ -11,6 +11,7 @@
 #define SUPPORTS_SHOWFREEBLOCKS
 #define SUPPORTS_SHOWOUTSTANDINGALLOCATIONS
 */
+#define TEST_ONLYALLOCATION
 
 bool HeapManager_UnitTest()
 {
@@ -29,6 +30,34 @@ bool HeapManager_UnitTest()
 
 	if (pHeapManager == nullptr)
 		return false;
+
+#ifdef TEST_ONLYALLOCATION
+	{
+		printf("The test about allocation starts!\n");
+		size_t input = 0;
+		do
+		{
+			printf("The sum memory can be allocated is %d bytes\n", pHeapManager->GetLeftMemory());
+			printf("Please input allocate size(input 0 to quit):");
+			scanf_s("%zu", &input);
+			if (input == 0)
+			{
+				break;
+			}
+			void* memory = pHeapManager->Alloc(input);
+			if (memory)
+			{
+				printf("The memory allocated successfully;The address is %x and the size is %d bytes\n", memory, input);
+			}
+			else 
+			{
+				printf("Sorry :<.Something excepted happen and you cannot allocate the memory.\n");
+			}
+		} while (1);
+		printf("The test about allocation ends!\n");
+	}
+#endif // TEST_ONLYALLOCATION
+
 
 #ifdef TEST_SINGLE_LARGE_ALLOCATION
 	// This is a test I wrote to check to see if using the whole block if it was almost consumed by 

@@ -36,25 +36,45 @@ void Engine::HeapManager::Destroy()
 	delete pFreeDesciptorList_;
 	delete pFreeMemoryList_;
 	delete pOutstandingAllocationList_;
-	//clear other data;
 	DEBUG_PRINT("The heapmanager destroy successfully.");
 }
 
 void* Engine::HeapManager::Alloc(size_t i_size)
 {
 	//Find an apporiate block
-	//auto p = pFreeDesciptorList_->head;
-	//void* allocatedMemory = nullptr;
-	//BlockDescriptor* outStandDescrip
-	//while (p != nullptr)
-	//{
-	//	if (p->data->m_sizeBlock >= i_size)
-	//	{
-	//		allocatedMemory = p->data->m_pBlockSAtartAddr;
-	//		
-	//	}
-	//}
-	return nullptr;
+	auto p = pFreeMemoryList_->head;
+	void* allocatedMemory = nullptr;
+	while (p != nullptr)
+	{
+		if (p->data->m_sizeBlock > i_size)
+		{
+			//get a new block descriptor
+			auto descriptor = this->GetDescriptorFromPool();
+			descriptor->m_pBlockSAtartAddr = p->data->m_pBlockSAtartAddr;
+			descriptor->m_sizeBlock = i_size;
+			pOutstandingAllocationList_->InsertToTail(descriptor);
+
+			//subdivide current block
+			p->data->m_sizeBlock -= i_size;
+			p->data->m_pBlockSAtartAddr = static_cast<char*>(p->data->m_pBlockSAtartAddr) + i_size;
+
+			allocatedMemory = descriptor->m_pBlockSAtartAddr;
+			i_usedMemory_ += i_size;
+			break;
+		}
+		else if (p->data->m_sizeBlock == i_size)
+		{
+			allocatedMemory = p->data->m_pBlockSAtartAddr;
+			i_usedMemory_ += i_size;
+			pFreeMemoryList_->Remove(p);
+			pOutstandingAllocationList_->InsertToTail(p->data);
+		}
+		else
+		{
+			DEBUG_PRINT("The left memory %d bytes cannot afford the allocation for %d bytes", this->GetLeftMemory(), i_size);
+		}
+	}
+	return allocatedMemory;
 }
 
 void* Engine::HeapManager::Alloc(size_t i_size, unsigned int i_alignment)
