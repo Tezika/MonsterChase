@@ -11,7 +11,7 @@ namespace Engine
 		Node<T>(T&);
 		Node<T>(T*);
 		Node<T>(const Node<T>& copyNode) : data(copyNode.data), next(copyNode.next) {}
-		~Node<T>() { delete data; }
+		~Node<T>() {}
 		Node<T>& operator=(const Node<T>&);
 		Node<T>& operator=(const Node<T> *);
 	};
