@@ -13,14 +13,18 @@ namespace Engine
 	class HeapManager
 	{
 	public:
+		static HeapManager* Create(void*, size_t, unsigned int);
+
 		HeapManager();
 		HeapManager(void*, size_t, unsigned int);
 		~HeapManager();
 		void* Alloc(size_t);
 		void* Alloc(size_t, unsigned int);
-		static HeapManager* Create(void*, size_t, unsigned int);
 		bool Free(void*);
 		void Destroy();
+
+		size_t GetUsedMemory() { return i_usedMemory_; }
+		size_t GetLeftMemory() { return i_sizeOfMemory_ - i_usedMemory_; }
 
 	private:
 		TList<BlockDescriptor> *pFreeMemoryList_;
@@ -32,7 +36,17 @@ namespace Engine
 		size_t i_sizeOfMemory_;
 		size_t i_numOfDescription_;
 
+		//Using for debuging
+		size_t i_usedMemory_;
+
+		//Initialized function
 		void Initialize();
-		void InitializeDescriptors(size_t);
+		void InitilaizeFreeMemory();
+		void InitializeDescriptorPool();
+
+
+		BlockDescriptor* GetDescriptorFromPool();
+
+		void DestroyDescriptorList(TList<BlockDescriptor>*);
 	};
 }
