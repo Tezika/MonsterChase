@@ -47,7 +47,7 @@ bool HeapManager_UnitTest()
 			void* memory = pHeapManager->Alloc(input);
 			if (memory)
 			{
-				printf("The memory allocated successfully;The address is %x and the size is %d bytes\n", memory, input);
+				printf("The memory allocated successfully; The address is %x and the size is %d bytes\n", memory, input);
 			}
 			else 
 			{
