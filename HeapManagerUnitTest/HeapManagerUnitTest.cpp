@@ -48,6 +48,8 @@ bool HeapManager_UnitTest()
 			if (memory)
 			{
 				printf("The memory allocated successfully; The address is %x and the size is %d bytes\n", memory, input);
+				char* test = static_cast<char*>(memory);
+				test[0] = 'a';
 			}
 			else 
 			{

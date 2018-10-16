@@ -8,6 +8,7 @@ namespace Engine
 	public:
 		void* m_pBlockSAtartAddr; // pointer to the block of memory this BlockDescriptor describes
 		size_t m_sizeBlock; // size of that block of memory
+		BlockDescriptor* next; //the pointer to the next blockdescriptor.
 	};
 
 	class HeapManager
@@ -27,12 +28,8 @@ namespace Engine
 		size_t GetLeftMemory() { return i_sizeOfMemory_ - i_usedMemory_; }
 
 	private:
-		TList<BlockDescriptor> *pFreeMemoryList_;
-		TList<BlockDescriptor> *pOutstandingAllocationList_;
-		TList<BlockDescriptor> *pFreeDesciptorList_;
-
 		void* pMemory_;
-		void* pDescriptor_;
+		BlockDescriptor* pDescriptorHead_;
 		size_t i_sizeOfMemory_;
 		size_t i_numOfDescription_;
 
@@ -41,10 +38,9 @@ namespace Engine
 
 		//Initialized function
 		void Initialize();
-		void InitilaizeFreeMemory();
-		void InitializeDescriptorPool();
+		//void InitilaizeFreeMemory();
+		//void InitializeDescriptorPool();
 
-
-		BlockDescriptor* GetDescriptorFromPool();
+		//BlockDescriptor* GetDescriptorFromPool();
 	};
 }
