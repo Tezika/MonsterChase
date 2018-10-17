@@ -4,8 +4,11 @@
 #include "stdio.h"
 #include "string.h"
 
+size_t Engine::HeapManager::s_MinumumToLeave = 0;
+
 Engine::HeapManager::HeapManager()
 {
+
 }
 
 Engine::HeapManager::HeapManager(void* pMemory, size_t i_sizeMemory, unsigned int i_numDescription)
@@ -46,18 +49,7 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 	pDescriptor->m_pBlockSAtartAddr = pMemory_;
 	pMemory_ = static_cast<char*>(pMemory_) + i_size;
 	pDescriptor->m_sizeBlock = i_size;
-	if (pDescriptorHead_ == nullptr)
-	{
-		pDescriptor->next = nullptr;
-		pDescriptorHead_ = pDescriptor;
-	}
-	else
-	{
-		//Insert the node after the head;
-		auto temp = pDescriptorHead_->next;
-		pDescriptorHead_->next = pDescriptor;
-		pDescriptor->next = temp;
-	}
+	pOutstandingHead_ = this->InsertNodeToHead(pOutstandingHead_, pDescriptor);
 	return pDescriptor->m_pBlockSAtartAddr;
 }
 
@@ -69,26 +61,26 @@ void* Engine::HeapManager::Alloc(size_t i_size, unsigned int i_alignment)
 bool Engine::HeapManager::Free(void* i_ptr)
 {
 	assert(i_ptr);
-	auto p = pDescriptorHead_;
+	auto p = pOutstandingHead_;
 	BlockDescriptor* pPrevious = nullptr;
 	while (p != nullptr)
 	{
 		if (p->m_pBlockSAtartAddr == i_ptr)
 		{
+			BlockDescriptor* temp = nullptr;
 			//remove the head
 			if (pPrevious == nullptr)
 			{
-				auto temp = pDescriptorHead_;
-				pDescriptorHead_ = pDescriptorHead_->next;
-				delete temp;
+				temp = pOutstandingHead_;
+				pOutstandingHead_ = pOutstandingHead_->next;
 			}
 			else
 			{
-				auto temp = p;
+				temp = p;
 				p = p->next;
 				pPrevious->next = p;
-				delete temp;
 			}
+			pFreeHead_ = this->InsertNodeToHead(pFreeHead_, temp);
 			break;
 		}
 		pPrevious = p;
@@ -100,7 +92,18 @@ bool Engine::HeapManager::Free(void* i_ptr)
 bool Engine::HeapManager::Contains(void* i_ptr) const
 {
 	assert(i_ptr);
-	auto p = pDescriptorHead_;
+	return true;
+}
+
+void Engine::HeapManager::Collect()
+{
+
+}
+
+bool Engine::HeapManager::IsAllocated(void* i_ptr) const
+{
+	assert(i_ptr);
+	auto p = pOutstandingHead_;
 	while (p != nullptr)
 	{
 		if (p->m_pBlockSAtartAddr == i_ptr)
@@ -112,15 +115,50 @@ bool Engine::HeapManager::Contains(void* i_ptr) const
 	return false;
 }
 
-void Engine::HeapManager::Collect()
-{
-
-}
-
 void Engine::HeapManager::Initialize()
 {
-	pDescriptorHead_ = nullptr;
+	pFreeHead_ = nullptr;
+	pOutstandingHead_ = nullptr;
 	//update the available using memory for allocator
 	i_sizeOfMemory_ = i_sizeOfMemory_ - sizeof(BlockDescriptor) * i_numOfDescription_;
 	DEBUG_PRINT("The heapmanager setup successfully.");
 }
+
+void Engine::HeapManager::ShowOutstandingAllocations() const
+{
+	auto p = pOutstandingHead_;
+	while (p !=  nullptr)
+	{
+		printf("The current allocation address is 0x%08x and size is %d\n", p->m_pBlockSAtartAddr, p->m_sizeBlock);
+		p = p->next;
+	}
+}
+
+void Engine::HeapManager::ShowFreeBlocks() const
+{
+	auto p = pFreeHead_;
+	while (p != nullptr)
+	{
+		printf("The current address is 0x%08x and size is %d", p->m_pBlockSAtartAddr, p->m_sizeBlock);
+		p = p->next;
+	}
+}
+
+Engine::BlockDescriptor* Engine::HeapManager::InsertNodeToHead(Engine::BlockDescriptor* pHead, Engine::BlockDescriptor* pNode)
+{
+	if (pHead == nullptr)
+	{
+		pNode->next = nullptr;
+		pHead = pNode;
+	}
+	else
+	{
+		//Insert the node after the head;
+		auto temp = pHead->next;
+		pHead->next = pNode;
+		pNode->next = temp;
+	}
+	return pHead;
+}
+
+

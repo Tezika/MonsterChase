@@ -6,6 +6,8 @@
 
 #include "HeapManager.h"
 
+#define  __TRACK_ALLOCATIONS
+
 namespace HeapManagerProxy
 {
 
@@ -56,13 +58,6 @@ namespace HeapManagerProxy
 		i_pManager->Collect();
 	}
 
-
-
-	/*
-
-
-
-
 	bool IsAllocated(const HeapManager * i_pManager, void * i_ptr)
 	{
 		assert(i_pManager);
@@ -74,14 +69,14 @@ namespace HeapManagerProxy
 	{
 		assert(i_pManager);
 
-		return i_pManager->getLargestFreeBlock();
+		return i_pManager->GetLeftMemory();
 	}
 
 	size_t GetTotalFreeMemory(const HeapManager * i_pManager)
 	{
 		assert(i_pManager);
 
-		return i_pManager->getTotalFreeMemory();
+		return i_pManager->GetLeftMemory();
 	}
 
 	void ShowFreeBlocks(const HeapManager * i_pManager)
@@ -102,6 +97,6 @@ namespace HeapManagerProxy
 #endif
 
 	}
-	*/
+
 
 } // namespace HeapManagerProxy

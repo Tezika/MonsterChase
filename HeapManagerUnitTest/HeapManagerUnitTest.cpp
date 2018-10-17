@@ -6,12 +6,14 @@
 #include <algorithm>
 #include <vector>
 
-/*
-#define SUPPORTS_ALIGNMENT
+
+//#define SUPPORTS_ALIGNMENT
 #define SUPPORTS_SHOWFREEBLOCKS
 #define SUPPORTS_SHOWOUTSTANDINGALLOCATIONS
-*/
-#define TEST_ONLYALLOCATION
+
+#define TEST_SINGLE_LARGE_ALLOCATION
+//#define TEST_ONLYALLOCATION
+//#define TEST_FREE
 
 bool HeapManager_UnitTest()
 {
@@ -47,9 +49,9 @@ bool HeapManager_UnitTest()
 			void* memory = pHeapManager->Alloc(input);
 			if (memory)
 			{
-				printf("The memory allocated successfully; The address is %x and the size is %d bytes\n", memory, input);
+				printf("The memory allocated successfully; The address is 0x%08x and the size is %d bytes\n", memory, input);
 			}
-			else 
+			else
 			{
 				printf("Sorry :<.Something excepted happen and you cannot allocate the memory.\n");
 			}

@@ -9,13 +9,13 @@ namespace Engine
 		void* m_pBlockSAtartAddr; // pointer to the block of memory this BlockDescriptor describes
 		size_t m_sizeBlock; // size of that block of memory
 		BlockDescriptor* next; //the pointer to the next blockdescriptor
-		~BlockDescriptor() { if (m_pBlockSAtartAddr != nullptr) delete m_pBlockSAtartAddr; }
 	};
 
 	class HeapManager
 	{
 	public:
 		static HeapManager* Create(void*, size_t, unsigned int);
+		static size_t s_MinumumToLeave;
 
 		HeapManager();
 		HeapManager(void*, size_t, unsigned int);
@@ -27,12 +27,17 @@ namespace Engine
 		bool Free(void*);
 		void Destroy();
 
-		size_t GetUsedMemory() { return i_usedMemory_; }
-		size_t GetLeftMemory() { return i_sizeOfMemory_ - i_usedMemory_; }
+		size_t GetUsedMemory() const { return i_usedMemory_; }
+		size_t GetLeftMemory() const { return i_sizeOfMemory_ - i_usedMemory_; }
+
+		bool IsAllocated(void * i_ptr) const;
+		void ShowFreeBlocks() const;
+		void ShowOutstandingAllocations() const;
 
 	private:
 		void* pMemory_;
-		BlockDescriptor* pDescriptorHead_;
+		BlockDescriptor* pFreeHead_;
+		BlockDescriptor* pOutstandingHead_;
 		size_t i_sizeOfMemory_;
 		size_t i_numOfDescription_;
 
@@ -41,5 +46,7 @@ namespace Engine
 
 		//Initialized function
 		void Initialize();
+		
+		BlockDescriptor* InsertNodeToHead(BlockDescriptor* head, BlockDescriptor* node);
 	};
 }

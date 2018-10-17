@@ -20,15 +20,13 @@ namespace HeapManagerProxy
 
 	void			Collect(HeapManager * i_pManager);
 
-	/*
-	bool			IsAllocated(const HeapManager * i_pManager, void * i_ptr);
-
 	size_t			GetLargestFreeBlock(const HeapManager * i_pManager);
 	size_t			GetTotalFreeMemory(const HeapManager * i_pManager);
 
+	bool			IsAllocated(const HeapManager * i_pManager, void * i_ptr);
+
 	void			ShowFreeBlocks(const HeapManager * i_pManager);
 	void			ShowOutstandingAllocations(const HeapManager * i_pManager);
-	*/
 
 } // namespace HeapManagerProxy
 
