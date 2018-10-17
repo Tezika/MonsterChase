@@ -41,22 +41,27 @@ namespace HeapManagerProxy
 		return i_pManager->Free(i_ptr);
 	}
 
-	/*
-
-	void Collect(HeapManager * i_pManager)
-	{
-		assert(i_pManager);
-
-		i_pManager->collect();
-	}
-
-
 	bool Contains(const HeapManager * i_pManager, void * i_ptr)
 	{
 		assert(i_pManager);
 
 		return i_pManager->Contains(i_ptr);
 	}
+
+
+	void Collect(HeapManager * i_pManager)
+	{
+		assert(i_pManager);
+
+		i_pManager->Collect();
+	}
+
+
+
+	/*
+
+
+
 
 	bool IsAllocated(const HeapManager * i_pManager, void * i_ptr)
 	{

@@ -8,7 +8,8 @@ namespace Engine
 	public:
 		void* m_pBlockSAtartAddr; // pointer to the block of memory this BlockDescriptor describes
 		size_t m_sizeBlock; // size of that block of memory
-		BlockDescriptor* next; //the pointer to the next blockdescriptor.
+		BlockDescriptor* next; //the pointer to the next blockdescriptor
+		~BlockDescriptor() { if (m_pBlockSAtartAddr != nullptr) delete m_pBlockSAtartAddr; }
 	};
 
 	class HeapManager
@@ -21,6 +22,8 @@ namespace Engine
 		~HeapManager();
 		void* Alloc(size_t);
 		void* Alloc(size_t, unsigned int);
+		bool Contains(void*) const;
+		void Collect();
 		bool Free(void*);
 		void Destroy();
 
@@ -38,9 +41,5 @@ namespace Engine
 
 		//Initialized function
 		void Initialize();
-		//void InitilaizeFreeMemory();
-		//void InitializeDescriptorPool();
-
-		//BlockDescriptor* GetDescriptorFromPool();
 	};
 }

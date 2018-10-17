@@ -33,11 +33,11 @@ bool HeapManager_UnitTest()
 
 #ifdef TEST_ONLYALLOCATION
 	{
-		printf("The test about allocation starts!\n");
+		printf("-------The test about allocation starts!-------\n");
 		size_t input = 0;
 		do
 		{
-			printf("The sum memory can be allocated is %d bytes\n", pHeapManager->GetLeftMemory());
+			printf("The sum of memory can be allocated is %d bytes\n", pHeapManager->GetLeftMemory());
 			printf("Please input allocate size(input 0 to quit):");
 			scanf_s("%zu", &input);
 			if (input == 0)
@@ -54,7 +54,7 @@ bool HeapManager_UnitTest()
 				printf("Sorry :<.Something excepted happen and you cannot allocate the memory.\n");
 			}
 		} while (1);
-		printf("The test about allocation ends!\n");
+		printf("-------The test about allocation ends!-------\n");
 	}
 #endif // TEST_ONLYALLOCATION
 

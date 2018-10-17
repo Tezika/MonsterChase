@@ -35,8 +35,12 @@ void Engine::HeapManager::Destroy()
 
 void* Engine::HeapManager::Alloc(size_t i_size)
 {
+	if (i_size > this->GetLeftMemory())
+	{
+		return nullptr;
+	}
+
 	//Create a descriptor firstly
-	DEBUG_PRINT("The size of descriptor is %d", sizeof(BlockDescriptor));
 	BlockDescriptor* pDescriptor = static_cast<BlockDescriptor*>(pMemory_);
 	pMemory_ = static_cast<char*>(pMemory_) + sizeof(BlockDescriptor);
 	pDescriptor->m_pBlockSAtartAddr = pMemory_;
@@ -65,7 +69,52 @@ void* Engine::HeapManager::Alloc(size_t i_size, unsigned int i_alignment)
 bool Engine::HeapManager::Free(void* i_ptr)
 {
 	assert(i_ptr);
+	auto p = pDescriptorHead_;
+	BlockDescriptor* pPrevious = nullptr;
+	while (p != nullptr)
+	{
+		if (p->m_pBlockSAtartAddr == i_ptr)
+		{
+			//remove the head
+			if (pPrevious == nullptr)
+			{
+				auto temp = pDescriptorHead_;
+				pDescriptorHead_ = pDescriptorHead_->next;
+				delete temp;
+			}
+			else
+			{
+				auto temp = p;
+				p = p->next;
+				pPrevious->next = p;
+				delete temp;
+			}
+			break;
+		}
+		pPrevious = p;
+		p = p->next;
+	}
 	return true;
+}
+
+bool Engine::HeapManager::Contains(void* i_ptr) const
+{
+	assert(i_ptr);
+	auto p = pDescriptorHead_;
+	while (p != nullptr)
+	{
+		if (p->m_pBlockSAtartAddr == i_ptr)
+		{
+			return true;
+		}
+		p = p->next;
+	}
+	return false;
+}
+
+void Engine::HeapManager::Collect()
+{
+
 }
 
 void Engine::HeapManager::Initialize()
