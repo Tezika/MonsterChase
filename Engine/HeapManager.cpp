@@ -17,6 +17,7 @@ Engine::HeapManager::HeapManager(void* pMemory, size_t i_sizeMemory, unsigned in
 	i_sizeOfMemory_ = i_sizeMemory;
 	i_numOfDescription_ = i_numDescription;
 	i_usedMemory_ = 0;
+	i_test_ = 0;
 	this->Initialize();
 }
 
@@ -43,14 +44,68 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 		return nullptr;
 	}
 
+	void* allocatedMemory = nullptr;
+
+	//Get one descriptor from the free list firstly
+	auto p = pFreeHead_;
+	BlockDescriptor* pPrevious = nullptr;
+	while (p != nullptr)
+	{
+		if (p->m_sizeBlock - i_size <= sizeof(BlockDescriptor))
+		{
+
+			BlockDescriptor* temp = nullptr;
+			//Remove current node from the free list
+			if (pPrevious == nullptr)
+			{
+				temp = pFreeHead_;
+				pFreeHead_ = pFreeHead_->next;
+			}
+			else
+			{
+				temp = p;
+				p = p->next;
+				pPrevious->next = p;
+			}
+			//Add it to the outstanding list
+			pOutstandingHead_ = this->InsertNodeToHead(pOutstandingHead_, temp);
+			i_usedMemory_ += i_size;
+			return temp->m_pBlockStarAddr;
+		}
+		else if (p->m_sizeBlock - i_size > sizeof(BlockDescriptor))
+		{
+			//subdivde it into two blocks
+			auto originalSize = p->m_sizeBlock;
+			auto pBlockAddress = (void*)(static_cast<char*>(p->m_pBlockStarAddr) + originalSize - sizeof(BlockDescriptor) - i_size);
+			auto subBlock = static_cast<BlockDescriptor*>(pBlockAddress);
+			pBlockAddress = static_cast<char*>(pBlockAddress) + sizeof(BlockDescriptor);
+			subBlock->m_sizeBlock = i_size;
+			subBlock->m_pBlockStarAddr = subBlock + sizeof(BlockDescriptor);
+			
+			//change the orginal
+			p->m_sizeBlock = originalSize - i_size;
+			//add the sub one into the outstanding list;
+			pOutstandingHead_ = this->InsertNodeToHead(pOutstandingHead_, subBlock);
+			i_usedMemory_ += i_size;
+			DEBUG_PRINT("The current allocation address is 0x%08x and size is %d\n", subBlock->m_pBlockStarAddr, subBlock->m_sizeBlock);
+			return subBlock->m_pBlockStarAddr;
+		}
+		else if (p->m_sizeBlock < i_size)
+		{
+			pPrevious = p;
+			p = p->next;
+		}
+	}
+
 	//Create a descriptor firstly
 	BlockDescriptor* pDescriptor = static_cast<BlockDescriptor*>(pMemory_);
 	pMemory_ = static_cast<char*>(pMemory_) + sizeof(BlockDescriptor);
-	pDescriptor->m_pBlockSAtartAddr = pMemory_;
+	pDescriptor->m_pBlockStarAddr = pMemory_;
 	pMemory_ = static_cast<char*>(pMemory_) + i_size;
 	pDescriptor->m_sizeBlock = i_size;
 	pOutstandingHead_ = this->InsertNodeToHead(pOutstandingHead_, pDescriptor);
-	return pDescriptor->m_pBlockSAtartAddr;
+	i_usedMemory_ += i_size;
+	return pDescriptor->m_pBlockStarAddr;
 }
 
 void* Engine::HeapManager::Alloc(size_t i_size, unsigned int i_alignment)
@@ -65,7 +120,7 @@ bool Engine::HeapManager::Free(void* i_ptr)
 	BlockDescriptor* pPrevious = nullptr;
 	while (p != nullptr)
 	{
-		if (p->m_pBlockSAtartAddr == i_ptr)
+		if (p->m_pBlockStarAddr == i_ptr)
 		{
 			BlockDescriptor* temp = nullptr;
 			//remove the head
@@ -81,6 +136,7 @@ bool Engine::HeapManager::Free(void* i_ptr)
 				pPrevious->next = p;
 			}
 			pFreeHead_ = this->InsertNodeToHead(pFreeHead_, temp);
+			i_usedMemory_ -= p->m_sizeBlock;
 			break;
 		}
 		pPrevious = p;
@@ -106,7 +162,7 @@ bool Engine::HeapManager::IsAllocated(void* i_ptr) const
 	auto p = pOutstandingHead_;
 	while (p != nullptr)
 	{
-		if (p->m_pBlockSAtartAddr == i_ptr)
+		if (p->m_pBlockStarAddr == i_ptr)
 		{
 			return true;
 		}
@@ -127,9 +183,9 @@ void Engine::HeapManager::Initialize()
 void Engine::HeapManager::ShowOutstandingAllocations() const
 {
 	auto p = pOutstandingHead_;
-	while (p !=  nullptr)
+	while (p != nullptr)
 	{
-		printf("The current allocation address is 0x%08x and size is %d\n", p->m_pBlockSAtartAddr, p->m_sizeBlock);
+		printf("The current allocation address is 0x%08x and size is %d\n", p->m_pBlockStarAddr, p->m_sizeBlock);
 		p = p->next;
 	}
 }
@@ -139,7 +195,7 @@ void Engine::HeapManager::ShowFreeBlocks() const
 	auto p = pFreeHead_;
 	while (p != nullptr)
 	{
-		printf("The current address is 0x%08x and size is %d", p->m_pBlockSAtartAddr, p->m_sizeBlock);
+		printf("The free blocks' address is 0x%08x and size is %d\n", p->m_pBlockStarAddr, p->m_sizeBlock);
 		p = p->next;
 	}
 }

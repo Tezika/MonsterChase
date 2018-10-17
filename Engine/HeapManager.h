@@ -6,7 +6,7 @@ namespace Engine
 	struct BlockDescriptor
 	{
 	public:
-		void* m_pBlockSAtartAddr; // pointer to the block of memory this BlockDescriptor describes
+		void* m_pBlockStarAddr; // pointer to the block of memory this BlockDescriptor describes
 		size_t m_sizeBlock; // size of that block of memory
 		BlockDescriptor* next; //the pointer to the next blockdescriptor
 	};
@@ -40,6 +40,8 @@ namespace Engine
 		BlockDescriptor* pOutstandingHead_;
 		size_t i_sizeOfMemory_;
 		size_t i_numOfDescription_;
+
+		size_t i_test_;
 
 		//Using for debuging
 		size_t i_usedMemory_;
