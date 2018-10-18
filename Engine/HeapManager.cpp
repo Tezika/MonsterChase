@@ -44,8 +44,6 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 		return nullptr;
 	}
 
-	void* allocatedMemory = nullptr;
-
 	//Get one descriptor from the free list firstly
 	auto p = pFreeHead_;
 	BlockDescriptor* pPrevious = nullptr;
@@ -59,13 +57,13 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 			if (pPrevious == nullptr)
 			{
 				temp = pFreeHead_;
-				pFreeHead_ = pFreeHead_->next;
+				pFreeHead_ = pFreeHead_->m_next;
 			}
 			else
 			{
 				temp = p;
-				p = p->next;
-				pPrevious->next = p;
+				p = p->m_next;
+				pPrevious->m_next = p;
 			}
 			//Add it to the outstanding list
 			pOutstandingHead_ = this->InsertNodeToHead(pOutstandingHead_, temp);
@@ -87,13 +85,13 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 			//add the sub one into the outstanding list;
 			pOutstandingHead_ = this->InsertNodeToHead(pOutstandingHead_, subBlock);
 			i_usedMemory_ += i_size;
-			DEBUG_PRINT("The current allocation address is 0x%08x and size is %d\n", subBlock->m_pBlockStarAddr, subBlock->m_sizeBlock);
+			//DEBUG_PRINT("The current allocation address is 0x%08x and size is %d\n", subBlock->m_pBlockStarAddr, subBlock->m_sizeBlock);
 			return subBlock->m_pBlockStarAddr;
 		}
 		else if (p->m_sizeBlock < i_size)
 		{
 			pPrevious = p;
-			p = p->next;
+			p = p->m_next;
 		}
 	}
 
@@ -127,20 +125,20 @@ bool Engine::HeapManager::Free(void* i_ptr)
 			if (pPrevious == nullptr)
 			{
 				temp = pOutstandingHead_;
-				pOutstandingHead_ = pOutstandingHead_->next;
+				pOutstandingHead_ = pOutstandingHead_->m_next;
 			}
 			else
 			{
 				temp = p;
-				p = p->next;
-				pPrevious->next = p;
+				p = p->m_next;
+				pPrevious->m_next = p;
 			}
 			pFreeHead_ = this->InsertNodeToHead(pFreeHead_, temp);
 			i_usedMemory_ -= p->m_sizeBlock;
 			break;
 		}
 		pPrevious = p;
-		p = p->next;
+		p = p->m_next;
 	}
 	return true;
 }
@@ -166,7 +164,7 @@ bool Engine::HeapManager::IsAllocated(void* i_ptr) const
 		{
 			return true;
 		}
-		p = p->next;
+		p = p->m_next;
 	}
 	return false;
 }
@@ -186,7 +184,8 @@ void Engine::HeapManager::ShowOutstandingAllocations() const
 	while (p != nullptr)
 	{
 		printf("The current allocation address is 0x%08x and size is %d\n", p->m_pBlockStarAddr, p->m_sizeBlock);
-		p = p->next;
+		DEBUG_PRINT("The current allocation address is 0x%08x and size is %d\n", p->m_pBlockStarAddr, p->m_sizeBlock);
+		p = p->m_next;
 	}
 }
 
@@ -196,23 +195,24 @@ void Engine::HeapManager::ShowFreeBlocks() const
 	while (p != nullptr)
 	{
 		printf("The free blocks' address is 0x%08x and size is %d\n", p->m_pBlockStarAddr, p->m_sizeBlock);
-		p = p->next;
+		p = p->m_next;
 	}
 }
 
 Engine::BlockDescriptor* Engine::HeapManager::InsertNodeToHead(Engine::BlockDescriptor* pHead, Engine::BlockDescriptor* pNode)
 {
+	pNode->m_next = nullptr;
 	if (pHead == nullptr)
 	{
-		pNode->next = nullptr;
+		pNode->m_next = nullptr;
 		pHead = pNode;
 	}
 	else
 	{
 		//Insert the node after the head;
-		auto temp = pHead->next;
-		pHead->next = pNode;
-		pNode->next = temp;
+		auto temp = pHead->m_next;
+		pHead->m_next = pNode;
+		pNode->m_next = temp;
 	}
 	return pHead;
 }
