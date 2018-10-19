@@ -45,8 +45,8 @@ namespace Engine
 
 	private:
 		void* pMemory_;
-		BlockDescriptor* pFreeHead_;
-		BlockDescriptor* pOutstandingHead_;
+		BlockDescriptor* pDescriptorHead_;
+		BlockDescriptor* pDescriptorTail_;
 		size_t i_sizeOfMemory_;
 		size_t i_numOfDescription_;
 
@@ -58,6 +58,6 @@ namespace Engine
 		//Initialized function
 		void Initialize();
 
-		BlockDescriptor* InsertNodeToHead(BlockDescriptor* head, BlockDescriptor* node);
+		void InsertNodeToTail(Engine::BlockDescriptor*);
 	};
 }
