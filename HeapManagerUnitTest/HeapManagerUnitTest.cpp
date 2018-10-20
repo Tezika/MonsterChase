@@ -164,36 +164,38 @@ bool HeapManager_UnitTest()
 				break;
 		}
 
-		//AllocatedAddresses.push_back(pPtr);
+		AllocatedAddresses.push_back(pPtr);
 		numAllocs++;
 
-		//// randomly free and/or garbage collect during allocation phase
-		//const unsigned int freeAboutEvery = 10;
-		//const unsigned int garbageCollectAboutEvery = 40;
+		// randomly free and/or garbage collect during allocation phase
+		const unsigned int freeAboutEvery = 10;
+		const unsigned int garbageCollectAboutEvery = 40;
 
-		//if (!AllocatedAddresses.empty() && ((rand() % freeAboutEvery) == 0))
-		//{
-		//	void * pPtr = AllocatedAddresses.back();
-		//	AllocatedAddresses.pop_back();
+		if (!AllocatedAddresses.empty() && ((rand() % freeAboutEvery) == 0))
+		{
+			void * pPtr = AllocatedAddresses.back();
+			AllocatedAddresses.pop_back();
 
-		//	bool success = Contains(pHeapManager, pPtr) && IsAllocated(pHeapManager, pPtr);
-		//	assert(success);
+			bool success = Contains(pHeapManager, pPtr) && IsAllocated(pHeapManager, pPtr);
+			assert(success);
 
-		//	success = free(pHeapManager, pPtr);
-		//	assert(success);
+			success = free(pHeapManager, pPtr);
+			assert(success);
 
-		//	numFrees++;
-		//}
+			numFrees++;
+		}
 
-		//if ((rand() % garbageCollectAboutEvery) == 0)
-		//{
-		//	Collect(pHeapManager);
+		if ((rand() % garbageCollectAboutEvery) == 0)
+		{
+			Collect(pHeapManager);
 
-		//	numCollects++;
-		//}
+			numCollects++;
+		}
 
 	} while (1);
-	printf("number of alloc is %d\n", numAllocs);
+	printf("The number of alloc is %d\n", numAllocs);
+	printf("The number of collect is %d\n", numCollects);
+	printf("The number of free is %d\n", numFrees);
 
 #if defined(SUPPORTS_SHOWFREEBLOCKS) || defined(SUPPORTS_SHOWOUTSTANDINGALLOCATIONS)
 	printf("After exhausting allocations:\n");

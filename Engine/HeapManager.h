@@ -7,14 +7,12 @@ namespace Engine
 	{
 	public:
 		void* m_pBlockStarAddr; // pointer to the block of memory this BlockDescriptor describes.
-		size_t m_sizeBlock; // size of that block of memory.
-		BlockDescriptor* m_next; //the pointer to the next blockdescriptor.
+		size_t m_sizeBlock; // size of that block of memory
 		bool m_allocated; // to flag this block that has been allocated or not.
 
 		BlockDescriptor()
 		{
 			m_pBlockStarAddr = nullptr;
-			m_next = nullptr;
 			m_sizeBlock = 0;
 			m_allocated = false;
 		}
@@ -46,7 +44,6 @@ namespace Engine
 	private:
 		void* pMemory_;
 		BlockDescriptor* pDescriptorHead_;
-		BlockDescriptor* pDescriptorTail_;
 		size_t i_sizeOfMemory_;
 		size_t i_numOfDescription_;
 
@@ -57,7 +54,7 @@ namespace Engine
 
 		//Initialized function
 		void Initialize();
-
-		void InsertNodeToTail(Engine::BlockDescriptor*);
+		void Combine(BlockDescriptor* block_1, BlockDescriptor* block_2);
+		Engine::BlockDescriptor* MoveToNextBlock(Engine::BlockDescriptor*) const;
 	};
 }

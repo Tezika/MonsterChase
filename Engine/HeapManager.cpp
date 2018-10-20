@@ -39,12 +39,11 @@ void Engine::HeapManager::Destroy()
 
 void* Engine::HeapManager::Alloc(size_t i_size)
 {
-	auto newSize = sizeof(BlockDescriptor) + i_size;
-	if (newSize > this->GetLeftMemory() || newSize == sizeof(BlockDescriptor))
+	if (i_size > this->GetLeftMemory() || i_size <= 0)
 	{
 		return nullptr;
 	}
-
+	auto newBlockSize = sizeof(BlockDescriptor) + i_size;
 
 	//Get one descriptor from the free list firstly
 	auto p = pDescriptorHead_;
@@ -53,59 +52,59 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 		//if current block has been allocated
 		if (p->m_allocated)
 		{
-			p = p->m_next;
+			p = this->MoveToNextBlock(p);
 			continue;
 		}
 		//else check the current block.
 		//The current block cannot be divided before
-		if (p->m_sizeBlock <= newSize)
+		if (p->m_sizeBlock <= newBlockSize)
 		{
 			i_usedMemory_ += i_size;
 			p->m_allocated = true;
 			return p->m_pBlockStarAddr;
 		}
 		//The current block can be divided into two. 
-		else if (p->m_sizeBlock > newSize)
+		else if (p->m_sizeBlock > newBlockSize)
 		{
 			//subdivde it into two blocks
 			auto originalSize = p->m_sizeBlock;
 
-			auto pBlockAddress = (void*)(static_cast<char*>(p->m_pBlockStarAddr) + originalSize - newSize);
-			auto subBlock = static_cast<BlockDescriptor*>(pBlockAddress);
-			pBlockAddress = static_cast<char*>(pBlockAddress) + sizeof(BlockDescriptor);
+			auto pBlockAddress = (void*)(static_cast<char*>(p->m_pBlockStarAddr) + originalSize - newBlockSize);
+			auto subBlock = reinterpret_cast<BlockDescriptor*>(pBlockAddress);
+			pBlockAddress = reinterpret_cast<char*>(pBlockAddress) + sizeof(BlockDescriptor);
 			subBlock->m_pBlockStarAddr = pBlockAddress;
-			pBlockAddress = static_cast<char*>(pBlockAddress) + i_size;
+			pBlockAddress = reinterpret_cast<char*>(pBlockAddress) + i_size;
 			subBlock->m_sizeBlock = i_size;
-			subBlock->m_next = nullptr;
 
 			//change the orginal
-			p->m_sizeBlock = originalSize - newSize;
+			p->m_sizeBlock = originalSize - newBlockSize;
 
-			i_usedMemory_ += newSize;
+			i_usedMemory_ += newBlockSize;
 			subBlock->m_allocated = true;
 			//add the subBlock to the list
-			//Add this descitor to the list tail
-			this->InsertNodeToTail(subBlock);
 			DEBUG_PRINT("The current allocation address is 0x%08x and size is %d\n", subBlock->m_pBlockStarAddr, subBlock->m_sizeBlock);
 			return subBlock->m_pBlockStarAddr;
 		}
 		else if (p->m_sizeBlock < i_size)
 		{
-			p = p->m_next;
+			p = this->MoveToNextBlock(p);
 		}
 	}
 
 	//Create a descriptor firstly
-	BlockDescriptor* pDescriptor = static_cast<BlockDescriptor*>(pMemory_);
-	pMemory_ = static_cast<char*>(pMemory_) + sizeof(BlockDescriptor);
+	BlockDescriptor* pDescriptor = reinterpret_cast<BlockDescriptor*>(pMemory_);
+	pMemory_ = reinterpret_cast<char*>(pMemory_) + sizeof(BlockDescriptor);
 	pDescriptor->m_pBlockStarAddr = pMemory_;
-	pMemory_ = static_cast<char*>(pMemory_) + i_size;
+	pMemory_ = reinterpret_cast<char*>(pMemory_) + i_size;
 	pDescriptor->m_sizeBlock = i_size;
-	pDescriptor->m_next = nullptr;
-	i_usedMemory_ += (i_size + sizeof(BlockDescriptor));
+	i_usedMemory_ += newBlockSize;
 	pDescriptor->m_allocated = true;
-	//Add this descitor to the list
-	this->InsertNodeToTail(pDescriptor);
+	//check the head;
+	if (pDescriptorHead_ == nullptr)
+	{
+		pDescriptorHead_ = pDescriptor;
+	}
+	DEBUG_PRINT("The current allocation address is 0x%08x and size is %d\n", pDescriptor->m_pBlockStarAddr, pDescriptor->m_sizeBlock);
 	return pDescriptor->m_pBlockStarAddr;
 }
 
@@ -123,10 +122,10 @@ bool Engine::HeapManager::Free(void* i_ptr)
 		if (p->m_pBlockStarAddr == i_ptr)
 		{
 			p->m_allocated = false;
-			i_usedMemory_ -= p->m_sizeBlock;
+			i_usedMemory_ -= (p->m_sizeBlock + sizeof(BlockDescriptor));
 			break;
 		}
-		p = p->m_next;
+		p = this->MoveToNextBlock(p);
 	}
 	return true;
 }
@@ -139,7 +138,37 @@ bool Engine::HeapManager::Contains(void* i_ptr) const
 
 void Engine::HeapManager::Collect()
 {
-
+	if (pDescriptorHead_ == nullptr)
+	{
+		return;
+	}
+	BlockDescriptor* ptr_1 = pDescriptorHead_;
+	BlockDescriptor* ptr_2 = this->MoveToNextBlock(pDescriptorHead_);
+	while (ptr_2 != nullptr)
+	{
+		//Can be combined.
+		if (!ptr_1->m_allocated && !ptr_2->m_allocated)
+		{
+			auto temp = ptr_2;
+			ptr_2 = this->MoveToNextBlock(ptr_2);
+			this->Combine(ptr_1, temp);
+		}
+		//Cannot be combined right now.
+		else
+		{
+			while (ptr_2 != nullptr && ptr_2->m_allocated)
+			{
+				ptr_2 = this->MoveToNextBlock(ptr_2);
+			}
+			//no free block now
+			if (ptr_2 == nullptr)
+			{
+				break;
+			}
+			ptr_1 = ptr_2;
+			ptr_2 = this->MoveToNextBlock(ptr_2);
+		}
+	}
 }
 
 bool Engine::HeapManager::IsAllocated(void* i_ptr) const
@@ -152,7 +181,7 @@ bool Engine::HeapManager::IsAllocated(void* i_ptr) const
 		{
 			return true;
 		}
-		p = p->m_next;
+		p = this->MoveToNextBlock(p);
 	}
 	return false;
 }
@@ -160,7 +189,6 @@ bool Engine::HeapManager::IsAllocated(void* i_ptr) const
 void Engine::HeapManager::Initialize()
 {
 	pDescriptorHead_ = nullptr;
-	pDescriptorTail_ = nullptr;
 	DEBUG_PRINT("The heapmanager setup successfully.");
 }
 
@@ -173,7 +201,7 @@ void Engine::HeapManager::ShowOutstandingAllocations() const
 		{
 			printf("The current allocation address is 0x%08x and size is %d\n", p->m_pBlockStarAddr, p->m_sizeBlock);
 		}
-		p = p->m_next;
+		p = this->MoveToNextBlock(p);
 	}
 }
 
@@ -184,22 +212,24 @@ void Engine::HeapManager::ShowFreeBlocks() const
 	{
 		if (p->m_allocated == false)
 		{
-			printf("The free blocks' address is 0x%08x and size is %d\n", p->m_pBlockStarAddr, p->m_sizeBlock);
+			printf("The free block's address is 0x%08x and size is %d\n", p->m_pBlockStarAddr, p->m_sizeBlock);
 		}
-		p = p->m_next;
+		p = this->MoveToNextBlock(p);
 	}
 }
 
-void Engine::HeapManager::InsertNodeToTail(Engine::BlockDescriptor* pDescriptor)
+void Engine::HeapManager::Combine(Engine::BlockDescriptor* block_1, Engine::BlockDescriptor* block_2)
 {
-	if (pDescriptorHead_ == nullptr && pDescriptorTail_ == nullptr)
+	DEBUG_PRINT("Combine the 0x%08x size %d next is 0x%08x - with - the 0x%08x size %d next is 0x%08x", block_1, block_1->m_sizeBlock, block_1->m_pBlockStarAddr, block_2, block_2->m_sizeBlock, block_2->m_pBlockStarAddr);
+	block_1->m_sizeBlock += (sizeof(BlockDescriptor) + block_2->m_sizeBlock);
+}
+
+Engine::BlockDescriptor* Engine::HeapManager::MoveToNextBlock(Engine::BlockDescriptor* block) const
+{
+	auto pNext =  reinterpret_cast<BlockDescriptor*>(reinterpret_cast<char*>(block->m_pBlockStarAddr) + block->m_sizeBlock);
+	if (pNext == nullptr || pNext ->m_pBlockStarAddr == nullptr)
 	{
-		pDescriptorHead_ = pDescriptor;
-		pDescriptorTail_ = pDescriptor;
+		return nullptr;
 	}
-	else
-	{
-		pDescriptorTail_->m_next = pDescriptor;
-		pDescriptorTail_ = pDescriptor;
-	}
+	return pNext;
 }
