@@ -43,7 +43,7 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 	{
 		return nullptr;
 	}
-	auto newBlockSize = sizeof(BlockDescriptor) + i_size;
+	size_t newBlockSize = sizeof(BlockDescriptor) + i_size;
 
 	//Get one descriptor from the free list firstly
 	auto p = pDescriptorHead_;
@@ -99,7 +99,7 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 	pDescriptor->m_sizeBlock = i_size;
 	i_usedMemory_ += newBlockSize;
 	pDescriptor->m_allocated = true;
-	//check the head;
+	//check the head
 	if (pDescriptorHead_ == nullptr)
 	{
 		pDescriptorHead_ = pDescriptor;
@@ -220,15 +220,18 @@ void Engine::HeapManager::ShowFreeBlocks() const
 
 void Engine::HeapManager::Combine(Engine::BlockDescriptor* block_1, Engine::BlockDescriptor* block_2)
 {
+	assert(block_1);
+	assert(block_2);
 	//DEBUG_PRINT("Combine the 0x%08x size %d next is 0x%08x - with - the 0x%08x size %d next is 0x%08x", block_1, block_1->m_sizeBlock, block_1->m_pBlockStarAddr, block_2, block_2->m_sizeBlock, block_2->m_pBlockStarAddr);
 	block_1->m_sizeBlock += (sizeof(BlockDescriptor) + block_2->m_sizeBlock);
 }
 
 Engine::BlockDescriptor* Engine::HeapManager::MoveToNextBlock(Engine::BlockDescriptor* block) const
 {
-	//Move the pointer based on one block to the next block.
-	auto pNext =  reinterpret_cast<BlockDescriptor*>(reinterpret_cast<char*>(block->m_pBlockStarAddr) + block->m_sizeBlock);
-	if (pNext == nullptr || pNext ->m_pBlockStarAddr == nullptr)
+	assert(block);
+	//Move the pointer based on the blocksize.
+	auto pNext = reinterpret_cast<BlockDescriptor*>(reinterpret_cast<char*>(block->m_pBlockStarAddr) + block->m_sizeBlock);
+	if (pNext == nullptr || pNext->m_pBlockStarAddr == nullptr)
 	{
 		return nullptr;
 	}

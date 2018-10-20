@@ -117,7 +117,7 @@ bool HeapManager_UnitTest()
 	}
 #endif
 
-	
+
 	std::vector<void *> AllocatedAddresses;
 
 	long	numAllocs = 0;
@@ -269,7 +269,6 @@ bool HeapManager_UnitTest()
 
 		}
 	}
-	
 
 	Destroy(pHeapManager);
 	delete pHeapManager;
