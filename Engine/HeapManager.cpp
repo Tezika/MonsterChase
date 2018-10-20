@@ -82,7 +82,7 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 			i_usedMemory_ += newBlockSize;
 			subBlock->m_allocated = true;
 			//add the subBlock to the list
-			DEBUG_PRINT("The current allocation address is 0x%08x and size is %d\n", subBlock->m_pBlockStarAddr, subBlock->m_sizeBlock);
+			//DEBUG_PRINT("The current allocation address is 0x%08x and size is %d\n", subBlock->m_pBlockStarAddr, subBlock->m_sizeBlock);
 			return subBlock->m_pBlockStarAddr;
 		}
 		else if (p->m_sizeBlock < i_size)
@@ -104,7 +104,7 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 	{
 		pDescriptorHead_ = pDescriptor;
 	}
-	DEBUG_PRINT("The current allocation address is 0x%08x and size is %d\n", pDescriptor->m_pBlockStarAddr, pDescriptor->m_sizeBlock);
+	//DEBUG_PRINT("The current allocation address is 0x%08x and size is %d\n", pDescriptor->m_pBlockStarAddr, pDescriptor->m_sizeBlock);
 	return pDescriptor->m_pBlockStarAddr;
 }
 
@@ -220,12 +220,13 @@ void Engine::HeapManager::ShowFreeBlocks() const
 
 void Engine::HeapManager::Combine(Engine::BlockDescriptor* block_1, Engine::BlockDescriptor* block_2)
 {
-	DEBUG_PRINT("Combine the 0x%08x size %d next is 0x%08x - with - the 0x%08x size %d next is 0x%08x", block_1, block_1->m_sizeBlock, block_1->m_pBlockStarAddr, block_2, block_2->m_sizeBlock, block_2->m_pBlockStarAddr);
+	//DEBUG_PRINT("Combine the 0x%08x size %d next is 0x%08x - with - the 0x%08x size %d next is 0x%08x", block_1, block_1->m_sizeBlock, block_1->m_pBlockStarAddr, block_2, block_2->m_sizeBlock, block_2->m_pBlockStarAddr);
 	block_1->m_sizeBlock += (sizeof(BlockDescriptor) + block_2->m_sizeBlock);
 }
 
 Engine::BlockDescriptor* Engine::HeapManager::MoveToNextBlock(Engine::BlockDescriptor* block) const
 {
+	//Move the pointer based on one block to the next block.
 	auto pNext =  reinterpret_cast<BlockDescriptor*>(reinterpret_cast<char*>(block->m_pBlockStarAddr) + block->m_sizeBlock);
 	if (pNext == nullptr || pNext ->m_pBlockStarAddr == nullptr)
 	{
