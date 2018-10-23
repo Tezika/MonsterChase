@@ -26,7 +26,7 @@ Engine::HeapManager::~HeapManager()
 {
 }
 
-Engine::HeapManager* Engine::HeapManager::Create(void* i_pMemory, size_t i_sizeMemory, unsigned int i_numDescription)
+Engine::HeapManager * Engine::HeapManager::Create(void *i_pMemory, size_t i_sizeMemory, unsigned int i_numDescription)
 {
 	assert(i_pMemory);
 	return new HeapManager(i_pMemory, i_sizeMemory, i_numDescription);
@@ -38,7 +38,7 @@ void Engine::HeapManager::Destroy()
 	DEBUG_PRINT("The heapmanager destroy successfully.");
 }
 
-void* Engine::HeapManager::Alloc(size_t i_size)
+void * Engine::HeapManager::Alloc(size_t i_size)
 {
 	if (i_size > this->GetLeftMemory() || i_size <= 0)
 	{
@@ -71,10 +71,10 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 			auto originalSize = p->m_sizeBlock;
 
 			auto pBlockAddress = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(p->m_pBlockStarAddr) + originalSize - newBlockSize);
-			auto subBlock = reinterpret_cast<BlockDescriptor*>(pBlockAddress);
-			pBlockAddress = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(pBlockAddress) + sizeof(BlockDescriptor));
+			auto subBlock = reinterpret_cast<BlockDescriptor *>(pBlockAddress);
+			pBlockAddress = reinterpret_cast<void *>(reinterpret_cast<uintptr_t>(pBlockAddress) + sizeof(BlockDescriptor));
 			subBlock->m_pBlockStarAddr = pBlockAddress;
-			pBlockAddress = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(pBlockAddress) + i_size);
+			pBlockAddress = reinterpret_cast<void *>(reinterpret_cast<uintptr_t>(pBlockAddress) + i_size);
 			subBlock->m_sizeBlock = i_size;
 
 			//change the orginal
@@ -93,10 +93,10 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 	}
 
 	//Create a descriptor firstly
-	BlockDescriptor* pDescriptor = reinterpret_cast<BlockDescriptor*>(pMemory_);
-	pMemory_ = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(pMemory_) + sizeof(BlockDescriptor));
+	BlockDescriptor* pDescriptor = reinterpret_cast<BlockDescriptor *>(pMemory_);
+	pMemory_ = reinterpret_cast<void *>(reinterpret_cast<uintptr_t>(pMemory_) + sizeof(BlockDescriptor));
 	pDescriptor->m_pBlockStarAddr = pMemory_;
-	pMemory_ = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(pMemory_) + i_size);
+	pMemory_ = reinterpret_cast<void *>(reinterpret_cast<uintptr_t>(pMemory_) + i_size);
 	pDescriptor->m_sizeBlock = i_size;
 	i_usedMemory_ += newBlockSize;
 	pDescriptor->m_allocated = true;
@@ -109,13 +109,13 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 	return pDescriptor->m_pBlockStarAddr;
 }
 
-void* Engine::HeapManager::Alloc(size_t i_size, unsigned int i_alignment)
+void * Engine::HeapManager::Alloc(size_t i_size, unsigned int i_alignment)
 {
 
 	return nullptr;
 }
 
-bool Engine::HeapManager::Free(void* i_ptr)
+bool Engine::HeapManager::Free(void *i_ptr)
 {
 	assert(i_ptr);
 	auto p = pDescriptorHead_;
@@ -132,7 +132,7 @@ bool Engine::HeapManager::Free(void* i_ptr)
 	return true;
 }
 
-bool Engine::HeapManager::Contains(void* i_ptr) const
+bool Engine::HeapManager::Contains(void *i_ptr) const
 {
 	assert(i_ptr);
 	return true;
@@ -173,7 +173,7 @@ void Engine::HeapManager::Collect()
 	}
 }
 
-bool Engine::HeapManager::IsAllocated(void* i_ptr) const
+bool Engine::HeapManager::IsAllocated(void *i_ptr) const
 {
 	assert(i_ptr);
 	auto p = pDescriptorHead_;
@@ -220,7 +220,7 @@ void Engine::HeapManager::ShowFreeBlocks() const
 	}
 }
 
-void Engine::HeapManager::Combine(Engine::BlockDescriptor* block_1, Engine::BlockDescriptor* block_2)
+void Engine::HeapManager::Combine(Engine::BlockDescriptor *block_1, Engine::BlockDescriptor *block_2)
 {
 	assert(block_1);
 	assert(block_2);
@@ -228,11 +228,11 @@ void Engine::HeapManager::Combine(Engine::BlockDescriptor* block_1, Engine::Bloc
 	block_1->m_sizeBlock += (sizeof(BlockDescriptor) + block_2->m_sizeBlock);
 }
 
-Engine::BlockDescriptor* Engine::HeapManager::MoveToNextBlock(Engine::BlockDescriptor* block) const
+Engine::BlockDescriptor * Engine::HeapManager::MoveToNextBlock(Engine::BlockDescriptor *block) const
 {
 	assert(block);
 	//Move the pointer based on the blocksize.
-	auto pNext = reinterpret_cast<BlockDescriptor*>(reinterpret_cast<uintptr_t>(block->m_pBlockStarAddr) + block->m_sizeBlock);
+	auto pNext = reinterpret_cast<BlockDescriptor *>(reinterpret_cast<uintptr_t>(block->m_pBlockStarAddr) + block->m_sizeBlock);
 	if (pNext == nullptr || pNext->m_pBlockStarAddr == nullptr)
 	{
 		return nullptr;
