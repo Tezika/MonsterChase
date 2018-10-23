@@ -3,6 +3,7 @@
 #include "HeapManager.h"
 #include "stdio.h"
 #include "string.h"
+#include "stddef.h"
 
 size_t Engine::HeapManager::s_MinumumToLeave = 0;
 
@@ -69,11 +70,11 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 			//subdivde it into two blocks
 			auto originalSize = p->m_sizeBlock;
 
-			auto pBlockAddress = (void*)(static_cast<char*>(p->m_pBlockStarAddr) + originalSize - newBlockSize);
+			auto pBlockAddress = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(p->m_pBlockStarAddr) + originalSize - newBlockSize);
 			auto subBlock = reinterpret_cast<BlockDescriptor*>(pBlockAddress);
-			pBlockAddress = reinterpret_cast<char*>(pBlockAddress) + sizeof(BlockDescriptor);
+			pBlockAddress = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(pBlockAddress) + sizeof(BlockDescriptor));
 			subBlock->m_pBlockStarAddr = pBlockAddress;
-			pBlockAddress = reinterpret_cast<char*>(pBlockAddress) + i_size;
+			pBlockAddress = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(pBlockAddress) + i_size);
 			subBlock->m_sizeBlock = i_size;
 
 			//change the orginal
@@ -93,9 +94,9 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 
 	//Create a descriptor firstly
 	BlockDescriptor* pDescriptor = reinterpret_cast<BlockDescriptor*>(pMemory_);
-	pMemory_ = reinterpret_cast<char*>(pMemory_) + sizeof(BlockDescriptor);
+	pMemory_ = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(pMemory_) + sizeof(BlockDescriptor));
 	pDescriptor->m_pBlockStarAddr = pMemory_;
-	pMemory_ = reinterpret_cast<char*>(pMemory_) + i_size;
+	pMemory_ = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(pMemory_) + i_size);
 	pDescriptor->m_sizeBlock = i_size;
 	i_usedMemory_ += newBlockSize;
 	pDescriptor->m_allocated = true;
@@ -110,6 +111,7 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 
 void* Engine::HeapManager::Alloc(size_t i_size, unsigned int i_alignment)
 {
+
 	return nullptr;
 }
 
@@ -230,7 +232,7 @@ Engine::BlockDescriptor* Engine::HeapManager::MoveToNextBlock(Engine::BlockDescr
 {
 	assert(block);
 	//Move the pointer based on the blocksize.
-	auto pNext = reinterpret_cast<BlockDescriptor*>(reinterpret_cast<char*>(block->m_pBlockStarAddr) + block->m_sizeBlock);
+	auto pNext = reinterpret_cast<BlockDescriptor*>(reinterpret_cast<uintptr_t>(block->m_pBlockStarAddr) + block->m_sizeBlock);
 	if (pNext == nullptr || pNext->m_pBlockStarAddr == nullptr)
 	{
 		return nullptr;

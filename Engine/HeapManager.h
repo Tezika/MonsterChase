@@ -9,13 +9,6 @@ namespace Engine
 		void* m_pBlockStarAddr; // pointer to the block of memory this BlockDescriptor describes.
 		size_t m_sizeBlock; // size of that block of memory
 		bool m_allocated; // to flag this block that has been allocated or not.
-
-		BlockDescriptor()
-		{
-			m_pBlockStarAddr = nullptr;
-			m_sizeBlock = 0;
-			m_allocated = false;
-		}
 	};
 
 	class HeapManager
@@ -54,7 +47,8 @@ namespace Engine
 
 		//Initialized function
 		void Initialize();
-		void Combine(BlockDescriptor* block_1, BlockDescriptor* block_2);
+
+		void Combine(BlockDescriptor*, BlockDescriptor*);
 		Engine::BlockDescriptor* MoveToNextBlock(Engine::BlockDescriptor*) const;
 	};
 }
