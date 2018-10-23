@@ -7,7 +7,7 @@ public:
 	TString(const TString&);
 	TString(const char *);
 
-	unsigned int Length() const;
+	size_t Length() const;
 	char& operator[](unsigned int);
 
 	void operator = (const TString&);
@@ -24,6 +24,6 @@ public:
 	~TString();
 
 private:
-	unsigned int size_;
+	size_t size_;
 	char* buffer_;
 };

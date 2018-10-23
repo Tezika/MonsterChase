@@ -4,6 +4,7 @@
 #include "stdio.h"
 #include "string.h"
 #include "stddef.h"
+#include "stdint.h"
 
 size_t Engine::HeapManager::s_MinumumToLeave = 0;
 
@@ -201,7 +202,7 @@ void Engine::HeapManager::ShowOutstandingAllocations() const
 	{
 		if (p->m_allocated == true)
 		{
-			printf("The current allocation address is 0x%08x and size is %d\n", p->m_pBlockStarAddr, p->m_sizeBlock);
+			printf("The current allocation address is 0x%p and size is %zu\n", reinterpret_cast<uint8_t *>(p->m_pBlockStarAddr), p->m_sizeBlock);
 		}
 		p = this->MoveToNextBlock(p);
 	}
@@ -214,7 +215,7 @@ void Engine::HeapManager::ShowFreeBlocks() const
 	{
 		if (p->m_allocated == false)
 		{
-			printf("The free block's address is 0x%08x and size is %d\n", p->m_pBlockStarAddr, p->m_sizeBlock);
+			printf("The free block's address is 0x%p and size is %zu\n", reinterpret_cast<uint8_t *>(p->m_pBlockStarAddr), p->m_sizeBlock);
 		}
 		p = this->MoveToNextBlock(p);
 	}

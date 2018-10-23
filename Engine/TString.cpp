@@ -16,7 +16,7 @@ TString::TString(const TString& str)
 	strcpy_s(buffer_, size_, str.buffer_);
 }
 
-TString::TString(const char* p)
+TString::TString(const char * p)
 {
 	size_ = strlen(p) + 1;
 	buffer_ = new char[size_];
@@ -24,7 +24,7 @@ TString::TString(const char* p)
 	DEBUG_PRINT("Creating a TString");
 }
 
-unsigned int TString::Length() const
+size_t TString::Length() const
 {
 	if (buffer_ == nullptr)
 	{

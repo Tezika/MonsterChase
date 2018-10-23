@@ -22,7 +22,7 @@ Game::Game()
 void Game::Initialize()
 {
 	std::cout << "----------Setup Begin----------" << std::endl;
-	srand(time(NULL));
+	srand(time_t(NULL));
 	//Player initialization
 	char* playerName = new char[128];
 	std::cout << "what's your name? ";
