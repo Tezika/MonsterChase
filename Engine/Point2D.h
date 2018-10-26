@@ -13,13 +13,13 @@ namespace Engine
 			this->y = 0;
 		}
 
-		Point2D(T x, T y)
+		inline Point2D(T x, T y)
 		{
 			this->x = x;
 			this->y = y;
 		}
 
-		Point2D(const Point2D<T>& other)
+		inline Point2D(const Point2D<T>& other)
 		{
 			this->x = other.x;
 			this->y = other.y;
