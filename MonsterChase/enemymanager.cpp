@@ -45,7 +45,7 @@ Enemy* EnemyManager::CreateEnemy()
 	//The movespeed ranges from 1 ~ 4, health ranges from 4 ~ 7, attack ranges from 1 ~ 4
 	auto newEnemy = enemyList_->InsertToTail(new Enemy(name, rand() % 5 + 3, rand() % 3 + 4, rand() % 3 + 1));
 	//Set the random position for the new enemy
-	newEnemy->data->SetPosition(Point2D(rand() % Game::GetInstance().GetGridWidth() + 1, rand() % Game::GetInstance().GetGridHeight() + 1)); 
+	newEnemy->data->SetPosition(Point2D<int>(rand() % Game::GetInstance().GetGridWidth() + 1, rand() % Game::GetInstance().GetGridHeight() + 1)); 
 	delete name;
 	return newEnemy->data;
 }

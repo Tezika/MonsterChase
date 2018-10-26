@@ -22,8 +22,8 @@ namespace MonsterChase
 		virtual ~Object();
 
 		//old school properties
-		inline const Engine::Point2D& GetPosition() { return position_; };
-		inline void SetPosition(const Engine::Point2D& pos) { this->position_ = pos; }
+		inline const Engine::Point2D<int>& GetPosition() { return position_; };
+		inline void SetPosition(const Engine::Point2D<int>& pos) { this->position_ = pos; }
 
 		inline const int GetHealth() { return health_; }
 		inline void SetHealth(int health) { health_ = health; }
@@ -41,7 +41,7 @@ namespace MonsterChase
 		Engine::TString name_;
 
 	protected:
-		Engine::Point2D position_;
+		Engine::Point2D<int> position_;
 	};
 
 }

@@ -7,9 +7,9 @@ bool Point2D_UnitTest()
 {
 	using namespace Engine;
 	const Point2D<int> point_1(1, 2);
-	const Point2D point_2(3, 2);
-	const Point2D point_3(1, 2);
-	Point2D point_4;
+	const Point2D<int> point_2(3, 2);
+	const Point2D<int> point_3(1, 2);
+	Point2D<int> point_4;
 
 	assert(point_1 != point_2);
 	assert(point_1 == point_3);

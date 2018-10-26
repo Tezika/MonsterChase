@@ -164,7 +164,6 @@
     <ClCompile Include="ConsolePrint.cpp" />
     <ClCompile Include="Engine-init.cpp" />
     <ClCompile Include="HeapManager.cpp" />
-    <ClCompile Include="Point2D.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

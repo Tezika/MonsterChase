@@ -29,7 +29,7 @@ void Game::Initialize()
 	std::cin >> playerName;
 	player_ = new Player(playerName, 1, 15);
 	//Place the player in [1,1]
-	player_->SetPosition(Point2D(1, 1));
+	player_->SetPosition(Point2D<int>(1, 1));
 
 	//Enemy initialization
 	int num_enemy = 0;
