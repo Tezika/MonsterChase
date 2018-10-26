@@ -3,7 +3,7 @@
 namespace Engine
 {
 	class TString
-	{
+	{ 
 	public:
 		TString();
 		TString(const TString&);
