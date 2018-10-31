@@ -14,7 +14,7 @@ Engine::HeapManager::HeapManager()
 }
 
 Engine::HeapManager::HeapManager(void* pMemory, size_t i_sizeMemory, unsigned int i_numDescription)
-	:m_pMemory_(pMemory), i_sizeOfMemory_(i_sizeMemory), i_numOfDescription_(i_numDescription), i_usedMemory_(0), i_usedDescriptors_(0), m_pDescriptorHead_(nullptr)
+	:m_pMemory_(pMemory), m_sizeOfMemory_(i_sizeMemory), m_numOfDescription_(i_numDescription), m_usedMemory_(0), m_usedDescriptors_(0), m_pDescriptorHead_(nullptr)
 {
 	DEBUG_PRINT("The heapmanager setup successfully.");
 }
@@ -38,7 +38,7 @@ void Engine::HeapManager::Destroy()
 void * Engine::HeapManager::Alloc(size_t i_size)
 {
 	//If it runs out of the descriptors.
-	if (i_usedDescriptors_ > i_numOfDescription_ - 1)
+	if (m_usedDescriptors_ > m_numOfDescription_ - 1)
 	{
 		return nullptr;
 	}
@@ -63,7 +63,7 @@ void * Engine::HeapManager::Alloc(size_t i_size)
 		//The current block cannot be divided before
 		if (p->m_sizeBlock <= newBlockSize)
 		{
-			i_usedMemory_ += i_size;
+			m_usedMemory_ += i_size;
 			p->m_allocated = true;
 			return p->m_pBlockStarAddr;
 		}
@@ -84,8 +84,8 @@ void * Engine::HeapManager::Alloc(size_t i_size)
 			p->m_sizeBlock = originalSize - newBlockSize;
 
 
-			i_usedMemory_ += newBlockSize;
-			i_usedDescriptors_++;
+			m_usedMemory_ += newBlockSize;
+			m_usedDescriptors_++;
 			subBlock->m_allocated = true;
 			//add the subBlock to the list
 			//DEBUG_PRINT("The current allocation address is 0x%08x and size is %d\n", subBlock->m_pBlockStarAddr, subBlock->m_sizeBlock);
@@ -104,8 +104,8 @@ void * Engine::HeapManager::Alloc(size_t i_size)
 	m_pMemory_ = reinterpret_cast<char*>(m_pMemory_) + i_size;
 	pDescriptor->m_sizeBlock = i_size;
 
-	i_usedMemory_ += newBlockSize;
-	i_usedDescriptors_++;
+	m_usedMemory_ += newBlockSize;
+	m_usedDescriptors_++;
 
 	pDescriptor->m_allocated = true;
 	//check the head
@@ -131,7 +131,7 @@ bool Engine::HeapManager::Free(void *i_ptr)
 		if (p->m_pBlockStarAddr == i_ptr)
 		{
 			p->m_allocated = false;
-			i_usedMemory_ -= (p->m_sizeBlock + sizeof(BlockDescriptor));
+			m_usedMemory_ -= (p->m_sizeBlock + sizeof(BlockDescriptor));
 			break;
 		}
 		p = this->MoveToNextBlock(p);
@@ -226,7 +226,7 @@ void Engine::HeapManager::Combine(Engine::BlockDescriptor *block_1, Engine::Bloc
 	assert(block_1);
 	assert(block_2);
 	block_1->m_sizeBlock += (sizeof(BlockDescriptor) + block_2->m_sizeBlock);
-	i_usedDescriptors_--;
+	m_usedDescriptors_--;
 }
 
 Engine::BlockDescriptor * Engine::HeapManager::MoveToNextBlock(Engine::BlockDescriptor *block) const
@@ -239,4 +239,23 @@ Engine::BlockDescriptor * Engine::HeapManager::MoveToNextBlock(Engine::BlockDesc
 		return nullptr;
 	}
 	return pNext;
+}
+
+size_t Engine::HeapManager::GetMaxiumAllocatableMemory() const
+{
+	size_t maxiumFreeMemory = 0;
+	BlockDescriptor* p = m_pDescriptorHead_;
+	while (p != nullptr)
+	{
+		if (!p->m_allocated)
+		{
+			if (p->m_sizeBlock > maxiumFreeMemory)
+			{
+				maxiumFreeMemory = p->m_sizeBlock;
+			}
+		}
+		p = this->MoveToNextBlock(p);
+	}
+	maxiumFreeMemory = maxiumFreeMemory > (this->GetLeftMemory() - sizeof(BlockDescriptor)) ? maxiumFreeMemory : (this->GetLeftMemory() - sizeof(BlockDescriptor));
+	return maxiumFreeMemory;
 }
