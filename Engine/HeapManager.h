@@ -27,9 +27,9 @@ namespace Engine
 		bool Free(void *);
 		void Destroy();
 
-		inline size_t GetUsedMemory() const { return i_usedMemory_; }
-		inline size_t GetLeftMemory() const { return i_sizeOfMemory_ - i_usedMemory_; }
-		inline size_t GetMaxiumAllocatedMemory() const { return this->GetLeftMemory() - sizeof(BlockDescriptor); }
+		inline size_t GetUsedMemory() const { return m_usedMemory_; }
+		inline size_t GetLeftMemory() const { return m_sizeOfMemory_ - m_usedMemory_; }
+		size_t GetMaxiumAllocatableMemory() const;
 
 		bool IsAllocated(void *) const;
 		void ShowFreeBlocks() const;
@@ -38,12 +38,12 @@ namespace Engine
 	private:
 		void * m_pMemory_;
 		BlockDescriptor * m_pDescriptorHead_;
-		size_t i_sizeOfMemory_;
-		size_t i_numOfDescription_;
+		size_t m_sizeOfMemory_;
+		size_t m_numOfDescription_;
 
 		//Using for debuging
-		size_t i_usedMemory_;
-		size_t i_usedDescriptors_;
+		size_t m_usedMemory_;
+		size_t m_usedDescriptors_;
 
 		//Initialized function
 		void Combine(BlockDescriptor *, BlockDescriptor *);
