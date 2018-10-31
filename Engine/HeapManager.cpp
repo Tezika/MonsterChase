@@ -35,11 +35,17 @@ void Engine::HeapManager::Destroy()
 
 void* Engine::HeapManager::Alloc(size_t i_size)
 {
-	if (i_size > this->GetLeftMemory() || i_size <= 0)
+	//If it runs out of the descriptors.
+	if (i_usedDescriptors_ > i_numOfDescription_ - 1)
 	{
 		return nullptr;
 	}
+
 	size_t newBlockSize = sizeof(BlockDescriptor) + i_size;
+	if (newBlockSize > this->GetLeftMemory() || newBlockSize <= sizeof(BlockDescriptor))
+	{
+		return nullptr;
+	}
 
 	//Get one descriptor from the free list firstly
 	auto p = m_pDescriptorHead_;
@@ -75,7 +81,9 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 			//change the orginal
 			p->m_sizeBlock = originalSize - newBlockSize;
 
+
 			i_usedMemory_ += newBlockSize;
+			i_usedDescriptors_++;
 			subBlock->m_allocated = true;
 			//add the subBlock to the list
 			//DEBUG_PRINT("The current allocation address is 0x%08x and size is %d\n", subBlock->m_pBlockStarAddr, subBlock->m_sizeBlock);
@@ -93,14 +101,16 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 	pDescriptor->m_pBlockStarAddr = m_pMemory_;
 	m_pMemory_ = reinterpret_cast<char*>(m_pMemory_) + i_size;
 	pDescriptor->m_sizeBlock = i_size;
+
 	i_usedMemory_ += newBlockSize;
+	i_usedDescriptors_++;
+
 	pDescriptor->m_allocated = true;
 	//check the head
 	if (m_pDescriptorHead_ == nullptr)
 	{
 		m_pDescriptorHead_ = pDescriptor;
 	}
-	//DEBUG_PRINT("The current allocation address is 0x%08x and size is %d\n", pDescriptor->m_pBlockStarAddr, pDescriptor->m_sizeBlock);
 	return pDescriptor->m_pBlockStarAddr;
 }
 
@@ -189,7 +199,7 @@ void Engine::HeapManager::ShowOutstandingAllocations() const
 	{
 		if (p->m_allocated == true)
 		{
-			printf("The current allocation address is 0x%08x and size is %d\n", p->m_pBlockStarAddr, p->m_sizeBlock);
+			printf("The current allocation address is 0x%p and size is %zu\n", p->m_pBlockStarAddr, p->m_sizeBlock);
 		}
 		p = this->MoveToNextBlock(p);
 	}
@@ -202,7 +212,7 @@ void Engine::HeapManager::ShowFreeBlocks() const
 	{
 		if (p->m_allocated == false)
 		{
-			printf("The free block's address is 0x%08x and size is %d\n", p->m_pBlockStarAddr, p->m_sizeBlock);
+			printf("The free block's address is 0x%p and size is %zu\n", p->m_pBlockStarAddr, p->m_sizeBlock);
 		}
 		p = this->MoveToNextBlock(p);
 	}
@@ -213,6 +223,7 @@ void Engine::HeapManager::Combine(Engine::BlockDescriptor* block_1, Engine::Bloc
 	assert(block_1);
 	assert(block_2);
 	block_1->m_sizeBlock += (sizeof(BlockDescriptor) + block_2->m_sizeBlock);
+	i_usedDescriptors_--;
 }
 
 Engine::BlockDescriptor* Engine::HeapManager::MoveToNextBlock(Engine::BlockDescriptor* block) const

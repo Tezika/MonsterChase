@@ -21,7 +21,7 @@ namespace Engine
 	class HeapManager
 	{
 	public:
-		static HeapManager* Create(void*, size_t, unsigned int);
+		static HeapManager* Create(void *, size_t, unsigned int);
 		static size_t s_MinumumToLeave;
 
 		HeapManager();
@@ -34,8 +34,9 @@ namespace Engine
 		bool Free(void *);
 		void Destroy();
 
-		size_t GetUsedMemory() const { return i_usedMemory_; }
-		size_t GetLeftMemory() const { return i_sizeOfMemory_ - i_usedMemory_; }
+		inline size_t GetUsedMemory() const { return i_usedMemory_; }
+		inline size_t GetLeftMemory() const { return i_sizeOfMemory_ - i_usedMemory_; }
+		inline size_t GetMaxiumAllocatedMemory() const { return this->GetLeftMemory() - sizeof(BlockDescriptor); }
 
 		bool IsAllocated(void *) const;
 		void ShowFreeBlocks() const;
