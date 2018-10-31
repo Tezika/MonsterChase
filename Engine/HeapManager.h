@@ -20,8 +20,8 @@ namespace Engine
 		HeapManager();
 		HeapManager(void *, size_t, unsigned int);
 		~HeapManager();
-		void* Alloc(size_t);
-		void* Alloc(size_t, unsigned int);
+		void * Alloc(size_t);
+		void * Alloc(size_t, unsigned int);
 		bool Contains(void *) const;
 		void Collect();
 		bool Free(void *);
@@ -36,8 +36,8 @@ namespace Engine
 		void ShowOutstandingAllocations() const;
 
 	private:
-		void* m_pMemory_;
-		BlockDescriptor* m_pDescriptorHead_;
+		void * m_pMemory_;
+		BlockDescriptor * m_pDescriptorHead_;
 		size_t i_sizeOfMemory_;
 		size_t i_numOfDescription_;
 
