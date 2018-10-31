@@ -3,6 +3,7 @@
 #include "HeapManager.h"
 #include "stdio.h"
 #include "string.h"
+#include "stddef.h"
 
 size_t Engine::HeapManager::s_MinumumToLeave = 0;
 
@@ -21,7 +22,7 @@ Engine::HeapManager::~HeapManager()
 {
 }
 
-Engine::HeapManager* Engine::HeapManager::Create(void* i_pMemory, size_t i_sizeMemory, unsigned int i_numDescription)
+Engine::HeapManager * Engine::HeapManager::Create(void *i_pMemory, size_t i_sizeMemory, unsigned int i_numDescription)
 {
 	assert(i_pMemory);
 	return new HeapManager(i_pMemory, i_sizeMemory, i_numDescription);
@@ -33,7 +34,7 @@ void Engine::HeapManager::Destroy()
 	DEBUG_PRINT("The heapmanager destroy successfully.");
 }
 
-void* Engine::HeapManager::Alloc(size_t i_size)
+void * Engine::HeapManager::Alloc(size_t i_size)
 {
 	//If it runs out of the descriptors.
 	if (i_usedDescriptors_ > i_numOfDescription_ - 1)
@@ -71,11 +72,11 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 			//subdivde it into two blocks
 			auto originalSize = p->m_sizeBlock;
 
-			auto pBlockAddress = (void*)(static_cast<char*>(p->m_pBlockStarAddr) + originalSize - newBlockSize);
-			auto subBlock = reinterpret_cast<BlockDescriptor*>(pBlockAddress);
-			pBlockAddress = reinterpret_cast<char*>(pBlockAddress) + sizeof(BlockDescriptor);
+			auto pBlockAddress = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(p->m_pBlockStarAddr) + originalSize - newBlockSize);
+			auto subBlock = reinterpret_cast<BlockDescriptor *>(pBlockAddress);
+			pBlockAddress = reinterpret_cast<void *>(reinterpret_cast<uintptr_t>(pBlockAddress) + sizeof(BlockDescriptor));
 			subBlock->m_pBlockStarAddr = pBlockAddress;
-			pBlockAddress = reinterpret_cast<char*>(pBlockAddress) + i_size;
+			pBlockAddress = reinterpret_cast<void *>(reinterpret_cast<uintptr_t>(pBlockAddress) + i_size);
 			subBlock->m_sizeBlock = i_size;
 
 			//change the orginal
@@ -114,12 +115,13 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 	return pDescriptor->m_pBlockStarAddr;
 }
 
-void* Engine::HeapManager::Alloc(size_t i_size, unsigned int i_alignment)
+void * Engine::HeapManager::Alloc(size_t i_size, unsigned int i_alignment)
 {
+
 	return nullptr;
 }
 
-bool Engine::HeapManager::Free(void* i_ptr)
+bool Engine::HeapManager::Free(void *i_ptr)
 {
 	assert(i_ptr);
 	auto p = m_pDescriptorHead_;
@@ -136,7 +138,7 @@ bool Engine::HeapManager::Free(void* i_ptr)
 	return true;
 }
 
-bool Engine::HeapManager::Contains(void* i_ptr) const
+bool Engine::HeapManager::Contains(void *i_ptr) const
 {
 	assert(i_ptr);
 	return true;
@@ -177,7 +179,7 @@ void Engine::HeapManager::Collect()
 	}
 }
 
-bool Engine::HeapManager::IsAllocated(void* i_ptr) const
+bool Engine::HeapManager::IsAllocated(void *i_ptr) const
 {
 	assert(i_ptr);
 	auto p = m_pDescriptorHead_;
@@ -218,7 +220,7 @@ void Engine::HeapManager::ShowFreeBlocks() const
 	}
 }
 
-void Engine::HeapManager::Combine(Engine::BlockDescriptor* block_1, Engine::BlockDescriptor* block_2)
+void Engine::HeapManager::Combine(Engine::BlockDescriptor *block_1, Engine::BlockDescriptor *block_2)
 {
 	assert(block_1);
 	assert(block_2);
@@ -226,11 +228,11 @@ void Engine::HeapManager::Combine(Engine::BlockDescriptor* block_1, Engine::Bloc
 	i_usedDescriptors_--;
 }
 
-Engine::BlockDescriptor* Engine::HeapManager::MoveToNextBlock(Engine::BlockDescriptor* block) const
+Engine::BlockDescriptor * Engine::HeapManager::MoveToNextBlock(Engine::BlockDescriptor *block) const
 {
 	assert(block);
 	//Move the pointer based on the blocksize.
-	auto pNext = reinterpret_cast<BlockDescriptor*>(reinterpret_cast<char*>(block->m_pBlockStarAddr) + block->m_sizeBlock);
+	auto pNext = reinterpret_cast<BlockDescriptor *>(reinterpret_cast<uintptr_t>(block->m_pBlockStarAddr) + block->m_sizeBlock);
 	if (pNext == nullptr || pNext->m_pBlockStarAddr == nullptr)
 	{
 		return nullptr;

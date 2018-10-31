@@ -1,5 +1,7 @@
 #pragma once
 #include "ConsolePrint.h"
+#include "assert.h"
+
 namespace Engine
 {
 	template<typename T>
@@ -8,8 +10,8 @@ namespace Engine
 	public:
 		T * data;
 		Node<T>* next;
-		Node<T>(T&);
-		Node<T>(T*);
+		Node<T>(const T&);
+		Node<T>(T *);
 		Node<T>(const Node<T>& copyNode) : data(copyNode.data), next(copyNode.next) {}
 		~Node<T>() {}
 		Node<T>& operator=(const Node<T>&);
@@ -17,15 +19,16 @@ namespace Engine
 	};
 
 	template<typename T>
-	inline Node<T>::Node(T& d)
+	inline Node<T>::Node(const T& d)
 	{
 		this->data = &d;
 		this->next = nullptr;
 	}
 
 	template<typename T>
-	inline Node<T>::Node(T* d)
+	inline Node<T>::Node(T * d)
 	{
+		assert(d);
 		this->data = d;
 		this->next = nullptr;
 	}
@@ -41,6 +44,7 @@ namespace Engine
 	template<typename T>
 	inline Node<T>& Engine::Node<T>::operator=(const Node<T> *other)
 	{
+		assert(other);
 		this->data = other->data;
 		this->next = other->next;
 		return *this;
@@ -57,11 +61,11 @@ namespace Engine
 
 		const size_t Length() { return length_; }
 
-		Node<T>* Remove(Node<T>*);
-		Node<T>* InsertToTail(T*);
-
-		Node<T>* head;
-		Node<T>* tail;
+		Node<T> * Remove(Node<T> *);
+		Node<T> * InsertToTail(T *);
+			    
+		Node<T> * head;
+		Node<T> * tail;
 
 	private:
 		size_t length_;
@@ -74,10 +78,11 @@ namespace Engine
 	}
 
 	template<typename T>
-	inline Node<T>* TList<T>::Remove(Node<T>* node)
+	inline Node<T>* TList<T>::Remove(Node<T> * node)
 	{
-		Node<T>* ptr = this->head;
-		Node<T>* ptr_previous = nullptr;
+		assert(node);
+		Node<T> * ptr = this->head;
+		Node<T> * ptr_previous = nullptr;
 		while (ptr != nullptr)
 		{
 			if (ptr == node)
@@ -128,9 +133,10 @@ namespace Engine
 	}
 
 	template<typename T>
-	inline Node<T>* TList<T>::InsertToTail(T* val)
+	inline Node<T>* TList<T>::InsertToTail(T * val)
 	{
-		Node<T>* newNode = new Node<T>(val);
+		assert(val);
+		Node<T> * newNode = new Node<T>(val);
 		if (head == nullptr)
 		{
 			head = newNode;

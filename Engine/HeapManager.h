@@ -6,16 +6,9 @@ namespace Engine
 	struct BlockDescriptor
 	{
 	public:
-		void* m_pBlockStarAddr; // pointer to the block of memory this BlockDescriptor describes.
+		void * m_pBlockStarAddr; // pointer to the block of memory this BlockDescriptor describes.
 		size_t m_sizeBlock; // size of that block of memory
 		bool m_allocated; // to flag this block that has been allocated or not.
-
-		BlockDescriptor()
-		{
-			m_pBlockStarAddr = nullptr;
-			m_sizeBlock = 0;
-			m_allocated = false;
-		}
 	};
 
 	class HeapManager
