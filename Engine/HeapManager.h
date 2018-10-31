@@ -43,18 +43,16 @@ namespace Engine
 
 	private:
 		void* m_pMemory_;
-		BlockDescriptor* pDescriptorHead_;
+		BlockDescriptor* m_pDescriptorHead_;
 		size_t i_sizeOfMemory_;
 		size_t i_numOfDescription_;
 
-		size_t i_test_;
-
 		//Using for debuging
 		size_t i_usedMemory_;
+		size_t i_usedDescriptors_;
 
 		//Initialized function
-		void Initialize();
-		void Combine(BlockDescriptor* block_1, BlockDescriptor* block_2);
+		void Combine(BlockDescriptor*, BlockDescriptor*);
 		Engine::BlockDescriptor* MoveToNextBlock(Engine::BlockDescriptor*) const;
 	};
 }

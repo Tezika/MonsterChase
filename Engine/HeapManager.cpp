@@ -12,13 +12,9 @@ Engine::HeapManager::HeapManager()
 }
 
 Engine::HeapManager::HeapManager(void* pMemory, size_t i_sizeMemory, unsigned int i_numDescription)
+	:m_pMemory_(pMemory), i_sizeOfMemory_(i_sizeMemory), i_numOfDescription_(i_numDescription), i_usedMemory_(0), i_usedDescriptors_(0), m_pDescriptorHead_(nullptr)
 {
-	m_pMemory_ = pMemory;
-	i_sizeOfMemory_ = i_sizeMemory;
-	i_numOfDescription_ = i_numDescription;
-	i_usedMemory_ = 0;
-
-	this->Initialize();
+	DEBUG_PRINT("The heapmanager setup successfully.");
 }
 
 Engine::HeapManager::~HeapManager()
@@ -46,7 +42,7 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 	size_t newBlockSize = sizeof(BlockDescriptor) + i_size;
 
 	//Get one descriptor from the free list firstly
-	auto p = pDescriptorHead_;
+	auto p = m_pDescriptorHead_;
 	while (p != nullptr)
 	{
 		//if current block has been allocated
@@ -100,9 +96,9 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 	i_usedMemory_ += newBlockSize;
 	pDescriptor->m_allocated = true;
 	//check the head
-	if (pDescriptorHead_ == nullptr)
+	if (m_pDescriptorHead_ == nullptr)
 	{
-		pDescriptorHead_ = pDescriptor;
+		m_pDescriptorHead_ = pDescriptor;
 	}
 	//DEBUG_PRINT("The current allocation address is 0x%08x and size is %d\n", pDescriptor->m_pBlockStarAddr, pDescriptor->m_sizeBlock);
 	return pDescriptor->m_pBlockStarAddr;
@@ -116,7 +112,7 @@ void* Engine::HeapManager::Alloc(size_t i_size, unsigned int i_alignment)
 bool Engine::HeapManager::Free(void* i_ptr)
 {
 	assert(i_ptr);
-	auto p = pDescriptorHead_;
+	auto p = m_pDescriptorHead_;
 	while (p != nullptr)
 	{
 		if (p->m_pBlockStarAddr == i_ptr)
@@ -138,12 +134,12 @@ bool Engine::HeapManager::Contains(void* i_ptr) const
 
 void Engine::HeapManager::Collect()
 {
-	if (pDescriptorHead_ == nullptr)
+	if (m_pDescriptorHead_ == nullptr)
 	{
 		return;
 	}
-	BlockDescriptor* ptr_1 = pDescriptorHead_;
-	BlockDescriptor* ptr_2 = this->MoveToNextBlock(pDescriptorHead_);
+	BlockDescriptor* ptr_1 = m_pDescriptorHead_;
+	BlockDescriptor* ptr_2 = this->MoveToNextBlock(m_pDescriptorHead_);
 	while (ptr_2 != nullptr)
 	{
 		//Can be combined.
@@ -174,7 +170,7 @@ void Engine::HeapManager::Collect()
 bool Engine::HeapManager::IsAllocated(void* i_ptr) const
 {
 	assert(i_ptr);
-	auto p = pDescriptorHead_;
+	auto p = m_pDescriptorHead_;
 	while (p != nullptr)
 	{
 		if (p->m_pBlockStarAddr == i_ptr)
@@ -186,15 +182,9 @@ bool Engine::HeapManager::IsAllocated(void* i_ptr) const
 	return false;
 }
 
-void Engine::HeapManager::Initialize()
-{
-	pDescriptorHead_ = nullptr;
-	DEBUG_PRINT("The heapmanager setup successfully.");
-}
-
 void Engine::HeapManager::ShowOutstandingAllocations() const
 {
-	auto p = pDescriptorHead_;
+	auto p = m_pDescriptorHead_;
 	while (p != nullptr)
 	{
 		if (p->m_allocated == true)
@@ -207,7 +197,7 @@ void Engine::HeapManager::ShowOutstandingAllocations() const
 
 void Engine::HeapManager::ShowFreeBlocks() const
 {
-	auto p = pDescriptorHead_;
+	auto p = m_pDescriptorHead_;
 	while (p != nullptr)
 	{
 		if (p->m_allocated == false)
@@ -222,7 +212,6 @@ void Engine::HeapManager::Combine(Engine::BlockDescriptor* block_1, Engine::Bloc
 {
 	assert(block_1);
 	assert(block_2);
-	//DEBUG_PRINT("Combine the 0x%08x size %d next is 0x%08x - with - the 0x%08x size %d next is 0x%08x", block_1, block_1->m_sizeBlock, block_1->m_pBlockStarAddr, block_2, block_2->m_sizeBlock, block_2->m_pBlockStarAddr);
 	block_1->m_sizeBlock += (sizeof(BlockDescriptor) + block_2->m_sizeBlock);
 }
 
