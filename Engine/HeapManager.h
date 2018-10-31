@@ -25,19 +25,19 @@ namespace Engine
 		static size_t s_MinumumToLeave;
 
 		HeapManager();
-		HeapManager(void*, size_t, unsigned int);
+		HeapManager(void *, size_t, unsigned int);
 		~HeapManager();
 		void* Alloc(size_t);
 		void* Alloc(size_t, unsigned int);
-		bool Contains(void*) const;
+		bool Contains(void *) const;
 		void Collect();
-		bool Free(void*);
+		bool Free(void *);
 		void Destroy();
 
 		size_t GetUsedMemory() const { return i_usedMemory_; }
 		size_t GetLeftMemory() const { return i_sizeOfMemory_ - i_usedMemory_; }
 
-		bool IsAllocated(void * i_ptr) const;
+		bool IsAllocated(void *) const;
 		void ShowFreeBlocks() const;
 		void ShowOutstandingAllocations() const;
 
@@ -52,7 +52,7 @@ namespace Engine
 		size_t i_usedDescriptors_;
 
 		//Initialized function
-		void Combine(BlockDescriptor*, BlockDescriptor*);
-		Engine::BlockDescriptor* MoveToNextBlock(Engine::BlockDescriptor*) const;
+		void Combine(BlockDescriptor *, BlockDescriptor *);
+		Engine::BlockDescriptor* MoveToNextBlock(Engine::BlockDescriptor *) const;
 	};
 }
