@@ -69,7 +69,7 @@ namespace HeapManagerProxy
 	{
 		assert(i_pManager);
 
-		return i_pManager->GetLeftMemory();
+		return i_pManager->GetMaxiumAllocatedMemory();
 	}
 
 	size_t GetTotalFreeMemory(const HeapManager * i_pManager)
