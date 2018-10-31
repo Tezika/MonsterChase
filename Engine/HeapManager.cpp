@@ -13,7 +13,7 @@ Engine::HeapManager::HeapManager()
 
 Engine::HeapManager::HeapManager(void* pMemory, size_t i_sizeMemory, unsigned int i_numDescription)
 {
-	pMemory_ = pMemory;
+	m_pMemory_ = pMemory;
 	i_sizeOfMemory_ = i_sizeMemory;
 	i_numOfDescription_ = i_numDescription;
 	i_usedMemory_ = 0;
@@ -92,10 +92,10 @@ void* Engine::HeapManager::Alloc(size_t i_size)
 	}
 
 	//Create a descriptor firstly
-	BlockDescriptor* pDescriptor = reinterpret_cast<BlockDescriptor*>(pMemory_);
-	pMemory_ = reinterpret_cast<char*>(pMemory_) + sizeof(BlockDescriptor);
-	pDescriptor->m_pBlockStarAddr = pMemory_;
-	pMemory_ = reinterpret_cast<char*>(pMemory_) + i_size;
+	BlockDescriptor* pDescriptor = reinterpret_cast<BlockDescriptor*>(m_pMemory_);
+	m_pMemory_ = reinterpret_cast<char*>(m_pMemory_) + sizeof(BlockDescriptor);
+	pDescriptor->m_pBlockStarAddr = m_pMemory_;
+	m_pMemory_ = reinterpret_cast<char*>(m_pMemory_) + i_size;
 	pDescriptor->m_sizeBlock = i_size;
 	i_usedMemory_ += newBlockSize;
 	pDescriptor->m_allocated = true;

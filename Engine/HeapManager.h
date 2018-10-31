@@ -42,7 +42,7 @@ namespace Engine
 		void ShowOutstandingAllocations() const;
 
 	private:
-		void* pMemory_;
+		void* m_pMemory_;
 		BlockDescriptor* pDescriptorHead_;
 		size_t i_sizeOfMemory_;
 		size_t i_numOfDescription_;
