@@ -14,7 +14,7 @@ namespace Engine
 	class HeapManager
 	{
 	public:
-		static HeapManager* Create(void *, size_t, unsigned int);
+		static HeapManager * Create(void *, size_t, unsigned int);
 		static size_t s_MinumumToLeave;
 
 		HeapManager();
