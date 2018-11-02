@@ -3,11 +3,12 @@
 namespace Engine
 {
 	class TString
-	{ 
+	{
 	public:
 		TString();
 		TString(const TString&);
 		TString(const char *);
+		~TString();
 
 		char& operator[](unsigned int);
 
@@ -17,16 +18,16 @@ namespace Engine
 		void operator += (const char *);
 
 		friend bool operator==(const TString &lhs, const TString &rhs);
-		friend bool operator==(const TString &lhs, const char * rhs);
+		friend bool operator==(const TString &lhs, const char* rhs);
 		friend std::ostream& operator<<(std::ostream & os, const TString & str);
 
-		inline char * GetBuffer() { return buffer_; }
-		inline size_t Length() const { return size_; }
+		inline char* GetBuffer() { return m_Buffer_; }
 
-		~TString();
+		inline size_t Length() const { return m_Size_; }
 
 	private:
-		size_t size_;
-		char* buffer_;
+		size_t m_Size_;
+		char* m_Buffer_;
 	};
-}
+
+};

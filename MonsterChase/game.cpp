@@ -3,7 +3,7 @@
 //  MonsterChase
 //
 //  Created by  TezikaZhou on 2018/9/1.
-//  Copyright © 2018 Tezika ZHou. All rights reserved.
+//  Copyright ï¿½ 2018 Tezika ZHou. All rights reserved.
 //
 
 #include "game.h"
@@ -13,10 +13,10 @@ using namespace MonsterChase;
 
 Game::Game()
 {
-	grid_width_ = 32;
-	grid_height_ = 32;
-	end_ = false;
-	roundTimer_newEnemy_ = 0;
+	m_Grid_Width_ = 32;
+	m_Grid_Height_ = 32;
+	m_bBool_ = false;
+	m_roundTimer_newEnemy_ = 0;
 }
 
 void Game::Initialize()
@@ -27,19 +27,19 @@ void Game::Initialize()
 	char* playerName = new char[128];
 	std::cout << "what's your name? ";
 	std::cin >> playerName;
-	player_ = new Player(playerName, 1, 15);
+	m_pPlayer_ = new Player(playerName, 1, 15);
 	//Place the player in [1,1]
-	player_->SetPosition(Point2D<int>(1, 1));
+	m_pPlayer_->SetPosition(Point2D<int>(1, 1));
 
 	//Enemy initialization
 	int num_enemy = 0;
 	std::cout << "Hi " << playerName << "! How many enemy do you want to fight with? ";
 	std::cin >> num_enemy;
 
-	enemyManager_ = new EnemyManager();
+	m_pEnemyManager_ = new EnemyManager();
 	while (num_enemy != 0)
 	{
-		auto enemy = enemyManager_->CreateEnemy();
+		auto enemy = m_pEnemyManager_->CreateEnemy();
 		if (enemy != nullptr)
 		{
 			num_enemy--;
@@ -54,34 +54,34 @@ void Game::Run()
 {
 	std::cout << "----------A Round Start-----------" << std::endl;
 	//Create new enemy every six rounds
-	if (++roundTimer_newEnemy_ == 6)
+	if (++m_roundTimer_newEnemy_ == 6)
 	{
 		std::cout << "Now creating a new enemy occasionally." << std::endl;
-		roundTimer_newEnemy_ = 0;
-		auto enemy = enemyManager_->CreateEnemy();
+		m_roundTimer_newEnemy_ = 0;
+		auto enemy = m_pEnemyManager_->CreateEnemy();
 		if (enemy != nullptr)
 		{
 			enemy->PrintOutInfo();
 		}
 	}
 	//Move the player firstly.
-	player_->Move();
-	player_->PrintOutInfo();
+	m_pPlayer_->Move();
+	m_pPlayer_->PrintOutInfo();
 
-	enemyManager_->MoveEnemies();
-	enemyManager_->RemoveDiedEnemy();
+	m_pEnemyManager_->MoveEnemies();
+	m_pEnemyManager_->RemoveDiedEnemy();
 
-	enemyManager_->BattleWithPlayer(player_);
+	m_pEnemyManager_->BattleWithPlayer(m_pPlayer_);
 	std::cout << "----------The Round End-------------" << std::endl;
 }
 
 void Game::Stop()
 {
 	std::cout << "Your will quit the game :)" << std::endl;
-	delete enemyManager_;
-	enemyManager_ = nullptr;
-	delete player_;
-	player_ = nullptr;
+	delete m_pEnemyManager_;
+	m_pEnemyManager_ = nullptr;
+	delete m_pPlayer_;
+	m_pPlayer_ = nullptr;
 }
 
 int Game::ClampForMap(int val, int maxiumVal)

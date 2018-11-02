@@ -3,7 +3,7 @@
 //  MonsterChase
 //
 //  Created by  TezikaZhou on 2018/9/1.
-//  Copyright © 2018 Tezika ZHou. All rights reserved.
+//  Copyright ï¿½ 2018 Tezika ZHou. All rights reserved.
 //
 
 #include <iostream>
@@ -60,19 +60,19 @@ void Player::Move()
 	switch (input) {
 	case 'w':
 	case 'W':
-		this->position_ += Point2D<int>(0, this->GetMoveSpeed());
+		this->m_Position_ += Point2D<int>(0, this->GetMoveSpeed());
 		break;
 	case 's':
 	case 'S':
-		this->position_ -= Point2D<int>(0, this->GetMoveSpeed());
+		this->m_Position_ -= Point2D<int>(0, this->GetMoveSpeed());
 		break;
 	case 'a':
 	case 'A':
-		this->position_ = Point2D<int>(this->GetMoveSpeed(), 0);
+		this->m_Position_ = Point2D<int>(this->GetMoveSpeed(), 0);
 		break;
 	case 'd':
 	case 'D':
-		this->position_ -= Point2D<int>(this->GetMoveSpeed(), 0);
+		this->m_Position_ -= Point2D<int>(this->GetMoveSpeed(), 0);
 		break;
 	case 'q':
 	case 'Q':
@@ -82,13 +82,13 @@ void Player::Move()
 		std::cout << ":<.The input you did is invalid" << std::endl;
 		break;
 	}
-	this->position_ = Point2D<int>(Game::GetInstance().ClampForMap(this->position_.x, Game::GetInstance().GetGridWidth()), Game::GetInstance().ClampForMap(this->position_.y, Game::GetInstance().GetGridHeight()));
+	this->m_Position_ = Point2D<int>(Game::GetInstance().ClampForMap(this->m_Position_.x, Game::GetInstance().GetGridWidth()), Game::GetInstance().ClampForMap(this->m_Position_.y, Game::GetInstance().GetGridHeight()));
 
 }
 
 void Player::PrintOutInfo()
 {
 	Object::PrintOutInfo();
-	std::cout << "The " << this->GetName() << " current position is  [" << this->position_.x << "," << this->position_.y << "]." << std::endl;
+	std::cout << "The " << this->GetName() << " current position is  [" << this->m_Position_.x << "," << this->m_Position_.y << "]." << std::endl;
 }
 

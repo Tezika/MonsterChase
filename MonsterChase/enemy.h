@@ -19,15 +19,15 @@ namespace MonsterChase
 		Enemy(char* name, int moveSpeed, int health, int attack);
 		~Enemy();
 
-		void SetAttack(int attack) { attack_ = attack; }
-		int  GetAttack() { return attack_; }
+		void SetAttack(int attack) { m_Attack_ = attack; }
+		int  GetAttack() { return m_Attack_; }
 
 	public:
 		void Move() override;
 		void PrintOutInfo() override;
 
 	private:
-		int attack_;
+		int m_Attack_;
 
 	protected:
 	};
