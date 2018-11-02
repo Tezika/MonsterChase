@@ -7,7 +7,7 @@ public:
 	TString(const TString&);
 	TString(const char *);
 
-	unsigned int Length() const;
+	size_t Length() const;
 	char& operator[](unsigned int);
 
 	void operator = (const TString&);
@@ -19,11 +19,11 @@ public:
 	friend bool operator==(const TString &lhs, const char* rhs);
 	friend std::ostream& operator<<(std::ostream & os, const TString & str);
 	                   
-	inline char* GetBuffer() { return buffer_; }
+	inline char* GetBuffer() { return m_Buffer_; }
 
 	~TString();
 
 private:
-	unsigned int size_;
-	char* buffer_;
+	size_t m_Size_;
+	char* m_Buffer_;
 };
