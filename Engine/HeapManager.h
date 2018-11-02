@@ -28,8 +28,6 @@ namespace Engine
 		bool Free(void *);
 		void Destroy();
 
-		inline size_t GetUsedMemory() const { return m_usedMemory_; }
-		inline size_t GetLeftMemory() const { return m_sizeOfMemory_ - m_usedMemory_; }
 		size_t GetMaxiumAllocatableMemory() const;
 
 		bool IsAllocated(void *) const;
@@ -37,6 +35,8 @@ namespace Engine
 		void ShowOutstandingAllocations() const;
 
 		inline bool Contains(void * ptr) const { return (ptr >= m_pMemoryStart_) && (ptr <= m_pMemoryStart_ + m_sizeOfMemory_); }
+		inline size_t GetUsedMemory() const { return m_usedMemory_; }
+		inline size_t GetLeftMemory() const { return m_sizeOfMemory_ - m_usedMemory_; }
 
 	private:
 		uint8_t * m_pMemory_;
