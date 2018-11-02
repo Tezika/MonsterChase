@@ -63,7 +63,7 @@ namespace Engine
 
 		Node<T> * Remove(Node<T> *);
 		Node<T> * InsertToTail(T *);
-			    
+
 		Node<T> * head;
 		Node<T> * tail;
 

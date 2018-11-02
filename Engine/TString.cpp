@@ -2,8 +2,7 @@
 #include "TString.h"
 #include "ConsolePrint.h"
 
-
-TString::TString()
+namespace Engine
 {
 	m_Buffer_ = nullptr;
 	m_Size_ = 0;
@@ -28,13 +27,14 @@ size_t TString::Length() const
 {
 	if (m_Buffer_ == nullptr)
 	{
-		return 0;
+		buffer_ = nullptr;
+		size_ = 0;
 	}
-	else
+
+	TString::TString(const TString& str)
 	{
 		return m_Size_;
 	}
-}
 
 char& TString::operator[](unsigned int len)
 {
@@ -62,8 +62,8 @@ void TString::operator+=(const TString& str)
 	{
 		newBuffer[i] = m_Buffer_[i];
 	}
-	size_t count = this->Length() - 1;
-	for (size_t j = 0; j < str.Length(); j++)
+
+	char& TString::operator[](unsigned int len)
 	{
 		newBuffer[j + count] = str.m_Buffer_[j];
 	}
@@ -82,13 +82,12 @@ void TString::operator+=(const char* p)
 	{
 		newBuffer[i] = m_Buffer_[i];
 	}
-	size_t count = this->Length() - 1;
-	size_t counter = 0;
-	while (*p)
+
+	void TString::operator=(const char* p)
 	{
-		newBuffer[counter + count] = *p;
-		counter++;
-		p++;
+		size_ = strlen(p) + 1;
+		buffer_ = new char[size_];
+		strcpy_s(buffer_, size_, p);
 	}
 	m_Size_ = newSize;
 	newBuffer[m_Size_] = '\0';
@@ -97,24 +96,47 @@ void TString::operator+=(const char* p)
 	m_Buffer_ = newBuffer;
 }
 
-bool operator==(const TString &lhs, const TString &rhs)
-{
-	if (lhs.Length() != rhs.Length())
-	{
-		return false;
+		delete[] buffer_;
+		buffer_ = newBuffer;
 	}
-	else
+
+	void TString::operator+=(const char* p)
 	{
-		for (size_t i = 0; i < lhs.Length(); i++)
+		size_t newSize = strlen(p) + this->Length() - 1;
+		char* newBuffer = new char[newSize];
+		for (size_t i = 0; i < this->Length(); i++)
+		{
+			newBuffer[i] = buffer_[i];
+		}
+		size_t count = this->Length() - 1;
+		size_t counter = 0;
+		while (*p)
+		{
+			newBuffer[counter + count] = *p;
+			counter++;
+			p++;
+		}
+		size_ = newSize;
+		newBuffer[size_] = '\0';
+
+		delete[] buffer_;
+		buffer_ = newBuffer;
+	}
+
+	bool operator==(const TString &lhs, const TString &rhs)
+	{
+		if (lhs.Length() != rhs.Length())
 		{
 			if (lhs.m_Buffer_[i] != rhs.m_Buffer_[i])
 			{
-				return false;
+				if (lhs.buffer_[i] != rhs.buffer_[i])
+				{
+					return false;
+				}
 			}
 		}
+		return true;
 	}
-	return true;
-}
 
 bool operator==(const TString &lhs, const char* rhs)
 {
@@ -131,4 +153,5 @@ TString::~TString()
 {
  	delete[] m_Buffer_;
 }
+
 

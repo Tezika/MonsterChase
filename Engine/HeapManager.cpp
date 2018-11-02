@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "assert.h"
-#include "HeapManager.h"
 #include "stdio.h"
 #include "string.h"
 #include "stddef.h"
+#include "stdint.h"
+#include "HeapManager.h"
 
 size_t Engine::HeapManager::s_MinumumToLeave = 0;
 

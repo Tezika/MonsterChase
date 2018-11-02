@@ -71,9 +71,6 @@
     <ClCompile Include="Engine-init.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Point2D.cpp">
-      <Filter>Source Files\DataStructure</Filter>
-    </ClCompile>
     <ClCompile Include="TString.cpp">
       <Filter>Source Files\DataStructure</Filter>
     </ClCompile>

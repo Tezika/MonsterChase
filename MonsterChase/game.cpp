@@ -3,7 +3,7 @@
 //  MonsterChase
 //
 //  Created by  TezikaZhou on 2018/9/1.
-//  Copyright © 2018 Tezika ZHou. All rights reserved.
+//  Copyright ï¿½ 2018 Tezika ZHou. All rights reserved.
 //
 
 #include "game.h"
@@ -29,7 +29,7 @@ void Game::Initialize()
 	std::cin >> playerName;
 	m_pPlayer_ = new Player(playerName, 1, 15);
 	//Place the player in [1,1]
-	m_pPlayer_->SetPosition(Point2D(1, 1));
+	player_->SetPosition(Point2D<int>(1, 1));
 
 	//Enemy initialization
 	int num_enemy = 0;

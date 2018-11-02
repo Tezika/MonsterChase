@@ -3,7 +3,7 @@
 //  MonsterChase
 //
 //  Created by  TezikaZhou on 2018/9/1.
-//  Copyright © 2018 Tezika ZHou. All rights reserved.
+//  Copyright ï¿½ 2018 Tezika ZHou. All rights reserved.
 //
 
 #include <iostream>
@@ -42,12 +42,12 @@ void Enemy::Move()
 		if (xDelta > 0)
 		{
 			//move right
-			this->m_Position_ += Point2D(moveDis, 0);
+			this->position_ += Point2D<int>(moveDis, 0);
 		}
 		else if (xDelta < 0)
 		{
 			//move left
-			this->m_Position_ -= Point2D(moveDis, 0);
+			this->position_ -= Point2D<int>(moveDis, 0);
 		}
 	}
 	else
@@ -57,18 +57,18 @@ void Enemy::Move()
 		if (yDelta > 0)
 		{
 			//move up
-			this->m_Position_ += Point2D(0, moveDis);
+			this->position_ += Point2D<int>(0, moveDis);
 
 		}
 		else if (yDelta < 0)
 		{
 			//move down
-			this->m_Position_ -= Point2D(0, moveDis);
+			this->position_ -= Point2D<int>(0, moveDis);
 		}
 	}
 
 	//Clamp the position
-	this->m_Position_ = Point2D(Game::GetInstance().ClampForMap(this->m_Position_.x, Game::GetInstance().GetGridWidth()), Game::GetInstance().ClampForMap(this->m_Position_.y, Game::GetInstance().GetGridHeight()));
+	this->position_ = Point2D<int>(Game::GetInstance().ClampForMap(this->position_.x, Game::GetInstance().GetGridWidth()), Game::GetInstance().ClampForMap(this->position_.y, Game::GetInstance().GetGridHeight()));
 	//When the enemy finishes one move, its hp decrease by 1.
 	this->SetHealth(this->GetHealth() - 1);
 }

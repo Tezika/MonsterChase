@@ -3,7 +3,7 @@
 //  MonsterChase
 //
 //  Created by  TezikaZhou on 2018/8/30.
-//  Copyright © 2018 Tezika ZHou. All rights reserved.
+//  Copyright ï¿½ 2018 Tezika ZHou. All rights reserved.
 //
 
 #ifndef Object_h
@@ -22,26 +22,26 @@ namespace MonsterChase
 		virtual ~Object();
 
 		//old school properties
-		inline const Point2D& GetPosition() { return m_Position_; };
-		inline void SetPosition(const Point2D& pos) { this->m_Position_ = pos; }
+		inline const Engine::Point2D<int>& GetPosition() { return position_; };
+		inline void SetPosition(const Engine::Point2D<int>& pos) { this->position_ = pos; }
 
 		inline const int GetHealth() { return m_Health_; }
 		inline void SetHealth(int health) { m_Health_ = health; }
 
 		inline const int GetMoveSpeed() { return m_MoveSpeed_; }
 
-		inline const TString& GetName() { return m_Name_; }
+		inline const Engine::TString& GetName() { return name_; }
 
 		virtual void Move();
 		virtual void PrintOutInfo();
 
 	private:
-		int m_MoveSpeed_;
-		int m_Health_;
-		TString m_Name_;
+		int moveSpeed_;
+		int health_;
+		Engine::TString name_;
 
 	protected:
-		Point2D m_Position_;
+		Engine::Point2D<int> position_;
 	};
 
 }
