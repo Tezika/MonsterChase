@@ -180,19 +180,10 @@ void Engine::HeapManager::Collect()
 	}
 }
 
-bool Engine::HeapManager::IsAllocated(void *i_ptr) const
+bool Engine::HeapManager::IsAllocated(void * i_ptr) const
 {
 	assert(i_ptr);
-	auto p = m_pDescriptorHead_;
-	while (p != nullptr)
-	{
-		if (p->m_pBlockStarAddr == i_ptr)
-		{
-			return true;
-		}
-		p = this->MoveToNextBlock(p);
-	}
-	return false;
+	return reinterpret_cast<BlockDescriptor*>((reinterpret_cast<uint8_t *>(i_ptr) - sizeof(BlockDescriptor))) != nullptr ? true : false;
 }
 
 void Engine::HeapManager::ShowOutstandingAllocations() const

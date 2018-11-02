@@ -40,7 +40,7 @@ namespace Engine
 
 	private:
 		uint8_t * m_pMemory_;
-		uint8_t *  m_pMemoryStart_;
+		uint8_t * m_pMemoryStart_;
 		BlockDescriptor * m_pDescriptorHead_;
 		size_t m_sizeOfMemory_;
 		size_t m_numOfDescription_;
