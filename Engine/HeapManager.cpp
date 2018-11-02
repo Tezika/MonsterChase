@@ -143,12 +143,6 @@ bool Engine::HeapManager::Free(void *i_ptr)
 	return true;
 }
 
-bool Engine::HeapManager::Contains(void *i_ptr) const
-{
-	assert(i_ptr);
-
-	return true;
-}
 
 void Engine::HeapManager::Collect()
 {

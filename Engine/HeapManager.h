@@ -23,7 +23,7 @@ namespace Engine
 		~HeapManager();
 		void * Alloc(size_t);
 		void * Alloc(size_t, unsigned int);
-		bool Contains(void *) const;
+
 		void Collect();
 		bool Free(void *);
 		void Destroy();
@@ -35,6 +35,8 @@ namespace Engine
 		bool IsAllocated(void *) const;
 		void ShowFreeBlocks() const;
 		void ShowOutstandingAllocations() const;
+
+		inline bool Contains(void * ptr) const { return (ptr >= m_pMemoryStart_) && (ptr <= m_pMemoryStart_ + m_sizeOfMemory_); }
 
 	private:
 		uint8_t * m_pMemory_;
