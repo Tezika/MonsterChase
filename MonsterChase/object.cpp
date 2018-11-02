@@ -22,9 +22,9 @@ Object::~Object()
 
 Object::Object(char* name, int moveSpeed, int health)
 {
-	name_ = name;
-	health_ = health;
-	moveSpeed_ = moveSpeed;
+	m_Name_ = name;
+	m_Health_ = health;
+	m_MoveSpeed_ = moveSpeed;
 }
 
 void Object::Move()

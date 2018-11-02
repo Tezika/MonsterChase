@@ -15,12 +15,12 @@ using namespace MonsterChase;
 
 Enemy::Enemy() :Object::Object()
 {
-	attack_ = 3;
+	m_Attack_ = 3;
 }
 
 Enemy::Enemy(char* name, int moveSpeed, int health, int attack) :Object::Object(name, moveSpeed, health)
 {
-	attack_ = attack;
+	m_Attack_ = attack;
 }
 
 Enemy::~Enemy()
@@ -31,8 +31,8 @@ void Enemy::Move()
 {
 	Object::Move();
 	auto player = Game::GetInstance().GetCurPlayer();
-	int xDelta = player->GetPosition().x - this->position_.x;
-	int yDelta = player->GetPosition().y - this->position_.y;
+	int xDelta = player->GetPosition().x - this->m_Position_.x;
+	int yDelta = player->GetPosition().y - this->m_Position_.y;
 
 
 	if (abs(xDelta) > abs(yDelta))
@@ -42,12 +42,12 @@ void Enemy::Move()
 		if (xDelta > 0)
 		{
 			//move right
-			this->position_ += Point2D(moveDis, 0);
+			this->m_Position_ += Point2D(moveDis, 0);
 		}
 		else if (xDelta < 0)
 		{
 			//move left
-			this->position_ -= Point2D(moveDis, 0);
+			this->m_Position_ -= Point2D(moveDis, 0);
 		}
 	}
 	else
@@ -57,18 +57,18 @@ void Enemy::Move()
 		if (yDelta > 0)
 		{
 			//move up
-			this->position_ += Point2D(0, moveDis);
+			this->m_Position_ += Point2D(0, moveDis);
 
 		}
 		else if (yDelta < 0)
 		{
 			//move down
-			this->position_ -= Point2D(0, moveDis);
+			this->m_Position_ -= Point2D(0, moveDis);
 		}
 	}
 
 	//Clamp the position
-	this->position_ = Point2D(Game::GetInstance().ClampForMap(this->position_.x, Game::GetInstance().GetGridWidth()), Game::GetInstance().ClampForMap(this->position_.y, Game::GetInstance().GetGridHeight()));
+	this->m_Position_ = Point2D(Game::GetInstance().ClampForMap(this->m_Position_.x, Game::GetInstance().GetGridWidth()), Game::GetInstance().ClampForMap(this->m_Position_.y, Game::GetInstance().GetGridHeight()));
 	//When the enemy finishes one move, its hp decrease by 1.
 	this->SetHealth(this->GetHealth() - 1);
 }
@@ -77,5 +77,5 @@ void Enemy::PrintOutInfo()
 {
 	Object::PrintOutInfo();
 	std::cout << "The " << this->GetName() << " with the attack " << this->GetAttack()
-		<<" and the health "<< this->GetHealth() << ", position is  [" << this->position_.x << "," << this->position_.y<< "]." << std::endl;
+		<<" and the health "<< this->GetHealth() << ", position is  [" << this->m_Position_.x << "," << this->m_Position_.y<< "]." << std::endl;
 }

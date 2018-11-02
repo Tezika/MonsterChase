@@ -17,12 +17,12 @@ using namespace Engine;
 
 EnemyManager::EnemyManager()
 {
-	enemyList_ = new TList<Enemy>();
+	m_pEnemyList_ = new TList<Enemy>();
 }
 
 EnemyManager::~EnemyManager()
 {
-	delete enemyList_;
+	delete m_pEnemyList_;
 }
 
 Enemy* EnemyManager::CreateEnemy()
@@ -31,7 +31,7 @@ Enemy* EnemyManager::CreateEnemy()
 	std::cout << "Please input the enemy name: ";
 	std::cin >> name;
 
-	auto ptr = enemyList_->head;
+	auto ptr = m_pEnemyList_->head;
 	while (ptr != nullptr)
 	{
 		if ( ptr->data->GetName() == name )
@@ -43,7 +43,7 @@ Enemy* EnemyManager::CreateEnemy()
 	}
 
 	//The movespeed ranges from 1 ~ 4, health ranges from 4 ~ 7, attack ranges from 1 ~ 4
-	auto newEnemy = enemyList_->InsertToTail(new Enemy(name, rand() % 5 + 3, rand() % 3 + 4, rand() % 3 + 1));
+	auto newEnemy = m_pEnemyList_->InsertToTail(new Enemy(name, rand() % 5 + 3, rand() % 3 + 4, rand() % 3 + 1));
 	//Set the random position for the new enemy
 	newEnemy->data->SetPosition(Point2D(rand() % Game::GetInstance().GetGridWidth() + 1, rand() % Game::GetInstance().GetGridHeight() + 1)); 
 	delete name;
@@ -54,7 +54,7 @@ Enemy* EnemyManager::GetEnemyByName(const char* name)
 {
 	assert(name != nullptr);
 
-	auto ptr = enemyList_->head;
+	auto ptr = m_pEnemyList_->head;
 	while (ptr != nullptr)
 	{
 		if (ptr->data->GetName() == name)
@@ -70,13 +70,13 @@ Enemy* EnemyManager::InsertEnemy(Enemy* node)
 {
 	assert(node != nullptr);
 	//Insert the first node
-	enemyList_->InsertToTail(node);
+	m_pEnemyList_->InsertToTail(node);
 	return node;
 }
 
 void EnemyManager::PrintAllEnemiesInfo()
 {
-	auto ptr = enemyList_->head;
+	auto ptr = m_pEnemyList_->head;
 	while (ptr != nullptr)
 	{
 		ptr->data->PrintOutInfo();
@@ -86,7 +86,7 @@ void EnemyManager::PrintAllEnemiesInfo()
 
 void EnemyManager::MoveEnemies()
 {
-	auto ptr = enemyList_->head;
+	auto ptr = m_pEnemyList_->head;
 	while (ptr != nullptr)
 	{
 		ptr->data->Move();
@@ -98,7 +98,7 @@ void EnemyManager::MoveEnemies()
 void EnemyManager::BattleWithPlayer(Player *player)
 {
 	assert(player != nullptr);
-	auto ptr = enemyList_->head;
+	auto ptr = m_pEnemyList_->head;
 	while (ptr != nullptr)
 	{
 		if (ptr->data->GetPosition() == player->GetPosition())
@@ -118,14 +118,14 @@ void EnemyManager::BattleWithPlayer(Player *player)
 
 void EnemyManager::RemoveDiedEnemy()
 {
-	auto ptr = enemyList_->head;
+	auto ptr = m_pEnemyList_->head;
 	while (ptr != nullptr)
 	{
 		if (ptr->data->GetHealth() == 0)
 		{
 			auto enemy = ptr->data;
 			std::cout << "The " << ptr->data->GetName() << " died by its health is 0" << std::endl;
-			ptr = enemyList_->Remove(ptr);
+			ptr = m_pEnemyList_->Remove(ptr);
 			delete enemy;
 		}
 		else

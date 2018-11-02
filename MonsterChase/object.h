@@ -22,26 +22,26 @@ namespace MonsterChase
 		virtual ~Object();
 
 		//old school properties
-		inline const Point2D& GetPosition() { return position_; };
-		inline void SetPosition(const Point2D& pos) { this->position_ = pos; }
+		inline const Point2D& GetPosition() { return m_Position_; };
+		inline void SetPosition(const Point2D& pos) { this->m_Position_ = pos; }
 
-		inline const int GetHealth() { return health_; }
-		inline void SetHealth(int health) { health_ = health; }
+		inline const int GetHealth() { return m_Health_; }
+		inline void SetHealth(int health) { m_Health_ = health; }
 
-		inline const int GetMoveSpeed() { return moveSpeed_; }
+		inline const int GetMoveSpeed() { return m_MoveSpeed_; }
 
-		inline const TString& GetName() { return name_; }
+		inline const TString& GetName() { return m_Name_; }
 
 		virtual void Move();
 		virtual void PrintOutInfo();
 
 	private:
-		int moveSpeed_;
-		int health_;
-		TString name_;
+		int m_MoveSpeed_;
+		int m_Health_;
+		TString m_Name_;
 
 	protected:
-		Point2D position_;
+		Point2D m_Position_;
 	};
 
 }
