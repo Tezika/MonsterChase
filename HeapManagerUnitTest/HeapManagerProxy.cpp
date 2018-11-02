@@ -19,7 +19,6 @@ namespace HeapManagerProxy
 	void Destroy(HeapManager * i_pManager)
 	{
 		assert(i_pManager);
-
 		i_pManager->Destroy();
 	}
 

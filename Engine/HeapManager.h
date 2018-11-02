@@ -1,12 +1,13 @@
 #pragma once
 #include "ConsolePrint.h"
+#include "stdint.h"
 
 namespace Engine
 {
 	struct BlockDescriptor
 	{
 	public:
-		void * m_pBlockStarAddr; // pointer to the block of memory this BlockDescriptor describes.
+		uint8_t * m_pBlockStarAddr; // pointer to the block of memory this BlockDescriptor describes.
 		size_t m_sizeBlock; // size of that block of memory
 		bool m_allocated; // to flag this block that has been allocated or not.
 	};
@@ -36,7 +37,8 @@ namespace Engine
 		void ShowOutstandingAllocations() const;
 
 	private:
-		void * m_pMemory_;
+		uint8_t * m_pMemory_;
+		uint8_t *  m_pMemoryStart_;
 		BlockDescriptor * m_pDescriptorHead_;
 		size_t m_sizeOfMemory_;
 		size_t m_numOfDescription_;

@@ -14,7 +14,13 @@ Engine::HeapManager::HeapManager()
 }
 
 Engine::HeapManager::HeapManager(void* pMemory, size_t i_sizeMemory, unsigned int i_numDescription)
-	:m_pMemory_(pMemory), m_sizeOfMemory_(i_sizeMemory), m_numOfDescription_(i_numDescription), m_usedMemory_(0), m_usedDescriptors_(0), m_pDescriptorHead_(nullptr)
+	:m_pMemory_(reinterpret_cast<uint8_t *>(pMemory)),
+	m_sizeOfMemory_(i_sizeMemory),
+	m_numOfDescription_(i_numDescription),
+	m_usedMemory_(0),
+	m_usedDescriptors_(0),
+	m_pDescriptorHead_(nullptr),
+	m_pMemoryStart_(reinterpret_cast<uint8_t *>(pMemory))
 {
 	DEBUG_PRINT("The heapmanager setup successfully.");
 }
@@ -73,10 +79,10 @@ void * Engine::HeapManager::Alloc(size_t i_size)
 			//subdivde it into two blocks
 			auto originalSize = p->m_sizeBlock;
 
-			auto pBlockAddress = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(p->m_pBlockStarAddr) + originalSize - newBlockSize);
+			auto pBlockAddress = reinterpret_cast<void*>(p->m_pBlockStarAddr + originalSize - newBlockSize);
 			auto subBlock = reinterpret_cast<BlockDescriptor *>(pBlockAddress);
 			pBlockAddress = reinterpret_cast<void *>(reinterpret_cast<uintptr_t>(pBlockAddress) + sizeof(BlockDescriptor));
-			subBlock->m_pBlockStarAddr = pBlockAddress;
+			subBlock->m_pBlockStarAddr = reinterpret_cast<uint8_t *>(pBlockAddress);
 			pBlockAddress = reinterpret_cast<void *>(reinterpret_cast<uintptr_t>(pBlockAddress) + i_size);
 			subBlock->m_sizeBlock = i_size;
 
@@ -99,9 +105,9 @@ void * Engine::HeapManager::Alloc(size_t i_size)
 
 	//Create a descriptor firstly
 	BlockDescriptor* pDescriptor = reinterpret_cast<BlockDescriptor*>(m_pMemory_);
-	m_pMemory_ = reinterpret_cast<char*>(m_pMemory_) + sizeof(BlockDescriptor);
-	pDescriptor->m_pBlockStarAddr = m_pMemory_;
-	m_pMemory_ = reinterpret_cast<char*>(m_pMemory_) + i_size;
+	m_pMemory_ = m_pMemory_ + sizeof(BlockDescriptor);
+	pDescriptor->m_pBlockStarAddr = reinterpret_cast<uint8_t *>(m_pMemory_);
+	m_pMemory_ = m_pMemory_ + i_size;
 	pDescriptor->m_sizeBlock = i_size;
 
 	m_usedMemory_ += newBlockSize;
@@ -118,7 +124,6 @@ void * Engine::HeapManager::Alloc(size_t i_size)
 
 void * Engine::HeapManager::Alloc(size_t i_size, unsigned int i_alignment)
 {
-
 	return nullptr;
 }
 
@@ -142,6 +147,7 @@ bool Engine::HeapManager::Free(void *i_ptr)
 bool Engine::HeapManager::Contains(void *i_ptr) const
 {
 	assert(i_ptr);
+
 	return true;
 }
 
@@ -233,7 +239,7 @@ Engine::BlockDescriptor * Engine::HeapManager::MoveToNextBlock(Engine::BlockDesc
 {
 	assert(block);
 	//Move the pointer based on the blocksize.
-	auto pNext = reinterpret_cast<BlockDescriptor *>(reinterpret_cast<uintptr_t>(block->m_pBlockStarAddr) + block->m_sizeBlock);
+	auto pNext = reinterpret_cast<BlockDescriptor *>(block->m_pBlockStarAddr + block->m_sizeBlock);
 	if (pNext == nullptr || pNext->m_pBlockStarAddr == nullptr)
 	{
 		return nullptr;
