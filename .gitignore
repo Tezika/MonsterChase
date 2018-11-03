@@ -261,5 +261,5 @@ __pycache__/
 *.pyc
 
 # Library directories
-[Ll]ibs_Debug/
-[Ll]ibs_Release/
+[Ll]ibs_Debug_*/
+[Ll]ibs_Release_*/
