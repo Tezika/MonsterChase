@@ -9,29 +9,31 @@
 #include <stdio.h>
 #include "object.h"
 
-using namespace MonsterChase;
 
-Object::Object()
+namespace MonsterChase
 {
+	Object::Object()
+	{
 
-}
+	}
 
-Object::~Object()
-{
-}
+	Object::~Object()
+	{
+	}
 
-Object::Object(char* name, int moveSpeed, int health)
-{
-	m_Name_ = name;
-	m_Health_ = health;
-	m_MoveSpeed_ = moveSpeed;
-}
+	Object::Object(char* name, int moveSpeed, int health)
+	{
+		m_name = name;
+		m_health = health;
+		m_moveSpeed = moveSpeed;
+	}
 
-void Object::Move()
-{
-}
+	void Object::Move()
+	{
+	}
 
-void Object::PrintOutInfo()
-{
+	void Object::PrintOutInfo()
+	{
 
+	}
 }

@@ -35,20 +35,20 @@ namespace MonsterChase
 		void Run();
 		void Stop();
 
-		bool ShouldEnd() { return m_bBool_; }
-		void TriggerEnd() { m_bBool_ = true; }
+		bool ShouldEnd() { return m_bBool; }
+		void TriggerEnd() { m_bBool = true; }
 		int ClampForMap(int val, int maxiumVal);
-		Player* GetCurPlayer() { return m_pPlayer_; }
-		inline const int GetGridWidth() { return m_Grid_Width_; }
-		inline const int GetGridHeight() { return m_Grid_Height_; }
+		Player* GetCurPlayer() { return m_pPlayer; }
+		inline const int GetGridWidth() { return m_grid_Width; }
+		inline const int GetGridHeight() { return m_grid_Height; }
 
 	private:
-		Player * m_pPlayer_;
-		EnemyManager * m_pEnemyManager_;
-		int m_Grid_Width_;
-		int m_Grid_Height_;
-		bool m_bBool_;
-		int  m_roundTimer_newEnemy_;
+		Player * m_pPlayer;
+		EnemyManager * m_pEnemyManager;
+		int m_grid_Width;
+		int m_grid_Height;
+		bool m_bBool;
+		int  m_roundTimer_newEnemy;
 	};
 }
 

@@ -21,13 +21,13 @@ namespace Engine
 		friend bool operator==(const TString &lhs, const char* rhs);
 		friend std::ostream& operator<<(std::ostream & os, const TString & str);
 
-		inline char* GetBuffer() { return m_Buffer_; }
+		inline char* GetBuffer() { return m_buffer; }
 
-		inline size_t Length() const { return m_Size_; }
+		inline size_t Length() const { return m_size; }
 
 	private:
-		size_t m_Size_;
-		char* m_Buffer_;
+		size_t m_size;
+		char* m_buffer;
 	};
 
 };

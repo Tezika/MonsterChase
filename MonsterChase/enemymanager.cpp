@@ -12,125 +12,128 @@
 #include "game.h"
 #include <assert.h>
 
-using namespace MonsterChase;
+
 using namespace Engine;
 
-EnemyManager::EnemyManager()
+namespace MonsterChase
 {
-	m_pEnemyList_ = new TList<Enemy>();
-}
-
-EnemyManager::~EnemyManager()
-{
-	delete m_pEnemyList_;
-}
-
-Enemy* EnemyManager::CreateEnemy()
-{
-	char* name = new char[128];
-	std::cout << "Please input the enemy name: ";
-	std::cin >> name;
-
-	auto ptr = m_pEnemyList_->head;
-	while (ptr != nullptr)
+	EnemyManager::EnemyManager()
 	{
-		if ( ptr->data->GetName() == name )
+		m_pEnemyList = new TList<Enemy>();
+	}
+
+	EnemyManager::~EnemyManager()
+	{
+		delete m_pEnemyList;
+	}
+
+	Enemy* EnemyManager::CreateEnemy()
+	{
+		char* name = new char[128];
+		std::cout << "Please input the enemy name: ";
+		std::cin >> name;
+
+		auto ptr = m_pEnemyList->m_pHead;
+		while (ptr != nullptr)
 		{
-			std::cout << "The name '" << name << "' has already exist, please try anthor one." << std::endl;
-			return nullptr;
-		}
-		ptr = ptr->next;
-	}
-
-	//The movespeed ranges from 1 ~ 4, health ranges from 4 ~ 7, attack ranges from 1 ~ 4
-	auto newEnemy = m_pEnemyList_->InsertToTail(new Enemy(name, rand() % 5 + 3, rand() % 3 + 4, rand() % 3 + 1));
-	//Set the random position for the new enemy
-	newEnemy->data->SetPosition(Point2D<int>(rand() % Game::GetInstance().GetGridWidth() + 1, rand() % Game::GetInstance().GetGridHeight() + 1)); 
-	delete name;
-	return newEnemy->data;
-}
-
-Enemy* EnemyManager::GetEnemyByName(const char* name)
-{
-	assert(name != nullptr);
-
-	auto ptr = m_pEnemyList_->head;
-	while (ptr != nullptr)
-	{
-		if (ptr->data->GetName() == name)
-		{
-			return ptr->data;
-		}
-		ptr = ptr->next;
-	}
-	return nullptr;
-}
-
-Enemy* EnemyManager::InsertEnemy(Enemy* node)
-{
-	assert(node != nullptr);
-	//Insert the first node
-	m_pEnemyList_->InsertToTail(node);
-	return node;
-}
-
-void EnemyManager::PrintAllEnemiesInfo()
-{
-	auto ptr = m_pEnemyList_->head;
-	while (ptr != nullptr)
-	{
-		ptr->data->PrintOutInfo();
-		ptr = ptr->next;
-	}
-}
-
-void EnemyManager::MoveEnemies()
-{
-	auto ptr = m_pEnemyList_->head;
-	while (ptr != nullptr)
-	{
-		ptr->data->Move();
-		ptr->data->PrintOutInfo();
-		ptr = ptr->next;
-	}
-}
-
-void EnemyManager::BattleWithPlayer(Player *player)
-{
-	assert(player != nullptr);
-	auto ptr = m_pEnemyList_->head;
-	while (ptr != nullptr)
-	{
-		if (ptr->data->GetPosition() == player->GetPosition())
-		{
-			player->SetHealth(player->GetHealth() - ptr->data->GetAttack());
-			std::cout << "The player got a damage by " << ptr->data->GetAttack() << std::endl;
-			if (player->GetHealth() <= 0)
+			if (ptr->m_pData->GetName() == name)
 			{
-				std::cout << "The player has already died :<." << std::endl;
-				Game::GetInstance().TriggerEnd();
-				break;
+				std::cout << "The name '" << name << "' has already exist, please try anthor one." << std::endl;
+				return nullptr;
 			}
+			ptr = ptr->m_pNext;
 		}
-		ptr = ptr->next;
-	}
-}
 
-void EnemyManager::RemoveDiedEnemy()
-{
-	auto ptr = m_pEnemyList_->head;
-	while (ptr != nullptr)
+		//The movespeed ranges from 1 ~ 4, health ranges from 4 ~ 7, attack ranges from 1 ~ 4
+		auto newEnemy = m_pEnemyList->InsertToTail(new Enemy(name, rand() % 5 + 3, rand() % 3 + 4, rand() % 3 + 1));
+		//Set the random position for the new enemy
+		newEnemy->m_pData->SetPosition(Point2D<int>(rand() % Game::GetInstance().GetGridWidth() + 1, rand() % Game::GetInstance().GetGridHeight() + 1));
+		delete name;
+		return newEnemy->m_pData;
+	}
+
+	Enemy* EnemyManager::GetEnemyByName(const char* name)
 	{
-		if (ptr->data->GetHealth() == 0)
+		assert(name != nullptr);
+
+		auto ptr = m_pEnemyList->m_pHead;
+		while (ptr != nullptr)
 		{
-			auto enemy = ptr->data;
-			std::cout << "The " << ptr->data->GetName() << " died by its health is 0" << std::endl;
-			ptr = m_pEnemyList_->Remove(ptr);
-			delete enemy;
+			if (ptr->m_pData->GetName() == name)
+			{
+				return ptr->m_pData;
+			}
+			ptr = ptr->m_pNext;
 		}
-		else
+		return nullptr;
+	}
+
+	Enemy* EnemyManager::InsertEnemy(Enemy* node)
+	{
+		assert(node != nullptr);
+		//Insert the first node
+		m_pEnemyList->InsertToTail(node);
+		return node;
+	}
+
+	void EnemyManager::PrintAllEnemiesInfo()
+	{
+		auto ptr = m_pEnemyList->m_pHead;
+		while (ptr != nullptr)
 		{
-			ptr = ptr->next;
+			ptr->m_pData->PrintOutInfo();
+			ptr = ptr->m_pNext;
+		}
+	}
+
+	void EnemyManager::MoveEnemies()
+	{
+		auto ptr = m_pEnemyList->m_pHead;
+		while (ptr != nullptr)
+		{
+			ptr->m_pData->Move();
+			ptr->m_pData->PrintOutInfo();
+			ptr = ptr->m_pNext;
+		}
+	}
+
+	void EnemyManager::BattleWithPlayer(Player *player)
+	{
+		assert(player != nullptr);
+		auto ptr = m_pEnemyList->m_pHead;
+		while (ptr != nullptr)
+		{
+			if (ptr->m_pData->GetPosition() == player->GetPosition())
+			{
+				player->SetHealth(player->GetHealth() - ptr->m_pData->GetAttack());
+				std::cout << "The player got a damage by " << ptr->m_pData->GetAttack() << std::endl;
+				if (player->GetHealth() <= 0)
+				{
+					std::cout << "The player has already died :<." << std::endl;
+					Game::GetInstance().TriggerEnd();
+					break;
+				}
+			}
+			ptr = ptr->m_pNext;
+		}
+	}
+
+	void EnemyManager::RemoveDiedEnemy()
+	{
+		auto ptr = m_pEnemyList->m_pHead;
+		while (ptr != nullptr)
+		{
+			if (ptr->m_pData->GetHealth() == 0)
+			{
+				auto enemy = ptr->m_pData;
+				std::cout << "The " << ptr->m_pData->GetName() << " died by its health is 0" << std::endl;
+				ptr = m_pEnemyList->Remove(ptr);
+				delete enemy;
+			}
+			else
+			{
+				ptr = ptr->m_pNext;
+			}
 		}
 	}
 }

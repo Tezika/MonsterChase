@@ -9,56 +9,56 @@ namespace Engine
 	{
 		Point2D()
 		{
-			this->x = 0;
-			this->y = 0;
+			this->m_x = 0;
+			this->m_y = 0;
 		}
 
 		inline Point2D(T x, T y)
 		{
-			this->x = x;
-			this->y = y;
+			this->m_x = x;
+			this->m_y = y;
 		}
 
 		inline Point2D(const Point2D<T>& other)
 		{
-			this->x = other.x;
-			this->y = other.y;
+			this->m_x = other.m_x;
+			this->m_y = other.m_y;
 		}
 
 		inline Point2D<T>& operator=(const Point2D<T>& other)
 		{
-			this->x = other.x;
-			this->y = other.y;
+			this->m_x = other.m_x;
+			this->m_y = other.m_y;
 			return *this;
 		}
 
 		inline Point2D<T>& operator+=(const Point2D<T>& other)
 		{
-			this->x = other.x + this->x;
-			this->y = other.y + this->y;
+			this->m_x = other.m_x + this->m_x;
+			this->m_y = other.m_y + this->m_y;
 			return *this;
 		}
 
 		inline Point2D<T>& operator-=(const Point2D<T>& other)
 		{
-			this->x = this->x - other.x;
-			this->y = this->y - other.y;
+			this->m_x = this->m_x - other.m_x;
+			this->m_y = this->m_y - other.m_y;
 			return *this;
 		}
 
-		T x;
-		T y;
+		T m_x;
+		T m_y;
 	};
 
 	template <typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
 	inline bool operator==(const Engine::Point2D<T>& lhs, const Engine::Point2D<T>& rhs)
 	{
-		return lhs.x == rhs.x && lhs.y == rhs.y;
+		return lhs.m_x == rhs.m_x && lhs.m_y == rhs.m_y;
 	}
 
 	template <typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
 	inline bool operator!=(const Engine::Point2D<T>& lhs, const Engine::Point2D<T>& rhs)
 	{
-		return lhs.x != rhs.x || lhs.y != rhs.y;
+		return lhs.m_x != rhs.m_x || lhs.m_y != rhs.m_y;
 	}
 }

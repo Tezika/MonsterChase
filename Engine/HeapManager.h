@@ -34,20 +34,20 @@ namespace Engine
 		void ShowFreeBlocks() const;
 		void ShowOutstandingAllocations() const;
 
-		inline bool Contains(void * ptr) const { return (ptr >= m_pMemoryStart_) && (ptr <= m_pMemoryStart_ + m_sizeOfMemory_); }
-		inline size_t GetUsedMemory() const { return m_usedMemory_; }
-		inline size_t GetLeftMemory() const { return m_sizeOfMemory_ - m_usedMemory_; }
+		inline bool Contains(void * ptr) const { return (ptr >= m_pMemoryStart) && (ptr <= m_pMemoryStart + m_sizeOfMemory); }
+		inline size_t GetUsedMemory() const { return m_usedMemory; }
+		inline size_t GetLeftMemory() const { return m_sizeOfMemory - m_usedMemory; }
 
 	private:
-		uint8_t * m_pMemory_;
-		uint8_t * m_pMemoryStart_;
-		BlockDescriptor * m_pDescriptorHead_;
-		size_t m_sizeOfMemory_;
-		size_t m_numOfDescription_;
+		uint8_t * m_pMemory;
+		uint8_t * m_pMemoryStart;
+		BlockDescriptor * m_pDescriptorHead;
+		size_t m_sizeOfMemory;
+		size_t m_numOfDescription;
 
 		//Using for debuging
-		size_t m_usedMemory_;
-		size_t m_usedDescriptors_;
+		size_t m_usedMemory;
+		size_t m_usedDescriptors;
 
 		//Initialized function
 		void Combine(BlockDescriptor *, BlockDescriptor *);
