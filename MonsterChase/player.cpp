@@ -18,7 +18,7 @@ namespace MonsterChase
 
 	}
 
-	Player::Player(char* name, int moveSpeed, int health) : Object::Object(name, moveSpeed, health)
+	Player::Player(char * name, int moveSpeed, int health) : Object::Object(name, moveSpeed, health)
 	{
 
 	}

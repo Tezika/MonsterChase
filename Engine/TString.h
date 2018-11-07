@@ -6,20 +6,20 @@ namespace Engine
 	{
 	public:
 		TString();
-		TString(const TString&);
+		TString(const TString &);
 		TString(const char *);
 		~TString();
 
 		char& operator[](unsigned int);
 
-		void operator = (const TString&);
+		void operator = (const TString &);
 		void operator = (const char *);
-		void operator += (const TString&);
+		void operator += (const TString &);
 		void operator += (const char *);
 
-		friend bool operator==(const TString &lhs, const TString &rhs);
-		friend bool operator==(const TString &lhs, const char* rhs);
-		friend std::ostream& operator<<(std::ostream & os, const TString & str);
+		friend bool operator==(const TString &, const TString &);
+		friend bool operator==(const TString &, const char *);
+		friend std::ostream& operator<<(std::ostream &, const TString &);
 
 		inline char* GetBuffer() { return m_buffer; }
 
@@ -27,7 +27,7 @@ namespace Engine
 
 	private:
 		size_t m_size;
-		char* m_buffer;
+		char * m_buffer;
 	};
 
 };

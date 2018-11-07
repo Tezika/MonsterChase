@@ -27,7 +27,7 @@ namespace MonsterChase
 		delete m_pEnemyList;
 	}
 
-	Enemy* EnemyManager::CreateEnemy()
+	Enemy * EnemyManager::CreateEnemy()
 	{
 		char* name = new char[128];
 		std::cout << "Please input the enemy name: ";
@@ -52,7 +52,7 @@ namespace MonsterChase
 		return newEnemy->m_pData;
 	}
 
-	Enemy* EnemyManager::GetEnemyByName(const char* name)
+	Enemy * EnemyManager::GetEnemyByName(const char * name)
 	{
 		assert(name != nullptr);
 
@@ -68,7 +68,7 @@ namespace MonsterChase
 		return nullptr;
 	}
 
-	Enemy* EnemyManager::InsertEnemy(Enemy* node)
+	Enemy * EnemyManager::InsertEnemy(Enemy * node)
 	{
 		assert(node != nullptr);
 		//Insert the first node
@@ -97,7 +97,7 @@ namespace MonsterChase
 		}
 	}
 
-	void EnemyManager::BattleWithPlayer(Player *player)
+	void EnemyManager::BattleWithPlayer(Player * player)
 	{
 		assert(player != nullptr);
 		auto ptr = m_pEnemyList->m_pHead;

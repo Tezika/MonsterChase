@@ -9,44 +9,44 @@ namespace Engine
 	{
 	public:
 		T * m_pData;
-		Node<T>* m_pNext;
-		Node<T>(const T&);
+		Node<T> * m_pNext;
+		Node<T>(const T &);
 		Node<T>(T *);
-		Node<T>(const Node<T>& copyNode) : m_pData(copyNode.m_pData), m_pNext(copyNode.m_pNext) {}
+		Node<T>(const Node<T> & i_other) : m_pData(i_other.m_pData), m_pNext(i_other.m_pNext) {}
 		~Node<T>() {}
-		Node<T>& operator=(const Node<T>&);
-		Node<T>& operator=(const Node<T> *);
+		Node<T> & operator=(const Node<T> &);
+		Node<T> & operator=(const Node<T> *);
 	};
 
 	template<typename T>
-	inline Node<T>::Node(const T& d)
+	inline Node<T>::Node(const T & i_other)
 	{
-		this->m_pData = &d;
+		this->m_pData = &i_other;
 		this->m_pNext = nullptr;
 	}
 
 	template<typename T>
-	inline Node<T>::Node(T * d)
+	inline Node<T>::Node(T * i_pOther)
 	{
-		assert(d);
-		this->m_pData = d;
+		assert(i_pOther);
+		this->m_pData = i_pOther;
 		this->m_pNext = nullptr;
 	}
 
 	template<typename T>
-	inline Node<T>& Engine::Node<T>::operator=(const Node<T>& other)
+	inline Node<T> & Engine::Node<T>::operator=(const Node<T> & i_other)
 	{
-		this->m_pData = other.m_pData;
-		this->m_pNext = other.m_pNext;
+		this->m_pData = i_other.m_pData;
+		this->m_pNext = i_other.m_pNext;
 		return *this;
 	}
 
 	template<typename T>
-	inline Node<T>& Engine::Node<T>::operator=(const Node<T> *other)
+	inline Node<T> & Engine::Node<T>::operator=(const Node<T> * i_pOther)
 	{
-		assert(other);
-		this->m_pData = other->m_pData;
-		this->m_pNext = other->m_pNext;
+		assert(i_pOther);
+		this->m_pData = i_pOther->m_pData;
+		this->m_pNext = i_pOther->m_pNext;
 		return *this;
 	}
 
@@ -54,9 +54,9 @@ namespace Engine
 	class TList
 	{
 	public:
-		TList(const TList&);
+		TList(const TList &);
 		TList() : m_pHead(nullptr), m_pTail(nullptr) { m_length = 0; }
-		TList(Node<T> * newNode) : m_pHead(newNode), m_pTail(newNode) { m_length = 0; }
+		TList(Node<T> * i_pNode) : m_pHead(i_pNode), m_pTail(i_pNode) { m_length = 0; }
 		~TList();
 
 		const size_t Length() { return m_length; }
@@ -72,20 +72,20 @@ namespace Engine
 	};
 
 	template<typename T>
-	inline TList<T>::TList(const TList<T>& List) : m_pHead(nullptr), m_pTail(nullptr)
+	inline TList<T>::TList(const TList<T> & List) : m_pHead(nullptr), m_pTail(nullptr)
 	{
 
 	}
 
 	template<typename T>
-	inline Node<T>* TList<T>::Remove(Node<T> * node)
+	inline Node<T> * TList<T>::Remove(Node<T> * i_pNode)
 	{
-		assert(node);
+		assert(i_pNode);
 		Node<T> * ptr = this->m_pHead;
 		Node<T> * ptr_previous = nullptr;
 		while (ptr != nullptr)
 		{
-			if (ptr == node)
+			if (ptr == i_pNode)
 			{
 				if (ptr_previous == nullptr)
 				{
@@ -133,10 +133,10 @@ namespace Engine
 	}
 
 	template<typename T>
-	inline Node<T>* TList<T>::InsertToTail(T * val)
+	inline Node<T> * TList<T>::InsertToTail(T * i_pVal)
 	{
-		assert(val);
-		Node<T> * newNode = new Node<T>(val);
+		assert(i_pVal);
+		Node<T> * newNode = new Node<T>(i_pVal);
 		if (m_pHead == nullptr)
 		{
 			m_pHead = newNode;

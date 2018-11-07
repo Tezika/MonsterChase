@@ -17,7 +17,7 @@ namespace MonsterChase
 	{
 	public:
 		Player();
-		Player(char* name, int moveSpeed, int health);
+		Player(char * name, int moveSpeed, int health);
 		~Player();
 		void Move() override;
 		void PrintOutInfo() override;

@@ -13,14 +13,14 @@ Engine::HeapManager::HeapManager()
 
 }
 
-Engine::HeapManager::HeapManager(void* pMemory, size_t i_sizeMemory, unsigned int i_numDescription)
-	:m_pMemory(reinterpret_cast<uint8_t *>(pMemory)),
+Engine::HeapManager::HeapManager(void *i_pMemory, size_t i_sizeMemory, unsigned int i_numDescription)
+	:m_pMemory(reinterpret_cast<uint8_t *>(i_pMemory)),
 	m_sizeOfMemory(i_sizeMemory),
 	m_numOfDescription(i_numDescription),
 	m_usedMemory(0),
 	m_usedDescriptors(0),
 	m_pDescriptorHead(nullptr),
-	m_pMemoryStart(reinterpret_cast<uint8_t *>(pMemory))
+	m_pMemoryStart(reinterpret_cast<uint8_t *>(i_pMemory))
 {
 	DEBUG_PRINT("The heapmanager setup successfully.");
 }
@@ -104,7 +104,7 @@ void * Engine::HeapManager::Alloc(size_t i_size)
 	}
 
 	//Create a descriptor firstly
-	BlockDescriptor* pDescriptor = reinterpret_cast<BlockDescriptor*>(m_pMemory);
+	BlockDescriptor* pDescriptor = reinterpret_cast<BlockDescriptor *>(m_pMemory);
 	m_pMemory = m_pMemory + sizeof(BlockDescriptor);
 	pDescriptor->m_pBlockStarAddr = reinterpret_cast<uint8_t *>(m_pMemory);
 	m_pMemory = m_pMemory + i_size;
@@ -180,7 +180,7 @@ void Engine::HeapManager::Collect()
 	}
 }
 
-bool Engine::HeapManager::IsAllocated(void * i_ptr) const
+bool Engine::HeapManager::IsAllocated(void *i_ptr) const
 {
 	assert(i_ptr);
 	return reinterpret_cast<BlockDescriptor*>((reinterpret_cast<uint8_t *>(i_ptr) - sizeof(BlockDescriptor))) != nullptr ? true : false;
@@ -212,19 +212,19 @@ void Engine::HeapManager::ShowFreeBlocks() const
 	}
 }
 
-void Engine::HeapManager::Combine(Engine::BlockDescriptor *block_1, Engine::BlockDescriptor *block_2)
+void Engine::HeapManager::Combine(Engine::BlockDescriptor *i_pBlock_1, Engine::BlockDescriptor *i_pBlock_2)
 {
-	assert(block_1);
-	assert(block_2);
-	block_1->m_sizeBlock += (sizeof(BlockDescriptor) + block_2->m_sizeBlock);
+	assert(i_pBlock_1);
+	assert(i_pBlock_2);
+	i_pBlock_1->m_sizeBlock += (sizeof(BlockDescriptor) + i_pBlock_2->m_sizeBlock);
 	m_usedDescriptors--;
 }
 
-Engine::BlockDescriptor * Engine::HeapManager::MoveToNextBlock(Engine::BlockDescriptor *block) const
+Engine::BlockDescriptor * Engine::HeapManager::MoveToNextBlock(Engine::BlockDescriptor *i_pBlock) const
 {
 	assert(block);
 	//Move the pointer based on the blocksize.
-	auto pNext = reinterpret_cast<BlockDescriptor *>(block->m_pBlockStarAddr + block->m_sizeBlock);
+	auto pNext = reinterpret_cast<BlockDescriptor *>(i_pBlock->m_pBlockStarAddr + i_pBlock->m_sizeBlock);
 	if (pNext == nullptr || pNext->m_pBlockStarAddr == nullptr)
 	{
 		return nullptr;

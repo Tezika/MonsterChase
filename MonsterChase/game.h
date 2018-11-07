@@ -27,18 +27,18 @@ namespace MonsterChase
 
 	private:
 		Game();
-		Game(Game const&);
-		void operator=(Game const&);
+		Game(Game const &);
+		void operator=(Game const &);
 
 	public:
 		void Initialize();
 		void Run();
 		void Stop();
 
-		bool ShouldEnd() { return m_bBool; }
-		void TriggerEnd() { m_bBool = true; }
+		bool ShouldEnd() { return m_bEnd; }
+		void TriggerEnd() { m_bEnd = true; }
 		int ClampForMap(int val, int maxiumVal);
-		Player* GetCurPlayer() { return m_pPlayer; }
+		Player * GetCurPlayer() { return m_pPlayer; }
 		inline const int GetGridWidth() { return m_grid_Width; }
 		inline const int GetGridHeight() { return m_grid_Height; }
 
@@ -47,7 +47,7 @@ namespace MonsterChase
 		EnemyManager * m_pEnemyManager;
 		int m_grid_Width;
 		int m_grid_Height;
-		bool m_bBool;
+		bool m_bEnd;
 		int  m_roundTimer_newEnemy;
 	};
 }

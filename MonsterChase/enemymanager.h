@@ -23,16 +23,16 @@ namespace MonsterChase
 		EnemyManager();
 		~EnemyManager();
 
-		Enemy* GetEnemyByName(const char* name);
+		Enemy * GetEnemyByName(const char * name);
 		void MoveEnemies();
 		void PrintAllEnemiesInfo();
-		void BattleWithPlayer(Player* player);
+		void BattleWithPlayer(Player * player);
 		void RemoveDiedEnemy();
-		Enemy* CreateEnemy();
+		Enemy * CreateEnemy();
 
 	private:
-		TList<Enemy>* m_pEnemyList;
-		Enemy* InsertEnemy(Enemy* node);
+		TList<Enemy> * m_pEnemyList;
+		Enemy* InsertEnemy(Enemy * node);
 
 	};
 }

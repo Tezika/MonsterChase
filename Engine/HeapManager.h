@@ -34,7 +34,7 @@ namespace Engine
 		void ShowFreeBlocks() const;
 		void ShowOutstandingAllocations() const;
 
-		inline bool Contains(void * ptr) const { return (ptr >= m_pMemoryStart) && (ptr <= m_pMemoryStart + m_sizeOfMemory); }
+		inline bool Contains(void * i_ptr) const { return (i_ptr >= m_pMemoryStart) && (i_ptr <= m_pMemoryStart + m_sizeOfMemory); }
 		inline size_t GetUsedMemory() const { return m_usedMemory; }
 		inline size_t GetLeftMemory() const { return m_sizeOfMemory - m_usedMemory; }
 

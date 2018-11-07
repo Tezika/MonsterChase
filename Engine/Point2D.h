@@ -13,36 +13,36 @@ namespace Engine
 			this->m_y = 0;
 		}
 
-		inline Point2D(T x, T y)
+		inline Point2D(T i_x, T i_y)
 		{
-			this->m_x = x;
-			this->m_y = y;
+			this->m_x = i_x;
+			this->m_y = i_y;
 		}
 
-		inline Point2D(const Point2D<T>& other)
+		inline Point2D(const Point2D<T> & i_other)
 		{
-			this->m_x = other.m_x;
-			this->m_y = other.m_y;
+			this->m_x = i_other.m_x;
+			this->m_y = i_other.m_y;
 		}
 
-		inline Point2D<T>& operator=(const Point2D<T>& other)
+		inline Point2D<T> & operator=(const Point2D<T> & i_other)
 		{
-			this->m_x = other.m_x;
-			this->m_y = other.m_y;
+			this->m_x = i_other.m_x;
+			this->m_y = i_other.m_y;
 			return *this;
 		}
 
-		inline Point2D<T>& operator+=(const Point2D<T>& other)
+		inline Point2D<T> & operator+=(const Point2D<T> & i_other)
 		{
-			this->m_x = other.m_x + this->m_x;
-			this->m_y = other.m_y + this->m_y;
+			this->m_x = i_other.m_x + this->m_x;
+			this->m_y = i_other.m_y + this->m_y;
 			return *this;
 		}
 
-		inline Point2D<T>& operator-=(const Point2D<T>& other)
+		inline Point2D<T> & operator-=(const Point2D<T> & i_other)
 		{
-			this->m_x = this->m_x - other.m_x;
-			this->m_y = this->m_y - other.m_y;
+			this->m_x = this->m_x - i_other.m_x;
+			this->m_y = this->m_y - i_other.m_y;
 			return *this;
 		}
 
@@ -51,14 +51,14 @@ namespace Engine
 	};
 
 	template <typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
-	inline bool operator==(const Engine::Point2D<T>& lhs, const Engine::Point2D<T>& rhs)
+	inline bool operator==(const Engine::Point2D<T> & i_lhs, const Engine::Point2D<T>  &i_rhs)
 	{
-		return lhs.m_x == rhs.m_x && lhs.m_y == rhs.m_y;
+		return i_lhs.m_x == i_rhs.m_x && i_lhs.m_y == i_rhs.m_y;
 	}
 
 	template <typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
-	inline bool operator!=(const Engine::Point2D<T>& lhs, const Engine::Point2D<T>& rhs)
+	inline bool operator!=(const Engine::Point2D<T> & i_lhs, const Engine::Point2D<T> & i_rhs)
 	{
-		return lhs.m_x != rhs.m_x || lhs.m_y != rhs.m_y;
+		return i_lhs.m_x != i_rhs.m_x || i_lhs.m_y != i_rhs.m_y;
 	}
 }
