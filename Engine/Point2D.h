@@ -9,14 +9,12 @@ namespace Engine
 	{
 		Point2D()
 		{
-			this->m_x = 0;
-			this->m_y = 0;
 		}
 
-		inline Point2D(T i_x, T i_y)
+		inline Point2D(T i_x, T i_y) :
+			m_x(i_x),
+			m_y(i_y)
 		{
-			this->m_x = i_x;
-			this->m_y = i_y;
 		}
 
 		inline Point2D(const Point2D<T> & i_other)

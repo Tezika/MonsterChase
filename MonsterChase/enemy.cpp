@@ -13,12 +13,13 @@
 
 using namespace MonsterChase;
 
-Enemy::Enemy() :Object::Object()
+Enemy::Enemy():Object::Object(), m_attack(3)
 {
-	m_attack = 3;
 }
 
-Enemy::Enemy(char * name, int moveSpeed, int health, int attack) : Object::Object(name, moveSpeed, health)
+Enemy::Enemy(char * name, int moveSpeed, int health, int attack): 
+	Object::Object(name, moveSpeed, health),
+	m_attack(attack)
 {
 	m_attack = attack;
 }

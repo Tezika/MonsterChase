@@ -222,7 +222,7 @@ void Engine::HeapManager::Combine(Engine::BlockDescriptor *i_pBlock_1, Engine::B
 
 Engine::BlockDescriptor * Engine::HeapManager::MoveToNextBlock(Engine::BlockDescriptor *i_pBlock) const
 {
-	assert(block);
+	assert(i_pBlock);
 	//Move the pointer based on the blocksize.
 	auto pNext = reinterpret_cast<BlockDescriptor *>(i_pBlock->m_pBlockStarAddr + i_pBlock->m_sizeBlock);
 	if (pNext == nullptr || pNext->m_pBlockStarAddr == nullptr)

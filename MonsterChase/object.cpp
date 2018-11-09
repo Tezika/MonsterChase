@@ -22,10 +22,10 @@ namespace MonsterChase
 	}
 
 	Object::Object(char * name, int moveSpeed, int health)
+		:m_name(name),
+		m_health(health),
+		m_moveSpeed(moveSpeed)
 	{
-		m_name = name;
-		m_health = health;
-		m_moveSpeed = moveSpeed;
 	}
 
 	void Object::Move()

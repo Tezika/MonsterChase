@@ -6,9 +6,9 @@
 namespace Engine
 {
 	TString::TString()
+		:m_buffer(nullptr),
+		 m_size(0)
 	{
-		m_buffer = nullptr;
-		m_size = 0;
 	}
 
 	TString::TString(const TString & i_str)

@@ -12,11 +12,11 @@
 namespace MonsterChase
 {
 	Game::Game()
+		:m_grid_Width(32),
+		m_grid_Height(32),
+		m_bEnd(false),
+		m_roundTimer_newEnemy(0)
 	{
-		m_grid_Width = 32;
-		m_grid_Height = 32;
-		m_bEnd = false;
-		m_roundTimer_newEnemy = 0;
 	}
 
 	void Game::Initialize()

@@ -18,8 +18,8 @@ using namespace Engine;
 namespace MonsterChase
 {
 	EnemyManager::EnemyManager()
+		:m_pEnemyList(new TList<Enemy>())
 	{
-		m_pEnemyList = new TList<Enemy>();
 	}
 
 	EnemyManager::~EnemyManager()
