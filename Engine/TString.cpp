@@ -7,7 +7,7 @@ namespace Engine
 {
 	TString::TString()
 		:m_buffer(nullptr),
-		 m_size(0)
+		m_size(0)
 	{
 	}
 
