@@ -37,6 +37,12 @@
     <Filter Include="Source Files\MemoryManagement">
       <UniqueIdentifier>{12f478e1-6001-407c-883d-45c990766dbe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Object">
+      <UniqueIdentifier>{c006d9c7-c96f-4bbc-9075-17b51b400e57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object">
+      <UniqueIdentifier>{1ac3b5f9-1d63-462e-b4de-8e249f0f31f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -63,6 +69,9 @@
     <ClInclude Include="HeapManager.h">
       <Filter>Header Files\MemoryManagement</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -79,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="HeapManager.cpp">
       <Filter>Source Files\MemoryManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

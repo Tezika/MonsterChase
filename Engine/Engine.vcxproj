@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="ConsolePrint.h" />
     <ClInclude Include="Engine-init.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="HeapManager.h" />
     <ClInclude Include="TList.h" />
     <ClInclude Include="Point2D.h" />
@@ -163,6 +164,7 @@
   <ItemGroup>
     <ClCompile Include="ConsolePrint.cpp" />
     <ClCompile Include="Engine-init.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HeapManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
