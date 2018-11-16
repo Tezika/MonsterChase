@@ -32,7 +32,7 @@ namespace MonsterChase
 
 	private:
 		TList<Enemy> * m_pEnemyList;
-		Enemy* InsertEnemy(Enemy * node);
+		Enemy * InsertEnemy(Enemy * node);
 
 	};
 }

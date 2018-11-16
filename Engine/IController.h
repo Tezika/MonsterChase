@@ -7,7 +7,7 @@ namespace Engine
 	{
 	public:
 		IController() {};
-		~IController() {};
+		virtual ~IController() {};
 		virtual void UpdateGameObject(const GameObject & i_other) = 0;
 	};
 }
