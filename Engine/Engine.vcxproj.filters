@@ -81,7 +81,7 @@
     <ClInclude Include="IController.h">
       <Filter>Header Files\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="IInputController.h">
+    <ClInclude Include="InputController.h">
       <Filter>Header Files\Interface</Filter>
     </ClInclude>
   </ItemGroup>
@@ -104,7 +104,7 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files\Object</Filter>
     </ClCompile>
-    <ClCompile Include="IInputController.cpp">
+    <ClCompile Include="InputController.cpp">
       <Filter>Source Files\Interface</Filter>
     </ClCompile>
   </ItemGroup>
