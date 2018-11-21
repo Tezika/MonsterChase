@@ -39,6 +39,11 @@ namespace Engine
 		inline size_t GetLeftMemory() const { return m_sizeOfMemory - m_usedMemory; }
 
 	private:
+
+		// prevent copy and assignment
+		HeapManager(const HeapManager & i_other);
+		HeapManager & operator=(const HeapManager & i_other);
+
 		uint8_t * m_pMemory;
 		uint8_t * m_pMemoryStart;
 		BlockDescriptor * m_pDescriptorHead;
