@@ -13,8 +13,8 @@ Engine::HeapManager::HeapManager()
 
 }
 
-Engine::HeapManager::HeapManager(void *i_pMemory, size_t i_sizeMemory, unsigned int i_numDescription)
-	:m_pMemory(reinterpret_cast<uint8_t *>(i_pMemory)),
+Engine::HeapManager::HeapManager(void *i_pMemory, size_t i_sizeMemory, unsigned int i_numDescription) :
+	m_pMemory(reinterpret_cast<uint8_t *>(i_pMemory)),
 	m_sizeOfMemory(i_sizeMemory),
 	m_numOfDescription(i_numDescription),
 	m_usedMemory(0),

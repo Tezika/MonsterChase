@@ -120,5 +120,4 @@ namespace Engine
 	{
 		delete[] m_buffer;
 	}
-
 }

@@ -7,9 +7,13 @@ namespace MonsterChase
 	{
 	public:
 		InputController();
+		void SetGameObject(Engine::GameObject & i_other) override;
 		void UpdateGameObject(const Engine::GameObject & i_other) override;
+
 	protected:
 		~InputController();
+
+	private:
+		Engine::GameObject * m_pControlObject;
 	};
 }
-

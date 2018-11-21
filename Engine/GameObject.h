@@ -10,7 +10,7 @@ namespace Engine
 		GameObject();
 		GameObject(const TString &, const Point2D<float> &);
 		GameObject(const GameObject &);
-		void operator= (const GameObject &);
+		void operator = (const GameObject &);
 		~GameObject();
 
 		inline const Point2D<float> & GetPosition() { return m_position; }

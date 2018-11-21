@@ -13,8 +13,13 @@ namespace MonsterChase
 
 	}
 
-	void InputController::UpdateGameObject(const Engine::GameObject& i_other)
+	void InputController::UpdateGameObject(const Engine::GameObject & i_other)
 	{
 
+	}
+
+	void InputController::SetGameObject(Engine::GameObject & i_other)
+	{
+		this->m_pControlObject = &i_other;
 	}
 }
