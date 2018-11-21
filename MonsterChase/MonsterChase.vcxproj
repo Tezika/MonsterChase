@@ -137,6 +137,8 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="PlayerController.cpp" />
+    <ClCompile Include="PlayerController.h" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>

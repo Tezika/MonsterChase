@@ -42,6 +42,12 @@
     <ClCompile Include="..\Engine\InputController.cpp">
       <Filter>Source Files\Interfaces</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerController.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerController.cpp">
+      <Filter>Source Files\Interfaces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="object.h">
