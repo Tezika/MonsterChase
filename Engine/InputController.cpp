@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "InputController.h"
 
-namespace Engine
+namespace MonsterChase
 {
 	InputController::InputController()
 	{
@@ -9,6 +9,11 @@ namespace Engine
 	}
 
 	InputController::~InputController()
+	{
+
+	}
+
+	void InputController::UpdateGameObject(const Engine::GameObject& i_other)
 	{
 
 	}

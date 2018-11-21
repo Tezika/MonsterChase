@@ -1,13 +1,13 @@
 #pragma once
 #include "IController.h"
 
-namespace Engine
+namespace MonsterChase
 {
-	class InputController : IController
+	class InputController : Engine::IController
 	{
 	public:
 		InputController();
-		void UpdateGameObject(const GameObject & i_other) override;
+		void UpdateGameObject(const Engine::GameObject & i_other) override;
 	protected:
 		~InputController();
 	};
