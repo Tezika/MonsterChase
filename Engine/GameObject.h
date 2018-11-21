@@ -1,5 +1,6 @@
 #pragma once
 #include "Point2D.h"
+#include "TString.h"
 
 namespace Engine
 {
@@ -7,6 +8,7 @@ namespace Engine
 	{
 	public:
 		GameObject();
+		GameObject(const TString &, const Point2D<float> &);
 		GameObject(const GameObject &);
 		void operator= (const GameObject &);
 		~GameObject();
@@ -18,6 +20,7 @@ namespace Engine
 		inline void SetDirection(const Point2D<float> & i_other) { m_direction = i_other; };
 
 	private:
+		TString m_name;
 		Point2D<float> m_direction;
 		Point2D<float> m_position;
 	};
