@@ -1,5 +1,6 @@
 #pragma once
 #include "PlayerController.h"
+#include "game.h"
 
 namespace MonsterChase
 {
@@ -13,7 +14,7 @@ namespace MonsterChase
 
 	}
 
-	void PlayerController::UpdateGameObject(const Engine::GameObject & i_other)
+	void PlayerController::UpdateGameObject()
 	{
 	}
 

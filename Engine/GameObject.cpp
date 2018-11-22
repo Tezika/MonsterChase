@@ -8,7 +8,7 @@ namespace Engine
 
 	}
 
-	GameObject::GameObject(const TString & i_otherName, const Point2D<float> & i_otherPosition) :
+	GameObject::GameObject(const TString & i_otherName, const Point2D<int> & i_otherPosition) :
 		m_name(i_otherName),
 		m_position(i_otherPosition)
 	{

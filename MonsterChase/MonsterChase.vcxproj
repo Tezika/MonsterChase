@@ -131,7 +131,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Engine\InputController.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemymanager.cpp" />
     <ClCompile Include="game.cpp" />
@@ -139,15 +138,16 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="PlayerController.h" />
+    <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Engine\InputController.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemymanager.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="InputController.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

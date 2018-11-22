@@ -2,6 +2,7 @@
 #include "InputController.h"
 #include "Point2D.h"
 #include <iostream>
+#include "game.h"
 
 namespace MonsterChase
 {
@@ -42,24 +43,24 @@ namespace MonsterChase
 			}
 		}
 
-		const Engine::Point2D<int> currentPosition = this->m_pControlObject->GetPosition();
+		const Engine::Point2D<int> currentPosition = m_pControlObject->GetPosition();
 		switch (input) {
 		case 'w':
 		case 'W':
 			//this->m_position += Point2D<int>(0, this->GetMoveSpeed());
-			m_pControlObject->SetPosition(currentPosition.m_x, currentPosition.m_y + this->m_moveSpeed);
+			m_pControlObject->SetPosition(Point2D<int>(currentPosition.m_x, currentPosition.m_y + this->m_moveSpeed));
 			break;
 		case 's':
 		case 'S':
-			m_pControlObject->SetPosition(currentPosition.m_x, currentPosition.m_y - this->m_moveSpeed);
+			m_pControlObject->SetPosition(Point2D<int>(currentPosition.m_x, currentPosition.m_y - this->m_moveSpeed));
 			break;
 		case 'a':
 		case 'A':
-			m_pControlObject->SetPosition(currentPosition.m_x - m_moveSpeed, currentPosition.m_y);
+			m_pControlObject->SetPosition(Point2D<int>(currentPosition.m_x - this->m_moveSpeed, currentPosition.m_y));
 			break;
 		case 'd':
 		case 'D':
-			m_pControlObject->SetPosition(currentPosition.m_x + m_moveSpeed, currentPosition.m_y);
+			m_pControlObject->SetPosition(Point2D<int>(currentPosition.m_x + this->m_moveSpeed, currentPosition.m_y));
 			break;
 		case 'q':
 		case 'Q':
@@ -69,7 +70,7 @@ namespace MonsterChase
 			std::cout << ":<.The input you did is invalid" << std::endl;
 			break;
 		}
-		this->m_position = Point2D<int>(Game::GetInstance().ClampForMap(this->m_position.m_x, Game::GetInstance().GetGridWidth()), Game::GetInstance().ClampForMap(this->m_position.m_x, Game::GetInstance().GetGridHeight()));
+		this->m_pControlObject->SetPosition(Point2D<int>(Game::GetInstance().ClampForMap(this->m_pControlObject->GetPosition().m_x, Game::GetInstance().GetGridWidth()), Game::GetInstance().ClampForMap(this->m_pControlObject->GetPosition().m_y, Game::GetInstance().GetGridHeight())));
 	}
 
 	void InputController::SetGameObject(Engine::GameObject & i_other)

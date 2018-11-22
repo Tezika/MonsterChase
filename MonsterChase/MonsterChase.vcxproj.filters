@@ -39,13 +39,13 @@
     <ClCompile Include="game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\InputController.cpp">
-      <Filter>Source Files\Interfaces</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerController.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClCompile>
     <ClCompile Include="PlayerController.cpp">
+      <Filter>Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="InputController.cpp">
       <Filter>Source Files\Interfaces</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,7 +65,7 @@
     <ClInclude Include="game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine\InputController.h">
+    <ClInclude Include="InputController.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>

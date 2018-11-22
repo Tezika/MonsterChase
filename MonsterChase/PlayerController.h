@@ -8,7 +8,7 @@ namespace MonsterChase
 	public:
 		PlayerController();
 		void SetGameObject(Engine::GameObject & i_other) override;
-		void UpdateGameObject(const Engine::GameObject & i_other) override;
+		void UpdateGameObject() override;
 
 		inline void SetPlayer(Engine::GameObject & i_player) { m_pPlayer = &i_player; }
 
