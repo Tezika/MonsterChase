@@ -4,7 +4,7 @@
 
 namespace MonsterChase
 {
-	//Move a GameObject towards the player
+	//Move assigned GameObject towards the player.
 	class PlayerController : Engine::IController
 	{
 	public:
