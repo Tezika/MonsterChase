@@ -43,7 +43,7 @@ namespace MonsterChase
 			}
 		}
 
-		const Engine::Point2D<int> currentPosition = m_pControlObject->GetPosition();
+		const Point2D<int> currentPosition = m_pControlObject->GetPosition();
 		switch (input) {
 		case 'w':
 		case 'W':
@@ -70,8 +70,14 @@ namespace MonsterChase
 			std::cout << ":<.The input you did is invalid" << std::endl;
 			break;
 		}
-		this->m_pControlObject->SetPosition(Point2D<int>(Game::GetInstance().ClampForMap(this->m_pControlObject->GetPosition().m_x, Game::GetInstance().GetGridWidth()), Game::GetInstance().ClampForMap(this->m_pControlObject->GetPosition().m_y, Game::GetInstance().GetGridHeight())));
+
+		const Point2D<int> newPosition = m_pControlObject->GetPosition();
+		this->m_pControlObject->SetPosition(Point2D<int>(
+			Game::GetInstance().ClampForMap(newPosition.m_x, Game::GetInstance().GetGridWidth()),
+			Game::GetInstance().ClampForMap(newPosition.m_y, Game::GetInstance().GetGridHeight())
+		));
 	}
+
 
 	void InputController::SetGameObject(Engine::GameObject & i_other)
 	{
