@@ -23,7 +23,7 @@ namespace Engine
 		m_usedMemory(0),
 		m_usedDescriptors(0),
 		m_pDescriptorHead(nullptr),
-		m_pMemoryStart(reinterpret_cast<uint8_t *>(i_pMemory))
+		m_pMemoryMark(reinterpret_cast<uint8_t *>(i_pMemory))
 	{
 		DEBUG_PRINT("The heapmanager setup successfully.");
 	}
@@ -36,7 +36,19 @@ namespace Engine
 	HeapManager * HeapManager::Create(void *i_pMemory, size_t i_sizeMemory, unsigned int i_numDescription)
 	{
 		assert(i_pMemory);
-		return new TRACK_NEW HeapManager(i_pMemory, i_sizeMemory, i_numDescription);
+		//Create a HeapManager without using custom new
+		HeapManager * heapManager = reinterpret_cast<HeapManager *>(i_pMemory);
+		heapManager->m_pMemory = reinterpret_cast<uint8_t *>(i_pMemory) + sizeof(HeapManager);
+		heapManager->m_sizeOfMemory = i_sizeMemory - sizeof(HeapManager);
+		heapManager->m_numOfDescription = i_numDescription;
+		heapManager->m_usedMemory = 0;
+		heapManager->m_usedDescriptors = 0;
+		heapManager->m_pDescriptorHead = nullptr;
+		heapManager->m_pMemoryMark = reinterpret_cast<uint8_t *>(i_pMemory) + sizeof(HeapManager);
+
+		DEBUG_PRINT("Created the heapManager successfully.");
+		return heapManager;
+		//return new TRACK_NEW HeapManager(i_pMemory, i_sizeMemory, i_numDescription);
 	}
 
 	void HeapManager::Destroy()

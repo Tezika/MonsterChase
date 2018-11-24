@@ -7,7 +7,7 @@ namespace Engine
 
 // This is how we handle variable argument pre-processor macros
 // This is only supported by compilers that support the C99 standard
-#if defined(_DEBUG)  &&  !defined(DISABLE_DEBUG_PRINT)
+#if defined(_DEBUG) && !defined(DISABLE_DEBUG_PRINT)
 #define DEBUG_PRINT(fmt,...) Engine::LogPrint((fmt),__VA_ARGS__)
 
 #else
