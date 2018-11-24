@@ -49,6 +49,12 @@
     <Filter Include="Source Files\Interface">
       <UniqueIdentifier>{68f96806-69ad-4706-9504-5a35cf16e235}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Math">
+      <UniqueIdentifier>{f5c91e4b-1706-4c0a-a957-32d2b0fb624d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math">
+      <UniqueIdentifier>{2eb21401-a8d9-4df9-8f5a-f545ac204c9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -59,9 +65,6 @@
     </ClInclude>
     <ClInclude Include="Engine-init.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Point2D.h">
-      <Filter>Header Files\DataStructure</Filter>
     </ClInclude>
     <ClInclude Include="TList.h">
       <Filter>Header Files\Container</Filter>
@@ -80,6 +83,12 @@
     </ClInclude>
     <ClInclude Include="IController.h">
       <Filter>Header Files\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Allocator.h">
+      <Filter>Header Files\MemoryManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Point2D.h">
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +109,9 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator.cpp">
+      <Filter>Source Files\MemoryManagement</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
