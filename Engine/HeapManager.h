@@ -4,7 +4,6 @@
 
 namespace Engine
 {
-
 	struct BlockDescriptor
 	{
 	public:

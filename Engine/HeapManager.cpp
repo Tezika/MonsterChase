@@ -5,6 +5,7 @@
 #include "stddef.h"
 #include "stdint.h"
 #include "HeapManager.h"
+#include "Allocator.h"
 
 size_t Engine::HeapManager::s_MinumumToLeave = 0;
 
@@ -35,7 +36,7 @@ namespace Engine
 	HeapManager * HeapManager::Create(void *i_pMemory, size_t i_sizeMemory, unsigned int i_numDescription)
 	{
 		assert(i_pMemory);
-		return new HeapManager(i_pMemory, i_sizeMemory, i_numDescription);
+		return new TRACK_NEW HeapManager(i_pMemory, i_sizeMemory, i_numDescription);
 	}
 
 	void HeapManager::Destroy()
