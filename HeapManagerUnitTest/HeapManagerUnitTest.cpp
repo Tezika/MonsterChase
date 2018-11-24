@@ -7,6 +7,14 @@
 #include <vector>
 
 
+#ifndef _aligned_alloc
+#define _aligned_alloc(_HeapManager,_Size, _Alignment) alloc(_HeapManager, _Size, _Alignment)
+#endif
+
+#ifndef _alloc
+#define _alloc(_HeapManager, _Size) alloc(_HeapManager, _Size)
+#endif
+
 //#define SUPPORTS_ALIGNMENT
 #define SUPPORTS_SHOWFREEBLOCKS
 #define SUPPORTS_SHOWOUTSTANDINGALLOCATIONS
@@ -77,7 +85,7 @@ bool HeapManager_UnitTest()
 #endif // SUPPORTS_SHOWFREEBLOCKS
 
 		size_t largestBeforeAlloc = GetLargestFreeBlock(pHeapManager);
-		void * pPtr = alloc(pHeapManager, largestBeforeAlloc - HeapManager::s_MinumumToLeave);
+		void * pPtr = _alloc(pHeapManager, largestBeforeAlloc - HeapManager::s_MinumumToLeave);
 
 		if (pPtr)
 		{
@@ -140,12 +148,12 @@ bool HeapManager_UnitTest()
 
 		const unsigned int	alignment = alignments[index];
 
-		void * pPtr = alloc(pHeapManager, sizeAlloc, alignment);
+		void * pPtr = _aligned_alloc(pHeapManager, sizeAlloc, alignment);
 
 		// check that the returned address has the requested alignment
 		assert((reinterpret_cast<uintptr_t>(pPtr) & (alignment - 1)) == 0);
 #else
-		void * pPtr = alloc(pHeapManager, sizeAlloc);
+		void * pPtr = _alloc(pHeapManager, sizeAlloc);
 #endif // SUPPORT_ALIGNMENT
 
 		// if allocation failed see if garbage collecting will create a large enough block
@@ -154,9 +162,9 @@ bool HeapManager_UnitTest()
 			Collect(pHeapManager);
 
 #ifdef SUPPORTS_ALIGNMENT
-			pPtr = alloc(pHeapManager, sizeAlloc, alignment);
+			pPtr = _alloc(pHeapManager, sizeAlloc, alignment);
 #else
-			pPtr = alloc(pHeapManager, sizeAlloc);
+			pPtr = _alloc(pHeapManager, sizeAlloc);
 #endif // SUPPORT_ALIGNMENT
 
 			// if not we're done. go on to cleanup phase of test
@@ -256,7 +264,7 @@ bool HeapManager_UnitTest()
 #endif
 
 		// do a large test allocation to see if garbage collection worked
-		void * pPtr = alloc(pHeapManager, sizeHeap / 2);
+		void * pPtr = _alloc(pHeapManager, sizeHeap / 2);
 		assert(pPtr);
 
 		if (pPtr)

@@ -4,6 +4,7 @@
 
 namespace Engine
 {
+
 	struct BlockDescriptor
 	{
 	public:
@@ -12,6 +13,7 @@ namespace Engine
 		bool m_allocated; // to flag this block that has been allocated or not.
 	};
 
+	//The HeapManager should also be a singleton which can be accessed globally.
 	class HeapManager
 	{
 	public:
@@ -21,6 +23,7 @@ namespace Engine
 		HeapManager();
 		HeapManager(void *, size_t, unsigned int);
 		~HeapManager();
+
 		void * Alloc(size_t);
 		void * Alloc(size_t, unsigned int);
 
@@ -39,7 +42,6 @@ namespace Engine
 		inline size_t GetLeftMemory() const { return m_sizeOfMemory - m_usedMemory; }
 
 	private:
-
 		// prevent copy and assignment
 		HeapManager(const HeapManager & i_other);
 		HeapManager & operator=(const HeapManager & i_other);
