@@ -18,7 +18,7 @@ namespace MonsterChase
 	{
 	public:
 		Object();
-		Object(char * name, int moveSpeed, int health);
+		Object(const Engine::TString & name, int moveSpeed, int health);
 		virtual ~Object();
 
 		//old school properties

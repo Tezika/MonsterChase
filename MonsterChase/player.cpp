@@ -18,7 +18,7 @@ namespace MonsterChase
 
 	}
 
-	Player::Player(char * name, int moveSpeed, int health) : Object::Object(name, moveSpeed, health)
+	Player::Player(const Engine::TString & name, int moveSpeed, int health) : Object::Object(name, moveSpeed, health)
 	{
 
 	}
@@ -92,5 +92,4 @@ namespace MonsterChase
 		std::cout << "The " << this->GetName() << " current position is  [" << this->m_position.m_y << "," << this->m_position.m_y << "]." << std::endl;
 	}
 }
-
 

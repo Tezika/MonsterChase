@@ -24,7 +24,7 @@ namespace MonsterChase
 		std::cout << "----------Setup Begin----------" << std::endl;
 		srand(time_t(NULL));
 		//Player initialization
-		char* playerName = new char[128];
+		TString playerName;
 		std::cout << "what's your name? ";
 		std::cin >> playerName;
 		m_pPlayer = new Player(playerName, 1, 15);
@@ -47,7 +47,6 @@ namespace MonsterChase
 			}
 		}
 		std::cout << "----------Setup End-----------" << std::endl;
-		delete playerName;
 	}
 
 	void Game::Run()

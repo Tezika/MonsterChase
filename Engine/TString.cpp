@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TString.h"
 #include "ConsolePrint.h"
+#include "Assert.h"
 
 
 namespace Engine
@@ -32,12 +33,21 @@ namespace Engine
 
 	void TString::operator=(const TString & i_str)
 	{
+		if (m_buffer != nullptr)
+		{
+			delete[] m_buffer;
+		}
 		m_size = i_str.m_size;
+		m_buffer = new char[m_size];
 		strcpy_s(m_buffer, m_size, i_str.m_buffer);
 	}
 
 	void TString::operator=(const char * i_pStr)
 	{
+		if (m_buffer != nullptr)
+		{
+			delete[] m_buffer;
+		}
 		m_size = strlen(i_pStr) + 1;
 		m_buffer = new char[m_size];
 		strcpy_s(m_buffer, m_size, i_pStr);
@@ -114,6 +124,41 @@ namespace Engine
 	{
 		i_os << i_str.m_buffer;
 		return i_os;
+	}
+
+	std::istream & operator>>(std::istream & i_is, TString & i_str)
+	{
+		uint8_t inputSize = 100;
+		char * input = new char[inputSize];
+		i_is >> input;
+		uint8_t size = 0;
+		while (input[size] != '\0')
+		{
+			size++;
+		}
+		size++;
+		//Use a temporary buffer as meta buffer.
+		char * temporaryBuffer = new char[size];
+		for (size_t i = 0; i < size - 1; i++)
+		{
+			temporaryBuffer[i] = input[i];
+		}
+		temporaryBuffer[size - 1] = '\0';
+		i_str.SetBuffer(temporaryBuffer);
+
+		delete[] input;
+		input = nullptr;
+		delete[] temporaryBuffer;
+		temporaryBuffer = nullptr;
+		return i_is;
+	}
+
+	void TString::SetBuffer(const char * pBuffer)
+	{
+		assert(pBuffer != nullptr);
+		m_size = strlen(pBuffer) + 1;
+		m_buffer = new char[m_size];
+		strcpy_s(m_buffer, m_size, pBuffer);
 	}
 
 	TString::~TString()

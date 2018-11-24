@@ -16,7 +16,7 @@ namespace MonsterChase
 	{
 	public:
 		Enemy();
-		Enemy(char * name, int moveSpeed, int health, int attack);
+		Enemy(const Engine::TString & name, int moveSpeed, int health, int attack);
 		~Enemy();
 
 		void SetAttack(int attack) { m_attack = attack; }

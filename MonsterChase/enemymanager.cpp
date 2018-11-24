@@ -29,7 +29,7 @@ namespace MonsterChase
 
 	Enemy * EnemyManager::CreateEnemy()
 	{
-		char* name = new char[128];
+		TString name;
 		std::cout << "Please input the enemy name: ";
 		std::cin >> name;
 
@@ -48,7 +48,6 @@ namespace MonsterChase
 		auto newEnemy = m_pEnemyList->InsertToTail(new Enemy(name, rand() % 5 + 3, rand() % 3 + 4, rand() % 3 + 1));
 		//Set the random position for the new enemy
 		newEnemy->m_pData->SetPosition(Point2D<int>(rand() % Game::GetInstance().GetGridWidth() + 1, rand() % Game::GetInstance().GetGridHeight() + 1));
-		delete name;
 		return newEnemy->m_pData;
 	}
 

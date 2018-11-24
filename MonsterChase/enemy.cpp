@@ -13,11 +13,11 @@
 
 using namespace MonsterChase;
 
-Enemy::Enemy():Object::Object(), m_attack(3)
+Enemy::Enemy() :Object::Object(), m_attack(3)
 {
 }
 
-Enemy::Enemy(char * name, int moveSpeed, int health, int attack): 
+Enemy::Enemy(const Engine::TString & name, int moveSpeed, int health, int attack) :
 	Object::Object(name, moveSpeed, health),
 	m_attack(attack)
 {

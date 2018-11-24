@@ -66,9 +66,4 @@ namespace MonsterChase
 	{
 		this->m_pObject = &i_other;
 	}
-
-	void PlayerController::SetPlayer(Engine::GameObject & i_rPlayer)
-	{
-		this->m_pPlayer = &i_rPlayer;
-	}
 }

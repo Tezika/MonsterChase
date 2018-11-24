@@ -21,7 +21,7 @@ namespace MonsterChase
 	{
 	}
 
-	Object::Object(char * name, int moveSpeed, int health)
+	Object::Object(const Engine::TString & name, int moveSpeed, int health)
 		:m_name(name),
 		m_health(health),
 		m_moveSpeed(moveSpeed)
