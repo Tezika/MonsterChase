@@ -8,6 +8,7 @@
 #include "Allocator.h"
 
 size_t Engine::HeapManager::s_MinumumToLeave = 0;
+Engine::HeapManager * Engine::HeapManager::s_pHeapManager = nullptr;
 
 namespace Engine
 {
@@ -17,7 +18,7 @@ namespace Engine
 	}
 
 	HeapManager::HeapManager(void *i_pMemory, size_t i_sizeMemory, unsigned int i_numDescription) :
-		m_pMemory(reinterpret_cast<uint8_t *>(i_pMemory)),
+		m_pAllocatableMemory(reinterpret_cast<uint8_t *>(i_pMemory)),
 		m_sizeOfMemory(i_sizeMemory),
 		m_numOfDescription(i_numDescription),
 		m_usedMemory(0),
@@ -25,7 +26,7 @@ namespace Engine
 		m_pDescriptorHead(nullptr),
 		m_pMemoryMark(reinterpret_cast<uint8_t *>(i_pMemory))
 	{
-		DEBUG_PRINT("The heapmanager setup successfully.");
+
 	}
 
 	HeapManager::~HeapManager()
@@ -37,23 +38,26 @@ namespace Engine
 	{
 		assert(i_pMemory);
 		//Create a HeapManager without using custom new
-		HeapManager * heapManager = reinterpret_cast<HeapManager *>(i_pMemory);
-		heapManager->m_pMemory = reinterpret_cast<uint8_t *>(i_pMemory) + sizeof(HeapManager);
-		heapManager->m_sizeOfMemory = i_sizeMemory - sizeof(HeapManager);
-		heapManager->m_numOfDescription = i_numDescription;
-		heapManager->m_usedMemory = 0;
-		heapManager->m_usedDescriptors = 0;
-		heapManager->m_pDescriptorHead = nullptr;
-		heapManager->m_pMemoryMark = reinterpret_cast<uint8_t *>(i_pMemory) + sizeof(HeapManager);
+		HeapManager * pHeapManager = reinterpret_cast<HeapManager *>(i_pMemory);
 
-		DEBUG_PRINT("Created the heapManager successfully.");
-		return heapManager;
-		//return new TRACK_NEW HeapManager(i_pMemory, i_sizeMemory, i_numDescription);
+		pHeapManager->m_pMemory = reinterpret_cast<uint8_t *>(i_pMemory);
+		pHeapManager->m_pAllocatableMemory = reinterpret_cast<uint8_t *>(i_pMemory) + sizeof(HeapManager);
+		pHeapManager->m_pMemoryMark = reinterpret_cast<uint8_t *>(i_pMemory) + sizeof(HeapManager);
+
+		pHeapManager->m_sizeOfMemory = i_sizeMemory - sizeof(HeapManager);
+		pHeapManager->m_numOfDescription = i_numDescription;
+		pHeapManager->m_usedMemory = 0;
+		pHeapManager->m_usedDescriptors = 0;
+		pHeapManager->m_pDescriptorHead = nullptr;
+
+
+		DEBUG_PRINT("The heapmanager setup successfully.");
+		return pHeapManager;
 	}
 
 	void HeapManager::Destroy()
 	{
-		DEBUG_PRINT("The heapmanager destroy successfully.");
+		DEBUG_PRINT("The heapmanager destroied successfully.");
 	}
 
 	void * HeapManager::Alloc(size_t i_size)
@@ -119,10 +123,10 @@ namespace Engine
 		}
 
 		//Create a descriptor firstly
-		BlockDescriptor* pDescriptor = reinterpret_cast<BlockDescriptor *>(m_pMemory);
-		m_pMemory = m_pMemory + sizeof(BlockDescriptor);
-		pDescriptor->m_pBlockStarAddr = reinterpret_cast<uint8_t *>(m_pMemory);
-		m_pMemory = m_pMemory + i_size;
+		BlockDescriptor* pDescriptor = reinterpret_cast<BlockDescriptor *>(m_pAllocatableMemory);
+		m_pAllocatableMemory = m_pAllocatableMemory + sizeof(BlockDescriptor);
+		pDescriptor->m_pBlockStarAddr = reinterpret_cast<uint8_t *>(m_pAllocatableMemory);
+		m_pAllocatableMemory = m_pAllocatableMemory + i_size;
 		pDescriptor->m_sizeBlock = i_size;
 
 		m_usedMemory += newBlockSize;
@@ -266,5 +270,4 @@ namespace Engine
 		maxiumFreeMemory = maxiumFreeMemory > (this->GetLeftMemory() - sizeof(BlockDescriptor)) ? maxiumFreeMemory : (this->GetLeftMemory() - sizeof(BlockDescriptor));
 		return maxiumFreeMemory;
 	}
-
 }

@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "Allocator.h"
-#include "HeapManager.h"
 
+#ifdef USE_CUSTOM_ALLOCATE
 void * operator new(size_t i_size)
 {
+	DEBUG_PRINT("Allocated new memory, size is %d.", i_size);
 	return nullptr;
 }
 
@@ -31,3 +32,4 @@ void * alloc(const Engine::HeapManager * i_pHeapManager, size_t i_size, unsigned
 {
 	return nullptr;
 }
+#endif

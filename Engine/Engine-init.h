@@ -2,4 +2,5 @@
 namespace Engine
 {
 	bool Initialize();
+	void Destroy();
 }

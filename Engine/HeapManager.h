@@ -16,11 +16,10 @@ namespace Engine
 	class HeapManager
 	{
 	public:
+		static HeapManager * s_pHeapManager;
 		static HeapManager * Create(void *, size_t, unsigned int);
 		static size_t s_MinumumToLeave;
 
-		HeapManager();
-		HeapManager(void *, size_t, unsigned int);
 		~HeapManager();
 
 		void * Alloc(size_t);
@@ -39,13 +38,17 @@ namespace Engine
 		inline bool Contains(void * i_ptr) const { return (i_ptr >= m_pMemoryMark) && (i_ptr <= m_pMemoryMark + m_sizeOfMemory); }
 		inline size_t GetUsedMemory() const { return m_usedMemory; }
 		inline size_t GetLeftMemory() const { return m_sizeOfMemory - m_usedMemory; }
+		inline void * GetAssociateMemory() { return m_pMemory; }
 
 	private:
+		HeapManager();
+		HeapManager(void *, size_t, unsigned int);
 		// prevent copy and assignment
 		HeapManager(const HeapManager & i_other);
 		HeapManager & operator=(const HeapManager & i_other);
 
 		uint8_t * m_pMemory;
+		uint8_t * m_pAllocatableMemory;
 		uint8_t * m_pMemoryMark;
 		BlockDescriptor * m_pDescriptorHead;
 		size_t m_sizeOfMemory;
