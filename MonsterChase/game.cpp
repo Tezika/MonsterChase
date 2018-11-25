@@ -81,6 +81,7 @@ namespace MonsterChase
 		m_pEnemyManager = nullptr;
 		delete m_pPlayer;
 		m_pPlayer = nullptr;
+		_CrtDumpMemoryLeaks();
 	}
 
 	int Game::ClampForMap(int val, int maxiumVal)

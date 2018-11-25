@@ -24,7 +24,13 @@ namespace MonsterChase
 
 	EnemyManager::~EnemyManager()
 	{
-		delete m_pEnemyList;
+		auto ptr = m_pEnemyList->m_pHead;
+		while (ptr != nullptr)
+		{
+			delete ptr->m_pData;
+			ptr = ptr->m_pNext;
+		}
+		delete m_pEnemyList;		
 	}
 
 	Enemy * EnemyManager::CreateEnemy()
