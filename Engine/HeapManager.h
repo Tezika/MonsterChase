@@ -12,7 +12,7 @@ namespace Engine
 		bool m_allocated; // to flag this block that has been allocated or not.
 	};
 
-	//The HeapManager should also be a singleton which can be accessed globally.
+	//The HeapManager should be a singleton which can be accessed globally.
 	class HeapManager
 	{
 	public:

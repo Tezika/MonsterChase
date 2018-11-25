@@ -50,7 +50,6 @@ namespace Engine
 		pHeapManager->m_usedDescriptors = 0;
 		pHeapManager->m_pDescriptorHead = nullptr;
 
-
 		DEBUG_PRINT("The heapmanager setup successfully.");
 		return pHeapManager;
 	}
