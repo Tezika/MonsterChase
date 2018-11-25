@@ -5,7 +5,6 @@
 //  Created by  TezikaZhou on 2018/9/1.
 //  Copyright © 2018 Tezika ZHou. All rights reserved.
 //
-
 #include <iostream>
 #include <math.h>
 #include "enemymanager.h"
@@ -30,7 +29,7 @@ namespace MonsterChase
 			delete ptr->m_pData;
 			ptr = ptr->m_pNext;
 		}
-		delete m_pEnemyList;		
+		delete m_pEnemyList;
 	}
 
 	Enemy * EnemyManager::CreateEnemy()
