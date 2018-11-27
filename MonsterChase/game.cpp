@@ -26,8 +26,7 @@ namespace MonsterChase
 		//Player initialization
 		TString playerName;
 		std::cout << "what's your name? ";
-		std::cin >> playerName;
-		m_pPlayer = new Player(playerName, 1, 15);
+		std::cin >> playerName;		m_pPlayer = new Player(playerName, 1, 15);
 		//Place the player in [1,1]
 		m_pPlayer->SetPosition(Point2D<int>(1, 1));
 

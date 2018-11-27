@@ -78,14 +78,14 @@ namespace Engine
 		while (p != nullptr)
 		{
 			//if current block has been allocated
-			if (p->m_allocated)
+			if (p->m_allocated || p->m_sizeBlock < newBlockSize)
 			{
 				p = this->MoveToNextBlock(p);
 				continue;
 			}
 			//else check the current block.
-			//The current block cannot be divided before
-			if (p->m_sizeBlock <= newBlockSize)
+			//The current block cannot be divided and the size equal the new block.
+			if (p->m_sizeBlock == newBlockSize)
 			{
 				m_usedMemory += i_size;
 				p->m_allocated = true;
