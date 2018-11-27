@@ -10,6 +10,7 @@
 #include "enemymanager.h"
 #include "game.h"
 #include <assert.h>
+#include "Allocator.h"
 
 
 using namespace Engine;
@@ -17,7 +18,7 @@ using namespace Engine;
 namespace MonsterChase
 {
 	EnemyManager::EnemyManager()
-		:m_pEnemyList(new TList<Enemy>())
+		:m_pEnemyList(new TRACK_NEW TList<Enemy>())
 	{
 	}
 

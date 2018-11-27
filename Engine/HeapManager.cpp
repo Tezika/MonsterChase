@@ -77,7 +77,7 @@ namespace Engine
 		auto p = m_pDescriptorHead;
 		while (p != nullptr)
 		{
-			//if current block has been allocated and whether it can be divided or not
+			//if current block has been allocated or whether it could be divided.-
 			if (p->m_allocated || p->m_sizeBlock < newBlockSize)
 			{
 				p = this->MoveToNextBlock(p);
