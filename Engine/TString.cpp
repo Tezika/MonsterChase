@@ -139,7 +139,7 @@ namespace Engine
 		size++;
 		//Use a temporary buffer as meta buffer.
 		char * temporaryBuffer = new char[size];
-		for (size_t i = 0; i < size - 1; i++)
+		for (uint8_t i = 0; i < size - 1; i++)
 		{
 			temporaryBuffer[i] = input[i];
 		}

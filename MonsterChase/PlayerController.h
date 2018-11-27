@@ -15,7 +15,7 @@ namespace MonsterChase
 		inline void SetPlayer(Engine::GameObject & i_player) { m_pPlayer = &i_player; }
 
 		inline void SetMoveSpeed(const int i_moveSpeed) { this->m_moveSpeed = i_moveSpeed; }
-		inline const unsigned int GetMoveSpeed() { return this->m_moveSpeed; }
+		inline const int GetMoveSpeed() { return this->m_moveSpeed; }
 
 	protected:
 		~PlayerController();
@@ -23,6 +23,6 @@ namespace MonsterChase
 	private:
 		Engine::GameObject * m_pPlayer;
 		Engine::GameObject * m_pObject;
-		unsigned int m_moveSpeed;
+		int m_moveSpeed;
 	};
 }
