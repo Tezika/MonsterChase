@@ -1,24 +1,24 @@
 //Use this file to override the global new & delete
 #pragma once
-#include "HeapManager.h"
+class HeapManager;
 
 #define USE_CUSTOM_ALLOCATE
 
 #ifdef USE_CUSTOM_ALLOCATE
 #ifndef _alloc
-#define _alloc(_Size) Engine::HeapManager::s_pHeapManager->Alloc(_Size)
+#define _alloc(_Size) Engine::HeapManager::s_pDefalutHeapManager->Alloc(_Size)
 #endif // !_alloc
 
 #ifndef _aligned_alloc
-#define _aligned_alloc(_Size, _Alignment) Engine::HeapManager::s_pHeapManager->Alloc(_Size, _Alignment)
+#define _aligned_alloc(_Size, _Alignment) Engine::HeapManager::s_pDefalutHeapManager->Alloc(_Size, _Alignment)
 #endif // !aligned_alloc
 
 #ifndef _free
-#define _free(_Ptr) Engine::HeapManager::s_pHeapManager->Free(_Ptr)
+#define _free(_Ptr) Engine::HeapManager::s_pDefalutHeapManager->Free(_Ptr)
 #endif // !_free
 
 #ifndef _aligned_free
-#define _aligned_free Engine::HeapManager::s_pHeapManager->Free(_Ptr)
+#define _aligned_free Engine::HeapManager::s_pDefalutHeapManager->Free(_Ptr)
 #endif // !_aligned_free
 
 // TRACK NEW: only track in Debug build
@@ -27,7 +27,8 @@
 #else
 #define TRACK_NEW
 #endif
-	// standard allocators
+
+// standard allocators
 void * operator new(size_t i_size);
 void operator delete(void * i_ptr);
 
@@ -35,8 +36,9 @@ void operator delete(void * i_ptr);
 void * operator new(size_t i_size, const char * i_pFile, unsigned int i_Line);
 void operator delete(void * i_ptr, const char * i_pFile, unsigned int i_Line);
 
-//Global alloc functions
-//void * alloc(const Engine::HeapManager* i_pHeapManager, size_t i_size);
-//void * alloc(const Engine::HeapManager * i_pHeapManager, size_t i_size, unsigned int alignment);
+// Allocating from different heaps
+void * operator new(size_t i_size, HeapManager * pHeapMananger);
+void   operator delete(void * i_ptr, HeapManager * pHeapManager);
+
 #endif
 

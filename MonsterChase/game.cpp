@@ -80,7 +80,7 @@ namespace MonsterChase
 		std::cout << "Your will quit the game :)" << std::endl;
 		delete m_pEnemyManager;
 		m_pEnemyManager = nullptr;
-		delete m_pPlayer;
+		delete  m_pPlayer;
 		m_pPlayer = nullptr;
 		_CrtDumpMemoryLeaks();
 	}

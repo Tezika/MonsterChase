@@ -23,7 +23,7 @@ namespace Engine
 		if (pHeapManager == nullptr)
 			return false;
 
-		HeapManager::s_pHeapManager = pHeapManager;
+		HeapManager::s_pDefalutHeapManager = pHeapManager;
 		DEBUG_PRINT("The engine initialized succuessfully!");
 		return true;
 	}
@@ -31,10 +31,10 @@ namespace Engine
 	void Engine::Destroy()
 	{
 		//free my cust heap and destroy the heap
-		assert(HeapManager::s_pHeapManager);
-		HeapManager::s_pHeapManager->Destroy();
-		HeapFree(GetProcessHeap(), 0, HeapManager::s_pHeapManager->GetAssociateMemory());
-		HeapManager::s_pHeapManager = nullptr;
+		assert(HeapManager::s_pDefalutHeapManager);
+		HeapManager::s_pDefalutHeapManager->Destroy();
+		HeapFree(GetProcessHeap(), 0, HeapManager::s_pDefalutHeapManager->GetAssociateMemory());
+		HeapManager::s_pDefalutHeapManager = nullptr;
 		DEBUG_PRINT("The engine destroied successfully!");
 	}
 }

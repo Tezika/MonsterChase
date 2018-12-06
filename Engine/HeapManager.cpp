@@ -8,7 +8,7 @@
 #include "Allocator.h"
 
 size_t Engine::HeapManager::s_MinumumToLeave = 0;
-Engine::HeapManager * Engine::HeapManager::s_pHeapManager = nullptr;
+Engine::HeapManager * Engine::HeapManager::s_pDefalutHeapManager = nullptr;
 
 namespace Engine
 {
