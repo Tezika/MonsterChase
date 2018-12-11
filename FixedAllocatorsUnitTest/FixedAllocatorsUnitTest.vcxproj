@@ -163,10 +163,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BitArray.h" />
     <ClInclude Include="MemorySystem.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BitArray.cpp" />
     <ClCompile Include="FIxedAllocators.cpp" />
     <ClCompile Include="FixedAllocatorsUnitTest.cpp" />
     <ClCompile Include="MemorySystem.cpp" />
