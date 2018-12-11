@@ -6,7 +6,6 @@ namespace MonsterChase
 {
 	PlayerController::PlayerController()
 	{
-
 	}
 
 	PlayerController::~PlayerController()

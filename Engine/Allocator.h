@@ -2,7 +2,7 @@
 #pragma once
 class HeapManager;
 
-#define USE_CUSTOM_ALLOCATE
+//#define USE_CUSTOM_ALLOCATE
 
 #ifdef USE_CUSTOM_ALLOCATE
 #ifndef _alloc
