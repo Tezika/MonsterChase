@@ -4,6 +4,17 @@ class HeapManager;
 
 //#define USE_CUSTOM_ALLOCATE
 
+// TRACK NEW: only track in Debug build
+#ifdef _DEBUG
+#ifdef USE_CUSTOM_ALLOCATE
+#define TRACK_NEW (__FILE__,__LINE__)
+#else
+#define TRACK_NEW
+#endif
+#else
+#define TRACK_NEW
+#endif
+
 #ifdef USE_CUSTOM_ALLOCATE
 #ifndef _alloc
 #define _alloc(_Size) Engine::HeapManager::s_pDefalutHeapManager->Alloc(_Size)
@@ -20,13 +31,6 @@ class HeapManager;
 #ifndef _aligned_free
 #define _aligned_free Engine::HeapManager::s_pDefalutHeapManager->Free(_Ptr)
 #endif // !_aligned_free
-
-// TRACK NEW: only track in Debug build
-#ifdef _DEBUG
-#define TRACK_NEW (__FILE__,__LINE__)
-#else
-#define TRACK_NEW
-#endif
 
 // standard allocators
 void * operator new(size_t i_size);
