@@ -13,6 +13,7 @@ BitArray * BitArray::Create(size_t i_numBits, FixedSizeAllocator * i_pAllocator,
 }
 
 BitArray::BitArray(size_t i_numBits, bool i_clearAll)
+	:m_numOfBits(i_numBits)
 {
 	size_t i_bitsPerUnit = 64;
 	m_sizeOfUnits = i_numBits / i_bitsPerUnit;
@@ -22,6 +23,7 @@ BitArray::BitArray(size_t i_numBits, bool i_clearAll)
 }
 
 BitArray::BitArray(const BitArray & i_other)
+	:m_numOfBits(i_other.m_numOfBits)
 {
 	m_sizeOfUnits = i_other.GetUnitSize();
 	if (m_pBits != nullptr)
@@ -88,23 +90,24 @@ bool BitArray::AreAllSet() const
 
 void BitArray::SetBit(size_t i_bitNumber)
 {
-	size_t bit = i_bitNumber % m_sizeOfUnits;
-	uint64_t byte = m_pBits[i_bitNumber / m_sizeOfUnits];
+	size_t bit = i_bitNumber % 64;
+	size_t byteIdx = i_bitNumber / 64;
+	uint64_t byte = m_pBits[byteIdx];
 	byte = byte | (1 << bit);
-	m_pBits[i_bitNumber / m_sizeOfUnits] = byte;
+	m_pBits[byteIdx] = byte;
 }
 
 void BitArray::ClearBit(size_t i_bitNumber)
 {
-	size_t bit = i_bitNumber % m_sizeOfUnits;
-	uint64_t byte = m_pBits[i_bitNumber / m_sizeOfUnits];
+	size_t bit = i_bitNumber % 64;
+	size_t byteIdx = i_bitNumber / 64;
+	uint64_t byte = m_pBits[byteIdx];
 	byte = byte & ~(1 << bit);
-	m_pBits[i_bitNumber / m_sizeOfUnits] = byte;
+	m_pBits[byteIdx] = byte;
 }
 
 bool BitArray::GetFirstClearBit(size_t & o_bitNumber) const
 {
-	size_t cacheBitNumer = o_bitNumber;
 	size_t unitIndex = 0;
 	size_t bitIndex = 0;
 	for (size_t i = 0; i < m_sizeOfUnits; i++)
@@ -121,12 +124,11 @@ bool BitArray::GetFirstClearBit(size_t & o_bitNumber) const
 		}
 	}
 	o_bitNumber = unitIndex * 64 + bitIndex;
-	return o_bitNumber != cacheBitNumer;
+	return o_bitNumber != m_numOfBits;
 }
 
 bool BitArray::GetFirstSetBit(size_t & o_bitNumber) const
 {
-	size_t cacheBitNumer = o_bitNumber;
 	size_t unitIndex = 0;
 	// quick skip bytes where no bits are set   
 	while ((m_pBits[unitIndex] == 0x00) && (unitIndex < m_sizeOfUnits))
@@ -136,10 +138,10 @@ bool BitArray::GetFirstSetBit(size_t & o_bitNumber) const
 	unsigned long bitIndex;
 	_BitScanForward(&bitIndex, byte);
 	o_bitNumber = unitIndex * 64 + bitIndex;
-	return o_bitNumber != cacheBitNumer;
+	return o_bitNumber != m_numOfBits;
 }
 
 bool BitArray::operator[](size_t i_index) const
 {
-	return m_pBits[i_index] == 0x00;
+	return true;
 }

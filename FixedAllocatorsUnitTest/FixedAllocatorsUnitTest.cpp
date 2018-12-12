@@ -8,71 +8,66 @@
 #include <assert.h>
 #include <algorithm>
 #include <vector>
-#include <conio.h>  
+#include <conio.h>
+#include <iostream>
+#include "BitArray.h"
 
 #ifdef _DEBUG
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
-#include <iostream>
+
 #endif // _DEBUG
 
-#pragma intrinsic(_BitScanForward) 
 
 bool MemorySystem_UnitTest();
+bool BitArray_UnitTest();
 
 int main(int i_arg, char **)
 {
-//	const size_t 		sizeHeap = 1024 * 1024;
-//
-//	// you may not need this if you don't use a descriptor pool
-//	const unsigned int 	numDescriptors = 2048;
-//
-//	// Allocate memory for my test heap.
-//	void * pHeapMemory = HeapAlloc(GetProcessHeap(), 0, sizeHeap);
-//	assert(pHeapMemory);
-//
-//	// Create your HeapManager and FixedSizeAllocators.
-//	InitializeMemorySystem(pHeapMemory, sizeHeap, numDescriptors);
-//
-//	bool success = MemorySystem_UnitTest();
-//	assert(success);
-//
-//	// Clean up your Memory System (HeapManager and FixedSizeAllocators)
-//	DestroyMemorySystem();
-//
-//	HeapFree(GetProcessHeap(), 0, pHeapMemory);
-//
-//	// in a Debug build make sure we didn't leak any memory.
-//#if defined(_DEBUG)
-//	_CrtDumpMemoryLeaks();
-//#endif // _DEBUG
-//	
-	//unsigned long mask = 0x1000;
-	//unsigned long index;
-	//unsigned char isNonzero;
-	//while (1)
-	//{
-	//	std::cout << "Enter a positive integer as the mask: " << std::flush;
-	//	std::cin >> mask;
-	//	isNonzero = _BitScanForward(&index, mask);
-	//	if (isNonzero)
-	//	{
-	//		std::cout << "Mask: " << mask << " Index: " <<63 -index << std::endl;
-	//	}
-	//	else
-	//	{
-	//		std::cout << "No set bits found.  Mask is zero." << std::endl;
-	//	}
-	//}
-	uint64_t byte;
-	size_t bit;
-	while (1)
-	{
-		std::cin >> byte;
-		std::cin >> bit;
-		std::cout << "The bit in the pos, " << bit << " is: " << ((byte >> bit) & 1) << std::endl;
-	}
+	//	const size_t 		sizeHeap = 1024 * 1024;
+	//
+	//	// you may not need this if you don't use a descriptor pool
+	//	const unsigned int 	numDescriptors = 2048;
+	//
+	//	// Allocate memory for my test heap.
+	//	void * pHeapMemory = HeapAlloc(GetProcessHeap(), 0, sizeHeap);
+	//	assert(pHeapMemory);
+	//
+	//	// Create your HeapManager and FixedSizeAllocators.
+	//	InitializeMemorySystem(pHeapMemory, sizeHeap, numDescriptors);
+	//
+	//	bool success = MemorySystem_UnitTest();
+	//	assert(success);
+	//
+	//	// Clean up your Memory System (HeapManager and FixedSizeAllocators)
+	//	DestroyMemorySystem();
+	//
+	//	HeapFree(GetProcessHeap(), 0, pHeapMemory);
+	//
+	//	// in a Debug build make sure we didn't leak any memory.
+	//#if defined(_DEBUG)
+	//	_CrtDumpMemoryLeaks();
+	//#endif // _DEBUG
+	//	
+		//unsigned long mask = 0x1000;
+		//unsigned long index;
+		//unsigned char isNonzero;
+		//while (1)
+		//{
+		//	std::cout << "Enter a positive integer as the mask: " << std::flush;
+		//	std::cin >> mask;
+		//	isNonzero = _BitScanForward(&index, mask);
+		//	if (isNonzero)
+		//	{
+		//		std::cout << "Mask: " << mask << " Index: " <<63 -index << std::endl;
+		//	}
+		//	else
+		//	{
+		//		std::cout << "No set bits found.  Mask is zero." << std::endl;
+		//	}
+		//}
+	BitArray_UnitTest();
 	_getch();
 	return 0;
 }
@@ -178,5 +173,20 @@ bool MemorySystem_UnitTest()
 
 	printf("Congrat! You passed the unit test.");
 	// we succeeded
+	return true;
+}
+
+bool BitArray_UnitTest()
+{
+	BitArray * arrTest = BitArray::Create(256, nullptr, true);
+	assert(arrTest);
+	assert(arrTest->AreAllClear());
+	assert(!arrTest->AreAllSet());
+	size_t bit_test;
+	arrTest->SetBit(23);
+	arrTest->GetFirstSetBit(bit_test);
+	assert(!arrTest->AreAllClear());
+	assert(!arrTest->AreAllSet());
+	printf("%d", bit_test);
 	return true;
 }

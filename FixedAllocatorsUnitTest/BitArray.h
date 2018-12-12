@@ -33,4 +33,5 @@ private:
 	BitArray();
 	uint64_t * m_pBits;
 	size_t m_sizeOfUnits;
+	size_t m_numOfBits;
 };
