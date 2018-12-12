@@ -19,7 +19,7 @@ BitArray::BitArray(size_t i_numBits, bool i_clearAll)
 	m_sizeOfUnits = i_numBits / i_bitsPerUnit;
 	m_pBits = new uint64_t[m_sizeOfUnits];
 	assert(m_pBits);
-	memset(m_pBits, i_clearAll ? 0 : 1, m_sizeOfUnits);
+	memset(m_pBits, i_clearAll ? 0 : 1, i_numBits);
 }
 
 BitArray::BitArray(const BitArray & i_other)
@@ -129,15 +129,15 @@ bool BitArray::GetFirstClearBit(size_t & o_bitNumber) const
 
 bool BitArray::GetFirstSetBit(size_t & o_bitNumber) const
 {
-	size_t unitIndex = 0;
+	size_t byteIndex = 0;
 	// quick skip bytes where no bits are set   
-	while ((m_pBits[unitIndex] == 0x00) && (unitIndex < m_sizeOfUnits))
-		unitIndex++;
+	while ((m_pBits[byteIndex] == 0x00) && (byteIndex < m_sizeOfUnits))
+		byteIndex++;
 	// use the compiler intrinsics function to find the first set bit.
-	unsigned long byte = m_pBits[unitIndex];
+	unsigned long byte = m_pBits[byteIndex];
 	unsigned long bitIndex;
 	_BitScanForward(&bitIndex, byte);
-	o_bitNumber = unitIndex * 64 + bitIndex;
+	o_bitNumber = byteIndex * 64 + bitIndex;
 	return o_bitNumber != m_numOfBits;
 }
 
