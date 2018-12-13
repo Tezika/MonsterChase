@@ -3,6 +3,7 @@
 #include "FixedSizeAllocator.h"
 #include "Assert.h"
 #include <cstring>
+#include <math.h>
 #include <intrin.h>
 
 #pragma intrinsic(_BitScanForward) 
@@ -15,11 +16,11 @@ BitArray * BitArray::Create(size_t i_numBits, FixedSizeAllocator * i_pAllocator,
 BitArray::BitArray(size_t i_numBits, bool i_clearAll)
 	:m_numOfBits(i_numBits)
 {
-	size_t i_bitsPerUnit = 64;
-	m_sizeOfUnits = i_numBits / i_bitsPerUnit;
-	m_pBits = new uint64_t[m_sizeOfUnits];
+	float i_bitsPerUnit = 8;
+	m_sizeOfUnits = ceil((float)(i_numBits / i_bitsPerUnit));
+	m_pBits = new uint8_t[m_sizeOfUnits];
 	assert(m_pBits);
-	memset(m_pBits, i_clearAll ? 0 : 1, i_numBits);
+	memset(m_pBits, i_clearAll ? 0 : UINT8_MAX, m_sizeOfUnits);
 }
 
 BitArray::BitArray(const BitArray & i_other)
@@ -31,7 +32,7 @@ BitArray::BitArray(const BitArray & i_other)
 		delete m_pBits;
 		m_pBits = nullptr;
 	}
-	m_pBits = new uint64_t[m_sizeOfUnits];
+	m_pBits = new uint8_t[m_sizeOfUnits];
 	assert(m_pBits);
 	memcpy_s(m_pBits, GetUnitSize(), i_other.m_pBits, i_other.GetUnitSize());
 }
@@ -44,7 +45,7 @@ BitArray & BitArray::operator=(const BitArray & i_other)
 		delete m_pBits;
 		m_pBits = nullptr;
 	}
-	m_pBits = new uint64_t[m_sizeOfUnits];
+	m_pBits = new uint8_t[m_sizeOfUnits];
 	assert(m_pBits);
 	memcpy_s(m_pBits, GetUnitSize(), i_other.m_pBits, i_other.GetUnitSize());
 	return *this;
@@ -62,18 +63,12 @@ BitArray::~BitArray()
 
 void BitArray::SetAll()
 {
-	for (size_t i = 0; i < m_sizeOfUnits; i++)
-	{
-		m_pBits[i] = ~(m_pBits[i] & 0);
-	}
+	memset(m_pBits, UINT8_MAX, m_sizeOfUnits);
 }
 
 void BitArray::ClearAll()
 {
-	for (size_t i = 0; i < m_sizeOfUnits; i++)
-	{
-		m_pBits[i] = m_pBits[i] & 0;
-	}
+	memset(m_pBits, 0, m_sizeOfUnits);
 }
 
 bool BitArray::AreAllClear() const
@@ -90,58 +85,73 @@ bool BitArray::AreAllSet() const
 
 void BitArray::SetBit(size_t i_bitNumber)
 {
-	size_t bit = i_bitNumber % 64;
-	size_t byteIdx = i_bitNumber / 64;
-	uint64_t byte = m_pBits[byteIdx];
-	byte = byte | (1 << bit);
-	m_pBits[byteIdx] = byte;
+	assert(i_bitNumber < m_numOfBits);
+	size_t bit = i_bitNumber % 8;
+	size_t unitIdx = i_bitNumber / 8;
+	uint8_t unit = m_pBits[unitIdx];
+	unit |= (1U << bit);
+	m_pBits[unitIdx] = unit;
 }
 
 void BitArray::ClearBit(size_t i_bitNumber)
 {
-	size_t bit = i_bitNumber % 64;
-	size_t byteIdx = i_bitNumber / 64;
-	uint64_t byte = m_pBits[byteIdx];
-	byte = byte & ~(1 << bit);
-	m_pBits[byteIdx] = byte;
+	assert(i_bitNumber < m_numOfBits);
+	size_t bit = i_bitNumber % 8;
+	size_t unitIdx = i_bitNumber / 8;
+	uint8_t unit = m_pBits[unitIdx];
+	unit &= ~(1U << bit);
+	m_pBits[unitIdx] = unit;
 }
 
 bool BitArray::GetFirstClearBit(size_t & o_bitNumber) const
 {
-	size_t unitIndex = 0;
+	size_t unitIndex = m_sizeOfUnits;
 	size_t bitIndex = 0;
+	bool foundBit = false;
 	for (size_t i = 0; i < m_sizeOfUnits; i++)
 	{
-		uint64_t byte = m_pBits[i];
-		for (size_t bit = 0; bit < 64; bit++)
+		if (m_pBits[i] == UINT8_MAX)
 		{
-			if ((byte >> bit) & 1 == 0x00)
+			continue;
+		}
+		for (size_t bit = 0; bit < 8; bit++)
+		{
+			if (this->IsBitClear(i * 8 + bit))
 			{
 				unitIndex = i;
 				bitIndex = bit;
+				foundBit = true;
 				break;
 			}
 		}
+		if (foundBit)
+		{
+			break;
+		}
 	}
-	o_bitNumber = unitIndex * 64 + bitIndex;
+	o_bitNumber = unitIndex * 8 + bitIndex;
 	return o_bitNumber != m_numOfBits;
 }
 
 bool BitArray::GetFirstSetBit(size_t & o_bitNumber) const
 {
-	size_t byteIndex = 0;
+	size_t unitIndex = 0;
 	// quick skip bytes where no bits are set   
-	while ((m_pBits[byteIndex] == 0x00) && (byteIndex < m_sizeOfUnits))
-		byteIndex++;
+	while ((m_pBits[unitIndex] == 0) && (unitIndex < m_sizeOfUnits))
+		unitIndex++;
+	if (unitIndex == m_sizeOfUnits)
+	{
+		return false;
+	}
 	// use the compiler intrinsics function to find the first set bit.
-	unsigned long byte = m_pBits[byteIndex];
+	unsigned long unit = m_pBits[unitIndex];
 	unsigned long bitIndex;
-	_BitScanForward(&bitIndex, byte);
-	o_bitNumber = byteIndex * 64 + bitIndex;
+	_BitScanForward(&bitIndex, unit);
+	o_bitNumber = unitIndex * 8 + bitIndex;
 	return o_bitNumber != m_numOfBits;
 }
 
 bool BitArray::operator[](size_t i_index) const
 {
-	return true;
+	return this->IsBitSet(i_index);
 }

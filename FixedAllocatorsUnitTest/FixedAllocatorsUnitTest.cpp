@@ -178,15 +178,24 @@ bool MemorySystem_UnitTest()
 
 bool BitArray_UnitTest()
 {
-	BitArray * arrTest = BitArray::Create(256, nullptr, true);
+	BitArray * arrTest = BitArray::Create(64, nullptr, true);
 	assert(arrTest);
 	assert(arrTest->AreAllClear());
 	assert(!arrTest->AreAllSet());
 	size_t bit_test;
-	arrTest->SetBit(23);
+	arrTest->SetBit(5);
+	assert(arrTest->IsBitSet(5));
+	assert(!arrTest->IsBitClear(5));
 	arrTest->GetFirstSetBit(bit_test);
-	assert(!arrTest->AreAllClear());
-	assert(!arrTest->AreAllSet());
 	printf("%d", bit_test);
+	arrTest->ClearBit(5);
+	assert(!arrTest->IsBitSet(5));
+	assert(arrTest->IsBitClear(5));
+	arrTest->SetAll();
+	assert(!arrTest->AreAllClear());
+	assert(arrTest->AreAllSet());
+	arrTest->ClearAll();
+	assert(!arrTest->AreAllSet());
+	assert(arrTest->AreAllClear());
 	return true;
 }

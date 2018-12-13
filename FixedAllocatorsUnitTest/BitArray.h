@@ -2,6 +2,7 @@
 #include <inttypes.h>
 class FixedSizeAllocator;
 
+
 class BitArray
 {
 public:
@@ -17,8 +18,8 @@ public:
 	bool AreAllClear(void) const;
 	bool AreAllSet(void) const;
 
-	inline bool IsBitSet(size_t i_bitNumber) const;
-	inline bool IsBitClear(size_t i_bitNumber) const;
+	inline bool IsBitSet(size_t i_bitNumber) const { return (m_pBits[i_bitNumber / 8] & (1U << (i_bitNumber % 8))); };
+	inline bool IsBitClear(size_t i_bitNumber) const { return !this->IsBitSet(i_bitNumber); };
 
 	inline size_t GetUnitSize() const { return m_sizeOfUnits; }
 
@@ -31,7 +32,7 @@ public:
 	bool operator[](size_t i_index) const;
 private:
 	BitArray();
-	uint64_t * m_pBits;
+	uint8_t * m_pBits;
 	size_t m_sizeOfUnits;
 	size_t m_numOfBits;
 };
