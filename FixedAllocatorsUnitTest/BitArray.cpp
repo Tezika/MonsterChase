@@ -17,7 +17,7 @@ BitArray::BitArray(size_t i_numBits, bool i_clearAll)
 	:m_numOfBits(i_numBits)
 {
 	float i_bitsPerUnit = 8;
-	m_sizeOfBytes = ceil((float)(i_numBits / i_bitsPerUnit));
+	m_sizeOfBytes = (size_t)ceil((float)(i_numBits / i_bitsPerUnit));
 	m_pBits = new uint8_t[m_sizeOfBytes];
 	assert(m_pBits);
 	memset(m_pBits, i_clearAll ? 0 : UINT8_MAX, m_sizeOfBytes);

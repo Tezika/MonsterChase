@@ -1,6 +1,5 @@
 // FixedAllocatorsUnitTest.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-
 #include "pch.h"
 #include <Windows.h>
 #include "MemorySystem.h"
@@ -18,56 +17,43 @@
 #include <crtdbg.h>
 
 #endif // _DEBUG
-
+#define TEST_BITARRAY
+//#define TEST_MEMORYSYSTEM;
 
 bool MemorySystem_UnitTest();
 bool BitArray_UnitTest();
 
 int main(int i_arg, char **)
 {
-	//	const size_t 		sizeHeap = 1024 * 1024;
-	//
-	//	// you may not need this if you don't use a descriptor pool
-	//	const unsigned int 	numDescriptors = 2048;
-	//
-	//	// Allocate memory for my test heap.
-	//	void * pHeapMemory = HeapAlloc(GetProcessHeap(), 0, sizeHeap);
-	//	assert(pHeapMemory);
-	//
-	//	// Create your HeapManager and FixedSizeAllocators.
-	//	InitializeMemorySystem(pHeapMemory, sizeHeap, numDescriptors);
-	//
-	//	bool success = MemorySystem_UnitTest();
-	//	assert(success);
-	//
-	//	// Clean up your Memory System (HeapManager and FixedSizeAllocators)
-	//	DestroyMemorySystem();
-	//
-	//	HeapFree(GetProcessHeap(), 0, pHeapMemory);
-	//
-	//	// in a Debug build make sure we didn't leak any memory.
-	//#if defined(_DEBUG)
-	//	_CrtDumpMemoryLeaks();
-	//#endif // _DEBUG
-	//	
-		//unsigned long mask = 0x1000;
-		//unsigned long index;
-		//unsigned char isNonzero;
-		//while (1)
-		//{
-		//	std::cout << "Enter a positive integer as the mask: " << std::flush;
-		//	std::cin >> mask;
-		//	isNonzero = _BitScanForward(&index, mask);
-		//	if (isNonzero)
-		//	{
-		//		std::cout << "Mask: " << mask << " Index: " <<63 -index << std::endl;
-		//	}
-		//	else
-		//	{
-		//		std::cout << "No set bits found.  Mask is zero." << std::endl;
-		//	}
-		//}
+#ifdef TEST_BITARRAY
 	BitArray_UnitTest();
+#endif // TEST_BITARRAY
+#ifdef TEST_MEMORYSYSTEM
+	const size_t 		sizeHeap = 1024 * 1024;
+
+	// you may not need this if you don't use a descriptor pool
+	const unsigned int 	numDescriptors = 2048;
+
+	// Allocate memory for my test heap.
+	void * pHeapMemory = HeapAlloc(GetProcessHeap(), 0, sizeHeap);
+	assert(pHeapMemory);
+
+	// Create your HeapManager and FixedSizeAllocators.
+	InitializeMemorySystem(pHeapMemory, sizeHeap, numDescriptors);
+
+	bool success = MemorySystem_UnitTest();
+	assert(success);
+
+	// Clean up your Memory System (HeapManager and FixedSizeAllocators)
+	DestroyMemorySystem();
+
+	HeapFree(GetProcessHeap(), 0, pHeapMemory);
+
+	// in a Debug build make sure we didn't leak any memory.
+#if defined(_DEBUG)
+	_CrtDumpMemoryLeaks();
+#endif // _DEBUG
+#endif // TEST_MEMORYSYSTEM
 	_getch();
 	return 0;
 }
@@ -187,7 +173,9 @@ bool BitArray_UnitTest()
 	assert(arrTest->IsBitSet(5));
 	assert(!arrTest->IsBitClear(5));
 	arrTest->GetFirstSetBit(bit_test);
-	printf("%d", bit_test);
+	printf("The first set is: %zd\n", bit_test);
+	arrTest->GetFirstClearBit(bit_test);
+	printf("The first clear is: %zd\n", bit_test);
 	arrTest->ClearBit(5);
 	assert(!arrTest->IsBitSet(5));
 	assert(arrTest->IsBitClear(5));
