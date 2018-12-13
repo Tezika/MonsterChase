@@ -164,7 +164,7 @@ bool MemorySystem_UnitTest()
 
 bool BitArray_UnitTest()
 {
-	BitArray * arrTest = BitArray::Create(64, nullptr, true);
+	BitArray * arrTest = BitArray::Create(64);
 	assert(arrTest);
 	assert(arrTest->AreAllClear());
 	assert(!arrTest->AreAllSet());

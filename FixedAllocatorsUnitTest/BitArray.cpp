@@ -8,9 +8,9 @@
 
 #pragma intrinsic(_BitScanForward) 
 
-BitArray * BitArray::Create(size_t i_numBits, FixedSizeAllocator * i_pAllocator, bool i_startClear)
+BitArray * BitArray::Create(size_t i_numBits, bool i_clearAll)
 {
-	return new BitArray(i_numBits, i_startClear);
+	return new BitArray(i_numBits, i_clearAll);
 }
 
 BitArray::BitArray(size_t i_numBits, bool i_clearAll)
@@ -154,4 +154,9 @@ bool BitArray::GetFirstSetBit(size_t & o_bitNumber) const
 bool BitArray::operator[](size_t i_index) const
 {
 	return this->IsBitSet(i_index);
+}
+
+bool BitArray::IsBitValid(size_t i_bitNumber) const
+{
+	return i_bitNumber >= 0 && i_bitNumber < m_numOfBits;
 }

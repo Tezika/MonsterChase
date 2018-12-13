@@ -5,7 +5,7 @@ class FixedSizeAllocator;
 class BitArray
 {
 public:
-	static BitArray * Create(size_t i_numBits, FixedSizeAllocator * i_pAllocator, bool i_startClear = true);
+	static BitArray * Create(size_t i_numBits, bool i_clearAll = true);
 	BitArray(size_t i_numBits, bool i_clearAll);
 	BitArray(const BitArray &);
 	BitArray & operator=(const BitArray &);
@@ -28,7 +28,10 @@ public:
 	bool GetFirstClearBit(size_t & o_bitNumber) const;
 	bool GetFirstSetBit(size_t & o_bitNumber) const;
 
+	bool IsBitValid(size_t i_bitNumber) const;
+
 	bool operator[](size_t i_index) const;
+
 private:
 	BitArray();
 	uint8_t * m_pBits;
