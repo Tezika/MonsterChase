@@ -2,8 +2,7 @@
 #include <inttypes.h>
 #include <stdio.h>
 
-
-#ifdef USE_FIXED_ALLOCATOR
+#ifdef USE_FIXED_ALLOCATOR 
 void * __cdecl malloc(size_t i_size)
 {
 	// replace with calls to your HeapManager or FixedSizeAllocators

@@ -1,27 +1,32 @@
 #pragma once
 #include <inttypes.h>
-class BitArray;
-class HeapManager;
 
-class FixedSizeAllocator
+namespace Engine
 {
-public:
-	static FixedSizeAllocator * Create(size_t i_sizeOfBlock, size_t i_numOfBlocks, void * i_pDefaultHeap);
-	FixedSizeAllocator(size_t i_sizeOfBlock, size_t i_numOfBlocks, void * i_pDefaultHeap);
-	FixedSizeAllocator(const FixedSizeAllocator & i_other);
-	FixedSizeAllocator & operator=(const FixedSizeAllocator & i_other);
+	class HeapManager;
+	class BitArray;
 
-	void * Alloc();
-	bool Free(void * i_ptr);
+	class FixedSizeAllocator
+	{
+	public:
+		static FixedSizeAllocator * Create(size_t i_sizeOfBlock, size_t i_numOfBlocks, HeapManager * i_pDefaultHeap);
 
-	~FixedSizeAllocator();
+		void * Alloc();
+		bool Free(void * i_ptr);
 
-	inline const size_t GetSize() { return m_sizeOfBlock; }
-private:
-	FixedSizeAllocator() {};
+		~FixedSizeAllocator();
 
-	size_t m_sizeOfBlock;
-	size_t m_numOfBlocks;
-	BitArray * m_pAllocationBitsArray;
-	uint8_t * m_pAllocateMemory;
-};
+		inline const size_t GetSize() { return m_sizeOfBlock; }
+
+	private:
+		FixedSizeAllocator() {};
+		FixedSizeAllocator(size_t i_sizeOfBlock, size_t i_numOfBlocks, HeapManager * i_pDefaultHeap) {};
+		FixedSizeAllocator(const FixedSizeAllocator & i_other) {};
+		FixedSizeAllocator & operator=(const FixedSizeAllocator & i_other) {};
+
+		size_t m_sizeOfBlock;
+		size_t m_numOfBlocks;
+		BitArray * m_pAllocationBitsArray;
+		uint8_t * m_pAllocateMemory;
+	};
+}

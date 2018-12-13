@@ -19,16 +19,13 @@
 #endif // _DEBUG
 #define TEST_BITARRAY
 //#define TEST_MEMORYSYSTEM;
+using namespace Engine;
 
 bool MemorySystem_UnitTest();
 bool BitArray_UnitTest();
 
 int main(int i_arg, char **)
 {
-#ifdef TEST_BITARRAY
-	BitArray_UnitTest();
-#endif // TEST_BITARRAY
-#ifdef TEST_MEMORYSYSTEM
 	const size_t 		sizeHeap = 1024 * 1024;
 
 	// you may not need this if you don't use a descriptor pool
@@ -40,10 +37,15 @@ int main(int i_arg, char **)
 
 	// Create your HeapManager and FixedSizeAllocators.
 	InitializeMemorySystem(pHeapMemory, sizeHeap, numDescriptors);
-
+#ifdef TEST_MEMORYSYSTEM
 	bool success = MemorySystem_UnitTest();
 	assert(success);
+#endif // TEST_MEMORYSYSTEM
 
+#ifdef TEST_BITARRAY
+	bool success = BitArray_UnitTest();
+	assert(success);
+#endif	
 	// Clean up your Memory System (HeapManager and FixedSizeAllocators)
 	DestroyMemorySystem();
 
@@ -53,7 +55,6 @@ int main(int i_arg, char **)
 #if defined(_DEBUG)
 	_CrtDumpMemoryLeaks();
 #endif // _DEBUG
-#endif // TEST_MEMORYSYSTEM
 	_getch();
 	return 0;
 }
@@ -164,7 +165,7 @@ bool MemorySystem_UnitTest()
 
 bool BitArray_UnitTest()
 {
-	BitArray * arrTest = BitArray::Create(64);
+	BitArray * arrTest = BitArray::Create(64, GetDefaultHeap());
 	assert(arrTest);
 	assert(arrTest->AreAllClear());
 	assert(!arrTest->AreAllSet());
@@ -172,6 +173,7 @@ bool BitArray_UnitTest()
 	arrTest->SetBit(5);
 	assert(arrTest->IsBitSet(5));
 	assert(!arrTest->IsBitClear(5));
+	arrTest->SetBit(0);
 	arrTest->GetFirstSetBit(bit_test);
 	printf("The first set is: %zd\n", bit_test);
 	arrTest->GetFirstClearBit(bit_test);
