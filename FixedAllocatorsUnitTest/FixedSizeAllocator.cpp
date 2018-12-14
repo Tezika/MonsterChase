@@ -11,6 +11,8 @@ namespace Engine
 		//Create the allocator
 		FixedSizeAllocator * pAllocator = reinterpret_cast<FixedSizeAllocator *> (i_pDefaultHeap->Alloc(sizeof(FixedSizeAllocator)));
 		assert(pAllocator);
+		pAllocator->m_sizeOfBlock = i_sizeOfBlock;
+		pAllocator->m_numOfBlocks = i_numOfBlocks;
 		//Create the bit array
 		pAllocator->m_pAllocationBitsArray = BitArray::Create(i_numOfBlocks, i_pDefaultHeap, false);
 		pAllocator->m_pAllocateMemory = reinterpret_cast<uint8_t *>(i_pDefaultHeap->Alloc(i_sizeOfBlock * i_numOfBlocks));
@@ -21,6 +23,7 @@ namespace Engine
 	{
 		assert(m_pAllocationBitsArray->AreAllClear());
 		delete m_pAllocationBitsArray;
+		m_pAllocationBitsArray = nullptr;
 	}
 
 	void * FixedSizeAllocator::Alloc()

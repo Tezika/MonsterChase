@@ -43,8 +43,9 @@ namespace Engine
 		pHeapManager->m_pMemory = reinterpret_cast<uint8_t *>(i_pMemory);
 		pHeapManager->m_pAllocatableMemory = reinterpret_cast<uint8_t *>(i_pMemory) + sizeof(HeapManager);
 		pHeapManager->m_pMemoryMark = reinterpret_cast<uint8_t *>(i_pMemory) + sizeof(HeapManager);
-
+	 
 		pHeapManager->m_sizeOfMemory = i_sizeMemory - sizeof(HeapManager);
+		pHeapManager->m_pMemoryBoundary = pHeapManager->m_pMemoryMark + pHeapManager->m_sizeOfMemory;
 		pHeapManager->m_numOfDescription = i_numDescription;
 		pHeapManager->m_usedMemory = 0;
 		pHeapManager->m_usedDescriptors = 0;
@@ -242,6 +243,11 @@ namespace Engine
 	BlockDescriptor * HeapManager::MoveToNextBlock(BlockDescriptor *i_pBlock) const
 	{
 		assert(i_pBlock);
+		//check whether the address cross the boundary or not
+		if (i_pBlock ->m_pBlockStarAddr + i_pBlock -> m_sizeBlock > this->m_pMemoryBoundary)
+		{
+			return nullptr;
+		}
 		//Move the pointer based on the blocksize.
 		auto pNext = reinterpret_cast<BlockDescriptor *>(i_pBlock->m_pBlockStarAddr + i_pBlock->m_sizeBlock);
 		if (pNext == nullptr || pNext->m_pBlockStarAddr == nullptr)

@@ -3,7 +3,9 @@
 namespace Engine
 {
 	class HeapManager;
+	class FixedSizeAllocator;
 
+//#define USE_FIXED_ALLOCATOR
 
 #ifdef USE_FIXED_ALLOCATOR
 	struct FSAInitData
@@ -13,8 +15,10 @@ namespace Engine
 	};
 
 	bool InitializeFixedSizeAllocators();
-	FixedSizeAllocator * CreateFixedSizeAllocator(size_t i_sizeOfBlock, size_t i_numOfBlocks);
+	bool InitializeFSAInitData();
+	FixedSizeAllocator * FindFixedSizeAllocator(size_t i_size);
 
+	bool FreeFromFixedSizeAllocators(void * i_ptr);
 #endif;
 
 	// InitializeMemorySystem - initialize your memory system including your HeapManager and some FixedSizeAllocators

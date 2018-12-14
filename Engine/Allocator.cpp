@@ -8,7 +8,7 @@ void * operator new(size_t i_size)
 {
 	DEBUG_PRINT("Allocated new memory, size is %d.", i_size);
 	assert(Engine::HeapManager::s_pDefalutHeapManager);
-	void * memory = _alloc(i_size);
+ 	void * memory = _alloc(i_size);
 	assert(memory);
 	return memory;
 }

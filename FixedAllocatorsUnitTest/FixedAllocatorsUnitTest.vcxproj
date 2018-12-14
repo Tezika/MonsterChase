@@ -164,6 +164,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BitArray.h" />
+    <ClInclude Include="FixedAllocators.h" />
     <ClInclude Include="FixedSizeAllocator.h" />
     <ClInclude Include="MemorySystem.h" />
     <ClInclude Include="pch.h" />

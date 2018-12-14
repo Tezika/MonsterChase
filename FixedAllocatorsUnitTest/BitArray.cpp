@@ -135,4 +135,3 @@ namespace Engine
 		return i_bitNumber >= 0 && i_bitNumber < m_numOfBits;
 	}
 }
-

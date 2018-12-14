@@ -50,6 +50,7 @@ namespace Engine
 		uint8_t * m_pMemory;
 		uint8_t * m_pAllocatableMemory;
 		uint8_t * m_pMemoryMark;
+		uint8_t * m_pMemoryBoundary;
 		BlockDescriptor * m_pDescriptorHead;
 		size_t m_sizeOfMemory;
 		size_t m_numOfDescription;

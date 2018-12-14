@@ -2,7 +2,7 @@
 #pragma once
 class HeapManager;
 
-//#define USE_CUSTOM_ALLOCATE
+#define USE_CUSTOM_ALLOCATE
 
 // TRACK NEW: only track in Debug build
 #ifdef _DEBUG

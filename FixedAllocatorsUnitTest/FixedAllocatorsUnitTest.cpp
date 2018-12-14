@@ -3,6 +3,7 @@
 #include "pch.h"
 #include <Windows.h>
 #include "MemorySystem.h"
+#include "FixedAllocators.h"
 
 #include <assert.h>
 #include <algorithm>
@@ -17,8 +18,8 @@
 #include <crtdbg.h>
 
 #endif // _DEBUG
-#define TEST_BITARRAY
-//#define TEST_MEMORYSYSTEM;
+//#define TEST_BITARRAY
+#define TEST_MEMORYSYSTEM
 using namespace Engine;
 
 bool MemorySystem_UnitTest();
@@ -55,6 +56,7 @@ int main(int i_arg, char **)
 #if defined(_DEBUG)
 	_CrtDumpMemoryLeaks();
 #endif // _DEBUG
+	printf("Congrat! You passed the unit test.\n");
 	_getch();
 	return 0;
 }
@@ -76,7 +78,7 @@ bool MemorySystem_UnitTest()
 
 		size_t			sizeAlloc = 1 + (rand() & (maxTestAllocationSize - 1));
 
-		void * pPtr = malloc(sizeAlloc);
+		void * pPtr = myMalloc(sizeAlloc);
 
 		// if allocation failed see if garbage collecting will create a large enough block
 		if (pPtr == nullptr)
@@ -104,16 +106,16 @@ bool MemorySystem_UnitTest()
 			void * pPtrToFree = AllocatedAddresses.back();
 			AllocatedAddresses.pop_back();
 
-			free(pPtrToFree);
+			myFree(pPtrToFree);
 			numFrees++;
 		}
 		else if ((rand() % garbageCollectAboutEvery) == 0)
 		{
+			//printf("Collect num is %d\n", numCollects);
 			Collect();
 
 			numCollects++;
 		}
-
 	} while (1);
 
 	// now free those blocks in a random order
@@ -136,11 +138,11 @@ bool MemorySystem_UnitTest()
 		// our heap should be one single block, all the memory it started with
 
 		// do a large test allocation to see if garbage collection worked
-		void * pPtr = malloc(totalAllocated / 2);
+		void * pPtr = myMalloc(totalAllocated / 2);
 
 		if (pPtr)
 		{
-			free(pPtr);
+			myFree(pPtr);
 		}
 		else
 		{
@@ -158,7 +160,6 @@ bool MemorySystem_UnitTest()
 
 	delete[] pNewTest;
 
-	printf("Congrat! You passed the unit test.");
 	// we succeeded
 	return true;
 }
