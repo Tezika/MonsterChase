@@ -121,6 +121,12 @@ namespace Engine
 				p = this->MoveToNextBlock(p);
 			}
 		}
+		// Check whether there is enough memory for new allocation
+		if (m_pAllocatableMemory + sizeof(BlockDescriptor) + i_size > m_pMemoryBoundary)
+		{
+			//It cannot allocate new memory; Perhaps, it needs to wait for collecting.
+			return nullptr;
+		}
 
 		//Create a descriptor firstly
 		BlockDescriptor* pDescriptor = reinterpret_cast<BlockDescriptor *>(m_pAllocatableMemory);
