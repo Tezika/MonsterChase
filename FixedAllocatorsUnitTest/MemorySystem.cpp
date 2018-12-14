@@ -46,6 +46,7 @@ namespace Engine
 	{
 		// Destroy your HeapManager and FixedSizeAllocators
 		// Destory FixedSizeAllocators
+#ifdef USE_FIXED_ALLOCATORS
 		FixedSizeAllocator * pTempAllocator;
 		for (size_t i = 0; i < s_numOfFSASize; i++)
 		{
@@ -54,6 +55,7 @@ namespace Engine
 			delete pTempAllocator;
 		}
 		delete s_pFixedSizeAllocators;
+#endif
 		// Destory the heap manager
 		assert(s_pDefaultHeap != nullptr);
 		s_pDefaultHeap->Destroy();
