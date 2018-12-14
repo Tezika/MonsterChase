@@ -54,6 +54,8 @@ void operator delete(void * i_ptr)
 
 void * operator new[](size_t i_size)
 {
+	// Since there is only new char[] in the unitest file, I don't need to deal with different types of new[]. 
+	// Here I just wonder that if we need to deal with, what's way can we choose to make it. Overriding the new[] for every class we want to new?
 	// replace with calls to your HeapManager or FixedSizeAllocators
 	printf("new [] %zu\n", i_size);
 	return myMalloc(i_size);
@@ -62,6 +64,7 @@ void * operator new[](size_t i_size)
 void operator delete [](void * i_ptr)
 {
 	// replace with calls to your HeapManager or FixedSizeAllocators
+	// There is the same reason of the new[]
 	printf("delete [] 0x%" PRIXPTR "\n", reinterpret_cast<uintptr_t>(i_ptr));
 	return myFree(i_ptr);
 }
