@@ -21,9 +21,17 @@ namespace Engine
 
 	FixedSizeAllocator::~FixedSizeAllocator()
 	{
-		assert(m_pAllocationBitsArray->AreAllClear());
-		delete m_pAllocationBitsArray;
-		m_pAllocationBitsArray = nullptr;
+		assert(m_pAllocationBitsArray->AreAllSet());
+		if (m_pAllocateMemory != nullptr)
+		{
+			delete m_pAllocateMemory;
+			m_pAllocateMemory = nullptr;
+		}
+		if (m_pAllocationBitsArray != nullptr)
+		{
+			delete m_pAllocationBitsArray;
+			m_pAllocationBitsArray = nullptr;
+		}
 	}
 
 	void * FixedSizeAllocator::Alloc()

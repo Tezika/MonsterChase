@@ -19,6 +19,7 @@ namespace Engine
 		inline const size_t GetSize() { return m_sizeOfBlock; }
 
 	private:
+		//Private it's constructor, copy constructor and assignment operator to make it only be created by 'Create' method.
 		FixedSizeAllocator() {};
 		FixedSizeAllocator(size_t i_sizeOfBlock, size_t i_numOfBlocks, HeapManager * i_pDefaultHeap) {};
 		FixedSizeAllocator(const FixedSizeAllocator & i_other) {};

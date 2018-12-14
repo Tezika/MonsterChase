@@ -160,6 +160,10 @@ bool MemorySystem_UnitTest()
 
 	delete[] pNewTest;
 
+	printf("The number of alloc is %ld.\n", numAllocs);
+	printf("The number of collect is %ld.\n", numCollects);
+	printf("The number of free is %ld.\n", numFrees);
+
 	// we succeeded
 	return true;
 }

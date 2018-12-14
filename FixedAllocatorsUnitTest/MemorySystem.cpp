@@ -8,7 +8,8 @@
 namespace Engine
 {
 	HeapManager * s_pDefaultHeap;
-#ifdef USE_FIXED_ALLOCATOR
+
+#ifdef USE_FIXED_ALLOCATORS
 	FSAInitData * s_pFSASizes;
 	FixedSizeAllocator ** s_pFixedSizeAllocators;
 	size_t s_numOfFSASize = 6;
@@ -24,7 +25,7 @@ namespace Engine
 		assert(pHeapManager);
 
 		s_pDefaultHeap = pHeapManager;
-#ifdef USE_FIXED_ALLOCATOR
+#ifdef USE_FIXED_ALLOCATORS
 		InitializeFixedSizeAllocators();
 #endif // USE_FIXED_ALLOCATOR
 		DEBUG_PRINT("The memory system initialized succuessfully!");
@@ -45,7 +46,14 @@ namespace Engine
 	{
 		// Destroy your HeapManager and FixedSizeAllocators
 		// Destory FixedSizeAllocators
-
+		FixedSizeAllocator * pTempAllocator;
+		for (size_t i = 0; i < s_numOfFSASize; i++)
+		{
+			pTempAllocator = s_pFixedSizeAllocators[i];
+			s_pFixedSizeAllocators[i] = nullptr;
+			delete pTempAllocator;
+		}
+		delete s_pFixedSizeAllocators;
 		// Destory the heap manager
 		assert(s_pDefaultHeap != nullptr);
 		s_pDefaultHeap->Destroy();
@@ -57,7 +65,7 @@ namespace Engine
 		return s_pDefaultHeap;
 	}
 
-#ifdef USE_FIXED_ALLOCATOR
+#ifdef USE_FIXED_ALLOCATORS
 	bool InitializeFixedSizeAllocators()
 	{
 		assert(InitializeFSAInitData());
@@ -121,6 +129,10 @@ namespace Engine
 		bool successful = false;
 		for (size_t i = 0; i < s_numOfFSASize; i++)
 		{
+			if (s_pFixedSizeAllocators[i] == nullptr)
+			{
+				continue;
+			}
 			successful = s_pFixedSizeAllocators[i]->Free(i_ptr);
 			if (successful)
 			{

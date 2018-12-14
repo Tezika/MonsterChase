@@ -5,9 +5,9 @@ namespace Engine
 	class HeapManager;
 	class FixedSizeAllocator;
 
-#define USE_FIXED_ALLOCATOR
+#define USE_FIXED_ALLOCATORS
 
-#ifdef USE_FIXED_ALLOCATOR
+#ifdef USE_FIXED_ALLOCATORS
 	struct FSAInitData
 	{
 		size_t	sizeBlock;

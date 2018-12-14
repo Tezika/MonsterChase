@@ -33,6 +33,7 @@ namespace Engine
 		bool operator[](size_t i_index) const;
 
 	private:
+		//Private it's constructor, copy constructor and assignment operator to make it that can be created by 'Create' method
 		BitArray() {};
 		BitArray(size_t i_numBits, bool i_clearAll) {};
 		BitArray(const BitArray &) {};

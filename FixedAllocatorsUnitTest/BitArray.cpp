@@ -27,7 +27,6 @@ namespace Engine
 
 	BitArray::~BitArray()
 	{
-		assert(!this->AreAllClear());
 		if (m_pBits != nullptr)
 		{
 			delete m_pBits;
@@ -104,12 +103,12 @@ namespace Engine
 			}
 		}
 		o_bitNumber = byteIndex * 8 + bitIndex;
-		return o_bitNumber != m_numOfBits;
+		return byteIndex != m_sizeOfBytes;
 	}
 
 	bool BitArray::GetFirstSetBit(size_t & o_bitNumber) const
 	{
-		size_t byteIndex = 0;
+		size_t byteIndex = m_sizeOfBytes;
 		// quick skip bytes where no bits are set   
 		while ((m_pBits[byteIndex] == 0) && (byteIndex < m_sizeOfBytes))
 			byteIndex++;
@@ -122,7 +121,7 @@ namespace Engine
 		unsigned long bitIndex;
 		_BitScanForward(&bitIndex, byte);
 		o_bitNumber = byteIndex * 8 + bitIndex;
-		return o_bitNumber != m_numOfBits;
+		return byteIndex != m_sizeOfBytes;
 	}
 
 	bool BitArray::operator[](size_t i_index) const

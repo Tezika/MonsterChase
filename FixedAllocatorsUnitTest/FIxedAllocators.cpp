@@ -11,7 +11,7 @@ void * __cdecl myMalloc(size_t i_size)
 	// replace with calls to your HeapManager or FixedSizeAllocators
 	printf("malloc %zu\n", i_size);
 	void * pReturn = nullptr;
-#ifdef USE_FIXED_ALLOCATOR
+#ifdef USE_FIXED_ALLOCATORS
 	Engine::FixedSizeAllocator * pFSA = Engine::FindFixedSizeAllocator(i_size);
 	if (pFSA)
 		pReturn = pFSA->Alloc();
@@ -29,7 +29,7 @@ void __cdecl myFree(void * i_ptr)
 {
 	// replace with calls to your HeapManager or FixedSizeAllocators
 	printf("free 0x%" PRIXPTR "\n", reinterpret_cast<uintptr_t>(i_ptr));
-#ifdef USE_FIXED_ALLOCATOR
+#ifdef USE_FIXED_ALLOCATORS
 	bool successful = Engine::FreeFromFixedSizeAllocators(i_ptr);
 	if (!successful)
 	{
