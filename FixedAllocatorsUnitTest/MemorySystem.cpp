@@ -10,8 +10,8 @@ namespace Engine
 	HeapManager * s_pDefaultHeap;
 
 #ifdef USE_FIXED_ALLOCATORS
-	FSAInitData * s_pFSASizes;
-	FixedSizeAllocator ** s_pFixedSizeAllocators;
+	FSAInitData * s_pFSASizes = nullptr;
+	FixedSizeAllocator ** s_pFixedSizeAllocators = nullptr;
 	size_t s_numOfFSASize = 6;
 	size_t s_maxFSASize = 256;
 	size_t s_minFSASize = 8;
@@ -70,7 +70,8 @@ namespace Engine
 #ifdef USE_FIXED_ALLOCATORS
 	bool InitializeFixedSizeAllocators()
 	{
-		assert(InitializeFSAInitData());
+		bool successful = InitializeFSAInitData();
+		assert(successful);
 		s_pFixedSizeAllocators = reinterpret_cast<FixedSizeAllocator **>(s_pDefaultHeap->Alloc(sizeof(FixedSizeAllocator *) * s_numOfFSASize));
 		assert(s_pFixedSizeAllocators);
 		for (size_t i = 0; i < s_numOfFSASize; i++)

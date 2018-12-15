@@ -8,6 +8,7 @@ namespace Engine
 {
 	FixedSizeAllocator * FixedSizeAllocator::Create(size_t i_sizeOfBlock, size_t i_numOfBlocks, HeapManager * i_pDefaultHeap)
 	{
+		assert(i_pDefaultHeap);
 		//Create the allocator
 		FixedSizeAllocator * pAllocator = reinterpret_cast<FixedSizeAllocator *> (i_pDefaultHeap->Alloc(sizeof(FixedSizeAllocator)));
 		assert(pAllocator);
