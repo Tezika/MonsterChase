@@ -1,19 +1,12 @@
 #include "game.h"
 #include  "Engine-init.h"
+#include <Windows.h>
 
 using namespace MonsterChase;
 
-int main()
+int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
-	// insert code here...
-	Engine::Initialize();
-	Game::GetInstance().Initialize();
-	while (!Game::GetInstance().ShouldEnd())
-	{
-		Game::GetInstance().Run();
-	}
-	Game::GetInstance().Stop();
-	Engine::Destroy();
+#if defined _DEBUG
 	_CrtDumpMemoryLeaks();
-	system("pause");
+#endif // _DEBUG
 }
