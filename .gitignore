@@ -263,3 +263,6 @@ __pycache__/
 # Library directories
 [Ll]ibs_Debug_*/
 [Ll]ibs_Release_*/
+
+# Export files
+Exports/
