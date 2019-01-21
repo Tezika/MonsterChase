@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "GameObject.h"
 
-
 namespace Engine
 {
 	GameObject::GameObject()
@@ -22,6 +21,11 @@ namespace Engine
 		{
 			delete m_pController;
 			m_pController = nullptr;
+		}
+		if ( m_pSprite != nullptr )
+		{
+			GLib::Sprites::Release( m_pSprite );
+			m_pSprite = nullptr;
 		}
 	}
 
