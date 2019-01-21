@@ -13,18 +13,18 @@ namespace MonsterChase
 
 	InputController::~InputController()
 	{
-
+		m_pControlObject = nullptr;
 	}
 
 	void InputController::UpdateGameObject()
 	{
 		char input = ' ';
 		bool inputValid = false;
-		while (!inputValid)
+		while ( !inputValid )
 		{
 			std::cout << "How do you want to move the player(a/A: Left, s/S: Down, d/D: right, w/W: up) or q/Q for quit?  ";
 			std::cin >> input;
-			switch (input) {
+			switch ( input ) {
 			case 'w':
 			case 'W':
 			case 's':
@@ -44,23 +44,23 @@ namespace MonsterChase
 		}
 
 		const Point2D<int> currentPosition = m_pControlObject->GetPosition();
-		switch (input) {
+		switch ( input ) {
 		case 'w':
 		case 'W':
 			//this->m_position += Point2D<int>(0, this->GetMoveSpeed());
-			m_pControlObject->SetPosition(Point2D<int>(currentPosition.m_x, currentPosition.m_y + this->m_moveSpeed));
+			m_pControlObject->SetPosition( Point2D<int>( currentPosition.m_x, currentPosition.m_y + this->m_moveSpeed ) );
 			break;
 		case 's':
 		case 'S':
-			m_pControlObject->SetPosition(Point2D<int>(currentPosition.m_x, currentPosition.m_y - this->m_moveSpeed));
+			m_pControlObject->SetPosition( Point2D<int>( currentPosition.m_x, currentPosition.m_y - this->m_moveSpeed ) );
 			break;
 		case 'a':
 		case 'A':
-			m_pControlObject->SetPosition(Point2D<int>(currentPosition.m_x - this->m_moveSpeed, currentPosition.m_y));
+			m_pControlObject->SetPosition( Point2D<int>( currentPosition.m_x - this->m_moveSpeed, currentPosition.m_y ) );
 			break;
 		case 'd':
 		case 'D':
-			m_pControlObject->SetPosition(Point2D<int>(currentPosition.m_x + this->m_moveSpeed, currentPosition.m_y));
+			m_pControlObject->SetPosition( Point2D<int>( currentPosition.m_x + this->m_moveSpeed, currentPosition.m_y ) );
 			break;
 		case 'q':
 		case 'Q':
@@ -72,15 +72,9 @@ namespace MonsterChase
 		}
 
 		const Point2D<int> newPosition = m_pControlObject->GetPosition();
-		this->m_pControlObject->SetPosition(Point2D<int>(
-			Game::GetInstance().ClampForMap(newPosition.m_x, Game::GetInstance().GetGridWidth()),
-			Game::GetInstance().ClampForMap(newPosition.m_y, Game::GetInstance().GetGridHeight())
-		));
-	}
-
-
-	void InputController::SetGameObject(Engine::GameObject & i_other)
-	{
-		this->m_pControlObject = &i_other;
+		this->m_pControlObject->SetPosition( Point2D<int>(
+			Game::GetInstance().ClampForMap( newPosition.m_x, Game::GetInstance().GetGridWidth() ),
+			Game::GetInstance().ClampForMap( newPosition.m_y, Game::GetInstance().GetGridHeight() )
+			) );
 	}
 }

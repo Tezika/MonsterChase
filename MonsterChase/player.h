@@ -8,18 +8,16 @@
 
 #ifndef player_h
 #define player_h
-
-#include "object.h"
+#include "entity.h"
 
 namespace MonsterChase
 {
-	class Player : public Object
+	class Player : public Entity
 	{
 	public:
 		Player();
-		Player(const Engine::TString & name, int moveSpeed, int health);
+		Player(const Engine::TString & name, const Engine::Point2D<int> & i_position, int health);
 		~Player();
-		void Move() override;
 		void PrintOutInfo() override;
 
 	private:
