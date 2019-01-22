@@ -62,6 +62,7 @@ namespace MonsterChase
 		newController->SetGameObject( newEnemy->m_pData );
 		newController->SetPlayer( Game::GetInstance().GetCurPlayer() );
 		newController->SetMoveSpeed( rand() % 3 + 1 );
+		newEnemy->m_pData->SetController( newController );
 
 		return newEnemy->m_pData;
 	}

@@ -27,17 +27,17 @@ namespace MonsterChase
 
 	private:
 		Game();
-		Game(Game const &);
-		void operator=(Game const &);
+		Game( Game const & );
+		void operator=( Game const & );
 
 	public:
-		void Initialize();
+		bool Initialize( HINSTANCE i_hInstance, int i_nCmdShow );
 		void Run();
-		void Stop();
+		void Destroy();
 
 		bool ShouldEnd() { return m_bEnd; }
 		void TriggerEnd() { m_bEnd = true; }
-		int ClampForMap(int val, int maxiumVal);
+		int ClampForMap( int val, int maxiumVal );
 		Player * GetCurPlayer() { return m_pPlayer; }
 		inline const int GetGridWidth() { return m_grid_Width; }
 		inline const int GetGridHeight() { return m_grid_Height; }

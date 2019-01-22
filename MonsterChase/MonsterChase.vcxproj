@@ -144,7 +144,7 @@
     <ClCompile Include="AIController.cpp" />
     <ClCompile Include="AIController.h" />
     <ClCompile Include="InputController.cpp" />
-    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="enemy.h" />

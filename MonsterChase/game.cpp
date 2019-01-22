@@ -10,10 +10,22 @@
 #include "Allocator.h"
 #include "InputController.h"
 #include "AIController.h"
+#include "GLibUtility.h"
 #include <ctime>
 
 namespace MonsterChase
 {
+	void TestKeyCallback( unsigned int i_VKeyID, bool bWentDown )
+	{
+#ifdef _DEBUG
+		const size_t	lenBuffer = 65;
+		char			Buffer[lenBuffer];
+
+		sprintf_s( Buffer, lenBuffer, "VKey 0x%04x went %s\n", i_VKeyID, bWentDown ? "down" : "up" );
+		OutputDebugStringA( Buffer );
+#endif // __DEBUG
+	}
+
 	Game::Game()
 		:m_grid_Width( 32 ),
 		m_grid_Height( 32 ),
@@ -22,73 +34,58 @@ namespace MonsterChase
 	{
 	}
 
-	void Game::Initialize()
+	bool Game::Initialize( HINSTANCE i_hInstance, int i_nCmdShow )
 	{
-		std::cout << "----------Setup Begin----------" << std::endl;
+		DEBUG_PRINT( "----------Begin the setup for the game.----------" );
 		srand( time_t( NULL ) );
-		//Player initialization
-		TString playerName;
-		std::cout << "what's your name? ";
-		std::cin >> playerName;
-		m_pPlayer = new TRACK_NEW Player( playerName, Point2D<int>( 1, 1 ), 15 );
-
-		// Setup the inputController and assign it to the player
-		InputController * pInputController = new InputController();
-		pInputController->SetMoveSpeed( 1 );
-		pInputController->SetGameObject( m_pPlayer );
-		m_pPlayer->SetController( pInputController );
-
-		//Enemy initialization
-		int num_enemy = 0;
-		std::cout << "Hi " << playerName << "! How many enemy do you want to fight with? ";
-		std::cin >> num_enemy;
-
-		m_pEnemyManager = new EnemyManager();
-		while ( num_enemy != 0 )
+		// Initialize the GLib.
+		bool bSuccess = GLib::Initialize( i_hInstance, i_nCmdShow, "GLibTest", -1, 800, 600 );
+		if ( !bSuccess )
 		{
-			auto enemy = m_pEnemyManager->CreateEnemy();
-			if ( enemy != nullptr )
-			{
-				num_enemy--;
-				enemy->PrintOutInfo();
-			}
+			return bSuccess;
 		}
-		std::cout << "----------Setup End-----------" << std::endl;
+		// Initialize the player
+		m_pPlayer = new TRACK_NEW Player( "Tezika", Point2D<int>( 1, 1 ), 15 );
+		m_pPlayer->SetController( nullptr );
+		GLibSprite * testSprite = Engine::CreateSprite( "Data\\GoodGuy.dds" );
+		m_pPlayer->SetSprite( testSprite );
+		m_pPlayer->SetSpritePosition( GLibPoint2D{ -180,-100 } );
+		DEBUG_PRINT( "----------Finish the setup for the game.----------" );
+		return true;
 	}
 
 	void Game::Run()
 	{
-		std::cout << "----------A Round Start-----------" << std::endl;
-		//Create new enemy every six rounds
-		if ( ++m_roundTimer_newEnemy == 6 )
+		do
 		{
-			std::cout << "Now creating a new enemy occasionally." << std::endl;
-			m_roundTimer_newEnemy = 0;
-			auto enemy = m_pEnemyManager->CreateEnemy();
-			if ( enemy != nullptr )
+			GLib::SetKeyStateChangeCallback( TestKeyCallback );
+			GLib::Service( m_bEnd );
+			// IMPORTANT: Tell GLib that we want to start rendering
+			GLib::BeginRendering();
+			// Tell GLib that we want to render some sprites
+			GLib::Sprites::BeginRendering();
+			// Rendering the player for test
+			GLibSprite * pPlayerSprite = m_pPlayer->GetSprite();
+			if ( pPlayerSprite != nullptr )
 			{
-				enemy->PrintOutInfo();
+				GLib::Sprites::RenderSprite( *pPlayerSprite, m_pPlayer->GetSpritePosition(), 0 );
 			}
-		}
-		//Move the player firstly.
-		m_pPlayer->GetController()->UpdateGameObject();
-		m_pPlayer->PrintOutInfo();
-
-		m_pEnemyManager->MoveEnemies();
-		m_pEnemyManager->RemoveDiedEnemy();
-
-		m_pEnemyManager->BattleWithPlayer( m_pPlayer );
-		std::cout << "----------The Round End-------------" << std::endl;
+			// Tell GLib we're done rendering sprites
+			GLib::Sprites::EndRendering();
+			// IMPORTANT: Tell GLib we're done rendering
+			GLib::EndRendering();
+		} while ( !m_bEnd );
 	}
 
-	void Game::Stop()
+	void Game::Destroy()
 	{
-		std::cout << "Your will quit the game :)" << std::endl;
+		delete m_pPlayer;
+		m_pPlayer = nullptr;
 		delete m_pEnemyManager;
 		m_pEnemyManager = nullptr;
-		delete  m_pPlayer;
-		m_pPlayer = nullptr;
-		_CrtDumpMemoryLeaks();
+		// When the game stops, it should shut down the GLib.
+		GLib::Shutdown();
+		DEBUG_PRINT( "----------Shutdown the game successfully.----------" );
 	}
 
 	int Game::ClampForMap( int val, int maxiumVal )
