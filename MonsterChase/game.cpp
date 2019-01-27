@@ -47,6 +47,7 @@ namespace MonsterChase
 		// Initialize the player
 		m_pPlayer = new TRACK_NEW Player( "Tezika", Point2D<int>( 1, 1 ), 15 );
 		m_pPlayer->SetController( nullptr );
+		// Create a test sprite to test whether it can be rendered successfully by GLib or not.
 		GLibSprite * testSprite = Engine::CreateSprite( "Data\\GoodGuy.dds" );
 		m_pPlayer->SetSprite( testSprite );
 		m_pPlayer->SetSpritePosition( GLibPoint2D{ -180,-100 } );
@@ -64,7 +65,7 @@ namespace MonsterChase
 			GLib::BeginRendering();
 			// Tell GLib that we want to render some sprites
 			GLib::Sprites::BeginRendering();
-			// Rendering the player for test
+			// Rendering the player for testing
 			GLibSprite * pPlayerSprite = m_pPlayer->GetSprite();
 			if ( pPlayerSprite != nullptr )
 			{
