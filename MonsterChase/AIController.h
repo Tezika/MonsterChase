@@ -4,7 +4,7 @@
 
 namespace MonsterChase
 {
-	//Move assigned GameObject towards the player.
+	//Simple AI Controller: Move assigned GameObject towards the player.
 	class AIController : public Engine::IController
 	{
 	public:
