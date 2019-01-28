@@ -49,17 +49,23 @@
     <Filter Include="Source Files\Interface">
       <UniqueIdentifier>{68f96806-69ad-4706-9504-5a35cf16e235}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Math">
-      <UniqueIdentifier>{f5c91e4b-1706-4c0a-a957-32d2b0fb624d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Math">
-      <UniqueIdentifier>{2eb21401-a8d9-4df9-8f5a-f545ac204c9e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{036f630b-9a1b-4c0f-ad01-74f319334500}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{53609390-675a-4d27-a84f-00dfa287e2b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Mathematics">
+      <UniqueIdentifier>{f5c91e4b-1706-4c0a-a957-32d2b0fb624d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Mathematics">
+      <UniqueIdentifier>{2eb21401-a8d9-4df9-8f5a-f545ac204c9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Timer">
+      <UniqueIdentifier>{b16b5b39-6c99-40dd-8ed9-9428f6910714}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Timer">
+      <UniqueIdentifier>{0551cc2b-4b87-42ce-8549-3c9d0df4774a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -94,10 +100,13 @@
       <Filter>Header Files\MemoryManagement</Filter>
     </ClInclude>
     <ClInclude Include="Point2D.h">
-      <Filter>Header Files\Math</Filter>
+      <Filter>Header Files\Mathematics</Filter>
     </ClInclude>
     <ClInclude Include="GLibUtility.h">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files\Timer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +133,9 @@
     </ClCompile>
     <ClCompile Include="GLibUtility.cpp">
       <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files\Timer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

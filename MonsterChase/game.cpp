@@ -12,6 +12,9 @@
 #include "AIController.h"
 #include "GLibUtility.h"
 #include <ctime>
+#include "Timer.h"
+
+extern float Timing::GetLastFrameTime();
 
 namespace MonsterChase
 {
@@ -58,6 +61,9 @@ namespace MonsterChase
 	{
 		do
 		{
+			// Test for the engine timer
+			float frameTime = Timing::GetLastFrameTime();
+			DEBUG_PRINT( "The frame time is %.3f", frameTime );
 			GLib::SetKeyStateChangeCallback( TestKeyCallback );
 			GLib::Service( m_bEnd );
 			// IMPORTANT: Tell GLib that we want to start rendering
