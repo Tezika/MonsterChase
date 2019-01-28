@@ -29,14 +29,18 @@ namespace Timing
 			g_deltaTickCount.QuadPart *= 1000000;
 
 			// Cache the query frequency if it is never cached before.
-			QueryPerformanceFrequency( &g_performanceFrequency );
-
+			if ( !g_performanceFrequency.QuadPart )
+			{
+				QueryPerformanceFrequency( &g_performanceFrequency );
+			}
+			// The result we got is millseconds.
 			g_curFrame_elapsedTime = (float) ( g_deltaTickCount.QuadPart / g_performanceFrequency.QuadPart );
+			// Convert the result to sec
 			g_curFrame_elapsedTime /= 1000;
 		}
 		else
 		{
-			g_curFrame_elapsedTime = 0.1333f;
+			g_curFrame_elapsedTime = 0.0167f;
 		}
 
 		g_lastFrame_tickCount.QuadPart = g_curFrame_tickCount.QuadPart;
