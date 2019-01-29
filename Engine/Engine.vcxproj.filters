@@ -67,6 +67,18 @@
     <Filter Include="Header Files\Timer">
       <UniqueIdentifier>{0551cc2b-4b87-42ce-8549-3c9d0df4774a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{98488b1c-e048-4476-b3fd-a00bd1f1bbbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{5fff3f77-6a33-44a9-b047-5d58a3c3ef09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Render">
+      <UniqueIdentifier>{eed19b28-7731-4679-acd3-e8b1578708c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Render">
+      <UniqueIdentifier>{cf5259f5-062f-4ab7-ad93-913bfe6f2405}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -108,6 +120,12 @@
     <ClInclude Include="Timer.h">
       <Filter>Header Files\Timer</Filter>
     </ClInclude>
+    <ClInclude Include="RenderInfo.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsInfo.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -136,6 +154,12 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Source Files\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderInfo.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsInfo.cpp">
+      <Filter>Source Files\Physics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

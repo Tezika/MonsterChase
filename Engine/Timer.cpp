@@ -34,7 +34,7 @@ namespace Timing
 			}
 			// The result we got is millseconds.
 			g_curFrame_elapsedTime = 1000 * static_cast<float>( g_curFrame_tickCount.QuadPart - g_lastFrame_tickCount.QuadPart ) / g_performanceFrequency.QuadPart;
-			// Convert the result to sec
+			// Convert the result to sec.
 			g_curFrame_elapsedTime /= 1000;
 		}
 		else
