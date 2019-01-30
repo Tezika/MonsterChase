@@ -160,7 +160,9 @@
     <ClInclude Include="HeapManager.h" />
     <ClInclude Include="IController.h" />
     <ClInclude Include="PhysicsInfo.h" />
+    <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="RenderInfo.h" />
+    <ClInclude Include="RenderManager.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TList.h" />
     <ClInclude Include="Point2D.h" />
@@ -176,7 +178,9 @@
     <ClCompile Include="GLibUtility.cpp" />
     <ClCompile Include="HeapManager.cpp" />
     <ClCompile Include="PhysicsInfo.cpp" />
+    <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="RenderInfo.cpp" />
+    <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

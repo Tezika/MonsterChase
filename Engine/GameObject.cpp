@@ -12,7 +12,6 @@ namespace Engine
 		m_name( i_otherName ),
 		m_position( i_otherPosition )
 	{
-		m_posOfSprite = GLibPoint2D{ (float) m_position.m_x, (float) m_position.m_y };
 	}
 
 	GameObject::~GameObject()
@@ -21,11 +20,6 @@ namespace Engine
 		{
 			delete m_pController;
 			m_pController = nullptr;
-		}
-		if ( m_pSprite != nullptr )
-		{
-			GLib::Sprites::Release( m_pSprite );
-			m_pSprite = nullptr;
 		}
 	}
 
