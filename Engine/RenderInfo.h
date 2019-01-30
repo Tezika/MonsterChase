@@ -1,29 +1,35 @@
 #pragma once
+
 #include "GLib.h"
 
-class GameObject;
-
-namespace Rendering
+namespace Engine
 {
-	typedef GLib::Sprites::Sprite GLibSprite;
-	typedef GLib::Point2D GLibPoint2D;
+	class GameObject;
 
-	class RenderInfo
+	namespace Render
 	{
-	public:
-		RenderInfo(){};
-		RenderInfo( GameObject * i_pGo, GLibSprite * i_pSprite, GLibPoint2D i_pos );
+		typedef GLib::Sprites::Sprite GLibSprite;
+		typedef GLib::Point2D GLibPoint2D;
 
-		inline void SetPosition( GLibPoint2D & i_pos ) { m_posOfSprite = i_pos; };
-		inline GLibPoint2D & GetPosition(){ return m_posOfSprite; };
+		class RenderInfo
+		{
+		public:
+			RenderInfo(){};
+			RenderInfo( GameObject * i_pGo, GLibSprite * i_pSprite, GLibPoint2D i_pos );
 
-		inline GLibSprite * GetSprite(){ return m_pSprite; };
-		inline void SetSprite( GLibSprite * i_pSprite ){ m_pSprite = i_pSprite; };
+			inline void SetPosition( float i_x, float i_y ) { m_posOfSprite.x = i_x; m_posOfSprite.y = i_y; };
+			inline GLibPoint2D & GetPosition(){ return m_posOfSprite; };
 
-		~RenderInfo();
-	private:
-		GameObject * m_pGo;
-		GLibSprite * m_pSprite;
-		GLibPoint2D m_posOfSprite;
-	};
+			inline GLibSprite * GetSprite(){ return m_pSprite; };
+			inline void SetSprite( GLibSprite * i_pSprite ){ m_pSprite = i_pSprite; };
+
+			inline GameObject * GetGameObject(){ return m_pGo; }
+
+			~RenderInfo();
+		private:
+			GameObject * m_pGo;
+			GLibSprite * m_pSprite;
+			GLibPoint2D m_posOfSprite;
+		};
+	}
 }

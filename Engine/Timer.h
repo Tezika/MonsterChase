@@ -1,7 +1,10 @@
 #pragma once
 
-namespace Timing
+namespace Engine
 {
-	// The unit is sec for this function
-	float GetLastFrameTime();
+	namespace Timing
+	{
+		// The unit is sec for this function
+		float GetLastFrameTime();
+	}
 }

@@ -2,23 +2,26 @@
 #include "RenderInfo.h"
 #include "GameObject.h"
 
-namespace Rendering
+namespace Engine
 {
-	RenderInfo::RenderInfo( GameObject * i_pGo, GLibSprite * i_pSprite, GLibPoint2D i_pos ) :
-		m_pGo( i_pGo ),
-		m_pSprite( i_pSprite ),
-		m_posOfSprite( i_pos )
+	namespace Render
 	{
-
-	}
-
-	RenderInfo::~RenderInfo()
-	{
-		m_pGo = nullptr;
-		if ( m_pSprite != nullptr )
+		RenderInfo::RenderInfo( GameObject * i_pGo, GLibSprite * i_pSprite, GLibPoint2D i_pos ) :
+			m_pGo( i_pGo ),
+			m_pSprite( i_pSprite ),
+			m_posOfSprite( i_pos )
 		{
-			GLib::Sprites::Release( m_pSprite );
-			m_pSprite = nullptr;
+
+		}
+
+		RenderInfo::~RenderInfo()
+		{
+			m_pGo = nullptr;
+			if ( m_pSprite != nullptr )
+			{
+				GLib::Sprites::Release( m_pSprite );
+				m_pSprite = nullptr;
+			}
 		}
 	}
 }
