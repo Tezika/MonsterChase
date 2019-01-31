@@ -2,8 +2,12 @@
 
 namespace Engine
 {
+	class GameObject;
+
 	template<typename T>
 	class TList;
+
+	class TString;
 
 	namespace Render
 	{
@@ -21,14 +25,17 @@ namespace Engine
 			RenderManager( RenderManager const& ) = delete;
 			void operator=( RenderManager const& ) = delete;
 
+			bool AddRenderObject( GameObject * i_pGo, const TString & i_strSpriteName );
+			bool RemoveRenderObject( GameObject * i_pGo );
+
 			// Schedule functions
 			bool Initialize();
-			void Update( float i_dt );
+			void Update( float i_dt, bool & bEnd );
 			bool Destroy();
 
 		private:
 			RenderManager() {};
-			TList<RenderInfo> * m_pRenderInfo;
+			TList<RenderInfo> * m_pRenderInfos;
 		};
 	}
 }

@@ -5,13 +5,13 @@
 //  Created by  TezikaZhou on 2018/9/1.
 //  Copyright © 2018 Tezika ZHou. All rights reserved.
 //
-
 #ifndef game_h
 #define game_h
 
 #include <iostream>
 #include "enemymanager.h"
 #include "player.h"
+#include "Windows.h"
 
 namespace MonsterChase
 {

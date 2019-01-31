@@ -13,12 +13,12 @@
 #include "GLibUtility.h"
 #include <ctime>
 #include "Timer.h"
+#include "RenderManager.h"
 
 extern float Timing::GetLastFrameTime();
 
 namespace MonsterChase
 {
-
 	Game::Game()
 		:m_grid_Width( 32 ),
 		m_grid_Height( 32 ),
@@ -39,11 +39,10 @@ namespace MonsterChase
 		}
 		// Initialize the player
 		m_pPlayer = new TRACK_NEW Player( "Tezika", Point2D<int>( 1, 1 ), 15 );
-		//m_pPlayer->SetController( nullptr );
-		//GLibSprite * testSprite = Engine::CreateSprite( "Data\\GoodGuy.dds" );
-		//m_pPlayer->SetSprite( testSprite );
-		//m_pPlayer->SetSpritePosition( GLibPoint2D{ -180,-100 } );
-		//DEBUG_PRINT( "----------Finish the setup for the game.----------" );
+		m_pPlayer->SetController( nullptr );
+		const TString spriteName( "Data\\GoodGuy.dds" );
+		Render::RenderManager::GetInstance().AddRenderObject( m_pPlayer, spriteName );
+		DEBUG_PRINT( "----------Finish the setup for the game.----------" );
 		return true;
 	}
 
@@ -51,7 +50,12 @@ namespace MonsterChase
 	{
 		do
 		{
-			
+			float dt = Timing::GetLastFrameTime();
+			// Update the physics
+			// Update the rendering
+			Render::RenderManager::GetInstance().Update( dt, m_bEnd );
+
+
 		} while ( !m_bEnd );
 	}
 
@@ -61,8 +65,6 @@ namespace MonsterChase
 		m_pPlayer = nullptr;
 		delete m_pEnemyManager;
 		m_pEnemyManager = nullptr;
-		// When the game stops, it should shut down the GLib.
-		GLib::Shutdown();
 		DEBUG_PRINT( "----------Shutdown the game successfully.----------" );
 	}
 

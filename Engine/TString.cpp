@@ -8,62 +8,62 @@
 namespace Engine
 {
 	TString::TString()
-		:m_buffer(nullptr),
-		m_size(0)
+		:m_buffer( nullptr ),
+		m_size( 0 )
 	{
 	}
 
-	TString::TString(const TString & i_str)
+	TString::TString( const TString & i_str )
 	{
 		m_size = i_str.m_size;
 		m_buffer = new TRACK_NEW char[m_size];
-		strcpy_s(m_buffer, m_size, i_str.m_buffer);
+		strcpy_s( m_buffer, m_size, i_str.m_buffer );
 	}
 
-	TString::TString(const char * i_pStr)
+	TString::TString( const char * i_pStr )
 	{
-		m_size = strlen(i_pStr) + 1;
+		m_size = strlen( i_pStr ) + 1;
 		m_buffer = new TRACK_NEW char[m_size];
-		strcpy_s(m_buffer, m_size, i_pStr);
+		strcpy_s( m_buffer, m_size, i_pStr );
 	}
 
-	char & TString::operator[](unsigned int i_len)
+	char & TString::operator[]( unsigned int i_len )
 	{
 		return m_buffer[i_len];
 	}
 
-	void TString::operator=(const TString & i_str)
+	void TString::operator=( const TString & i_str )
 	{
-		if (m_buffer != nullptr)
+		if ( m_buffer != nullptr )
 		{
 			delete[] m_buffer;
 		}
 		m_size = i_str.m_size;
 		m_buffer = new TRACK_NEW char[m_size];
-		strcpy_s(m_buffer, m_size, i_str.m_buffer);
+		strcpy_s( m_buffer, m_size, i_str.m_buffer );
 	}
 
-	void TString::operator=(const char * i_pStr)
+	void TString::operator=( const char * i_pStr )
 	{
-		if (m_buffer != nullptr)
+		if ( m_buffer != nullptr )
 		{
 			delete[] m_buffer;
 		}
-		m_size = strlen(i_pStr) + 1;
+		m_size = strlen( i_pStr ) + 1;
 		m_buffer = new TRACK_NEW char[m_size];
-		strcpy_s(m_buffer, m_size, i_pStr);
+		strcpy_s( m_buffer, m_size, i_pStr );
 	}
 
-	void TString::operator+=(const TString & i_str)
+	void TString::operator+=( const TString & i_str )
 	{
 		size_t newSize = i_str.Length() + this->Length() - 1;
 		char* newBuffer = new TRACK_NEW char[newSize];
-		for (size_t i = 0; i < this->Length(); i++)
+		for ( size_t i = 0; i < this->Length(); i++ )
 		{
 			newBuffer[i] = m_buffer[i];
 		}
 		size_t count = this->Length() - 1;
-		for (size_t j = 0; j < i_str.Length(); j++)
+		for ( size_t j = 0; j < i_str.Length(); j++ )
 		{
 			newBuffer[j + count] = i_str.m_buffer[j];
 		}
@@ -74,17 +74,17 @@ namespace Engine
 		m_buffer = newBuffer;
 	}
 
-	void TString::operator+=(const char * i_pStr)
+	void TString::operator+=( const char * i_pStr )
 	{
-		size_t newSize = strlen(i_pStr) + this->Length() - 1;
+		size_t newSize = strlen( i_pStr ) + this->Length() - 1;
 		char* newBuffer = new TRACK_NEW char[newSize];
-		for (size_t i = 0; i < this->Length(); i++)
+		for ( size_t i = 0; i < this->Length(); i++ )
 		{
 			newBuffer[i] = m_buffer[i];
 		}
 		size_t count = this->Length() - 1;
 		size_t counter = 0;
-		while (*i_pStr)
+		while ( *i_pStr )
 		{
 			newBuffer[counter + count] = *i_pStr;
 			counter++;
@@ -97,17 +97,17 @@ namespace Engine
 		m_buffer = newBuffer;
 	}
 
-	bool operator==(const TString & i_lhs, const TString & i_rhs)
+	bool operator==( const TString & i_lhs, const TString & i_rhs )
 	{
-		if (i_lhs.Length() != i_rhs.Length())
+		if ( i_lhs.Length() != i_rhs.Length() )
 		{
 			return false;
 		}
 		else
 		{
-			for (size_t i = 0; i < i_lhs.Length(); i++)
+			for ( size_t i = 0; i < i_lhs.Length(); i++ )
 			{
-				if (i_lhs.m_buffer[i] != i_rhs.m_buffer[i])
+				if ( i_lhs.m_buffer[i] != i_rhs.m_buffer[i] )
 				{
 					return false;
 				}
@@ -116,36 +116,36 @@ namespace Engine
 		return true;
 	}
 
-	bool operator==(const TString & i_lhs, const char * i_pRhs)
+	bool operator==( const TString & i_lhs, const char * i_pRhs )
 	{
-		return strcmp(i_lhs.m_buffer, i_pRhs) == 0 ? true : false;
+		return strcmp( i_lhs.m_buffer, i_pRhs ) == 0 ? true : false;
 	}
 
-	std::ostream & operator<<(std::ostream & i_os, const TString & i_str)
+	std::ostream & operator<<( std::ostream & i_os, const TString & i_str )
 	{
 		i_os << i_str.m_buffer;
 		return i_os;
 	}
 
-	std::istream & operator>>(std::istream & i_is, TString & i_str)
+	std::istream & operator>>( std::istream & i_is, TString & i_str )
 	{
 		uint8_t inputSize = 100;
 		char * input = new TRACK_NEW char[inputSize];
 		i_is >> input;
 		uint8_t size = 0;
-		while (input[size] != '\0')
+		while ( input[size] != '\0' )
 		{
 			size++;
 		}
 		size++;
 		//Use a temporary buffer as meta buffer.
 		char * temporaryBuffer = new TRACK_NEW char[size];
-		for (uint8_t i = 0; i < size - 1; i++)
+		for ( uint8_t i = 0; i < size - 1; i++ )
 		{
 			temporaryBuffer[i] = input[i];
 		}
 		temporaryBuffer[size - 1] = '\0';
-		i_str.SetBuffer(temporaryBuffer);
+		i_str.SetBuffer( temporaryBuffer );
 
 		delete[] input;
 		input = nullptr;
@@ -154,12 +154,12 @@ namespace Engine
 		return i_is;
 	}
 
-	void TString::SetBuffer(const char * pBuffer)
+	void TString::SetBuffer( const char * pBuffer )
 	{
-		assert(pBuffer != nullptr);
-		m_size = strlen(pBuffer) + 1;
+		assert( pBuffer != nullptr );
+		m_size = strlen( pBuffer ) + 1;
 		m_buffer = new TRACK_NEW char[m_size];
-		strcpy_s(m_buffer, m_size, pBuffer);
+		strcpy_s( m_buffer, m_size, pBuffer );
 	}
 
 	TString::~TString()
