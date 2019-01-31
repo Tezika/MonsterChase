@@ -23,7 +23,8 @@ namespace MonsterChase
 		:m_grid_Width( 32 ),
 		m_grid_Height( 32 ),
 		m_bEnd( false ),
-		m_roundTimer_newEnemy( 0 )
+		m_roundTimer_newEnemy( 0 ),
+		m_pEnemyManager( new EnemyManager() )
 	{
 	}
 
@@ -40,8 +41,12 @@ namespace MonsterChase
 		// Initialize the player
 		m_pPlayer = new TRACK_NEW Player( "Tezika", Point2D<int>( 1, 1 ), 15 );
 		m_pPlayer->SetController( nullptr );
-		const TString spriteName( "Data\\GoodGuy.dds" );
-		Render::RenderManager::GetInstance().AddRenderObject( m_pPlayer, spriteName );
+		Render::RenderManager::GetInstance().AddRenderObject( m_pPlayer, "Data\\GoodGuy.dds" );
+
+		// Initialize the test enemies
+		m_pEnemyManager->CreateEnemy();
+		m_pEnemyManager->CreateEnemy();
+
 		DEBUG_PRINT( "----------Finish the setup for the game.----------" );
 		return true;
 	}
@@ -54,8 +59,6 @@ namespace MonsterChase
 			// Update the physics
 			// Update the rendering
 			Render::RenderManager::GetInstance().Update( dt, m_bEnd );
-
-
 		} while ( !m_bEnd );
 	}
 

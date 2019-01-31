@@ -12,6 +12,7 @@
 #include "AIController.h"
 #include "enemymanager.h"
 #include "game.h"
+#include "RenderManager.h"
 
 
 using namespace Engine;
@@ -64,6 +65,8 @@ namespace MonsterChase
 		newController->SetMoveSpeed( rand() % 3 + 1 );
 		newEnemy->m_pData->SetController( newController );
 
+		// Create new RenderInfo for the enemy
+		Render::RenderManager::GetInstance().AddRenderObject( newEnemy->m_pData, "Data\\BadGuy.dds" );
 		return newEnemy->m_pData;
 	}
 
