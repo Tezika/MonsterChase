@@ -3,7 +3,6 @@
 #include "ConsolePrint.h"
 #include "Assert.h"
 #include "HeapManager.h"
-#include <Windows.h>
 #include "RenderManager.h"
 
 namespace Engine
@@ -49,7 +48,7 @@ namespace Engine
 #endif // USE_CUSTOM_ALLOCATOR
 
 
-		// Destoy the sub systems
+		// Destroy the sub systems
 		// For Rendering
 		bool bSuccess = false;
 		bSuccess = Render::RenderManager::GetInstance().Destroy();

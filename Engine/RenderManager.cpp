@@ -46,7 +46,7 @@ namespace Engine
 			GLib::Sprites::BeginRendering();
 
 			// Iterate the list to update every RenderInfo
-			// And render every render Object into the screen
+			// And render every sprite into the screen
 			auto ptr = m_pRenderInfos->m_pHead;
 			while ( ptr != nullptr )
 			{
