@@ -1,5 +1,5 @@
 #pragma once
-#include "GLib.h"
+#include "../Exports/GLib/GLib.h"
 namespace Engine
 {
 	void * LoadFile( const char * i_pFilename, size_t & o_sizeFile );

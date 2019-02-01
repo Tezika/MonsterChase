@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GLib.h"
+#include "../Exports/GLib/GLib.h"
 
 namespace Engine
 {
