@@ -13,8 +13,7 @@
 #include "GLibUtility.h"
 #include <ctime>
 #include "Timer.h"
-#include "RenderManager.h"
-#include "PhysicsManager.h"
+#include "SubSystems.h"
 
 extern float Timing::GetLastFrameTime();
 

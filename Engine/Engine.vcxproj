@@ -163,6 +163,7 @@
     <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="RenderInfo.h" />
     <ClInclude Include="RenderManager.h" />
+    <ClInclude Include="SubSystems.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TList.h" />
     <ClInclude Include="Point2D.h" />

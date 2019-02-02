@@ -64,7 +64,7 @@ namespace Engine
 	public:
 		TList( const TList & );
 		TList() : m_pHead( nullptr ), m_pTail( nullptr ) { m_length = 0; }
-		TList( Node<T> * i_pNode ) : m_pHead( i_pNode ), m_pTail( i_pNode ) { m_length = 0; }
+		TList( Node<T> * i_pNode ) : m_pHead( i_pNode ), m_pTail( i_pNode ) { m_length = 1; }
 		~TList();
 
 		const size_t Length() { return m_length; }

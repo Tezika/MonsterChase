@@ -3,7 +3,7 @@
 #include "ConsolePrint.h"
 #include "Assert.h"
 #include "HeapManager.h"
-#include "RenderManager.h"
+#include "SubSystems.h"
 
 namespace Engine
 {
@@ -32,6 +32,11 @@ namespace Engine
 		bool bSuccess = false;
 		bSuccess = Render::RenderManager::GetInstance().Initialize();
 		assert( bSuccess );
+		bSuccess = false;
+
+		// For Physics
+		bSuccess = Physics::PhysicsManager::GetInstance().Initialize();
+		assert( bSuccess );
 
 		DEBUG_PRINT( "The engine initialized succuessfully!" );
 		return true;
@@ -52,6 +57,12 @@ namespace Engine
 		// For Rendering
 		bool bSuccess = false;
 		bSuccess = Render::RenderManager::GetInstance().Destroy();
+		assert( bSuccess );
+
+		// For Physics
+		bSuccess = false;
+		bSuccess = Physics::PhysicsManager::GetInstance().Destroy();
+		assert( bSuccess );
 		DEBUG_PRINT( "The engine destroied successfully!" );
 	}
 }

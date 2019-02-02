@@ -55,7 +55,7 @@ namespace MonsterChase
 		// Setup the random position for the new enemy
 		Node<Enemy> * pNewEnemyNode = m_pEnemyList->InsertToTail( new Enemy(
 			name,
-			Point2D<float>( rand() % Game::GetInstance().GetGridWidth() + 1, rand() % Game::GetInstance().GetGridHeight() + 1 ),
+			Point2D<float>( static_cast<float>( rand() % Game::GetInstance().GetGridWidth() + 1 ), static_cast<float>( rand() % Game::GetInstance().GetGridHeight() + 1 ) ),
 			rand() % 3 + 4,
 			rand() % 3 + 1
 		) );
