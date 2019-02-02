@@ -16,7 +16,7 @@ namespace MonsterChase
 	{
 	public:
 		Enemy();
-		Enemy( const Engine::TString & i_name, const Engine::Point2D<int> & i_position, int i_health, int i_attack );
+		Enemy( const Engine::TString & i_name, const Engine::Point2D<float> & i_position, int i_health, int i_attack );
 		~Enemy();
 
 		void SetAttack( int attack ) { m_attack = attack; }

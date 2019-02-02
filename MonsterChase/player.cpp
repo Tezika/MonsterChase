@@ -18,7 +18,7 @@ namespace MonsterChase
 
 	}
 
-	Player::Player( const Engine::TString & name, const Point2D<int> & i_position, int health ) :
+	Player::Player( const Engine::TString & name, const Point2D<float> & i_position, int health ) :
 		Entity::Entity( name, i_position, health )
 	{
 

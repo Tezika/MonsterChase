@@ -14,6 +14,7 @@
 #include <ctime>
 #include "Timer.h"
 #include "RenderManager.h"
+#include "PhysicsManager.h"
 
 extern float Timing::GetLastFrameTime();
 
@@ -39,7 +40,7 @@ namespace MonsterChase
 			return bSuccess;
 		}
 		// Initialize the player
-		m_pPlayer = new TRACK_NEW Player( "Tezika", Point2D<int>( 1, 1 ), 15 );
+		m_pPlayer = new TRACK_NEW Player( "Tezika", Point2D<float>( 1, 1 ), 15 );
 		m_pPlayer->SetController( nullptr );
 		Render::RenderManager::GetInstance().AddRenderObject( m_pPlayer, "Data\\GoodGuy.dds" );
 
@@ -56,8 +57,9 @@ namespace MonsterChase
 		do
 		{
 			float dt = Timing::GetLastFrameTime();
-			// Update the physics
-			// Update the rendering
+			// Update the physics system
+			Physics::PhysicsManager::GetInstance().Update( dt );
+			// Update the rendering system
 			Render::RenderManager::GetInstance().Update( dt, m_bEnd );
 		} while ( !m_bEnd );
 	}

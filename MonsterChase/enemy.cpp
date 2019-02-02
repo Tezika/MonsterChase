@@ -17,7 +17,7 @@ Enemy::Enemy() :Entity::Entity(), m_attack( 3 )
 {
 }
 
-Enemy::Enemy( const Engine::TString & i_name, const Engine::Point2D<int> & i_position, int i_health, int i_attack ) :
+Enemy::Enemy( const Engine::TString & i_name, const Engine::Point2D<float> & i_position, int i_health, int i_attack ) :
 	Entity::Entity( i_name, i_position, i_health ),
 	m_attack( i_attack )
 {
