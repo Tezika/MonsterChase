@@ -9,7 +9,7 @@ namespace Engine
 	{
 	public:
 		GameObject();
-		GameObject( const TString &, const Point2D<float> & );
+		GameObject( const TString &, const Point2D<float> &, const Point2D<float>& );
 		GameObject( const GameObject & );
 		void operator = ( const GameObject & );
 		virtual ~GameObject();
@@ -25,6 +25,7 @@ namespace Engine
 	private:
 		TString m_name;
 		Point2D<float> m_position;
+		Point2D<float> m_velocity;
 		IController * m_pController;
 	};
 }

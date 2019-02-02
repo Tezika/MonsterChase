@@ -20,13 +20,16 @@ namespace Engine
 
 		void PhysicsManager::Update( float i_dt )
 		{
-			// Iterate every physics objects in the list
+			// Iterate every physics object in the list
 			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
 			while ( ptr != nullptr )
 			{
 				PhysicsInfo * pInfo = ptr->GetData();
-				// Caculate the accerlate
+				// Caculate the accerlation
 				Point2D<float> acceleration = pInfo->GetDirOfForce() / pInfo->GetMass();
+				// Use the acceraltion to update the velocity of current gameobject
+
+
 				ptr = ptr->GetNext();
 			}
 		}

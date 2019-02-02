@@ -8,9 +8,10 @@ namespace Engine
 
 	}
 
-	GameObject::GameObject( const TString & i_otherName, const Point2D<float> & i_otherPosition ) :
+	GameObject::GameObject( const TString & i_otherName, const Point2D<float> & i_otherPosition, const Point2D<float> & i_initialVelocity ) :
 		m_name( i_otherName ),
-		m_position( i_otherPosition )
+		m_position( i_otherPosition ),
+		m_velocity( i_initialVelocity )
 	{
 	}
 
@@ -27,11 +28,13 @@ namespace Engine
 	{
 		this->m_name = i_other.m_name;
 		this->m_position = i_other.m_position;
+		this->m_velocity = i_other.m_velocity;
 	}
 
 	void GameObject::operator=( const GameObject & i_other )
 	{
 		this->m_name = i_other.m_name;
 		this->m_position = i_other.m_position;
+		this->m_velocity = i_other.m_velocity;
 	}
 }
