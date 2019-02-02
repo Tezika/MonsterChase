@@ -48,10 +48,10 @@ namespace Engine
 
 			// Iterate the list to update every RenderInfo
 			// And render every sprite into the screen
-			auto ptr = m_pRenderInfos->m_pHead;
+			auto ptr = m_pRenderInfos->GetHead();;
 			while ( ptr != nullptr )
 			{
-				RenderInfo * renderInfo = ptr->m_pData;
+				RenderInfo * renderInfo = ptr->GetData();
 				GLibSprite * pSprite = renderInfo->GetSprite();
 				auto posOfGo = renderInfo->GetGameObject()->GetPosition();
 
@@ -64,7 +64,7 @@ namespace Engine
 					GLib::Sprites::RenderSprite( *pSprite, renderInfo->GetPosition(), 0 );
 				}
 
-				ptr = ptr->m_pNext;
+				ptr = ptr->GetNext();
 			}
 			// Tell GLib we're done rendering sprites
 			GLib::Sprites::EndRendering();
@@ -85,20 +85,20 @@ namespace Engine
 		bool RenderManager::RemoveRenderObject( GameObject * i_pGo )
 		{
 			assert( i_pGo );
-			Node<RenderInfo> * ptr = m_pRenderInfos->m_pHead;
+			Node<RenderInfo> * ptr = m_pRenderInfos->GetHead();
 			RenderInfo * removeRenderInfo = nullptr;
 			while ( ptr != nullptr )
 			{
-				if ( ptr->m_pData->GetGameObject() == i_pGo )
+				removeRenderInfo = ptr->GetData();
+				if ( removeRenderInfo->GetGameObject() == i_pGo )
 				{
-					removeRenderInfo = ptr->m_pData;
 					assert( removeRenderInfo );
 					ptr = m_pRenderInfos->Remove( ptr );
 					delete removeRenderInfo;
 				}
 				else
 				{
-					ptr = ptr->m_pNext;
+					ptr = ptr->GetNext();
 				}
 			}
 			return true;
@@ -107,11 +107,11 @@ namespace Engine
 		bool RenderManager::Destroy()
 		{
 			// Clean the render objects
-			Node<RenderInfo> * ptr = m_pRenderInfos->m_pHead;
+			Node<RenderInfo> * ptr = m_pRenderInfos->GetHead();
 			RenderInfo * removeRenderInfo = nullptr;
 			while ( ptr != nullptr )
 			{
-				removeRenderInfo = ptr->m_pData;
+				removeRenderInfo = ptr->GetData();
 				assert( removeRenderInfo );
 				ptr = m_pRenderInfos->Remove( ptr );
 				delete removeRenderInfo;

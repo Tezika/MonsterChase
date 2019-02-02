@@ -8,14 +8,22 @@ namespace Engine
 	class Node
 	{
 	public:
-		T * m_pData;
-		Node<T> * m_pNext;
 		Node<T>( const T & );
 		Node<T>( T * );
 		Node<T>( const Node<T> & i_other ) : m_pData( i_other.m_pData ), m_pNext( i_other.m_pNext ) {}
 		~Node<T>() {}
 		Node<T> & operator=( const Node<T> & );
 		Node<T> & operator=( const Node<T> * );
+
+		inline void SetData( T * i_pData ){ m_pData = i_pData; };
+		inline T * GetData(){ return m_pData; }
+
+		inline void SetNext( Node<T> * i_pNext ){ m_pNext = i_pNext; }
+		inline Node<T> * GetNext(){ return m_pNext; }
+
+	private:
+		T * m_pData;
+		Node<T> * m_pNext;
 	};
 
 	template<typename T>
@@ -64,10 +72,12 @@ namespace Engine
 		Node<T> * Remove( Node<T> * );
 		Node<T> * InsertToTail( T * );
 
-		Node<T> * m_pHead;
-		Node<T> * m_pTail;
+		inline Node<T> * GetHead(){ return m_pHead; }
+		inline Node<T> * GetTail(){ return m_pTail; }
 
 	private:
+		Node<T> * m_pHead;
+		Node<T> * m_pTail;
 		size_t m_length;
 	};
 
@@ -81,7 +91,7 @@ namespace Engine
 	inline Node<T> * TList<T>::Remove( Node<T> * i_pNode )
 	{
 		assert( i_pNode );
-		Node<T> * ptr = this->m_pHead;
+		Node<T> * ptr = this->GetHead();
 		Node<T> * ptr_previous = nullptr;
 		while ( ptr != nullptr )
 		{
@@ -89,16 +99,16 @@ namespace Engine
 			{
 				if ( ptr_previous == nullptr )
 				{
-					this->m_pHead = this->m_pHead->m_pNext;
+					this->m_pHead = this->m_pHead->GetNext();
 					delete ptr;
 					ptr = this->m_pHead;
 					break;
 				}
 				else
 				{
-					ptr_previous->m_pNext = ptr->m_pNext;
+					ptr_previous->SetNext( ptr->GetNext() );
 					delete ptr;
-					ptr = ptr_previous->m_pNext;
+					ptr = ptr_previous->GetNext();
 					break;
 				}
 
@@ -111,7 +121,7 @@ namespace Engine
 			else
 			{
 				ptr_previous = ptr;
-				ptr = ptr->m_pNext;
+				ptr = ptr->GetNext();
 			}
 		}
 		m_length--;
@@ -121,12 +131,12 @@ namespace Engine
 	template<typename T>
 	inline TList<T>::~TList()
 	{
-		auto cur = m_pHead;
+		Node<T> * pCur = m_pHead;
 		while ( m_pHead )
 		{
-			m_pHead = m_pHead->m_pNext;
-			delete cur;
-			cur = m_pHead;
+			m_pHead = m_pHead->GetNext();
+			delete pCur;
+			pCur = m_pHead;
 		}
 		m_pHead = nullptr;
 		m_pTail = nullptr;
@@ -144,7 +154,7 @@ namespace Engine
 		}
 		else
 		{
-			m_pTail->m_pNext = newNode;
+			m_pTail->SetNext( newNode );
 			m_pTail = newNode;
 		}
 		m_length++;

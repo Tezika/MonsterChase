@@ -26,11 +26,11 @@ namespace MonsterChase
 
 	EnemyManager::~EnemyManager()
 	{
-		auto ptr = m_pEnemyList->m_pHead;
+		auto ptr = m_pEnemyList->GetHead();
 		while ( ptr != nullptr )
 		{
-			delete ptr->m_pData;
-			ptr = ptr->m_pNext;
+			delete ptr->GetData();
+			ptr = ptr->GetNext();
 		}
 		delete m_pEnemyList;
 	}
@@ -41,47 +41,50 @@ namespace MonsterChase
 		std::cout << "Please input the enemy name: ";
 		std::cin >> name;
 
-		auto ptr = m_pEnemyList->m_pHead;
+		auto ptr = m_pEnemyList->GetHead();
 		while ( ptr != nullptr )
 		{
-			if ( ptr->m_pData->GetName() == name )
+			if ( ptr->GetData()->GetName() == name )
 			{
 				std::cout << "The name '" << name << "' has already exist, please try anthor one." << std::endl;
 				return nullptr;
 			}
-			ptr = ptr->m_pNext;
+			ptr = ptr->GetNext();
 		}
 		// The ranges from 4 ~ 7, attack ranges from 1 ~ 4
 		// Setup the random position for the new enemy
-		Node<Enemy> * newEnemy = m_pEnemyList->InsertToTail( new Enemy(
+		Node<Enemy> * pNewEnemyNode = m_pEnemyList->InsertToTail( new Enemy(
 			name,
 			Point2D<float>( rand() % Game::GetInstance().GetGridWidth() + 1, rand() % Game::GetInstance().GetGridHeight() + 1 ),
 			rand() % 3 + 4,
 			rand() % 3 + 1
 		) );
+		Enemy * pNewEnemy = pNewEnemyNode->GetData();
 		AIController * newController = new AIController();
-		newController->SetGameObject( newEnemy->m_pData );
+		newController->SetGameObject( pNewEnemy );
 		newController->SetPlayer( Game::GetInstance().GetCurPlayer() );
 		newController->SetMoveSpeed( rand() % 3 + 1 );
-		newEnemy->m_pData->SetController( newController );
+
+		pNewEnemy->SetController( newController );
 
 		// Create new RenderInfo for the enemy
-		Render::RenderManager::GetInstance().AddRenderObject( newEnemy->m_pData, "Data\\BadGuy.dds" );
-		return newEnemy->m_pData;
+		Render::RenderManager::GetInstance().AddRenderObject( pNewEnemy, "Data\\BadGuy.dds" );
+		return pNewEnemy;
 	}
 
 	Enemy * EnemyManager::GetEnemyByName( const char * name )
 	{
 		assert( name != nullptr );
 
-		auto ptr = m_pEnemyList->m_pHead;
+		auto ptr = m_pEnemyList->GetHead();
 		while ( ptr != nullptr )
 		{
-			if ( ptr->m_pData->GetName() == name )
+			Enemy * pEnemy = ptr->GetData();
+			if ( pEnemy->GetName() == name )
 			{
-				return ptr->m_pData;
+				return pEnemy;
 			}
-			ptr = ptr->m_pNext;
+			ptr = ptr->GetNext();
 		}
 		return nullptr;
 	}
@@ -96,35 +99,39 @@ namespace MonsterChase
 
 	void EnemyManager::PrintAllEnemiesInfo()
 	{
-		auto ptr = m_pEnemyList->m_pHead;
+		auto ptr = m_pEnemyList->GetHead();
 		while ( ptr != nullptr )
 		{
-			ptr->m_pData->PrintOutInfo();
-			ptr = ptr->m_pNext;
+			ptr->GetData()->PrintOutInfo();
+			ptr = ptr->GetNext();
 		}
 	}
 
 	void EnemyManager::MoveEnemies()
 	{
-		auto ptr = m_pEnemyList->m_pHead;
+		auto ptr = m_pEnemyList->GetHead();
+		Enemy * pEnemy = nullptr;
 		while ( ptr != nullptr )
 		{
-			ptr->m_pData->GetController()->UpdateGameObject();
-			ptr->m_pData->PrintOutInfo();
-			ptr = ptr->m_pNext;
+			pEnemy = ptr->GetData();
+			pEnemy->GetController()->UpdateGameObject();
+			pEnemy->PrintOutInfo();
+			ptr = ptr->GetNext();
 		}
 	}
 
 	void EnemyManager::BattleWithPlayer( Player * player )
 	{
 		assert( player != nullptr );
-		auto ptr = m_pEnemyList->m_pHead;
+		auto ptr = m_pEnemyList->GetHead();
+		Enemy * pEnemy = nullptr;
 		while ( ptr != nullptr )
 		{
-			if ( ptr->m_pData->GetPosition() == player->GetPosition() )
+			pEnemy = ptr->GetData();
+			if ( pEnemy->GetPosition() == player->GetPosition() )
 			{
-				player->SetHealth( player->GetHealth() - ptr->m_pData->GetAttack() );
-				std::cout << "The player got a damage by " << ptr->m_pData->GetAttack() << std::endl;
+				player->SetHealth( player->GetHealth() - pEnemy->GetAttack() );
+				std::cout << "The player got a damage by " << pEnemy->GetAttack() << std::endl;
 				if ( player->GetHealth() <= 0 )
 				{
 					std::cout << "The player has already died :<." << std::endl;
@@ -132,25 +139,27 @@ namespace MonsterChase
 					break;
 				}
 			}
-			ptr = ptr->m_pNext;
+			ptr = ptr->GetNext();
 		}
 	}
 
 	void EnemyManager::RemoveDiedEnemy()
 	{
-		auto ptr = m_pEnemyList->m_pHead;
+		auto ptr = m_pEnemyList->GetHead();
+		Enemy * pEnemy = nullptr;
 		while ( ptr != nullptr )
 		{
-			if ( ptr->m_pData->GetHealth() == 0 )
+			pEnemy = ptr->GetData();
+			if ( pEnemy->GetHealth() == 0 )
 			{
-				auto enemy = ptr->m_pData;
-				std::cout << "The " << ptr->m_pData->GetName() << " died by its health is 0" << std::endl;
+				Enemy * pRemoveEnemy = pEnemy;
+				std::cout << "The " << pRemoveEnemy->GetName() << " died by its health is 0" << std::endl;
 				ptr = m_pEnemyList->Remove( ptr );
-				delete enemy;
+				delete pRemoveEnemy;
 			}
 			else
 			{
-				ptr = ptr->m_pNext;
+				ptr = ptr->GetNext();
 			}
 		}
 	}

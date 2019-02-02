@@ -19,6 +19,9 @@ namespace Engine
 			inline Point2D<float> GetDirOfForce(){ return m_dirOfForce; };
 			inline void SetDirOfForce( const Point2D<float> i_oForceOfDir ){ m_dirOfForce = i_oForceOfDir; };
 
+			inline float GetMass(){ return m_mass; };
+			inline float GetDrag(){ return m_drag; };
+
 		private:
 			GameObject * m_pGo;
 			Point2D<float> m_dirOfForce;

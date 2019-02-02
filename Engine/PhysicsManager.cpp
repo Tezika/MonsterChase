@@ -4,6 +4,7 @@
 #include "TList.h"
 #include "Assert.h"
 #include "GameObject.h"
+#include "Point2D.h"
 
 namespace Engine
 {
@@ -20,11 +21,13 @@ namespace Engine
 		void PhysicsManager::Update( float i_dt )
 		{
 			// Iterate every physics objects in the list
-			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->m_pHead;
+			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
 			while ( ptr != nullptr )
 			{
-
-				ptr = ptr->m_pNext;
+				PhysicsInfo * pInfo = ptr->GetData();
+				// Caculate the accerlate
+				Point2D<float> acceleration = pInfo->GetDirOfForce() / pInfo->GetMass();
+				ptr = ptr->GetNext();
 			}
 		}
 
@@ -37,20 +40,20 @@ namespace Engine
 		bool PhysicsManager::RemovePhysicsObject( GameObject * i_pGo )
 		{
 			assert( i_pGo );
-			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->m_pHead;
+			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
 			PhysicsInfo * removePhysicsInfo = nullptr;
 			while ( ptr != nullptr )
 			{
-				if ( ptr->m_pData->GetGameObject() == i_pGo )
+				removePhysicsInfo = ptr->GetData();
+				if ( removePhysicsInfo->GetGameObject() == i_pGo )
 				{
-					removePhysicsInfo = ptr->m_pData;
 					assert( removePhysicsInfo );
 					ptr = m_pPhysicsInfos->Remove( ptr );
 					delete removePhysicsInfo;
 				}
 				else
 				{
-					ptr = ptr->m_pNext;
+					ptr = ptr->GetNext();
 				}
 			}
 			return true;
@@ -59,11 +62,11 @@ namespace Engine
 		bool PhysicsManager::Destroy()
 		{
 			// Clean the physics objects
-			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->m_pHead;
+			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
 			PhysicsInfo * removePhysicsInfo = nullptr;
 			while ( ptr != nullptr )
 			{
-				removePhysicsInfo = ptr->m_pData;
+				removePhysicsInfo = ptr->GetData();
 				assert( removePhysicsInfo );
 				ptr = m_pPhysicsInfos->Remove( ptr );
 				delete removePhysicsInfo;

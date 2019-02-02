@@ -44,6 +44,22 @@ namespace Engine
 			return *this;
 		}
 
+		inline Point2D<T> operator/( float i_other )
+		{
+			Point2D<T> newPoint;
+			newPoint.m_x /= i_other;
+			newPoint.m_y /= i_other;
+			return newPoint;
+		}
+
+		inline Point2D<T> operator*( float i_other )
+		{
+			Point2D<T> newPoint;
+			newPoint.m_x *= i_other;
+			newPoint.m_y *= i_other;
+			return newPoint;
+		}
+
 		T m_x;
 		T m_y;
 	};
