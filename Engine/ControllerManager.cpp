@@ -15,7 +15,7 @@ namespace Engine
 			return m_pControllers->InsertToTail( i_pController );
 		}
 
-		bool ControllerManager::RemovePhysicsObject( IController * i_pController )
+		bool ControllerManager::RemoveController( IController * i_pController )
 		{
 			assert( i_pController );
 			Node<IController> * ptr = m_pControllers->GetHead();

@@ -22,7 +22,7 @@ namespace Engine
 			void operator=( ControllerManager const& ) = delete;
 
 			bool AddContrller( IController * i_pController );
-			bool RemovePhysicsObject( IController * i_pController );
+			bool RemoveController( IController * i_pController );
 
 			// Schedule functions
 			bool Initialize();
