@@ -79,6 +79,12 @@
     <Filter Include="Source Files\Render">
       <UniqueIdentifier>{cf5259f5-062f-4ab7-ad93-913bfe6f2405}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Controller">
+      <UniqueIdentifier>{32bd27d5-567c-4dde-9635-17217c7901ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Controller">
+      <UniqueIdentifier>{b039f0c5-c312-4074-92ed-6918c2676df0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -135,6 +141,9 @@
     <ClInclude Include="SubSystems.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ControllerManager.h">
+      <Filter>Header Files\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -175,6 +184,9 @@
     </ClCompile>
     <ClCompile Include="PhysicsManager.cpp">
       <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="ControllerManager.cpp">
+      <Filter>Source Files\Controller</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

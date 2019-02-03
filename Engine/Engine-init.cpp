@@ -28,6 +28,7 @@ namespace Engine
 #endif
 
 		// Initialize the sub systems
+
 		// For Rendering
 		bool bSuccess = false;
 		bSuccess = Render::RenderManager::GetInstance().Initialize();
@@ -35,10 +36,15 @@ namespace Engine
 		bSuccess = false;
 
 		// For Physics
+		bSuccess = false;
 		bSuccess = Physics::PhysicsManager::GetInstance().Initialize();
 		assert( bSuccess );
 
-		DEBUG_PRINT( "The engine initialized succuessfully!" );
+		// For Controller Manager
+		bSuccess = false;
+		bSuccess = Controller::ControllerManager::GetInstance().Initialize();
+		assert( bSuccess );
+
 		return true;
 	}
 
@@ -63,6 +69,10 @@ namespace Engine
 		bSuccess = false;
 		bSuccess = Physics::PhysicsManager::GetInstance().Destroy();
 		assert( bSuccess );
-		DEBUG_PRINT( "The engine destroied successfully!" );
+
+		// For Controller Manager
+		bSuccess = false;
+		bSuccess = Controller::ControllerManager::GetInstance().Destroy();
+		assert( bSuccess );
 	}
 }

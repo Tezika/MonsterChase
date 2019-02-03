@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="Allocator.h" />
     <ClInclude Include="ConsolePrint.h" />
+    <ClInclude Include="ControllerManager.h" />
     <ClInclude Include="Engine-init.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GLibUtility.h" />
@@ -174,6 +175,7 @@
   <ItemGroup>
     <ClCompile Include="Allocator.cpp" />
     <ClCompile Include="ConsolePrint.cpp" />
+    <ClCompile Include="ControllerManager.cpp" />
     <ClCompile Include="Engine-init.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GLibUtility.cpp" />
