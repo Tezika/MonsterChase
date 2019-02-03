@@ -93,7 +93,7 @@ namespace Input
 						if( m_pKeyStateChangeCallback )
 							m_pKeyStateChangeCallback( pRawInput->data.keyboard.VKey, false );
 
-						DEBUG_PRINT( "Key 0x%02x changed state to UP\n", pRawInput->data.keyboard.VKey );
+						DEBUG_PRINT_ENGINE( "Key 0x%02x changed state to UP\n", pRawInput->data.keyboard.VKey );
 					}
 				}
 				else if (pRawInput->data.keyboard.Flags == RI_KEY_MAKE)
@@ -107,12 +107,12 @@ namespace Input
 						if( m_pKeyStateChangeCallback )
 							m_pKeyStateChangeCallback( pRawInput->data.keyboard.VKey, true );
 
-						DEBUG_PRINT( "Key 0x%02x changed state to DOWN\n", pRawInput->data.keyboard.VKey );
+						DEBUG_PRINT_ENGINE( "Key 0x%02x changed state to DOWN\n", pRawInput->data.keyboard.VKey );
 					}
 				}
 				else
 				{
-					DEBUG_PRINT( "Key 0x%02x Flags: 0x%04x\n", pRawInput->data.keyboard.VKey, pRawInput->data.keyboard.Flags );
+					DEBUG_PRINT_ENGINE( "Key 0x%02x Flags: 0x%04x\n", pRawInput->data.keyboard.VKey, pRawInput->data.keyboard.Flags );
 				}
 			}
 		}

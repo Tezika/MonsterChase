@@ -82,7 +82,7 @@ namespace Engine
 
 		inline T Magnitude() const
 		{
-			return sqrt( this->m_x * this->m_x + this->m_y * this->m_y );
+			return static_cast<T>( sqrt( this->m_x * this->m_x + this->m_y * this->m_y ) );
 		}
 
 		inline Point2D<T> Normalize()

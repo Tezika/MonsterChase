@@ -10,7 +10,7 @@ void ConsolePrint( const char * i_pFmt, const char * i_pFile, unsigned int i_Lin
 // This is how we handle variable argument pre-processor macros
 // This is only supported by compilers that support the C99 standard
 #if defined(_DEBUG)  &&  !defined(DISABLE_DEBUG_PRINT)
-#define DEBUG_PRINT(fmt,...) GLib::ConsolePrint((fmt),__FILE__,__LINE__,__VA_ARGS__)
+#define DEBUG_PRINT_ENGINE(fmt,...) GLib::ConsolePrint((fmt),__FILE__,__LINE__,__VA_ARGS__)
 #else
 // This is one way we create a do nothing (NO OP) macro that doesn't
 // generate a compiler warning or error

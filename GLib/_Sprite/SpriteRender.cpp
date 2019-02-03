@@ -213,7 +213,7 @@ namespace GLib
 		{
 			if( m_bRenderingEnabled == false )
 			{
-				DEBUG_PRINT( "Attempting to render sprites outside BeginRendering() / EndRendering() block.\n Call BeginRendering() first." );
+				DEBUG_PRINT_ENGINE( "Attempting to render sprites outside BeginRendering() / EndRendering() block.\n Call BeginRendering() first." );
 				return false;
 			}
 

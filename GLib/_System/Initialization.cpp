@@ -32,14 +32,14 @@ namespace GLib
 		g_hWnd = _CreateWindow( WndProc, g_hInstance, i_IconID, pWindowName, i_WindowWidth, i_WindowHeight );
 		if( g_hWnd == nullptr )
 		{
-			DEBUG_PRINT( "_CreateWindow() failed.\n" );
+			DEBUG_PRINT_ENGINE( "_CreateWindow() failed.\n" );
 			return NULL;
 		}
 
 		HRESULT hResult = CreateDevice( g_hWnd );
 		if( !Succeeded( hResult ) )
 		{
-			DEBUG_PRINT( "_CreateDevice() failed. HRESULT = %d.\n", hResult );
+			DEBUG_PRINT_ENGINE( "_CreateDevice() failed. HRESULT = %d.\n", hResult );
 			return false;
 		}
 

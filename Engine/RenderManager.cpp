@@ -28,7 +28,7 @@ namespace Engine
 		{
 			m_pRenderInfos = new TList<RenderInfo>();
 			assert( m_pRenderInfos );
-			DEBUG_PRINT( "The render system initialized succuessfully!" );
+			DEBUG_PRINT_ENGINE( "The render system initialized succuessfully!" );
 			return true;
 		}
 
@@ -122,7 +122,7 @@ namespace Engine
 
 			// Shutdown the GLib fininally
 			GLib::Shutdown();
-			DEBUG_PRINT( "The render system destoried succuessfully!" );
+			DEBUG_PRINT_ENGINE( "The render system destoried succuessfully!" );
 			return true;
 		}
 	}

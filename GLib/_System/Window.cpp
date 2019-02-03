@@ -54,7 +54,7 @@ namespace GLib
 		wcex.hIconSm = i_IconID >= 0 ? LoadIcon( i_hInstance, MAKEINTRESOURCE( i_IconID ) ) : nullptr;
 		if( !RegisterClassEx( &wcex ) )
 		{
-			DEBUG_PRINT( "Failure calling RegisterClassEx.\n" );
+			DEBUG_PRINT_ENGINE( "Failure calling RegisterClassEx.\n" );
 			return NULL;
 		}
 

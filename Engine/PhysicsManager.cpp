@@ -14,7 +14,7 @@ namespace Engine
 		{
 			m_pPhysicsInfos = new TList<PhysicsInfo>();
 			assert( m_pPhysicsInfos );
-			DEBUG_PRINT( "The physics system initialized succuessfully!" );
+			DEBUG_PRINT_ENGINE( "The physics system initialized succuessfully!" );
 			return true;
 		}
 
@@ -38,7 +38,7 @@ namespace Engine
 				cacheVelocity += cacheAccerlation * i_dt;
 				// caluate the drag
 				float drag = pInfo->GetDragness() * ( cacheVelocity * cacheVelocity );
-				// Apply the drag to current velocity
+				// Apply the drag effect to current velocity
 				cacheVelocity -= cacheVelocity.Normalize() * drag;
 
 				// Update the velocity for go
@@ -97,7 +97,7 @@ namespace Engine
 			delete m_pPhysicsInfos;
 			m_pPhysicsInfos = nullptr;
 
-			DEBUG_PRINT( "The physics system destoried succuessfully!" );
+			DEBUG_PRINT_ENGINE( "The physics system destoried succuessfully!" );
 			return true;
 		}
 	}

@@ -30,7 +30,7 @@ namespace MonsterChase
 
 	bool Game::Initialize( HINSTANCE i_hInstance, int i_nCmdShow )
 	{
-		DEBUG_PRINT( "----------Begin the setup for the game.----------" );
+		DEBUGE_PRINT_GAMEPLAY( "----------Begin the setup for the game.----------" );
 		srand( time_t( NULL ) );
 		// Initialize the GLib.
 		bool bSuccess = GLib::Initialize( i_hInstance, i_nCmdShow, "GLibTest", -1, 800, 600 );
@@ -49,7 +49,7 @@ namespace MonsterChase
 		// Initialize the test enemies
 		m_pEnemyManager->CreateEnemy();
 
-		DEBUG_PRINT( "----------Finish the setup for the game.----------" );
+		DEBUGE_PRINT_GAMEPLAY( "----------Finish the setup for the game.----------" );
 		return true;
 	}
 
@@ -73,7 +73,7 @@ namespace MonsterChase
 		m_pPlayer = nullptr;
 		delete m_pEnemyManager;
 		m_pEnemyManager = nullptr;
-		DEBUG_PRINT( "----------Shutdown the game successfully.----------" );
+		DEBUGE_PRINT_GAMEPLAY( "----------Shutdown the game successfully.----------" );
 	}
 
 	int Game::ClampForMap( int val, int maxiumVal )

@@ -6,15 +6,16 @@
 
 namespace Engine
 {
-	void LogPrint(const char * i_fmt, ...)
+	void LogPrint( const char * i_prefix, const char * i_fmt, ... )
 	{
-		assert(i_fmt);
+		assert( i_fmt );
 
 		const size_t lenTemp = 256;
-		char strTemp[lenTemp] = "ENGINE_LOG: ";
+		char strTemp[lenTemp] = "";
 
-		strcat_s(strTemp, i_fmt);
-		strcat_s(strTemp, "\n");
+		strcat_s( strTemp, i_prefix );
+		strcat_s( strTemp, i_fmt );
+		strcat_s( strTemp, "\n" );
 
 		const size_t lenOutput = lenTemp + 32;
 
@@ -25,14 +26,14 @@ namespace Engine
 
 		// initialize it. second parameter is variable immediately
 		// preceeding variable arguments
-		va_start(args, i_fmt);
+		va_start( args, i_fmt );
 
 		// (safely) print our formatted string to a char buffer
-		vsprintf_s(strOutput, lenOutput, strTemp, args);
+		vsprintf_s( strOutput, lenOutput, strTemp, args );
 
-		va_end(args);
+		va_end( args );
 
-		OutputDebugStringA(strOutput);
+		OutputDebugStringA( strOutput );
 	}
 
 } // namespace Engine

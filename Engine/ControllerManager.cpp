@@ -41,7 +41,7 @@ namespace Engine
 		{
 			m_pControllers = new TList<IController>();
 			assert( m_pControllers );
-			DEBUG_PRINT( "The controller manager initialized succuessfully!" );
+			DEBUG_PRINT_ENGINE( "The controller manager initialized succuessfully!" );
 			return true;
 		}
 
@@ -71,7 +71,7 @@ namespace Engine
 			delete m_pControllers;
 			m_pControllers = nullptr;
 
-			DEBUG_PRINT( "The controller manager destoried succuessfully!" );
+			DEBUG_PRINT_ENGINE( "The controller manager destoried succuessfully!" );
 			return true;
 		}
 	}
