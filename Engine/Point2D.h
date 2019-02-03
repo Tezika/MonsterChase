@@ -88,6 +88,7 @@ namespace Engine
 		inline Point2D<T> Normalize()
 		{
 			T magnitude = this->Magnitude();
+			// Prevent the situation for dividing zero.
 			if ( magnitude == 0 )
 			{
 				return Point2D<T>( 0, 0 );
