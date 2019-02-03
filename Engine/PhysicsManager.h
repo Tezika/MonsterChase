@@ -27,7 +27,7 @@ namespace Engine
 
 			// Schedule functions
 			bool Initialize();
-			void Update( float i_dt );
+			void Simulate( float i_dt );
 			bool Destroy();
 
 		private:

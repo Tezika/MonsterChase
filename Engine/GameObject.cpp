@@ -8,11 +8,12 @@ namespace Engine
 
 	}
 
-	GameObject::GameObject( const TString & i_otherName, const Point2D<float> & i_otherPosition, const Point2D<float> & i_initialVelocity ) :
+	GameObject::GameObject( const TString & i_otherName, const Point2D<float> & i_otherPosition ) :
 		m_name( i_otherName ),
-		m_position( i_otherPosition ),
-		m_velocity( i_initialVelocity )
+		m_position( i_otherPosition )
 	{
+		// Set the velocity as zero initially.
+		m_velocity = Point2D<float>( 0,0 );
 	}
 
 	GameObject::~GameObject()

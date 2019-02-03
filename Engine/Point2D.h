@@ -1,6 +1,7 @@
 #pragma once
 #include "stdio.h"
 #include <type_traits>
+#include <math.h>
 
 namespace Engine
 {
@@ -17,6 +18,7 @@ namespace Engine
 		{
 		}
 
+
 		inline Point2D( const Point2D<T> & i_other )
 		{
 			this->m_x = i_other.m_x;
@@ -32,32 +34,62 @@ namespace Engine
 
 		inline Point2D<T> & operator+=( const Point2D<T> & i_other )
 		{
-			this->m_x = i_other.m_x + this->m_x;
-			this->m_y = i_other.m_y + this->m_y;
+			this->m_x += i_other.m_x;
+			this->m_y += i_other.m_y;
 			return *this;
 		}
 
 		inline Point2D<T> & operator-=( const Point2D<T> & i_other )
 		{
-			this->m_x = this->m_x - i_other.m_x;
-			this->m_y = this->m_y - i_other.m_y;
+			this->m_x -= i_other.m_x;
+			this->m_y -= i_other.m_y;
 			return *this;
 		}
 
-		inline Point2D<T> operator/( float i_other )
+		inline Point2D<T> & operator+( const Point2D<T> & i_other )
 		{
-			Point2D<T> newPoint;
+			this->m_x += i_other.m_x;
+			this->m_y += i_other.m_y;
+			return *this;
+		}
+
+		inline Point2D<T> & operator-( const Point2D<T> & i_other )
+		{
+			this->m_x -= i_other.m_x;
+			this->m_y -= i_other.m_y;
+			return *this;
+		}
+
+		inline Point2D<T> operator/( float i_other ) const
+		{
+			Point2D<T> newPoint( *this );
 			newPoint.m_x /= i_other;
 			newPoint.m_y /= i_other;
 			return newPoint;
 		}
 
-		inline Point2D<T> operator*( float i_other )
+		inline Point2D<T> operator*( float i_other ) const
 		{
-			Point2D<T> newPoint;
+			Point2D<T> newPoint( *this );
 			newPoint.m_x *= i_other;
 			newPoint.m_y *= i_other;
 			return newPoint;
+		}
+
+		inline T operator*( const Point2D<T> & i_other ) const
+		{
+			return i_other.m_x * this->m_x + i_other.m_y * this->m_y;
+		}
+
+		inline T Magnitude() const
+		{
+			return sqrt( this->m_x * this->m_x + this->m_y * this->m_y );
+		}
+
+		inline Point2D<T> Normalize()
+		{
+			T magnitude = this->Magnitude();
+			return Point2D<T>( this->m_x / magnitude, this->m_y / magnitude );
 		}
 
 		T m_x;

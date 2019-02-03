@@ -18,18 +18,37 @@ namespace Engine
 			return true;
 		}
 
-		void PhysicsManager::Update( float i_dt )
+		void PhysicsManager::Simulate( float i_dt )
 		{
 			// Iterate every physics object in the list
 			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
+			Point2D<float> cacheAccerlation;
+			Point2D<float> cacheVelocity;
+			Point2D<float> cacheAverageVelocity;
+			Point2D<float> cachePosition;
+			GameObject * pCacheGo;
 			while ( ptr != nullptr )
 			{
 				PhysicsInfo * pInfo = ptr->GetData();
+				pCacheGo = pInfo->GetGameObject();
 				// Caculate the accerlation
-				Point2D<float> acceleration = pInfo->GetDirOfForce() / pInfo->GetMass();
+				cacheAccerlation = pInfo->GetDrivingForce() / pInfo->GetMass();
 				// Use the acceraltion to update the velocity of current gameobject
+				cacheVelocity = pCacheGo->GetVelocity();
+				cacheVelocity += cacheAccerlation * i_dt;
+				// caluate the drag
+				float drag = pInfo->GetDragness() * ( cacheVelocity * cacheVelocity );
+				// Apply the drag to current velocity
+				cacheVelocity -= cacheVelocity.Normalize() * drag;
 
+				// Update the velocity for go
+				pCacheGo->SetVelocity( cacheVelocity + cacheAccerlation * i_dt );
+				// Caluate the average velocity between this frame and last frame
+				cacheAverageVelocity = ( cacheVelocity + pCacheGo->GetVelocity() ) / 2;
 
+				// Update the position based on the average velocity
+				cachePosition = pCacheGo->GetPosition();
+				pCacheGo->SetPosition( cachePosition + cacheAverageVelocity * i_dt );
 				ptr = ptr->GetNext();
 			}
 		}
