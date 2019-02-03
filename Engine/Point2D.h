@@ -88,11 +88,16 @@ namespace Engine
 		inline Point2D<T> Normalize()
 		{
 			T magnitude = this->Magnitude();
+			if ( magnitude == 0 )
+			{
+				return Point2D<T>( 0, 0 );
+			}
 			return Point2D<T>( this->m_x / magnitude, this->m_y / magnitude );
 		}
 
 		T m_x;
 		T m_y;
+
 	};
 
 	template <typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
@@ -107,3 +112,4 @@ namespace Engine
 		return i_lhs.m_x != i_rhs.m_x || i_lhs.m_y != i_rhs.m_y;
 	}
 }
+

@@ -69,6 +69,11 @@ namespace MonsterChase
 
 		// Create new RenderInfo for the enemy
 		Render::RenderManager::GetInstance().AddRenderObject( pNewEnemy, "Data\\BadGuy.dds" );
+		// Create new PhysicsInfo for the enemy 
+		Physics::PhysicsInfo * pEnemyPhysicsInfo = Physics::PhysicsInfo::Create( 1.0, 0.005f, pNewEnemy );
+		// Add an initial force to the enemy
+		pEnemyPhysicsInfo->SetDrivingForce( Point2D<float>( 300, 0 ) );
+		Physics::PhysicsManager::GetInstance().AddPhysicsObject( pEnemyPhysicsInfo );
 		return pNewEnemy;
 	}
 

@@ -10,7 +10,7 @@ namespace Engine
 		class PhysicsInfo
 		{
 		public:
-			static PhysicsInfo * Create( float i_mass, float i_dragness, GameObject * i_pGo, Point2D<float> & i_oForce );
+			static PhysicsInfo * Create( float i_mass, float i_dragness, GameObject * i_pGo );
 			~PhysicsInfo();
 
 			PhysicsInfo( const PhysicsInfo & ) = delete;
@@ -26,7 +26,7 @@ namespace Engine
 
 		private:
 			PhysicsInfo(){};
-			PhysicsInfo( float i_mass, float i_drag, GameObject * i_pGo, Point2D<float> & i_oForce );
+			PhysicsInfo( float i_mass, float i_drag, GameObject * i_pGo );
 			GameObject * m_pGo;
 			Point2D<float> m_force;
 			float m_mass;

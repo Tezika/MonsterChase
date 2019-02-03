@@ -42,12 +42,11 @@ namespace MonsterChase
 		m_pPlayer = new TRACK_NEW Player( "Tezika", Point2D<float>( 1, 1 ), 15 );
 		m_pPlayer->SetController( nullptr );
 		Render::RenderManager::GetInstance().AddRenderObject( m_pPlayer, "Data\\GoodGuy.dds" );
-		Point2D<float> initialForce( 300, 300 );
-		Physics::PhysicsInfo * playerPhysicsInfo = Physics::PhysicsInfo::Create( 1.0, 0.005f, m_pPlayer, initialForce );
-		Physics::PhysicsManager::GetInstance().AddPhysicsObject( playerPhysicsInfo );
+		// 
+		Physics::PhysicsInfo * pPlayerPhysicsInfo = Physics::PhysicsInfo::Create( 1.0, 0.005f, m_pPlayer );
+		Physics::PhysicsManager::GetInstance().AddPhysicsObject( pPlayerPhysicsInfo );
 
 		// Initialize the test enemies
-		m_pEnemyManager->CreateEnemy();
 		m_pEnemyManager->CreateEnemy();
 
 		DEBUG_PRINT( "----------Finish the setup for the game.----------" );
@@ -59,6 +58,8 @@ namespace MonsterChase
 		do
 		{
 			float dt = Timing::GetLastFrameTime();
+			// Update the controllers
+			Controller::ControllerManager::GetInstance().Update( dt );
 			// Update the physics system
 			Physics::PhysicsManager::GetInstance().Simulate( dt );
 			// Update the rendering system

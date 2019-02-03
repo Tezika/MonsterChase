@@ -16,6 +16,5 @@ namespace MonsterChase
 
 	void AIController::UpdateGameObject( float i_dt )
 	{
-
 	}
 }
