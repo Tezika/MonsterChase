@@ -114,7 +114,6 @@ namespace MonsterChase
 		while ( ptr != nullptr )
 		{
 			pEnemy = ptr->GetData();
-			pEnemy->GetController()->UpdateGameObject();
 			pEnemy->PrintOutInfo();
 			ptr = ptr->GetNext();
 		}

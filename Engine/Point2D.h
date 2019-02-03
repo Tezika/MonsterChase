@@ -18,11 +18,10 @@ namespace Engine
 		{
 		}
 
-
-		inline Point2D( const Point2D<T> & i_other )
+		inline Point2D( const Point2D<T> & i_other ) :
+			m_x( i_other.m_x ),
+			m_y( i_other.m_y )
 		{
-			this->m_x = i_other.m_x;
-			this->m_y = i_other.m_y;
 		}
 
 		inline Point2D<T> & operator=( const Point2D<T> & i_other )

@@ -16,7 +16,7 @@ namespace MonsterChase
 		m_pControlObject = nullptr;
 	}
 
-	void InputController::UpdateGameObject()
+	void InputController::UpdateGameObject( float i_dt )
 	{
 	}
 }

@@ -9,7 +9,7 @@ namespace MonsterChase
 	public:
 		InputController();
 
-		void UpdateGameObject() override;
+		void UpdateGameObject( float i_dt ) override;
 
 		inline void SetMoveSpeed( const int i_moveSpeed ) { this->m_moveSpeed = i_moveSpeed; }
 		inline const unsigned int GetMoveSpeed() { return this->m_moveSpeed; }

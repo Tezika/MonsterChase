@@ -10,7 +10,7 @@ namespace MonsterChase
 	public:
 		AIController();
 
-		void UpdateGameObject() override;
+		void UpdateGameObject( float i_dt ) override;
 
 		inline void SetGameObject( Engine::GameObject & i_other ) override { this->m_pObject = &i_other; }
 		inline void SetGameObject( Engine::GameObject * i_pOther ) override { this->m_pObject = i_pOther; }

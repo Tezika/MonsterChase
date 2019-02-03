@@ -14,7 +14,6 @@
 #include <ctime>
 #include "Timer.h"
 #include "SubSystems.h"
-#include "PhysicsInfo.h"
 
 extern float Timing::GetLastFrameTime();
 
@@ -43,8 +42,8 @@ namespace MonsterChase
 		m_pPlayer = new TRACK_NEW Player( "Tezika", Point2D<float>( 1, 1 ), 15 );
 		m_pPlayer->SetController( nullptr );
 		Render::RenderManager::GetInstance().AddRenderObject( m_pPlayer, "Data\\GoodGuy.dds" );
-		Point2D<float> initialForce( 300, 0.0f );
-		Physics::PhysicsInfo * playerPhysicsInfo = Physics::PhysicsInfo::Create( 1.0, 0.01f, m_pPlayer, initialForce );
+		Point2D<float> initialForce( 300, 300 );
+		Physics::PhysicsInfo * playerPhysicsInfo = Physics::PhysicsInfo::Create( 1.0, 0.005f, m_pPlayer, initialForce );
 		Physics::PhysicsManager::GetInstance().AddPhysicsObject( playerPhysicsInfo );
 
 		// Initialize the test enemies
