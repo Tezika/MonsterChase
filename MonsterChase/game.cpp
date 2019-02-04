@@ -40,9 +40,12 @@ namespace MonsterChase
 		}
 		// Initialize the player
 		m_pPlayer = new TRACK_NEW Player( "Tezika", Point2D<float>( 1, 1 ), 15 );
-		m_pPlayer->SetController( nullptr );
+		// Create an input controller and assign it to the player
+		InputController * pInputController = new InputController();
+		pInputController->SetGameObject( m_pPlayer );
+		m_pPlayer->SetController( pInputController );
 		Render::RenderManager::GetInstance().AddRenderObject( m_pPlayer, "Data\\GoodGuy.dds" );
-		// 
+		// Create the player's physics info
 		Physics::PhysicsInfo * pPlayerPhysicsInfo = Physics::PhysicsInfo::Create( 1.0, 0.005f, m_pPlayer );
 		Physics::PhysicsManager::GetInstance().AddPhysicsObject( pPlayerPhysicsInfo );
 

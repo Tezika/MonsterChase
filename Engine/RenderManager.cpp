@@ -13,20 +13,21 @@ namespace Engine
 	namespace Render
 	{
 		extern GLib::Sprites::Sprite * CreateSprite( const char * i_pFilename );
-		void TestKeyCallback( unsigned int i_VKeyID, bool bWentDown )
-		{
-#ifdef _DEBUG
-			const size_t	lenBuffer = 65;
-			char			Buffer[lenBuffer];
-
-			sprintf_s( Buffer, lenBuffer, "VKey 0x%04x went %s\n", i_VKeyID, bWentDown ? "down" : "up" );
-			OutputDebugStringA( Buffer );
-#endif // __DEBUG
-		}
+//		void TestKeyCallback( unsigned int i_VKeyID, bool bWentDown )
+//		{
+//#ifdef _DEBUG
+//			const size_t	lenBuffer = 65;
+//			char			Buffer[lenBuffer];
+//
+//			sprintf_s( Buffer, lenBuffer, "VKey 0x%04x went %s\n", i_VKeyID, bWentDown ? "down" : "up" );
+//			OutputDebugStringA( Buffer );
+//#endif // __DEBUG
+//		}
 
 		bool RenderManager::Initialize()
 		{
 			m_pRenderInfos = new TList<RenderInfo>();
+			//GLib::SetKeyStateChangeCallback( TestKeyCallback );
 			assert( m_pRenderInfos );
 			DEBUG_PRINT_ENGINE( "The render system initialized succuessfully!" );
 			return true;
@@ -34,7 +35,6 @@ namespace Engine
 
 		void RenderManager::Update( float i_dt, bool & bEnd )
 		{
-			GLib::SetKeyStateChangeCallback( TestKeyCallback );
 			GLib::Service( bEnd );
 
 			if ( bEnd )
