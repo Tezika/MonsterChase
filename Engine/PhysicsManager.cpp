@@ -81,7 +81,22 @@ namespace Engine
 			return true;
 		}
 
-		bool PhysicsManager::Destroy()
+		PhysicsInfo * PhysicsManager::GetInfoByGameObject( GameObject * i_pGO )
+		{
+			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
+			PhysicsInfo * pCurrentInfo = nullptr;
+			while ( ptr != nullptr )
+			{
+				pCurrentInfo = ptr->GetData();
+				if ( pCurrentInfo->GetGameObject() == i_pGO )
+				{
+					return pCurrentInfo;
+				}
+			}
+			return nullptr;
+		}
+
+			bool PhysicsManager::Destroy()
 		{
 			// Clean the physics objects
 			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();

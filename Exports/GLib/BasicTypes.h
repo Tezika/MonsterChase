@@ -4,7 +4,7 @@
 
 namespace GLib
 {
-	typedef void(*KeyStateChange)(unsigned int i_VKeyID, bool i_bDown);
+	typedef void( *KeyStateChange )( unsigned int i_VKeyID, bool i_bDown );
 
 	struct Point2D
 	{

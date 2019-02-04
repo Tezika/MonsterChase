@@ -30,6 +30,7 @@ namespace Engine
 		this->m_name = i_other.m_name;
 		this->m_position = i_other.m_position;
 		this->m_velocity = i_other.m_velocity;
+		this->m_pController = i_other.m_pController;
 	}
 
 	void GameObject::operator=( const GameObject & i_other )
@@ -37,5 +38,6 @@ namespace Engine
 		this->m_name = i_other.m_name;
 		this->m_position = i_other.m_position;
 		this->m_velocity = i_other.m_velocity;
+		this->m_pController = i_other.m_pController;
 	}
 }

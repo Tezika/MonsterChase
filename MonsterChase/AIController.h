@@ -12,8 +12,8 @@ namespace MonsterChase
 
 		void UpdateGameObject( float i_dt ) override;
 
-		inline void SetGameObject( Engine::GameObject & i_other ) override { this->m_pObject = &i_other; }
-		inline void SetGameObject( Engine::GameObject * i_pOther ) override { this->m_pObject = i_pOther; }
+		inline void SetControlGameObject( Engine::GameObject & i_other ) override { this->m_pObject = &i_other; }
+		inline void SetControlGameObject( Engine::GameObject * i_pOther ) override { this->m_pObject = i_pOther; }
 
 		inline void SetPlayer( Engine::GameObject & i_player ) { m_pPlayer = &i_player; }
 		inline void SetPlayer( Engine::GameObject * i_pPlayer ){ m_pPlayer = i_pPlayer; }

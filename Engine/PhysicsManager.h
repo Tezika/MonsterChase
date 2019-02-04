@@ -25,6 +25,8 @@ namespace Engine
 			bool AddPhysicsObject( PhysicsInfo * i_pInfo );
 			bool RemovePhysicsObject( GameObject * i_pGo );
 
+			PhysicsInfo * GetInfoByGameObject( GameObject * i_pGo );
+
 			// Schedule functions
 			bool Initialize();
 			void Simulate( float i_dt );

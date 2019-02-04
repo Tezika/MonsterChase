@@ -1,6 +1,7 @@
 #pragma once
 #include "IController.h"
 #include "GameObject.h"
+#include "PhysicsInfo.h"
 
 namespace MonsterChase
 {
@@ -8,18 +9,23 @@ namespace MonsterChase
 	{
 	public:
 		InputController();
+		InputController( Engine::GameObject * i_pGO, float i_drivingForce );
 
 		void UpdateGameObject( float i_dt ) override;
 
-		inline void SetMoveSpeed( const int i_moveSpeed ) { this->m_moveSpeed = i_moveSpeed; }
-		inline const unsigned int GetMoveSpeed() { return this->m_moveSpeed; }
+		inline void SetDrivingForce( const float & i_moveSpeed ) { this->m_drivingForce = i_moveSpeed; }
+		inline const float & GetDrivingForce() { return this->m_drivingForce; }
 
-		inline void SetGameObject( Engine::GameObject & i_other ) override { this->m_pControlObject = &i_other; }
-		inline void SetGameObject( Engine::GameObject * i_pOther ) override { this->m_pControlObject = i_pOther; }
+		inline void SetControlGameObject( Engine::GameObject & i_other ) override { this->m_pControlObject = &i_other; }
+		inline void SetControlGameObject( Engine::GameObject * i_pOther ) override { this->m_pControlObject = i_pOther; }
+
+		inline Engine::GameObject * GetControlGameObject(){ return m_pControlObject; }
+		inline Engine::Physics::PhysicsInfo * GetPhysicsInfo();
 
 		~InputController();
 	private:
 		Engine::GameObject * m_pControlObject;
-		unsigned int m_moveSpeed;
+		Engine::Physics::PhysicsInfo * m_pCachedPhysicsInfo;
+		float m_drivingForce;
 	};
 }

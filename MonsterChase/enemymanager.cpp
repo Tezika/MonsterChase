@@ -61,7 +61,7 @@ namespace MonsterChase
 		) );
 		Enemy * pNewEnemy = pNewEnemyNode->GetData();
 		AIController * newController = new AIController();
-		newController->SetGameObject( pNewEnemy );
+		newController->SetControlGameObject( pNewEnemy );
 		newController->SetPlayer( Game::GetInstance().GetCurPlayer() );
 		newController->SetMoveSpeed( rand() % 3 + 1 );
 
