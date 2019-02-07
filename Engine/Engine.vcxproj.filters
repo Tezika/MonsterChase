@@ -13,23 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\DataStructure">
-      <UniqueIdentifier>{1d96fb1f-9551-4121-a636-9c3968272d10}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\DataStructure">
-      <UniqueIdentifier>{224b48fb-f763-4b27-b749-b83fcdf9b8c6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Container">
       <UniqueIdentifier>{ab97bab5-00d3-40a6-900a-b8dc06960b74}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Container">
       <UniqueIdentifier>{735f3e21-d0d3-4b0f-889c-a0a12c152fad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Console">
-      <UniqueIdentifier>{a353e3e0-758f-4b2f-bc2b-cf4bef896474}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Console">
-      <UniqueIdentifier>{9c22c840-5e2e-4b6d-9e66-160cf9205dec}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\MemoryManagement">
       <UniqueIdentifier>{b29a7669-74ac-456c-9d1c-90264c0f7e7b}</UniqueIdentifier>
@@ -85,6 +73,24 @@
     <Filter Include="Source Files\Controller">
       <UniqueIdentifier>{b039f0c5-c312-4074-92ed-6918c2676df0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\DataSharing">
+      <UniqueIdentifier>{3a635469-f35f-4681-9941-6a08d7303d68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DataSharing">
+      <UniqueIdentifier>{2f30213c-0dbc-4c3a-8785-28109fbb8143}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\String">
+      <UniqueIdentifier>{224b48fb-f763-4b27-b749-b83fcdf9b8c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\String">
+      <UniqueIdentifier>{1d96fb1f-9551-4121-a636-9c3968272d10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ConsoleDebug">
+      <UniqueIdentifier>{a353e3e0-758f-4b2f-bc2b-cf4bef896474}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ConsoleDebug">
+      <UniqueIdentifier>{9c22c840-5e2e-4b6d-9e66-160cf9205dec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -100,10 +106,10 @@
       <Filter>Header Files\Container</Filter>
     </ClInclude>
     <ClInclude Include="TString.h">
-      <Filter>Header Files\DataStructure</Filter>
+      <Filter>Header Files\String</Filter>
     </ClInclude>
     <ClInclude Include="ConsolePrint.h">
-      <Filter>Header Files\Console</Filter>
+      <Filter>Header Files\ConsoleDebug</Filter>
     </ClInclude>
     <ClInclude Include="HeapManager.h">
       <Filter>Header Files\MemoryManagement</Filter>
@@ -144,6 +150,15 @@
     <ClInclude Include="ControllerManager.h">
       <Filter>Header Files\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="ReferenceCounter.h">
+      <Filter>Header Files\DataSharing</Filter>
+    </ClInclude>
+    <ClInclude Include="SmartPtr.h">
+      <Filter>Header Files\DataSharing</Filter>
+    </ClInclude>
+    <ClInclude Include="WeakPtr.h">
+      <Filter>Header Files\DataSharing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -153,10 +168,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TString.cpp">
-      <Filter>Source Files\DataStructure</Filter>
+      <Filter>Source Files\String</Filter>
     </ClCompile>
     <ClCompile Include="ConsolePrint.cpp">
-      <Filter>Source Files\Console</Filter>
+      <Filter>Source Files\ConsoleDebug</Filter>
     </ClCompile>
     <ClCompile Include="HeapManager.cpp">
       <Filter>Source Files\MemoryManagement</Filter>
@@ -187,6 +202,15 @@
     </ClCompile>
     <ClCompile Include="ControllerManager.cpp">
       <Filter>Source Files\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="ReferenceCounter.cpp">
+      <Filter>Source Files\DataSharing</Filter>
+    </ClCompile>
+    <ClCompile Include="SmartPtr.cpp">
+      <Filter>Source Files\DataSharing</Filter>
+    </ClCompile>
+    <ClCompile Include="WeakPtr.cpp">
+      <Filter>Source Files\DataSharing</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
