@@ -24,10 +24,18 @@ namespace Engine
 
 		}
 
-		void ReferenceCounter::operator=( const ReferenceCounter & i_other )
+		ReferenceCounter & ReferenceCounter::operator=( const ReferenceCounter & i_other )
 		{
 			refCount = i_other.refCount;
 			weakCount = i_other.weakCount;
+			return *this;
+		}
+
+		ReferenceCounter & ReferenceCounter::operator=( const ReferenceCounter * i_pCounter )
+		{
+			refCount = i_pCounter->refCount;
+			weakCount = i_pCounter->weakCount;
+			return *this;
 		}
 	}
 }

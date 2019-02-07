@@ -1,17 +1,21 @@
 #pragma once
+#include "SmartPtr.h"
+#include "ReferenceCounter.h"
 namespace Engine
 {
 	namespace DataSharing
 	{
 		struct ReferenceCounter;
 
-		template<typename T>
+		template<class T>
 		class SmartPtr;
 
-		template<typename T>
+		template<class T>
 		class WeakPtr
 		{
-
+		private:
+			T * m_ptr;
+			ReferenceCounter * m_pRefCounter;
 		};
 	}
 }
