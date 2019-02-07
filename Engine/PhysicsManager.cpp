@@ -22,33 +22,31 @@ namespace Engine
 		{
 			// Iterate every physics object in the list
 			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
-			Point2D<float> cacheAccerlation;
-			Point2D<float> cacheVelocity;
-			Point2D<float> cacheAverageVelocity;
-			Point2D<float> cachePosition;
-			GameObject * pCacheGo;
+			Point2D<float> cachedAcceleration;
+			Point2D<float> cachedVelocity;
+			Point2D<float> cachedAverageVelocity;
+			Point2D<float> cachedPosition;
+			GameObject * pCachedGo;
 			while ( ptr != nullptr )
 			{
 				PhysicsInfo * pInfo = ptr->GetData();
-				pCacheGo = pInfo->GetGameObject();
+				pCachedGo = pInfo->GetGameObject();
 				// Caculate the accerlation
-				cacheAccerlation = pInfo->GetDrivingForce() / pInfo->GetMass();
+				cachedAcceleration = pInfo->GetDrivingForce() / pInfo->GetMass();
 				// Use the acceraltion to update the velocity of current gameobject
-				cacheVelocity = pCacheGo->GetVelocity();
-				cacheVelocity += cacheAccerlation * i_dt;
+				cachedVelocity = pCachedGo->GetVelocity();
+				cachedVelocity += cachedAcceleration * i_dt;
 				// caluate the drag
-				float drag = pInfo->GetDragness() * ( cacheVelocity * cacheVelocity );
+				float drag = pInfo->GetDragness() * ( cachedVelocity * cachedVelocity );
 				// Apply the drag effect to current velocity
-				cacheVelocity -= cacheVelocity.Normalize() * drag;
-
+				cachedVelocity -= cachedVelocity.Normalize() * drag;
 				// Update the velocity for go
-				pCacheGo->SetVelocity( cacheVelocity + cacheAccerlation * i_dt );
+				pCachedGo->SetVelocity( cachedVelocity + cachedAcceleration * i_dt );
 				// Caluate the average velocity between this frame and last frame
-				cacheAverageVelocity = ( cacheVelocity + pCacheGo->GetVelocity() ) / 2;
-
+				cachedAverageVelocity = ( cachedVelocity + pCachedGo->GetVelocity() ) / 2;
 				// Update the position based on the average velocity
-				cachePosition = pCacheGo->GetPosition();
-				pCacheGo->SetPosition( cachePosition + cacheAverageVelocity * i_dt );
+				cachedPosition = pCachedGo->GetPosition();
+				pCachedGo->SetPosition( cachedPosition + cachedAverageVelocity * i_dt );
 				ptr = ptr->GetNext();
 			}
 		}
@@ -96,7 +94,7 @@ namespace Engine
 			return nullptr;
 		}
 
-			bool PhysicsManager::Destroy()
+		bool PhysicsManager::Destroy()
 		{
 			// Clean the physics objects
 			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
