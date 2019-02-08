@@ -14,7 +14,6 @@ namespace Engine
 			ReferenceCounter( const ReferenceCounter & );
 			ReferenceCounter & operator=( const ReferenceCounter & );
 			ReferenceCounter & operator= ( const ReferenceCounter * );
-			ReferenceCounter & operator++( );
 
 			Ref_Counter_t weakCount;
 			Ref_Counter_t refCount;

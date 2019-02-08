@@ -1,6 +1,7 @@
 #pragma once
 #include "WeakPtr.h"
 #include "ReferenceCounter.h"
+#include "Assert.h"
 
 namespace Engine
 {
@@ -62,9 +63,9 @@ namespace Engine
 			inline bool operator==( const SmartPtr & i_other ) const{ return m_ptr == i_other.m_ptr; };
 			template<class U>
 			inline bool operator==( const SmartPtr<U> & i_other ) const { return m_ptr == i_other.m_ptr; };
-			inline bool operator==( const WeakPtr<T> & i_other ) const;
+			inline bool operator==( const WeakPtr<T> & i_other ) const { return m_ptr == i_other.m_ptr; };
 			template<class U>
-			inline bool operator==( const WeakPtr<U> & i_other ) const;
+			inline bool operator==( const WeakPtr<U> & i_other ) const { return m_ptr == i_other.m_ptr; };
 			// Equality comparison operator directly to pointer 
 			inline bool operator==( T * i_ptr ) const { return m_ptr == i_ptr; };
 			// Equality comparison operator directly to pointer (of polymorphic type)
@@ -77,9 +78,9 @@ namespace Engine
 			inline bool operator!=( const SmartPtr & i_other ) const{ return m_ptr != i_other.m_ptr; };
 			template<class U>
 			inline bool operator!=( const SmartPtr<U> & i_other ) const { return m_ptr != i_other.m_ptr; };
-			inline bool operator!=( const WeakPtr<T> & i_other ) const;
+			inline bool operator!=( const WeakPtr<T> & i_other ) const { return m_ptr != i_other.m_ptr; };
 			template<class U>
-			inline bool operator!=( const WeakPtr<U> & i_other ) const;
+			inline bool operator!=( const WeakPtr<U> & i_other ) const { return m_ptr != i_other.m_ptr; };
 
 			// Inequality comparison operator directly to pointer 
 			inline bool operator!=( T * i_ptr ) const { return m_ptr != i_ptr; };
@@ -97,7 +98,9 @@ namespace Engine
 			inline SmartPtr & operator++() { m_ptr++; return *this; };
 
 		private:
-			void AcquireNewReference( T * i_ptr, ReferenceCounter * i_pCounter );
+			void AcquireReference( T * i_ptr, ReferenceCounter * i_pCounter );
+			template<class U>
+			void AcquireReference( U * i_ptr, ReferenceCounter * i_pCounter );
 			void ReleaseReference();
 			T * m_ptr;
 			ReferenceCounter * m_pRefCounter;
@@ -111,13 +114,18 @@ namespace Engine
 
 		}
 
-
 		template<class T>
 		inline SmartPtr<T>::SmartPtr( T * i_ptr ) :
-			m_ptr( i_ptr ),
-			m_pRefCounter( new ReferenceCounter( 0, 1 ) )
+			m_ptr( i_ptr )
 		{
-
+			if ( i_ptr == nullptr )
+			{
+				m_pRefCounter = nullptr;
+			}
+			else
+			{
+				m_pRefCounter = new ReferenceCounter( 0, 1 );
+			}
 		}
 
 		template<class T>
@@ -158,13 +166,54 @@ namespace Engine
 		SmartPtr<T> & SmartPtr<T>::operator=( const SmartPtr & i_other )
 		{
 			this->ReleaseReference();
-			this->AcquireNewReference( i_other.m_ptr, i_other.m_pRefCounter );
+			this->AcquireReference( i_other.m_ptr, i_other.m_pRefCounter );
 		}
 
+		template<class T>
+		SmartPtr<T> & SmartPtr<T>::operator=( std::nullptr_t i_null )
+		{
+			this->ReleaseReference();
+			this->AcquireReference( nullptr, nullptr );
+		}
 
 		template<class T>
-		void SmartPtr<T>::AcquireNewReference( T * i_ptr, ReferenceCounter * i_pCounter )
+		SmartPtr<T> & SmartPtr<T>::operator=( T * i_ptr )
 		{
+			this->ReleaseReference();
+			this->AcquireReference( i_ptr, new ReferenceCounter( 0, 1 ) );
+		}
+
+		template<class T>
+		SmartPtr<T> & SmartPtr<T>::operator=( const WeakPtr<T> & i_other )
+		{
+			this->ReleaseReference();
+			this->AcquireReference( i_other.m_ptr, i_other.m_pRefCounter );
+		}
+
+		template<class T>
+		template<class U>
+		SmartPtr<T> & SmartPtr<T>::operator=( const WeakPtr<U> & i_other )
+		{
+			this->ReleaseReference();
+			this->AcquireReference( i_other.m_ptr, i_other.m_pRefCounter );
+		}
+
+		template<class T>
+		void SmartPtr<T>::AcquireReference( T * i_ptr, ReferenceCounter * i_pCounter )
+		{
+			assert( i_ptr );
+			assert( i_pCounter );
+			m_ptr = i_ptr;
+			m_pRefCounter = i_pCounter;
+			++m_pRefCounter->refCount;
+		}
+
+		template<class T>
+		template<class U>
+		void SmartPtr<T>::AcquireReference( U * i_ptr, ReferenceCounter * i_pCounter )
+		{
+			assert( i_ptr );
+			assert( i_pCounter );
 			m_ptr = i_ptr;
 			m_pRefCounter = i_pCounter;
 			++m_pRefCounter->refCount;
