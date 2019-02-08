@@ -97,6 +97,8 @@ namespace Engine
 			// self-control operator
 			inline SmartPtr & operator++() { m_ptr++; return *this; };
 
+			inline operator bool() { return m_ptr != nullptr; };
+
 		private:
 			void AcquireReference( T * i_ptr, ReferenceCounter * i_pCounter );
 			template<class U>
