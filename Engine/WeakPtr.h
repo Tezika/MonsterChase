@@ -40,7 +40,6 @@ namespace Engine
 			// Create an Smart Pointer from this Weak Pointer
 			SmartPtr<T> AcquireOwnership();
 
-
 			// Assignment operators
 			WeakPtr & operator=( const WeakPtr & i_other );
 
@@ -132,7 +131,6 @@ namespace Engine
 			++m_pRefCounter->weakCount;
 		}
 
-
 		// Assignment operators
 		template<class T>
 		WeakPtr<T> & WeakPtr<T>::operator=( const WeakPtr<T> & i_other )
@@ -168,7 +166,7 @@ namespace Engine
 		WeakPtr<T> &  WeakPtr<T>::operator=( std::nullptr_t i_null )
 		{
 			this->ReleaseReference();
-			this->AcquireNewReference( nullptr, nullptr );
+			this->AcquireNewReference( i_null, i_null );
 		}
 
 		template<class T>
@@ -194,7 +192,6 @@ namespace Engine
 			if ( m_pRefCounter != nullptr )
 			{
 				++m_pRefCounter->weakCount;
-
 			}
 		}
 
@@ -217,7 +214,6 @@ namespace Engine
 			{
 				return SmartPtr<T>( nullptr );
 			}
-
 			return SmartPtr<T>( *this );
 		}
 	}

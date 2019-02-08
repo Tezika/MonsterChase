@@ -72,7 +72,7 @@ namespace Engine
 			template<class U>
 			inline bool operator==( U * i_ptr ) const { return m_ptr == i_ptr; };
 			// Equality comparison operator for nullptr
-			inline bool operator==( std::nullptr_t nullp ) const { return m_ptr == nullptr; };
+			inline bool operator==( std::nullptr_t nullp ) const { return m_ptr == nullp; };
 
 			// Operator !=
 			inline bool operator!=( const SmartPtr & i_other ) const{ return m_ptr != i_other.m_ptr; };
@@ -88,7 +88,7 @@ namespace Engine
 			template<class U>
 			inline bool operator!=( U * i_ptr ) const { return m_ptr != i_ptr; };
 			// Inequality comparison operator for nullptr
-			inline bool operator!=( std::nullptr_t nullp ) const { return m_ptr != nullptr; };
+			inline bool operator!=( std::nullptr_t nullp ) const { return m_ptr != nullp; };
 
 			// Access operator
 			inline T * operator->() const { return m_ptr; };
@@ -100,9 +100,9 @@ namespace Engine
 			inline operator bool() { return m_ptr != nullptr; };
 
 		private:
-			void AcquireReference( T * i_ptr, ReferenceCounter * i_pCounter );
+			void AcquireNewReference( T * i_ptr, ReferenceCounter * i_pCounter );
 			template<class U>
-			void AcquireReference( U * i_ptr, ReferenceCounter * i_pCounter );
+			void AcquireNewReference( U * i_ptr, ReferenceCounter * i_pCounter );
 			void ReleaseReference();
 			T * m_ptr;
 			ReferenceCounter * m_pRefCounter;
@@ -168,28 +168,28 @@ namespace Engine
 		SmartPtr<T> & SmartPtr<T>::operator=( const SmartPtr & i_other )
 		{
 			this->ReleaseReference();
-			this->AcquireReference( i_other.m_ptr, i_other.m_pRefCounter );
+			this->AcquireNewReference( i_other.m_ptr, i_other.m_pRefCounter );
 		}
 
 		template<class T>
 		SmartPtr<T> & SmartPtr<T>::operator=( std::nullptr_t i_null )
 		{
 			this->ReleaseReference();
-			this->AcquireReference( nullptr, nullptr );
+			this->AcquireNewReference( i_null, i_null );
 		}
 
 		template<class T>
 		SmartPtr<T> & SmartPtr<T>::operator=( T * i_ptr )
 		{
 			this->ReleaseReference();
-			this->AcquireReference( i_ptr, new ReferenceCounter( 0, 1 ) );
+			this->AcquireNewReference( i_ptr, new ReferenceCounter( 0, 1 ) );
 		}
 
 		template<class T>
 		SmartPtr<T> & SmartPtr<T>::operator=( const WeakPtr<T> & i_other )
 		{
 			this->ReleaseReference();
-			this->AcquireReference( i_other.m_ptr, i_other.m_pRefCounter );
+			this->AcquireNewReference( i_other.m_ptr, i_other.m_pRefCounter );
 		}
 
 		template<class T>
@@ -197,28 +197,30 @@ namespace Engine
 		SmartPtr<T> & SmartPtr<T>::operator=( const WeakPtr<U> & i_other )
 		{
 			this->ReleaseReference();
-			this->AcquireReference( i_other.m_ptr, i_other.m_pRefCounter );
+			this->AcquireNewReference( i_other.m_ptr, i_other.m_pRefCounter );
 		}
 
 		template<class T>
-		void SmartPtr<T>::AcquireReference( T * i_ptr, ReferenceCounter * i_pCounter )
+		void SmartPtr<T>::AcquireNewReference( T * i_ptr, ReferenceCounter * i_pCounter )
 		{
-			assert( i_ptr );
-			assert( i_pCounter );
 			m_ptr = i_ptr;
 			m_pRefCounter = i_pCounter;
-			++m_pRefCounter->refCount;
+			if ( m_pRefCounter != nullptr )
+			{
+				++m_pRefCounter->refCount;
+			}
 		}
 
 		template<class T>
 		template<class U>
-		void SmartPtr<T>::AcquireReference( U * i_ptr, ReferenceCounter * i_pCounter )
+		void SmartPtr<T>::AcquireNewReference( U * i_ptr, ReferenceCounter * i_pCounter )
 		{
-			assert( i_ptr );
-			assert( i_pCounter );
 			m_ptr = i_ptr;
 			m_pRefCounter = i_pCounter;
-			++m_pRefCounter->refCount;
+			if ( m_pRefCounter != nullptr )
+			{
+				++m_pRefCounter->refCount;
+			}
 		}
 
 		template<class T>
