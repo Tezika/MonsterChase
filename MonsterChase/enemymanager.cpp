@@ -26,13 +26,6 @@ namespace MonsterChase
 
 	EnemyManager::~EnemyManager()
 	{
-		auto ptr = m_pEnemyList->GetHead();
-		while ( ptr != nullptr )
-		{
-			delete ptr->GetData();
-			ptr = ptr->GetNext();
-		}
-		delete m_pEnemyList;
 	}
 
 	Enemy * EnemyManager::CreateEnemy()
@@ -64,8 +57,10 @@ namespace MonsterChase
 		newController->SetControlGameObject( pNewEnemy );
 		newController->SetPlayer( Game::GetInstance().GetCurPlayer() );
 		newController->SetMoveSpeed( rand() % 3 + 1 );
-
 		pNewEnemy->SetController( newController );
+
+		// Add the controller into Controller Manager
+		Controller::ControllerManager::GetInstance().AddContrller( newController );
 
 		// Create new RenderInfo for the enemy
 		Render::RenderManager::GetInstance().AddRenderObject( pNewEnemy, "Data\\BadGuy.dds" );

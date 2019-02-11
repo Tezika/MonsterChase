@@ -21,7 +21,6 @@ namespace Engine
 	{
 		if ( m_pController != nullptr )
 		{
-			delete m_pController;
 			m_pController = nullptr;
 		}
 	}

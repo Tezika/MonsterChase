@@ -22,7 +22,6 @@ namespace Engine
 
 		PhysicsInfo::~PhysicsInfo()
 		{
-			m_pGo = nullptr;
 		}
 	}
 }

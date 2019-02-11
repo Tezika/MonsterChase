@@ -77,8 +77,6 @@ namespace MonsterChase
 
 	InputController::~InputController()
 	{
-		m_pControlObject = nullptr;
-		m_pCachedPhysicsInfo = nullptr;
 	}
 
 	void InputController::UpdateGameObject( float i_dt )
