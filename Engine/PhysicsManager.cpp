@@ -26,11 +26,12 @@ namespace Engine
 			Point2D<float> cachedVelocity;
 			Point2D<float> cachedAverageVelocity;
 			Point2D<float> cachedPosition;
-			GameObject * pCachedGo;
+			SmartPtr<GameObject> pCachedGo;
 			while ( ptr != nullptr )
 			{
 				PhysicsInfo * pInfo = ptr->GetData();
 				pCachedGo = pInfo->GetGameObject();
+				assert( pCachedGo != nullptr );
 				// Caculate the accerlation
 				cachedAcceleration = pInfo->GetDrivingForce() / pInfo->GetMass();
 				// Use the acceraltion to update the velocity of current gameobject
@@ -79,7 +80,7 @@ namespace Engine
 			return true;
 		}
 
-		PhysicsInfo * PhysicsManager::GetInfoByGameObject( GameObject * i_pGO )
+		PhysicsInfo * PhysicsManager::GetInfoByGameObject( SmartPtr<GameObject> i_pGO )
 		{
 			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
 			PhysicsInfo * pCurrentInfo = nullptr;

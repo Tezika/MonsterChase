@@ -6,6 +6,7 @@
 #include "Assert.h"
 #include "TString.h"
 #include "GLibUtility.h"
+#include "SmartPtr.h"
 
 
 namespace Engine
@@ -13,16 +14,16 @@ namespace Engine
 	namespace Render
 	{
 		extern GLib::Sprites::Sprite * CreateSprite( const char * i_pFilename );
-//		void TestKeyCallback( unsigned int i_VKeyID, bool bWentDown )
-//		{
-//#ifdef _DEBUG
-//			const size_t	lenBuffer = 65;
-//			char			Buffer[lenBuffer];
-//
-//			sprintf_s( Buffer, lenBuffer, "VKey 0x%04x went %s\n", i_VKeyID, bWentDown ? "down" : "up" );
-//			OutputDebugStringA( Buffer );
-//#endif // __DEBUG
-//		}
+		//		void TestKeyCallback( unsigned int i_VKeyID, bool bWentDown )
+		//		{
+		//#ifdef _DEBUG
+		//			const size_t	lenBuffer = 65;
+		//			char			Buffer[lenBuffer];
+		//
+		//			sprintf_s( Buffer, lenBuffer, "VKey 0x%04x went %s\n", i_VKeyID, bWentDown ? "down" : "up" );
+		//			OutputDebugStringA( Buffer );
+		//#endif // __DEBUG
+		//		}
 
 		bool RenderManager::Initialize()
 		{
@@ -72,12 +73,12 @@ namespace Engine
 			GLib::EndRendering();
 		}
 
-		bool RenderManager::AddRenderObject( GameObject * i_pGo, const TString &  i_strSpriteName )
+		bool RenderManager::AddRenderObject( SmartPtr<GameObject> i_pGo, const TString &  i_strSpriteName )
 		{
 			assert( i_pGo );
 			GLibSprite * pSprite = CreateSprite( const_cast<char*> ( i_strSpriteName.c_str() ) );
 			assert( pSprite );
-			RenderInfo * newRenderObject = new RenderInfo( i_pGo, pSprite, GLibPoint2D{ (float) i_pGo->GetPosition().m_x, (float) i_pGo->GetPosition().m_y } );
+			RenderInfo * newRenderObject = RenderInfo::Create( i_pGo, pSprite, GLibPoint2D{ (float) i_pGo->GetPosition().m_x, (float) i_pGo->GetPosition().m_y } );
 			assert( newRenderObject );
 			return ( m_pRenderInfos->InsertToTail( newRenderObject ) != nullptr );
 		}

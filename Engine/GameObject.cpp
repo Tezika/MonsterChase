@@ -1,11 +1,12 @@
 #include "stdafx.h"
 #include "GameObject.h"
+#include "SmartPtr.h"
 
 namespace Engine
 {
-	GameObject::GameObject()
+	SmartPtr<GameObject> GameObject::Create( const TString & i_otherName, const Point2D<float> & i_otherPosition )
 	{
-
+		return SmartPtr<GameObject>( new GameObject( i_otherName, i_otherPosition ) );
 	}
 
 	GameObject::GameObject( const TString & i_otherName, const Point2D<float> & i_otherPosition ) :
@@ -23,21 +24,5 @@ namespace Engine
 			delete m_pController;
 			m_pController = nullptr;
 		}
-	}
-
-	GameObject::GameObject( const GameObject & i_other )
-	{
-		this->m_name = i_other.m_name;
-		this->m_position = i_other.m_position;
-		this->m_velocity = i_other.m_velocity;
-		this->m_pController = i_other.m_pController;
-	}
-
-	void GameObject::operator=( const GameObject & i_other )
-	{
-		this->m_name = i_other.m_name;
-		this->m_position = i_other.m_position;
-		this->m_velocity = i_other.m_velocity;
-		this->m_pController = i_other.m_pController;
 	}
 }

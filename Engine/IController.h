@@ -1,4 +1,5 @@
 #pragma once
+#include "SmartPtr.h"
 
 namespace Engine
 {
@@ -8,8 +9,7 @@ namespace Engine
 	{
 	public:
 		IController() {};
-		virtual void SetControlGameObject( GameObject & i_other ) = 0;
-		virtual void SetControlGameObject( GameObject * i_pGameObject ) = 0;
+		virtual void SetControlGameObject( const SmartPtr<GameObject> & i_other ) = 0;
 		virtual void UpdateGameObject( float i_dt ) = 0;
 		virtual ~IController() {};
 	};

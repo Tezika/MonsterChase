@@ -9,6 +9,9 @@ namespace Engine
 
 	class TString;
 
+	template<class T>
+	class SmartPtr;
+
 	namespace Render
 	{
 		class RenderInfo;
@@ -25,7 +28,7 @@ namespace Engine
 			RenderManager( RenderManager const& ) = delete;
 			void operator=( RenderManager const& ) = delete;
 
-			bool AddRenderObject( GameObject * i_pGo, const TString & i_strSpriteName );
+			bool AddRenderObject( SmartPtr<GameObject> i_pGo, const TString & i_strSpriteName );
 			bool RemoveRenderObject( GameObject * i_pGo );
 
 			// Schedule functions

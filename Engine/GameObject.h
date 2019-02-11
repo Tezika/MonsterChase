@@ -5,15 +5,15 @@
 
 namespace Engine
 {
+	template<class T>
+	class SmartPtr;
+
 	class GameObject
 	{
 	public:
-		GameObject();
-		GameObject( const TString &, const Point2D<float> & );
-		GameObject( const GameObject & );
-		void operator = ( const GameObject & );
-		virtual ~GameObject();
+		static SmartPtr<GameObject>  Create( const TString &, const Point2D<float> & );
 
+		virtual ~GameObject();
 		inline const TString & GetName(){ return m_name; };
 		inline void SetName( const TString & i_name ) { m_name = i_name; }
 
@@ -25,7 +25,18 @@ namespace Engine
 
 		inline IController * GetController(){ return m_pController; }
 		inline void SetController( IController * i_pController ){ m_pController = i_pController; }
+
+		GameObject( const GameObject & ) = delete;
+		void operator = ( const GameObject & ) = delete;
+
+
+	// Temporary solution for gameplay logic to access the constructors for GameObject.
+	protected:
+		GameObject(){};
+		GameObject( const TString &, const Point2D<float> & );
+
 	private:
+
 		TString m_name;
 		Point2D<float> m_position;
 		Point2D<float> m_velocity;

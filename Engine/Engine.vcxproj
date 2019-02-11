@@ -188,7 +188,6 @@
     <ClCompile Include="ReferenceCounter.cpp" />
     <ClCompile Include="RenderInfo.cpp" />
     <ClCompile Include="RenderManager.cpp" />
-    <ClCompile Include="SmartPtr.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -197,7 +196,6 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TString.cpp" />
-    <ClCompile Include="WeakPtr.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

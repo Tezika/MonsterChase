@@ -67,9 +67,9 @@ namespace MonsterChase
 		GLib::SetKeyStateChangeCallback( InputCallback );
 	}
 
-	InputController::InputController( Engine::GameObject * i_pGO, float i_drivingForce ) :
+	InputController::InputController( Engine::SmartPtr<Engine::GameObject> i_pGo, float i_drivingForce ) :
 		m_pCachedPhysicsInfo( nullptr ),
-		m_pControlObject( i_pGO ),
+		m_pControlObject( i_pGo ),
 		m_drivingForce( i_drivingForce )
 	{
 		GLib::SetKeyStateChangeCallback( InputCallback );

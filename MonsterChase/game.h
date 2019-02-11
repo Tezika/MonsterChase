@@ -12,9 +12,11 @@
 #include "enemymanager.h"
 #include "player.h"
 #include "Windows.h"
+#include "SmartPtr.h"
 
 namespace MonsterChase
 {
+
 	//This is a Singleton.
 	class Game
 	{
@@ -25,10 +27,11 @@ namespace MonsterChase
 			return game;
 		}
 
+		Game( Game const & ) = delete;
+		Game & operator=( Game const & ) = delete;
+
 	private:
 		Game();
-		Game( Game const & );
-		void operator=( Game const & );
 
 	public:
 		bool Initialize( HINSTANCE i_hInstance, int i_nCmdShow );
@@ -38,12 +41,12 @@ namespace MonsterChase
 		bool ShouldEnd() { return m_bEnd; }
 		void TriggerEnd() { m_bEnd = true; }
 		int ClampForMap( int val, int maxiumVal );
-		Player * GetCurPlayer() { return m_pPlayer; }
+		SmartPtr<Player> GetCurPlayer() { return m_pPlayer; }
 		inline const int GetGridWidth() { return m_grid_Width; }
 		inline const int GetGridHeight() { return m_grid_Height; }
 
 	private:
-		Player * m_pPlayer;
+		SmartPtr<Player> m_pPlayer;
 		EnemyManager * m_pEnemyManager;
 		int m_grid_Width;
 		int m_grid_Height;

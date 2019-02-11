@@ -206,11 +206,5 @@
     <ClCompile Include="ReferenceCounter.cpp">
       <Filter>Source Files\DataSharing</Filter>
     </ClCompile>
-    <ClCompile Include="SmartPtr.cpp">
-      <Filter>Source Files\DataSharing</Filter>
-    </ClCompile>
-    <ClCompile Include="WeakPtr.cpp">
-      <Filter>Source Files\DataSharing</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

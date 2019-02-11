@@ -1,4 +1,5 @@
 #pragma once
+#include "SmartPtr.h"
 
 namespace Engine
 {
@@ -25,7 +26,7 @@ namespace Engine
 			bool AddPhysicsObject( PhysicsInfo * i_pInfo );
 			bool RemovePhysicsObject( GameObject * i_pGo );
 
-			PhysicsInfo * GetInfoByGameObject( GameObject * i_pGo );
+			PhysicsInfo * GetInfoByGameObject( SmartPtr<GameObject> i_pGo );
 
 			// Schedule functions
 			bool Initialize();

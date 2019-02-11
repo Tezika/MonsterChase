@@ -3,20 +3,17 @@
 
 namespace Engine
 {
-	namespace DataSharing
+	typedef uint64_t Ref_Counter_t;
+
+	struct ReferenceCounter
 	{
-		typedef uint64_t Ref_Counter_t;
+		ReferenceCounter();
+		ReferenceCounter( Ref_Counter_t, Ref_Counter_t );
+		ReferenceCounter( const ReferenceCounter & );
+		ReferenceCounter & operator=( const ReferenceCounter & );
+		ReferenceCounter & operator= ( const ReferenceCounter * );
 
-		struct ReferenceCounter
-		{
-			ReferenceCounter();
-			ReferenceCounter( Ref_Counter_t, Ref_Counter_t );
-			ReferenceCounter( const ReferenceCounter & );
-			ReferenceCounter & operator=( const ReferenceCounter & );
-			ReferenceCounter & operator= ( const ReferenceCounter * );
-
-			Ref_Counter_t weakCount;
-			Ref_Counter_t refCount;
-		};
-	}
+		Ref_Counter_t weakCount;
+		Ref_Counter_t refCount;
+	};
 }

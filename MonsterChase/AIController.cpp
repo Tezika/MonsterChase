@@ -10,8 +10,6 @@ namespace MonsterChase
 
 	AIController::~AIController()
 	{
-		m_pObject = nullptr;
-		m_pPlayer = nullptr;
 	}
 
 	void AIController::UpdateGameObject( float i_dt )

@@ -39,7 +39,7 @@ namespace MonsterChase
 			return bSuccess;
 		}
 		// Initialize the player
-		m_pPlayer = new TRACK_NEW Player( "Tezika", Point2D<float>( 1, 1 ), 15 );
+		m_pPlayer = SmartPtr<Player>( new TRACK_NEW Player( "Tezika", Point2D<float>( 1, 1 ), 15 ) );
 		// Create an input controller and assign it to the player
 		InputController * pInputController = new InputController( m_pPlayer, 2000.0f );
 		pInputController->SetControlGameObject( m_pPlayer );
@@ -72,8 +72,6 @@ namespace MonsterChase
 
 	void Game::Destroy()
 	{
-		delete m_pPlayer;
-		m_pPlayer = nullptr;
 		delete m_pEnemyManager;
 		m_pEnemyManager = nullptr;
 		DEBUGE_PRINT_GAMEPLAY( "----------Shutdown the game successfully.----------" );

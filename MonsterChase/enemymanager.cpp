@@ -59,7 +59,7 @@ namespace MonsterChase
 			rand() % 3 + 4,
 			rand() % 3 + 1
 		) );
-		Enemy * pNewEnemy = pNewEnemyNode->GetData();
+		SmartPtr<Enemy> pNewEnemy = SmartPtr<Enemy>( pNewEnemyNode->GetData() );;
 		AIController * newController = new AIController();
 		newController->SetControlGameObject( pNewEnemy );
 		newController->SetPlayer( Game::GetInstance().GetCurPlayer() );
@@ -74,7 +74,7 @@ namespace MonsterChase
 		// Add an initial force to the enemy
 		pEnemyPhysicsInfo->SetDrivingForce( Point2D<float>( 300, 0 ) );
 		Physics::PhysicsManager::GetInstance().AddPhysicsObject( pEnemyPhysicsInfo );
-		return pNewEnemy;
+		return pNewEnemyNode->GetData();
 	}
 
 	Enemy * EnemyManager::GetEnemyByName( const char * name )
