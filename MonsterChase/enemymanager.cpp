@@ -26,6 +26,8 @@ namespace MonsterChase
 
 	EnemyManager::~EnemyManager()
 	{
+		delete m_pEnemyList;
+		m_pEnemyList = nullptr;
 	}
 
 	Enemy * EnemyManager::CreateEnemy()

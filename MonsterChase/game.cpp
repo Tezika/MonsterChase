@@ -76,6 +76,7 @@ namespace MonsterChase
 
 	void Game::Destroy()
 	{
+		m_pPlayer = nullptr;
 		delete m_pEnemyManager;
 		m_pEnemyManager = nullptr;
 		DEBUGE_PRINT_GAMEPLAY( "----------Shutdown the game successfully.----------" );
