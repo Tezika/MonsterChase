@@ -237,6 +237,11 @@ namespace Engine
 		{
 			delete m_ptr;
 			m_ptr = nullptr;
+			if ( m_pRefCounter->weakCount == 0 )
+			{
+				delete m_pRefCounter;
+			}
+			m_pRefCounter = nullptr;
 		}
 	}
 
