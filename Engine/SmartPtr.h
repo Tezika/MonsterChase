@@ -233,12 +233,10 @@ namespace Engine
 		{
 			return;
 		}
-		if ( ( --m_pRefCounter->refCount ) == 0 )
+		if ( --m_pRefCounter->refCount == 0 )
 		{
 			delete m_ptr;
 			m_ptr = nullptr;
-			delete m_pRefCounter;
-			m_pRefCounter = nullptr;
 		}
 	}
 

@@ -58,14 +58,9 @@ namespace Engine
 		HeapManager::s_pDefalutHeapManager = nullptr;
 #endif // USE_CUSTOM_ALLOCATOR
 
-
-		// Destroy the sub systems
-		// For Rendering
-		bool bSuccess = false;
-		bSuccess = Render::RenderManager::GetInstance().Destroy();
-		assert( bSuccess );
-
+		// Destroy the sub systems( The order matters! )
 		// For Physics
+		bool bSuccess = false;
 		bSuccess = false;
 		bSuccess = Physics::PhysicsManager::GetInstance().Destroy();
 		assert( bSuccess );
@@ -74,5 +69,10 @@ namespace Engine
 		bSuccess = false;
 		bSuccess = Controller::ControllerManager::GetInstance().Destroy();
 		assert( bSuccess );
+
+		// For Rendering
+		bSuccess = Render::RenderManager::GetInstance().Destroy();
+		assert( bSuccess );
+
 	}
 }

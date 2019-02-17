@@ -189,6 +189,11 @@ namespace Engine
 		{
 			--m_pRefCounter->weakCount;
 		}
+		if ( m_pRefCounter->weakCount == 0 && m_pRefCounter->refCount == 0 )
+		{
+			delete m_pRefCounter;
+			m_pRefCounter = nullptr;
+		}
 	}
 
 	template<class T>
