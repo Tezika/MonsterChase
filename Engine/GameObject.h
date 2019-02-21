@@ -36,7 +36,6 @@ namespace Engine
 		GameObject( const TString &, const Point2D<float> & );
 
 	private:
-
 		TString m_name;
 		Point2D<float> m_position;
 		Point2D<float> m_velocity;

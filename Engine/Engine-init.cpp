@@ -58,7 +58,7 @@ namespace Engine
 		HeapManager::s_pDefalutHeapManager = nullptr;
 #endif // USE_CUSTOM_ALLOCATOR
 
-		// Destroy the sub systems( The order matters! )
+		// Destroy the sub systems
 		// For Physics
 		bool bSuccess = false;
 		bSuccess = false;
