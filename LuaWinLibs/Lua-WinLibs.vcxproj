@@ -172,6 +172,11 @@
     <Lib>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
+    <PostBuildEvent>
+      <Command>copy "$(TargetPath)" "$(SolutionDir)Exports\Lua\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"
+copy "$(OutputPath)$(TargetName).pdb" "$(SolutionDir)Exports\Lua\$(ProjectName)_$(PlatformTarget)-$(Configuration).pdb"
+copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Lua\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -189,6 +194,12 @@
     <Lib>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
+    <PostBuildEvent>
+      <Command>copy "$(TargetPath)" "$(SolutionDir)Exports\Lua\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"
+copy "$(OutputPath)$(TargetName).pdb" "$(SolutionDir)Exports\Lua\$(ProjectName)_$(PlatformTarget)-$(Configuration).pdb"
+copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Lua\"
+copy "$(ProjectDir)*.hpp" "$(SolutionDir)Exports\Lua\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -210,6 +221,11 @@
     <Lib>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
+    <PostBuildEvent>
+      <Command>copy "$(TargetPath)" "$(SolutionDir)Exports\Lua\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"
+copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Lua\"
+copy "$(ProjectDir)*.hpp" "$(SolutionDir)Exports\Lua\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -231,6 +247,11 @@
     <Lib>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
+    <PostBuildEvent>
+      <Command>copy "$(TargetPath)" "$(SolutionDir)Exports\Lua\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"
+copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Lua\"
+copy "$(ProjectDir)*.hpp" "$(SolutionDir)Exports\Lua\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
