@@ -7,7 +7,7 @@
 
 namespace Engine
 {
-	GameObject * CreateByaLuaFile( const char * i_fileName )
+	GameObject * CreateGameObjectByaLuaFile( const char * i_fileName )
 	{
 		assert( i_fileName );
 		return nullptr;

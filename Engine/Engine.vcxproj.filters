@@ -162,6 +162,9 @@
     <ClInclude Include="LuaParser.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="CommonUtility.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -210,6 +213,9 @@
       <Filter>Source Files\DataSharing</Filter>
     </ClCompile>
     <ClCompile Include="LuaParser.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonUtility.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
