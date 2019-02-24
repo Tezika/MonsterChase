@@ -1,13 +1,13 @@
-player = 
+gameObject = 
 {
     name = "Tezika",
-    initial_position = {1.0, 2.0},
+    initial_position = {x=1.0,y=2.0},
     physics_settings = {
         mass = 1,
-        force = {1.0, 1.0},
+        force = {x=1.0, y=1.0},
         dragness = 0.005
     },
     render_settings = {
-        spriteName = ".."
+        sprite_name = ".."
     }
 }
