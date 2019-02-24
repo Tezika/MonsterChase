@@ -54,7 +54,7 @@ namespace MonsterChase
 			rand() % 3 + 4,
 			rand() % 3 + 1
 		) );
-		SmartPtr<Enemy> pNewEnemy = SmartPtr<Enemy>( pNewEnemyNode->GetData() );;
+		SmartPtr<Enemy> pNewEnemy = SmartPtr<Enemy>( pNewEnemyNode->GetData() );
 		AIController * newController = new AIController();
 		newController->SetControlGameObject( pNewEnemy );
 		newController->SetPlayer( Game::GetInstance().GetCurPlayer() );

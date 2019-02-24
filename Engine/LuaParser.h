@@ -3,5 +3,9 @@
 namespace Engine
 {
 	class GameObject;
-	GameObject * CreateGameObjectByaLuaFile( const char * i_fileName );
+
+	template<class T>
+	class SmartPtr;
+
+	SmartPtr<GameObject> CreateGameObjectByFile( const char * i_fileName );
 }

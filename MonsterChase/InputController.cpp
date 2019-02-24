@@ -25,25 +25,25 @@ namespace MonsterChase
 			case 0x41:
 				cachedDrivingForce.m_x = -pCurrentController->GetDrivingForce();
 				cachedDrivingForce.m_y = 0;
-				DEBUGE_PRINT_GAMEPLAY( "Start applying the force with direction of left" );
+				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of left" );
 				break;
 				// For W
 			case 0x57:
 				cachedDrivingForce.m_x = 0;
 				cachedDrivingForce.m_y = pCurrentController->GetDrivingForce();
-				DEBUGE_PRINT_GAMEPLAY( "Start applying the force with direction of up" );
+				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of up" );
 				break;
 				// For D
 			case 0x44:
 				cachedDrivingForce.m_x = pCurrentController->GetDrivingForce();
 				cachedDrivingForce.m_y = 0;
-				DEBUGE_PRINT_GAMEPLAY( "Start applying  the force with direction of right" );
+				DEBUG_PRINT_GAMEPLAY( "Start applying  the force with direction of right" );
 				break;
 				// For S
 			case 0x53:
 				cachedDrivingForce.m_x = 0;
 				cachedDrivingForce.m_y = -pCurrentController->GetDrivingForce();
-				DEBUGE_PRINT_GAMEPLAY( "Start applying the force with direction of down" );
+				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of down" );
 				break;
 			default:
 				break;
@@ -53,7 +53,7 @@ namespace MonsterChase
 		{
 			cachedDrivingForce.m_x = 0;
 			cachedDrivingForce.m_y = 0;
-			DEBUGE_PRINT_GAMEPLAY( "Stop applying the force right now!" );
+			DEBUG_PRINT_GAMEPLAY( "Stop applying the force right now!" );
 		}
 		// Apply the force to game object
 		pCachedPhysicsInfo->SetDrivingForce( cachedDrivingForce );
