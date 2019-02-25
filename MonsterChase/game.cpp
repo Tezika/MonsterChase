@@ -40,26 +40,17 @@ namespace MonsterChase
 		{
 			return bSuccess;
 		}
-		// Initialize the player
-		m_pPlayer = SmartPtr<Player>( new TRACK_NEW Player( "Tezika", Point2D<float>( 1, 1 ), 15 ) );
+
+		// Test for lua file
+		m_pPlayer = Engine::CreateGameObjectByFile( "Data\\Lua\\player.lua" );
 		// Create an input controller and assign it to the player.
 		InputController * pInputController = new InputController( m_pPlayer, 2000.0f );
 		pInputController->SetControlGameObject( m_pPlayer );
 		m_pPlayer->SetController( pInputController );
-		// Add the controller into the ControllerManager.
-		Controller::ControllerManager::GetInstance().AddContrller( pInputController );
-		// Create the player's render info.
-		Render::RenderManager::GetInstance().AddRenderObject( m_pPlayer, "Data\\GoodGuy.dds" );
-		// Create the player's physics info
-		Physics::PhysicsInfo * pPlayerPhysicsInfo = Physics::PhysicsInfo::Create( 1.0, 0.005f, m_pPlayer );
-		Physics::PhysicsManager::GetInstance().AddPhysicsObject( pPlayerPhysicsInfo );
-
 
 		// Initialize the test enemies
 		m_pEnemyManager->CreateEnemy();
 
-		// Test for lua file
-		SmartPtr<GameObject> pTestObject = Engine::CreateGameObjectByFile( "Data\\Lua\\player.lua" );
 
 		DEBUG_PRINT_GAMEPLAY( "----------Finish the setup for the game.----------" );
 		return true;

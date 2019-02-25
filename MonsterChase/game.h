@@ -41,12 +41,12 @@ namespace MonsterChase
 		bool ShouldEnd() { return m_bEnd; }
 		void TriggerEnd() { m_bEnd = true; }
 		int ClampForMap( int val, int maxiumVal );
-		SmartPtr<Player> GetCurPlayer() { return m_pPlayer; }
+		SmartPtr<GameObject> GetCurPlayer() { return m_pPlayer; }
 		inline const int GetGridWidth() { return m_grid_Width; }
 		inline const int GetGridHeight() { return m_grid_Height; }
 
 	private:
-		SmartPtr<Player> m_pPlayer;
+		SmartPtr<GameObject> m_pPlayer;
 		EnemyManager * m_pEnemyManager;
 		int m_grid_Width;
 		int m_grid_Height;

@@ -12,6 +12,7 @@
 #define lua_pop_top(L) lua_pop(L,1);
 
 namespace Engine
+
 {
 	template<typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
 	Point2D<T> ParsePointFromLua( lua_State * pLuaState )
@@ -47,6 +48,7 @@ namespace Engine
 		assert( i_fileName );
 		size_t sizeOfFile = 0;
 		void * pFileContents = Engine::LoadFile( i_fileName, sizeOfFile );
+		SmartPtr<GameObject> ret;
 		if ( pFileContents && sizeOfFile )
 		{
 			// Create a new lua state
@@ -64,7 +66,7 @@ namespace Engine
 			result = lua_pcall( pLuaState, 0, 0, 0 );
 			assert( result == 0 );
 
-			// Create a go
+			// Get the go table from the lua file
 			result = lua_getglobal( pLuaState, "gameObject" );
 			assert( result == LUA_TTABLE );
 
@@ -134,11 +136,19 @@ namespace Engine
 			// Pop for the render settings
 			lua_pop_top( pLuaState );
 
+			// Create the go
+			ret = GameObject::Create( pName, initial_position );
+			// Create the assoicate physics info
+			Render::RenderManager::GetInstance().AddRenderObject( ret, pSpriteName );
+			// Create the player's physics info
+			Physics::PhysicsInfo * pPlayerPhysicsInfo = Physics::PhysicsInfo::Create( 1.0, 0.005f, ret );
+			Physics::PhysicsManager::GetInstance().AddPhysicsObject( pPlayerPhysicsInfo );
+
 			// Pop the table at last
 			lua_pop_top( pLuaState );
 			lua_close( pLuaState );
 		}
 		delete( pFileContents );
-		return SmartPtr<GameObject>( nullptr );
+		return ret;
 	}
 }
