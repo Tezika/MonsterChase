@@ -22,18 +22,9 @@ namespace MonsterChase
 	public:
 		EnemyManager();
 		~EnemyManager();
-
-		Enemy * GetEnemyByName(const char * name);
-		void MoveEnemies();
-		void PrintAllEnemiesInfo();
-		void BattleWithPlayer(Player * player);
-		void RemoveDiedEnemy();
-		Enemy * CreateEnemy();
+		SmartPtr<GameObject> CreateEnemy( const char * i_pFileName );
 
 	private:
-		TList<Enemy> * m_pEnemyList;
-		Enemy * InsertEnemy(Enemy * node);
-
 	};
 }
 
