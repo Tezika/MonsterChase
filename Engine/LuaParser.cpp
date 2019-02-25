@@ -141,8 +141,9 @@ namespace Engine
 			// Create the assoicate physics info
 			Render::RenderManager::GetInstance().AddRenderObject( ret, pSpriteName );
 			// Create the player's physics info
-			Physics::PhysicsInfo * pPlayerPhysicsInfo = Physics::PhysicsInfo::Create( 1.0, 0.005f, ret );
-			Physics::PhysicsManager::GetInstance().AddPhysicsObject( pPlayerPhysicsInfo );
+			Physics::PhysicsInfo * pPhysicsInfo = Physics::PhysicsInfo::Create( 1.0, 0.005f, ret );
+			pPhysicsInfo->SetDrivingForce( force );
+			Physics::PhysicsManager::GetInstance().AddPhysicsObject( pPhysicsInfo );
 
 			// Pop the table at last
 			lua_pop_top( pLuaState );

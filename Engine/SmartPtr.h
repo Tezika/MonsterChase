@@ -246,5 +246,8 @@ namespace Engine
 	}
 
 	template<class T>
-	inline SmartPtr<T>::~SmartPtr() { this->ReleaseReference(); }
+	SmartPtr<T>::~SmartPtr() 
+	{ 
+		this->ReleaseReference(); 
+	}
 }

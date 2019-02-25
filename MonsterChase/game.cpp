@@ -47,6 +47,7 @@ namespace MonsterChase
 		InputController * pInputController = new InputController( m_pPlayer, 2000.0f );
 		pInputController->SetControlGameObject( m_pPlayer );
 		m_pPlayer->SetController( pInputController );
+		Controller::ControllerManager::GetInstance().AddContrller( pInputController );
 
 		// Initialize the test enemies
 		m_pEnemyManager->CreateEnemy();

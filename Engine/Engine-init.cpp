@@ -65,14 +65,15 @@ namespace Engine
 		bSuccess = Physics::PhysicsManager::GetInstance().Destroy();
 		assert( bSuccess );
 
-		// For Rendering
-		bSuccess = Render::RenderManager::GetInstance().Destroy();
-		assert( bSuccess );
-
 		// For Controller Manager
 		bSuccess = false;
 		bSuccess = Controller::ControllerManager::GetInstance().Destroy();
 		assert( bSuccess );
+
+		// For Rendering
+		bSuccess = Render::RenderManager::GetInstance().Destroy();
+		assert( bSuccess );
+
 
 	}
 }
