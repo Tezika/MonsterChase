@@ -165,6 +165,7 @@
     <ClInclude Include="HeapManager.h" />
     <ClInclude Include="IController.h" />
     <ClInclude Include="LuaParser.h" />
+    <ClInclude Include="Matrix.h" />
     <ClInclude Include="PhysicsInfo.h" />
     <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="ReferenceCounter.h" />
@@ -178,6 +179,8 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TString.h" />
+    <ClInclude Include="Vector3.h" />
+    <ClInclude Include="Vector4.h" />
     <ClInclude Include="WeakPtr.h" />
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +193,7 @@
     <ClCompile Include="GLibUtility.cpp" />
     <ClCompile Include="HeapManager.cpp" />
     <ClCompile Include="LuaParser.cpp" />
+    <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="PhysicsInfo.cpp" />
     <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="ReferenceCounter.cpp" />
@@ -203,6 +207,8 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TString.cpp" />
+    <ClCompile Include="Vector3.cpp" />
+    <ClCompile Include="Vector4.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
