@@ -17,4 +17,3 @@ namespace Engine
 #define DEBUG_PRINT_ENGINE(fmt,...) void(0)
 #define DEBUG_PRINT_GAMEPLAY(fmt,...) void(0)
 #endif
-

@@ -12,7 +12,6 @@
 #define lua_pop_top(L) lua_pop(L,1);
 
 namespace Engine
-
 {
 	template<typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
 	Point2D<T> ParsePointFromLua( lua_State * pLuaState )
