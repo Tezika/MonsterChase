@@ -165,7 +165,7 @@
     <ClInclude Include="HeapManager.h" />
     <ClInclude Include="IController.h" />
     <ClInclude Include="LuaParser.h" />
-    <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="PhysicsInfo.h" />
     <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="ReferenceCounter.h" />
@@ -193,7 +193,7 @@
     <ClCompile Include="GLibUtility.cpp" />
     <ClCompile Include="HeapManager.cpp" />
     <ClCompile Include="LuaParser.cpp" />
-    <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="Matrix4x4.cpp" />
     <ClCompile Include="PhysicsInfo.cpp" />
     <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="ReferenceCounter.cpp" />
