@@ -15,6 +15,13 @@ namespace Engine
 			float i_41, float i_42, float i_43, float i_44
 		);
 		~Matrix4x4();
+
+		void operator*=( const Matrix4x4 & i_other );
+		Matrix4x4  operator*( const Matrix4x4 & i_other );
+
+		static Matrix4x4 Transpose( Matrix4x4 & i_other );
+		static Matrix4x4 Invert( const Matrix4x4 & i_other );
+
 	private:
 		float m_matrix[4][4];
 	};

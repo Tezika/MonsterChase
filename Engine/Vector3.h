@@ -12,18 +12,18 @@ namespace Engine
 		Vector3();
 		Vector3( float i_x, float i_y, float i_z );
 		Vector3( const Vector3 & i_other );
-		void  operator=( const Vector3 & i_other );
+		void operator=( const Vector3 & i_other );
 
-		Vector3 & operator+( const Vector3 & i_other );
+		Vector3 operator+( const Vector3 & i_other );
 		void  operator+=( const Vector3 & i_other );
 
-		Vector3 & operator-( const Vector3 & i_other );
+		Vector3 operator-( const Vector3 & i_other );
 		void operator-=( const Vector3 & i_other );
 
-		Vector3 & operator*( float value );
+		Vector3 operator*( float value );
 		void operator*=( float value );
 
-		Vector3 & operator/( float value );
+		Vector3 operator/( float value );
 		void operator/=( float value );
 
 		float Dot( const Vector3 & i_other );

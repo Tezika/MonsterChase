@@ -6,7 +6,6 @@ namespace Engine
 	struct Vector4
 	{
 	public:
-
 		static Vector4 Zero;
 		static Vector4 UnitX;
 		static Vector4 UnitY;
@@ -19,16 +18,16 @@ namespace Engine
 		Vector4( const Vector4 & );
 		void operator=( const Vector4 & );
 
-		Vector4 & operator+( const Vector4 & i_other );
+		Vector4 operator+( const Vector4 & i_other );
 		void  operator+=( const Vector4 & i_other );
 
-		Vector4 & operator-( const Vector4 & i_other );
+		Vector4 operator-( const Vector4 & i_other );
 		void operator-=( const Vector4 & i_other );
 
-		Vector4 & operator*( float value );
+		Vector4 operator*( float value );
 		void operator*=( float value );
 
-		Vector4 & operator/( float value );
+		Vector4 operator/( float value );
 		void operator/=( float value );
 
 		float Length();

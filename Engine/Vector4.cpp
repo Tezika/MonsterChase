@@ -39,13 +39,9 @@ namespace Engine
 		this->w = i_other.w;
 	}
 
-	Vector4 & Vector4::operator+( const Vector4 & i_other )
+	Vector4 Vector4::operator+( const Vector4 & i_other )
 	{
-		this->x += i_other.x;
-		this->y += i_other.y;
-		this->z += i_other.z;
-		this->w += i_other.w;
-		return *this;
+		return Vector4( this->x + i_other.x, this->y + i_other.y, this->z + i_other.z, this->w + i_other.w );
 	}
 
 	void Vector4::operator+=( const Vector4 & i_other )
@@ -56,13 +52,9 @@ namespace Engine
 		this->w += i_other.w;
 	}
 
-	Vector4 & Vector4::operator-( const Vector4 & i_other )
+	Vector4 Vector4::operator-( const Vector4 & i_other )
 	{
-		this->x -= i_other.x;
-		this->y -= i_other.y;
-		this->z -= i_other.z;
-		this->w -= i_other.w;
-		return *this;
+		return Vector4( this->x - i_other.x, this->y - i_other.y, this->z - i_other.z, this->w - i_other.w );
 	}
 
 	void Vector4::operator-=( const Vector4 & i_other )
@@ -73,13 +65,9 @@ namespace Engine
 		this->w -= i_other.w;
 	}
 
-	Vector4 & Vector4::operator*( float value )
+	Vector4 Vector4::operator*( float value )
 	{
-		this->x *= value;
-		this->y *= value;
-		this->z *= value;
-		this->w *= value;
-		return *this;
+		return Vector4( this->x * value, this->y * value, this->z * value, this->w * value );
 	}
 
 	void Vector4::operator*=( float value )
@@ -90,14 +78,10 @@ namespace Engine
 		this->w *= value;
 	}
 
-	Vector4 & Vector4::operator/( float value )
+	Vector4 Vector4::operator/( float value )
 	{
 		assert( value != 0 );
-		this->x /= value;
-		this->y /= value;
-		this->z /= value;
-		this->w /= value;
-		return *this;
+		return Vector4( this->x / value, this->y / value, this->z / value, this->w / value );
 	}
 
 	void Vector4::operator/=( float value )
@@ -111,7 +95,7 @@ namespace Engine
 
 	float Vector4::Length()
 	{
-		return sqrt( this->x * this->x + this->y * this->y + this->z * this->z + this->w * this->w );
+		return sqrtf( this->x * this->x + this->y * this->y + this->z * this->z + this->w * this->w );
 	}
 
 	Vector4::~Vector4()

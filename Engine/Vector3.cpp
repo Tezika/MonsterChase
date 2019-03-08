@@ -31,12 +31,9 @@ namespace Engine
 		this->z = i_other.z;
 	}
 
-	Vector3 & Vector3::operator+( const Vector3 & i_other )
+	Vector3 Vector3::operator+( const Vector3 & i_other )
 	{
-		this->x += i_other.x;
-		this->y += i_other.y;
-		this->z += i_other.z;
-		return *this;
+		return Vector3( this->x + i_other.x, this->y + i_other.y, this->z + i_other.z );
 	}
 
 	void Vector3::operator+=( const Vector3 & i_other )
@@ -46,12 +43,9 @@ namespace Engine
 		this->z += i_other.z;
 	}
 
-	Vector3 & Vector3::operator-( const Vector3 & i_other )
+	Vector3 Vector3::operator-( const Vector3 & i_other )
 	{
-		this->x -= i_other.x;
-		this->y -= i_other.y;
-		this->z -= i_other.z;
-		return *this;
+		return Vector3( this->x - i_other.x, this->y - i_other.y, this->z - i_other.z );
 	}
 
 	void Vector3::operator-=( const Vector3 & i_other )
@@ -61,12 +55,9 @@ namespace Engine
 		this->z -= i_other.z;
 	}
 
-	Vector3 & Vector3::operator*( float value )
+	Vector3  Vector3::operator*( float value )
 	{
-		this->x *= value;
-		this->y *= value;
-		this->z *= value;
-		return *this;
+		return Vector3( this->x * value, this->y * value, this->z * value );
 	}
 
 	void Vector3::operator*=( float value )
@@ -76,13 +67,10 @@ namespace Engine
 		this->z *= value;
 	}
 
-	Vector3 & Vector3::operator/( float value )
+	Vector3  Vector3::operator/( float value )
 	{
 		assert( value != 0 );
-		this->x /= value;
-		this->y /= value;
-		this->z /= value;
-		return *this;
+		return Vector3( this->x / value, this->y / value, this->z / value );
 	}
 
 	void Vector3::operator/=( float value )
@@ -109,7 +97,7 @@ namespace Engine
 
 	float Vector3::Length()
 	{
-		return sqrt( this->x * this->x + this->y * this->y + this->z * this->z );
+		return sqrtf( this->x * this->x + this->y * this->y + this->z * this->z );
 	}
 
 	float Vector3::Distance( const Vector3 & i_other )
