@@ -4,10 +4,10 @@ namespace Engine
 	struct Vector3
 	{
 	public:
-		static Vector3 Zero();
-		static Vector3 Up();
-		static Vector3 Right();
-		static Vector3 Forward();
+		static Vector3 Zero;
+		static Vector3 Up;
+		static Vector3 Right;
+		static Vector3 Forward;
 
 		Vector3();
 		Vector3( float i_x, float i_y, float i_z );
@@ -25,16 +25,16 @@ namespace Engine
 
 		Vector3 & operator/( float value );
 		void operator/=( float value );
-		
+
 		float Dot( const Vector3 & i_other );
 
 		Vector3 Cross( const Vector3 & i_other );
 
-		float Magnitude();
+		float Length();
 
 		float Distance( const Vector3 & i_other );
 
-		inline Vector3 Normalize(){ return Vector3( *this / this->Magnitude() ); };
+		inline Vector3 Normalize(){ return Vector3( *this / this->Length() ); };
 
 		~Vector3();
 

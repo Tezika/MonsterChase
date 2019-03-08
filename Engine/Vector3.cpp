@@ -5,10 +5,10 @@
 
 namespace Engine
 {
-	Vector3 Vector3::Zero() { return Vector3( 0, 0, 0 ); };
-	Vector3 Vector3::Up() { return Vector3( 0, 1, 0 ); };
-	Vector3 Vector3::Right() { return Vector3( 1, 0, 0 ); };
-	Vector3 Vector3::Forward(){ return Vector3( 0, 0, 1 ); };
+	Vector3 Vector3::Zero = Vector3( 0, 0, 0 );
+	Vector3 Vector3::Up = Vector3( 0, 0, 1 );
+	Vector3 Vector3::Right = Vector3( 1, 0, 0 );
+	Vector3 Vector3::Forward = Vector3( 0, 0, 1 );
 
 	Vector3::Vector3()
 	{
@@ -107,7 +107,7 @@ namespace Engine
 		);
 	}
 
-	float Vector3::Magnitude()
+	float Vector3::Length()
 	{
 		return sqrt( this->x * this->x + this->y * this->y + this->z * this->z );
 	}
@@ -115,7 +115,7 @@ namespace Engine
 	float Vector3::Distance( const Vector3 & i_other )
 	{
 		Vector3 temp = *this - i_other;
-		return temp.Magnitude();
+		return temp.Length();
 	}
 
 	Vector3::~Vector3()
