@@ -4,6 +4,11 @@ namespace Engine
 	struct Vector3
 	{
 	public:
+		static Vector3 Zero();
+		static Vector3 Up();
+		static Vector3 Right();
+		static Vector3 Forward();
+
 		Vector3();
 		Vector3( float i_x, float i_y, float i_z );
 		Vector3( const Vector3 & i_other );

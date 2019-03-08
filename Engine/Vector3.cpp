@@ -5,6 +5,11 @@
 
 namespace Engine
 {
+	Vector3 Vector3::Zero() { return Vector3( 0, 0, 0 ); };
+	Vector3 Vector3::Up() { return Vector3( 0, 1, 0 ); };
+	Vector3 Vector3::Right() { return Vector3( 1, 0, 0 ); };
+	Vector3 Vector3::Forward(){ return Vector3( 0, 0, 1 ); };
+
 	Vector3::Vector3()
 	{
 	}
@@ -95,7 +100,7 @@ namespace Engine
 
 	Vector3 Vector3::Cross( const Vector3 & i_other )
 	{
-		return Vector3( 
+		return Vector3(
 			this->y * i_other.z - this->z * i_other.y,
 			this->z * i_other.x - this->x * i_other.z,
 			this->x * i_other.y - this->y * i_other.x
@@ -107,7 +112,7 @@ namespace Engine
 		return sqrt( this->x * this->x + this->y * this->y + this->z * this->z );
 	}
 
-	float Vector3::Distance(const Vector3 & i_other)
+	float Vector3::Distance( const Vector3 & i_other )
 	{
 		Vector3 temp = *this - i_other;
 		return temp.Magnitude();
