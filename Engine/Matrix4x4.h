@@ -1,5 +1,8 @@
 #pragma once
 #include "Vector4.h"
+#include "assert.h"
+#include "math.h"
+
 namespace Engine
 {
 
@@ -45,6 +48,16 @@ namespace Engine
 		Matrix4x4 Transpose();
 		Matrix4x4 Invert();
 
+		Matrix4x4 CreateScale( float i_xScale, float y_Scale, float z_Scale );
+		Matrix4x4 CreateScale( float i_scale );
+		Matrix4x4 CreateScale( const Vector3 & i_vec_scale );
+
+		Matrix4x4 CreateRotationX( float i_angle );
+		Matrix4x4 CreateRotationY( float i_angle );
+		Matrix4x4 CreateRotationZ( float i_angle );
+
+		Matrix4x4 CreateTranslation( const Vector3 & i_vec_translation );
+		Matrix4x4 CreateTranslation( float i_xTranslation, float i_yTranslation, float i_zTranslation );
 	private:
 		float m_matrix[4][4];
 	};
@@ -52,10 +65,24 @@ namespace Engine
 	// Allows us to use V = M * V (i.e. column vector)
 	inline Vector4 operator*( const Matrix4x4 & i_mtx, const Vector4 & i_vec )
 	{
+		assert( i_mtx.GetM11() != NAN );
+		return Vector4(
+			i_mtx.GetM11() * i_vec.x + i_mtx.GetM12() * i_vec.y + i_mtx.GetM13() * i_vec.z + i_mtx.GetM14() * i_vec.w,
+			i_mtx.GetM21() * i_vec.x + i_mtx.GetM22() * i_vec.y + i_mtx.GetM23() * i_vec.z + i_mtx.GetM24() * i_vec.w,
+			i_mtx.GetM31() * i_vec.x + i_mtx.GetM32() * i_vec.y + i_mtx.GetM33() * i_vec.z + i_mtx.GetM34() * i_vec.w,
+			i_mtx.GetM41() * i_vec.x + i_mtx.GetM42() * i_vec.y + i_mtx.GetM43() * i_vec.z + i_mtx.GetM44() * i_vec.w
+		);
 	}
 
 	// Allows us to use V = V * M; (i.e. row vector)
 	inline Vector4 operator*( const Vector4 & i_vec, const Matrix4x4 & i_mtx )
 	{
+		assert( i_mtx.GetM11() != NAN );
+		return Vector4(
+			i_vec.x * i_mtx.GetM11() + i_vec.y * i_mtx.GetM21() + i_vec.z  * i_mtx.GetM31() + i_vec.w * i_mtx.GetM41(),
+			i_vec.x * i_mtx.GetM12() + i_vec.y * i_mtx.GetM22() + i_vec.z  * i_mtx.GetM32() + i_vec.w * i_mtx.GetM42(),
+			i_vec.x * i_mtx.GetM13() + i_vec.y * i_mtx.GetM23() + i_vec.z  * i_mtx.GetM33() + i_vec.w * i_mtx.GetM43(),
+			i_vec.x * i_mtx.GetM14() + i_vec.y * i_mtx.GetM24() + i_vec.z  * i_mtx.GetM34() + i_vec.w * i_mtx.GetM44()
+		);
 	}
 };
