@@ -1,6 +1,14 @@
 #include "stdafx.h"
 #include "Matrix4x4.h"
 #include "iostream"
+#include "Vector3.h"
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif // !M_PI
+
+#define degToRad(angleDegrees) (float)((angleDegrees) * M_PI / 180.0)
+#define radToDeg(angleRadians) (float)((angleRadians) * 180.0 / M_PI)
 
 namespace Engine
 {
@@ -165,47 +173,74 @@ namespace Engine
 			/*M42*/determine * ( m_matrix[0][0] * a1223 - m_matrix[0][1] * a0223 + m_matrix[0][2] * a0123 ),
 			/*M43*/determine * -( m_matrix[0][0] * a1213 - m_matrix[0][1] * a0213 + m_matrix[0][2] * a0113 ),
 			/*M44*/determine * ( m_matrix[0][0] * a1212 - m_matrix[0][1] * a0212 + m_matrix[0][2] * a0112 )
-
 		);
 	}
 
-		Matrix4x4 Matrix4x4::CreateScale( float i_xScale, float y_Scale, float z_Scale )
-		{
-			return Matrix4x4();
-		}
+	Matrix4x4 Matrix4x4::CreateScale( float i_xScale, float i_yScale, float i_zScale )
+	{
+		return Matrix4x4(
+			i_xScale, 0.0f, 0.0f, 0.0f,
+			0.0f, i_yScale, 0.0f, 0.0f,
+			0.0f, 0.0f, i_zScale, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		);
+	}
 
-		Matrix4x4 Matrix4x4::CreateScale( float i_scale )
-		{
-			return Matrix4x4();
-		}
+	Matrix4x4 Matrix4x4::CreateScale( float i_scale )
+	{
+		return Matrix4x4::CreateScale( i_scale, i_scale, i_scale );
+	}
 
-		Matrix4x4 Matrix4x4::CreateScale( const Vector3 & i_vec_scale )
-		{
-			return Matrix4x4();
-		}
+	Matrix4x4 Matrix4x4::CreateScale( const Vector3 & i_vec_scale )
+	{
+		return Matrix4x4::CreateScale( i_vec_scale.x, i_vec_scale.y, i_vec_scale.z );
+	}
 
-		Matrix4x4 Matrix4x4::CreateRotationX( float i_angle )
-		{
-			return Matrix4x4();
-		}
+	Matrix4x4 Matrix4x4::CreateRotationX( float i_angle )
+	{
+		float rad = degToRad( i_angle );
+		return Matrix4x4(
+			1.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, cos( rad ), -sin( rad ), 0.0f,
+			0.0f, sin( rad ), cos( rad ), 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		);
+	}
 
-		Matrix4x4 Matrix4x4::CreateRotationY( float i_angle )
-		{
-			return Matrix4x4();
-		}
+	Matrix4x4 Matrix4x4::CreateRotationY( float i_angle )
+	{
+		float rad = degToRad( i_angle );
+		return Matrix4x4(
+			cos( rad ), 0.0f, -sin( rad ), 0.0f,
+			0.0f, 0.0f, 0.0f, 0.0f,
+			sin( rad ), 0.0f, cos( rad ), 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		);
+	}
 
-		Matrix4x4 Matrix4x4::CreateRotationZ( float i_angle )
-		{
-			return Matrix4x4();
-		}
+	Matrix4x4 Matrix4x4::CreateRotationZ( float i_angle )
+	{
+		float rad = degToRad( i_angle );
+		return Matrix4x4(
+			cos( rad ), -sin( rad ), 0.0f, 0.0f,
+			sin( rad ), cos( rad ), 0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		);
+	}
 
-		Matrix4x4 Matrix4x4::CreateTranslation( const Vector3 & i_vec_translation )
-		{
-			return Matrix4x4();
-		}
+	Matrix4x4 Matrix4x4::CreateTranslation( float i_xTranslation, float i_yTranslation, float i_zTranslation )
+	{
+		return Matrix4x4(
+			1.0f, 0.0f, 0.0f, i_xTranslation,
+			0.0f, 1.0f, 0.0f, i_yTranslation,
+			0.0f, 0.0f, 1.0f, i_zTranslation,
+			0.0f, 0.0f, 0.0f, 1.0f
+		);
+	}
 
-		Matrix4x4 Matrix4x4::CreateTranslation( float i_xTranslation, float i_yTranslation, float i_zTranslation )
-		{
-			return Matrix4x4();
-		}
+	Matrix4x4 Matrix4x4::CreateTranslation( const Vector3 & i_vec_translation )
+	{
+		return Matrix4x4::CreateTranslation( i_vec_translation.x, i_vec_translation.y, i_vec_translation.z );
+	}
 }

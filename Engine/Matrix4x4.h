@@ -5,7 +5,7 @@
 
 namespace Engine
 {
-
+	struct Vector3;
 
 	struct Matrix4x4
 	{
@@ -48,16 +48,16 @@ namespace Engine
 		Matrix4x4 Transpose();
 		Matrix4x4 Invert();
 
-		Matrix4x4 CreateScale( float i_xScale, float y_Scale, float z_Scale );
-		Matrix4x4 CreateScale( float i_scale );
-		Matrix4x4 CreateScale( const Vector3 & i_vec_scale );
+		static Matrix4x4 CreateScale( float i_xScale, float i_yScale, float i_zScale );
+		static Matrix4x4 CreateScale( float i_scale );
+		static Matrix4x4 CreateScale( const Vector3 & i_vec_scale );
 
-		Matrix4x4 CreateRotationX( float i_angle );
-		Matrix4x4 CreateRotationY( float i_angle );
-		Matrix4x4 CreateRotationZ( float i_angle );
+		static Matrix4x4 CreateRotationX( float i_angle );
+		static Matrix4x4 CreateRotationY( float i_angle );
+		static Matrix4x4 CreateRotationZ( float i_angle );
 
-		Matrix4x4 CreateTranslation( const Vector3 & i_vec_translation );
-		Matrix4x4 CreateTranslation( float i_xTranslation, float i_yTranslation, float i_zTranslation );
+		static Matrix4x4 CreateTranslation( const Vector3 & i_vec_translation );
+		static Matrix4x4 CreateTranslation( float i_xTranslation, float i_yTranslation, float i_zTranslation );
 	private:
 		float m_matrix[4][4];
 	};
