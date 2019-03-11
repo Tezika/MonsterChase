@@ -1,8 +1,8 @@
 #pragma once
+#include "Vector4.h"
 namespace Engine
 {
-	struct Vector3;
-	struct Vector4;
+
 
 	struct Matrix4x4
 	{
@@ -34,6 +34,7 @@ namespace Engine
 			float i_31, float i_32, float i_33, float i_34,
 			float i_41, float i_42, float i_43, float i_44
 		);
+
 		Matrix4x4( const Matrix4x4 & i_other );
 		void operator=( const Matrix4x4 & i_other );
 		~Matrix4x4();
@@ -41,10 +42,20 @@ namespace Engine
 		void operator*=( const Matrix4x4 & i_other );
 		Matrix4x4  operator*( const Matrix4x4 & i_other );
 
-		static Matrix4x4 Transpose( Matrix4x4 & i_other );
-		static Matrix4x4 Invert( const Matrix4x4 & i_other );
+		Matrix4x4 Transpose();
+		Matrix4x4 Invert();
 
 	private:
 		float m_matrix[4][4];
 	};
+
+	// Allows us to use V = M * V (i.e. column vector)
+	inline Vector4 operator*( const Matrix4x4 & i_mtx, const Vector4 & i_vec )
+	{
+	}
+
+	// Allows us to use V = V * M; (i.e. row vector)
+	inline Vector4 operator*( const Vector4 & i_vec, const Matrix4x4 & i_mtx )
+	{
+	}
 };
