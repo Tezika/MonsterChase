@@ -7,6 +7,7 @@ namespace Engine
 {
 	struct Vector3;
 
+	// Use Right Hand(RH) and column vector(CV) 
 	struct Matrix4x4
 	{
 	public:
@@ -44,6 +45,8 @@ namespace Engine
 
 		void operator*=( const Matrix4x4 & i_other );
 		Matrix4x4  operator*( const Matrix4x4 & i_other );
+
+		void PrintOut();
 
 		Matrix4x4 Transpose();
 		Matrix4x4 Invert();

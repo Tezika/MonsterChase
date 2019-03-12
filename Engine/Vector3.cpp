@@ -2,11 +2,12 @@
 #include "Vector3.h"
 #include "Assert.h"
 #include "math.h"
+#include "stdio.h"
 
 namespace Engine
 {
 	Vector3 Vector3::Zero = Vector3( 0, 0, 0 );
-	Vector3 Vector3::Up = Vector3( 0, 0, 1 );
+	Vector3 Vector3::Up = Vector3( 0, 1, 0 );
 	Vector3 Vector3::Right = Vector3( 1, 0, 0 );
 	Vector3 Vector3::Forward = Vector3( 0, 0, 1 );
 
@@ -104,6 +105,11 @@ namespace Engine
 	{
 		Vector3 temp = *this - i_other;
 		return temp.Length();
+	}
+
+	void Vector3::Printout()
+	{
+		printf( "x: %.5f, y: %.5f, z: %.5f\n", this->x, this->y, this->z );
 	}
 
 	Vector3::~Vector3()

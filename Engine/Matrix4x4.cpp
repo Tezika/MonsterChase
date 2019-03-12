@@ -176,6 +176,20 @@ namespace Engine
 		);
 	}
 
+	void Matrix4x4::PrintOut()
+	{
+#ifdef _DEBUG
+		for ( size_t i = 0; i < 4; i++ )
+		{
+			for ( size_t j = 0; j < 4; j++ )
+			{
+				printf( "%.5f ", m_matrix[i][j] );
+			}
+			printf( "\n" );
+		}
+#endif
+	}
+
 	Matrix4x4 Matrix4x4::CreateScale( float i_xScale, float i_yScale, float i_zScale )
 	{
 		return Matrix4x4(

@@ -36,6 +36,8 @@ namespace Engine
 
 		inline Vector3 Normalize(){ return Vector3( *this / this->Length() ); };
 
+		void Printout();
+
 		~Vector3();
 
 		float x;

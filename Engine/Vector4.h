@@ -32,6 +32,8 @@ namespace Engine
 
 		float Length();
 
+		void Printout();
+
 		~Vector4();
 
 		float x;

@@ -3,6 +3,7 @@
 #include "Vector4.h"
 #include "assert.h"
 #include "math.h"
+#include "stdio.h"
 
 namespace Engine
 {
@@ -96,6 +97,11 @@ namespace Engine
 	float Vector4::Length()
 	{
 		return sqrtf( this->x * this->x + this->y * this->y + this->z * this->z + this->w * this->w );
+	}
+
+	void Vector4::Printout()
+	{
+		printf( "x: %.5f, y: %.5f, z: %.5f, w: %.5f\n", this->x, this->y, this->z, this->w );
 	}
 
 	Vector4::~Vector4()
