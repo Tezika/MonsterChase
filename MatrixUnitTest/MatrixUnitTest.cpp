@@ -3,10 +3,41 @@
 
 #include "pch.h"
 #include "assert.h"
+#include "Matrix4x4.h"
+#include "Vector3.h"
+#include "Vector4.h"
+#include "stdio.h"
 
 int main()
 {
-    
+	{
+		using namespace Engine;
+		// Write some simple test instances to test them out.
+
+		// For 'Vector3' and 'Vector4'
+		Vector3 vec3_1 = Vector3::Right;
+		vec3_1.Printout();
+		Vector4 vec4_1 = Vector4( vec3_1, 1.0f );
+		vec4_1.Printout();
+
+		// For Matrix
+		// Test for the rotation matrix
+		Matrix4x4 rotateMatrix = Matrix4x4::CreateRotationZ( -90 );
+		printf( "The rotation matrix: \n" );
+		rotateMatrix.PrintOut();
+		printf( "The scale matrix: \n" );
+		Matrix4x4 scaleMatrix = Matrix4x4::CreateScale( 2, 2, 2 );
+		scaleMatrix.PrintOut();
+		printf( "The translate matrix: \n" );
+		Matrix4x4 translateMatrix = Matrix4x4::CreateTranslation( 2, 4, 5 );
+		translateMatrix.PrintOut();
+
+		Matrix4x4 invertScale = scaleMatrix.Invert();
+		invertScale.PrintOut();
+
+		Vector4 vec4_afterRotation = rotateMatrix * vec4_1;
+		vec4_afterRotation.Printout();
+	}
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
