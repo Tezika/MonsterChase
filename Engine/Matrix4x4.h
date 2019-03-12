@@ -49,7 +49,7 @@ namespace Engine
 		void PrintOut();
 
 		Matrix4x4 Transpose();
-		Matrix4x4 Invert();
+		bool Invert( Matrix4x4 & out );
 
 		static Matrix4x4 CreateScale( float i_xScale, float i_yScale, float i_zScale );
 		static Matrix4x4 CreateScale( float i_scale );

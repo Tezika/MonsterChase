@@ -122,7 +122,7 @@ namespace Engine
 		);
 	}
 
-	Matrix4x4 Matrix4x4::Invert()
+	bool Matrix4x4::Invert( Matrix4x4 & out )
 	{
 		// Assert whether the matrix is available or not.
 		assert( !isnan( this->GetM11() ) );
@@ -150,30 +150,35 @@ namespace Engine
 			- m_matrix[0][1] * ( m_matrix[1][0] * a2323 - m_matrix[1][2] * a0323 + m_matrix[1][3] * a0223 )
 			+ m_matrix[0][2] * ( m_matrix[1][0] * a1323 - m_matrix[1][1] * a0323 + m_matrix[1][3] * a0123 )
 			- m_matrix[0][3] * ( m_matrix[1][0] * a1223 - m_matrix[1][1] * a0223 + m_matrix[1][2] * a0123 );
-		assert( determine != 0 );
+
+		if ( determine == 0 )
+		{
+			return false;
+		}
+
 		determine = 1 / determine;
+		// Set each spot's value for out matrix
+		out.m_matrix[0][0] = /*M11*/determine * ( m_matrix[1][1] * a2323 - m_matrix[1][2] * a1323 + m_matrix[1][3] * a1223 );
+		out.m_matrix[0][1] = /*M12*/determine * -( m_matrix[0][1] * a2323 - m_matrix[0][2] * a1323 + m_matrix[0][3] * a1223 );
+		out.m_matrix[0][2] = /*M13*/determine * ( m_matrix[0][1] * a2313 - m_matrix[0][2] * a1313 + m_matrix[0][3] * a1213 );
+		out.m_matrix[0][3] = /*M14*/determine * -( m_matrix[0][1] * a2312 - m_matrix[0][2] * a1312 + m_matrix[0][3] * a1212 );
 
-		return Matrix4x4(
-			/*M11*/determine * ( m_matrix[1][1] * a2323 - m_matrix[1][2] * a1323 + m_matrix[1][3] * a1223 ),
-			/*M12*/determine * -( m_matrix[0][1] * a2323 - m_matrix[0][2] * a1323 + m_matrix[0][3] * a1223 ),
-			/*M13*/determine * ( m_matrix[0][1] * a2313 - m_matrix[0][2] * a1313 + m_matrix[0][3] * a1213 ),
-			/*M14*/determine * -( m_matrix[0][1] * a2312 - m_matrix[0][2] * a1312 + m_matrix[0][3] * a1212 ),
+		out.m_matrix[1][0] = /*M21*/determine * -( m_matrix[1][0] * a2323 - m_matrix[1][2] * a0323 + m_matrix[1][3] * a0223 );
+		out.m_matrix[1][1] = /*M22*/determine * ( m_matrix[0][0] * a2323 - m_matrix[0][2] * a0323 + m_matrix[0][3] * a0223 );
+		out.m_matrix[1][2] = /*M23*/determine * -( m_matrix[0][0] * a2313 - m_matrix[0][2] * a0313 + m_matrix[0][3] * a0213 );
+		out.m_matrix[1][3] = /*M24*/determine * ( m_matrix[0][0] * a2312 - m_matrix[0][2] * a0312 + m_matrix[0][3] * a0212 );
 
-			/*M21*/determine * -( m_matrix[1][0] * a2323 - m_matrix[1][2] * a0323 + m_matrix[1][3] * a0223 ),
-			/*M22*/determine * ( m_matrix[0][0] * a2323 - m_matrix[0][2] * a0323 + m_matrix[0][3] * a0223 ),
-			/*M23*/determine * -( m_matrix[0][0] * a2313 - m_matrix[0][2] * a0313 + m_matrix[0][3] * a0213 ),
-			/*M24*/determine * ( m_matrix[0][0] * a2312 - m_matrix[0][2] * a0312 + m_matrix[0][3] * a0212 ),
+		out.m_matrix[2][0] = /*M31*/determine * ( m_matrix[1][0] * a1323 - m_matrix[1][1] * a0323 + m_matrix[1][3] * a0123 );
+		out.m_matrix[2][1] = /*M32*/determine * -( m_matrix[0][0] * a1323 - m_matrix[0][1] * a0323 + m_matrix[0][3] * a0123 );
+		out.m_matrix[2][2] = /*M33*/determine * ( m_matrix[0][0] * a1313 - m_matrix[0][1] * a0313 + m_matrix[0][3] * a0113 );
+		out.m_matrix[2][3] = /*M34*/determine * -( m_matrix[0][0] * a1312 - m_matrix[0][1] * a0312 + m_matrix[0][3] * a0112 );
 
-			/*M31*/determine * ( m_matrix[1][0] * a1323 - m_matrix[1][1] * a0323 + m_matrix[1][3] * a0123 ),
-			/*M32*/determine * -( m_matrix[0][0] * a1323 - m_matrix[0][1] * a0323 + m_matrix[0][3] * a0123 ),
-			/*M33*/determine * ( m_matrix[0][0] * a1313 - m_matrix[0][1] * a0313 + m_matrix[0][3] * a0113 ),
-			/*M34*/determine * -( m_matrix[0][0] * a1312 - m_matrix[0][1] * a0312 + m_matrix[0][3] * a0112 ),
+		out.m_matrix[3][0] = /*M41*/determine * -( m_matrix[1][0] * a1223 - m_matrix[1][1] * a0223 + m_matrix[1][2] * a0123 );
+		out.m_matrix[3][1] = /*M42*/determine * ( m_matrix[0][0] * a1223 - m_matrix[0][1] * a0223 + m_matrix[0][2] * a0123 );
+		out.m_matrix[3][2] = /*M43*/determine * -( m_matrix[0][0] * a1213 - m_matrix[0][1] * a0213 + m_matrix[0][2] * a0113 );
+		out.m_matrix[3][3] = /*M44*/determine * ( m_matrix[0][0] * a1212 - m_matrix[0][1] * a0212 + m_matrix[0][2] * a0112 );
 
-			/*M41*/determine * -( m_matrix[1][0] * a1223 - m_matrix[1][1] * a0223 + m_matrix[1][2] * a0123 ),
-			/*M42*/determine * ( m_matrix[0][0] * a1223 - m_matrix[0][1] * a0223 + m_matrix[0][2] * a0123 ),
-			/*M43*/determine * -( m_matrix[0][0] * a1213 - m_matrix[0][1] * a0213 + m_matrix[0][2] * a0113 ),
-			/*M44*/determine * ( m_matrix[0][0] * a1212 - m_matrix[0][1] * a0212 + m_matrix[0][2] * a0112 )
-		);
+		return true;
 	}
 
 	void Matrix4x4::PrintOut()
