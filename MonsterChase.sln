@@ -32,6 +32,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lua-WinLibs", "LuaWinLibs\Lua-WinLibs.vcxproj", "{BDF98E69-FC1B-4010-B9D7-8DB75E26A245}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MatrixUnitTest", "MatrixUnitTest\MatrixUnitTest.vcxproj", "{4F35E073-E7EA-4F7A-9EFE-130C04122C20}"
+	ProjectSection(ProjectDependencies) = postProject
+		{064C9BBD-CEC0-4AD9-A4DE-1B570BC9072A} = {064C9BBD-CEC0-4AD9-A4DE-1B570BC9072A}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

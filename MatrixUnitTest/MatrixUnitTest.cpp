@@ -26,14 +26,18 @@ int main()
 		printf( "The rotation matrix: \n" );
 		rotateMatrix.PrintOut();
 		printf( "The scale matrix: \n" );
-		Matrix4x4 scaleMatrix = Matrix4x4::CreateScale( 2, 2, 2 );
+		Matrix4x4 scaleMatrix = Matrix4x4::CreateScale( 2, 5, 9 );
 		scaleMatrix.PrintOut();
 		printf( "The translate matrix: \n" );
 		Matrix4x4 translateMatrix = Matrix4x4::CreateTranslation( 2, 4, 5 );
 		translateMatrix.PrintOut();
 
-		Matrix4x4 invertScale = scaleMatrix.Invert();
-		invertScale.PrintOut();
+		Matrix4x4 invertMatrix;
+		if ( scaleMatrix.Invert( invertMatrix ) )
+		{
+			printf( "The inversion for scale matrix: \n" );
+			invertMatrix.PrintOut();
+		}
 
 		Vector4 vec4_afterRotation = rotateMatrix * vec4_1;
 		vec4_afterRotation.Printout();
