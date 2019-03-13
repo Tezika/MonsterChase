@@ -157,6 +157,7 @@ namespace Engine
 		}
 
 		determine = 1 / determine;
+
 		// Set each spot's value for out matrix
 		out.m_matrix[0][0] = /*M11*/determine * ( m_matrix[1][1] * a2323 - m_matrix[1][2] * a1323 + m_matrix[1][3] * a1223 );
 		out.m_matrix[0][1] = /*M12*/determine * -( m_matrix[0][1] * a2323 - m_matrix[0][2] * a1323 + m_matrix[0][3] * a1223 );

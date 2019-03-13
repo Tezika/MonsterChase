@@ -101,7 +101,9 @@ namespace Engine
 
 	void Vector4::Printout()
 	{
+#ifdef _DEBUG
 		printf( "x: %.5f, y: %.5f, z: %.5f, w: %.5f\n", this->x, this->y, this->z, this->w );
+#endif
 	}
 
 	Vector4::~Vector4()

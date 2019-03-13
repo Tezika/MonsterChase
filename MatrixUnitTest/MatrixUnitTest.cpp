@@ -12,10 +12,10 @@ int main()
 {
 	{
 		using namespace Engine;
-		// Write some simple test instances to test them out.
 
+		// Write some simple test instances to test them out.
 		// For 'Vector3' and 'Vector4'
-		Vector3 vec3_1 = Vector3::Right;
+		Vector3 vec3_1 = Vector3( 2, 3, 4 );
 		vec3_1.Printout();
 		Vector4 vec4_1 = Vector4( vec3_1, 1.0f );
 		vec4_1.Printout();
@@ -37,10 +37,9 @@ int main()
 		{
 			printf( "The inversion for scale matrix: \n" );
 			invertMatrix.PrintOut();
+			Vector4 vec4_afterScaled = invertMatrix * vec4_1;
+			vec4_afterScaled.Printout();
 		}
-
-		Vector4 vec4_afterRotation = rotateMatrix * vec4_1;
-		vec4_afterRotation.Printout();
 	}
 }
 
