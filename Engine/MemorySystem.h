@@ -6,6 +6,7 @@ namespace Engine
 	class FixedSizeAllocator;
 
 #define USE_FIXED_ALLOCATORS
+#define OUTPUT_ALLOC_INFO
 
 #ifdef USE_FIXED_ALLOCATORS
 	struct FSAInitData

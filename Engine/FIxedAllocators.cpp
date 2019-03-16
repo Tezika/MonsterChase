@@ -8,8 +8,10 @@
 
 void * __cdecl myMalloc( size_t i_size )
 {
-	// replace with calls to your HeapManager or FixedSizeAllocators
-	printf( "malloc %zu\n", i_size );
+#ifdef OUTPUT_ALLOC_INFO
+	DEBUG_PRINT_ENGINE( "malloc %zu bytes", i_size );
+#endif // OUTPUT_ALLOC_INFO
+
 	void * pReturn = nullptr;
 #ifdef USE_FIXED_ALLOCATORS
 	Engine::FixedSizeAllocator * pFSA = Engine::FindFixedSizeAllocator( i_size );
@@ -27,8 +29,9 @@ void * __cdecl myMalloc( size_t i_size )
 
 void __cdecl myFree( void * i_ptr )
 {
-	// replace with calls to your HeapManager or FixedSizeAllocators
-	printf( "free 0x%" PRIXPTR "\n", reinterpret_cast<uintptr_t>( i_ptr ) );
+#ifdef  OUTPUT_ALLOC_INFO
+	DEBUG_PRINT_ENGINE( "free 0x%" PRIXPTR "", reinterpret_cast<uintptr_t>( i_ptr ) );
+#endif // OUTPUT_ALLOC_INFO
 #ifdef USE_FIXED_ALLOCATORS
 	bool successful = Engine::FreeFromFixedSizeAllocators( i_ptr );
 	if ( !successful )
@@ -42,13 +45,11 @@ void __cdecl myFree( void * i_ptr )
 
 void * operator new( size_t i_size )
 {
-	// replace with calls to your HeapManager or FixedSizeAllocators
 	return myMalloc( i_size );
 }
 
 void operator delete( void * i_ptr )
 {
-	// replace with calls to your HeapManager or FixedSizeAllocators
 	return myFree( i_ptr );
 }
 
@@ -61,7 +62,7 @@ void * operator new[]( size_t i_size )
 	return myMalloc( i_size );
 }
 
-void operator delete []( void * i_ptr )
+void operator delete[]( void * i_ptr )
 {
 	// replace with calls to your HeapManager or FixedSizeAllocators
 	// There is the same reason of the new[]

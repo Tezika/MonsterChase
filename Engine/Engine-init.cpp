@@ -4,31 +4,27 @@
 #include "Assert.h"
 #include "HeapManager.h"
 #include "SubSystems.h"
+#include "MemorySystem.h"
 
 namespace Engine
 {
 	bool Engine::Initialize()
 	{
 
-#ifdef USE_CUSTOM_ALLOCATOR
+#ifdef USE_FIXED_ALLOCATORS
+		// Initial the memory system
 		const size_t 		sizeHeap = 1024 * 1024;
 		const unsigned int 	numDescriptors = 2048;
-		// Allocate memory for my custom heap.
+		// Allocate memory for my test heap.
 		void * pHeapMemory = HeapAlloc( GetProcessHeap(), 0, sizeHeap );
 		assert( pHeapMemory );
 
-		// Create a heap manager for my custom heap.
-		HeapManager * pHeapManager = HeapManager::Create( pHeapMemory, sizeHeap, numDescriptors );
-		assert( pHeapManager );
-
-		if ( pHeapManager == nullptr )
-			return false;
-
-		HeapManager::s_pDefalutHeapManager = pHeapManager;
+		// Create your HeapManager and FixedSizeAllocators.
+		bool successd = InitializeMemorySystem( pHeapMemory, sizeHeap, numDescriptors );
+		assert( successd );
 #endif
 
 		// Initialize the sub systems
-
 		// For Rendering
 		bool bSuccess = false;
 		bSuccess = Render::RenderManager::GetInstance().Initialize();
@@ -50,15 +46,7 @@ namespace Engine
 
 	void Engine::Destroy()
 	{
-#ifdef USE_CUSTOM_ALLOCATOR
-		// Free customize heap and destroy the heap
-		assert( HeapManager::s_pDefalutHeapManager );
-		HeapManager::s_pDefalutHeapManager->Destroy();
-		HeapFree( GetProcessHeap(), 0, HeapManager::s_pDefalutHeapManager->GetAssociateMemory() );
-		HeapManager::s_pDefalutHeapManager = nullptr;
-#endif // USE_CUSTOM_ALLOCATOR
-
-		// Destroy the sub systems
+		// Destroy the sub systems firstly
 		// For Physics
 		bool bSuccess = false;
 		bSuccess = false;
@@ -74,6 +62,9 @@ namespace Engine
 		bSuccess = Render::RenderManager::GetInstance().Destroy();
 		assert( bSuccess );
 
-
+#ifdef USE_FIXED_ALLOCATORS
+		// Destroy the memory management system
+		DestroyMemorySystem();
+#endif // USE_FIXED_ALLOCATORS
 	}
 }
