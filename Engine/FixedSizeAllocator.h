@@ -9,10 +9,10 @@ namespace Engine
 	class FixedSizeAllocator
 	{
 	public:
-		static FixedSizeAllocator * Create(size_t i_sizeOfBlock, size_t i_numOfBlocks, HeapManager * i_pDefaultHeap);
+		static FixedSizeAllocator * Create( size_t i_sizeOfBlock, size_t i_numOfBlocks, HeapManager * i_pDefaultHeap );
 
 		void * Alloc();
-		bool Free(void * i_ptr);
+		bool Free( void * i_ptr );
 
 		~FixedSizeAllocator();
 
@@ -21,9 +21,9 @@ namespace Engine
 	private:
 		//Private it's constructor, copy constructor and assignment operator to make it only be created by 'Create' method.
 		FixedSizeAllocator() {};
-		FixedSizeAllocator(size_t i_sizeOfBlock, size_t i_numOfBlocks, HeapManager * i_pDefaultHeap) {};
-		FixedSizeAllocator(const FixedSizeAllocator & i_other) {};
-		FixedSizeAllocator & operator=(const FixedSizeAllocator & i_other) {};
+		FixedSizeAllocator( size_t i_sizeOfBlock, size_t i_numOfBlocks, HeapManager * i_pDefaultHeap ) {};
+		FixedSizeAllocator( const FixedSizeAllocator & i_other ) {};
+		FixedSizeAllocator & operator=( const FixedSizeAllocator & i_other ) {};
 
 		size_t m_sizeOfBlock;
 		size_t m_numOfBlocks;

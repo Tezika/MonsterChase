@@ -17,35 +17,35 @@ namespace Engine
 	{
 	public:
 		static HeapManager * s_pDefalutHeapManager;
-		static HeapManager * Create(void *, size_t, unsigned int);
+		static HeapManager * Create( void *, size_t, unsigned int );
 		static size_t s_MinumumToLeave;
 
 		~HeapManager();
 
-		void * Alloc(size_t);
-		void * Alloc(size_t, unsigned int);
+		void * Alloc( size_t );
+		void * Alloc( size_t, unsigned int );
 
 		void Collect();
-		bool Free(void *);
+		bool Free( void * );
 		void Destroy();
 
 		size_t GetMaxiumAllocatableMemory() const;
 
-		bool IsAllocated(void *) const;
+		bool IsAllocated( void * ) const;
 		void ShowFreeBlocks() const;
 		void ShowOutstandingAllocations() const;
 
-		inline bool Contains(void * i_ptr) const { return (i_ptr >= m_pMemoryMark) && (i_ptr <= m_pMemoryMark + m_sizeOfMemory); }
+		inline bool Contains( void * i_ptr ) const { return ( i_ptr >= m_pMemoryMark ) && ( i_ptr <= m_pMemoryMark + m_sizeOfMemory ); }
 		inline size_t GetUsedMemory() const { return m_usedMemory; }
 		inline size_t GetLeftMemory() const { return m_sizeOfMemory - m_usedMemory; }
 		inline void * GetAssociateMemory() { return m_pMemory; }
 
 	private:
 		HeapManager();
-		HeapManager(void *, size_t, unsigned int);
+		HeapManager( void *, size_t, unsigned int );
 		// prevent copy and assignment
-		HeapManager(const HeapManager & i_other);
-		HeapManager & operator=(const HeapManager & i_other);
+		HeapManager( const HeapManager & i_other );
+		HeapManager & operator=( const HeapManager & i_other );
 
 		uint8_t * m_pMemory;
 		uint8_t * m_pAllocatableMemory;
@@ -60,7 +60,7 @@ namespace Engine
 		size_t m_usedDescriptors;
 
 		//Initialized function
-		void Combine(BlockDescriptor *, BlockDescriptor *);
-		Engine::BlockDescriptor* MoveToNextBlock(Engine::BlockDescriptor *) const;
+		void Combine( BlockDescriptor *, BlockDescriptor * );
+		Engine::BlockDescriptor* MoveToNextBlock( Engine::BlockDescriptor * ) const;
 	};
 }

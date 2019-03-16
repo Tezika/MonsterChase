@@ -156,16 +156,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Allocator.h" />
+    <ClInclude Include="BitArray.h" />
     <ClInclude Include="CommonUtility.h" />
     <ClInclude Include="ConsolePrint.h" />
     <ClInclude Include="ControllerManager.h" />
     <ClInclude Include="Engine-init.h" />
+    <ClInclude Include="FixedAllocators.h" />
+    <ClInclude Include="FixedSizeAllocator.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GLibUtility.h" />
     <ClInclude Include="HeapManager.h" />
     <ClInclude Include="IController.h" />
     <ClInclude Include="LuaParser.h" />
     <ClInclude Include="Matrix4x4.h" />
+    <ClInclude Include="MemorySystem.h" />
     <ClInclude Include="PhysicsInfo.h" />
     <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="ReferenceCounter.h" />
@@ -185,15 +189,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Allocator.cpp" />
+    <ClCompile Include="BitArray.cpp" />
     <ClCompile Include="CommonUtility.cpp" />
     <ClCompile Include="ConsolePrint.cpp" />
     <ClCompile Include="ControllerManager.cpp" />
     <ClCompile Include="Engine-init.cpp" />
+    <ClCompile Include="FIxedAllocators.cpp" />
+    <ClCompile Include="FixedSizeAllocator.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GLibUtility.cpp" />
     <ClCompile Include="HeapManager.cpp" />
     <ClCompile Include="LuaParser.cpp" />
     <ClCompile Include="Matrix4x4.cpp" />
+    <ClCompile Include="MemorySystem.cpp" />
     <ClCompile Include="PhysicsInfo.cpp" />
     <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="ReferenceCounter.cpp" />

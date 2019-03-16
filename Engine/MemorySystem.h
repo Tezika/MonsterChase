@@ -16,13 +16,13 @@ namespace Engine
 
 	bool InitializeFixedSizeAllocators();
 	bool InitializeFSAInitData();
-	FixedSizeAllocator * FindFixedSizeAllocator(size_t i_size);
+	FixedSizeAllocator * FindFixedSizeAllocator( size_t i_size );
 
-	bool FreeFromFixedSizeAllocators(void * i_ptr);
+	bool FreeFromFixedSizeAllocators( void * i_ptr );
 #endif;
 
 	// InitializeMemorySystem - initialize your memory system including your HeapManager and some FixedSizeAllocators
-	bool InitializeMemorySystem(void * i_pHeapMemory, size_t i_sizeHeapMemory, unsigned int i_OptionalNumDescriptors);
+	bool InitializeMemorySystem( void * i_pHeapMemory, size_t i_sizeHeapMemory, unsigned int i_OptionalNumDescriptors );
 
 	// Collect - coalesce free blocks in attempt to create larger blocks
 	void Collect();

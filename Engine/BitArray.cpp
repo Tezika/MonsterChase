@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "stdafx.h"
 #include "BitArray.h"
 #include "Assert.h"
 #include <cstring>
@@ -10,24 +10,24 @@
 
 namespace Engine
 {
-	BitArray * BitArray::Create(size_t i_numBits, HeapManager * i_pDefaultHeap, bool i_clearAll)
+	BitArray * BitArray::Create( size_t i_numBits, HeapManager * i_pDefaultHeap, bool i_clearAll )
 	{
-		assert(i_pDefaultHeap);
-		BitArray * p_bitArray = reinterpret_cast<BitArray *>(i_pDefaultHeap->Alloc(sizeof(BitArray)));
-		assert(p_bitArray);
+		assert( i_pDefaultHeap );
+		BitArray * p_bitArray = reinterpret_cast<BitArray *>( i_pDefaultHeap->Alloc( sizeof( BitArray ) ) );
+		assert( p_bitArray );
 
 		p_bitArray->m_numOfBits = i_numBits;
 		float i_bitsPerUnit = 8;
-		p_bitArray->m_sizeOfBytes = (size_t)ceil((float)(i_numBits / i_bitsPerUnit));
+		p_bitArray->m_sizeOfBytes = (size_t) ceil( (float) ( i_numBits / i_bitsPerUnit ) );
 
-		p_bitArray->m_pBits = reinterpret_cast<uint8_t *>(i_pDefaultHeap->Alloc(p_bitArray->m_sizeOfBytes));
-		memset(p_bitArray->m_pBits, i_clearAll ? 0 : UINT8_MAX, p_bitArray->m_sizeOfBytes);
+		p_bitArray->m_pBits = reinterpret_cast<uint8_t *>( i_pDefaultHeap->Alloc( p_bitArray->m_sizeOfBytes ) );
+		memset( p_bitArray->m_pBits, i_clearAll ? 0 : UINT8_MAX, p_bitArray->m_sizeOfBytes );
 		return p_bitArray;
 	}
 
 	BitArray::~BitArray()
 	{
-		if (m_pBits != nullptr)
+		if ( m_pBits != nullptr )
 		{
 			delete m_pBits;
 			m_pBits = nullptr;
@@ -36,60 +36,60 @@ namespace Engine
 
 	void BitArray::SetAll()
 	{
-		memset(m_pBits, UINT8_MAX, m_sizeOfBytes);
+		memset( m_pBits, UINT8_MAX, m_sizeOfBytes );
 	}
 
 	void BitArray::ClearAll()
 	{
-		memset(m_pBits, 0, m_sizeOfBytes);
+		memset( m_pBits, 0, m_sizeOfBytes );
 	}
 
 	bool BitArray::AreAllClear() const
 	{
 		size_t bitNumber = -1;
-		return !this->GetFirstSetBit(bitNumber);
+		return !this->GetFirstSetBit( bitNumber );
 	}
 
 	bool BitArray::AreAllSet() const
 	{
 		size_t bitNumber = -1;
-		return !this->GetFirstClearBit(bitNumber);
+		return !this->GetFirstClearBit( bitNumber );
 	}
 
-	void BitArray::SetBit(size_t i_bitNumber)
+	void BitArray::SetBit( size_t i_bitNumber )
 	{
-		assert(i_bitNumber < m_numOfBits);
+		assert( i_bitNumber < m_numOfBits );
 		size_t bit = i_bitNumber % 8;
 		size_t byteIndex = i_bitNumber / 8;
 		uint8_t byte = m_pBits[byteIndex];
-		byte |= (1U << bit);
+		byte |= ( 1U << bit );
 		m_pBits[byteIndex] = byte;
 	}
 
-	void BitArray::ClearBit(size_t i_bitNumber)
+	void BitArray::ClearBit( size_t i_bitNumber )
 	{
-		assert(i_bitNumber < m_numOfBits);
+		assert( i_bitNumber < m_numOfBits );
 		size_t bit = i_bitNumber % 8;
 		size_t byteIndex = i_bitNumber / 8;
 		uint8_t byte = m_pBits[byteIndex];
-		byte &= ~(1U << bit);
+		byte &= ~( 1U << bit );
 		m_pBits[byteIndex] = byte;
 	}
 
-	bool BitArray::GetFirstClearBit(size_t & o_bitNumber) const
+	bool BitArray::GetFirstClearBit( size_t & o_bitNumber ) const
 	{
 		size_t byteIndex = m_sizeOfBytes;
 		size_t bitIndex = 0;
 		bool foundBit = false;
-		for (size_t i = 0; i < m_sizeOfBytes; i++)
+		for ( size_t i = 0; i < m_sizeOfBytes; i++ )
 		{
-			if (m_pBits[i] == UINT8_MAX)
+			if ( m_pBits[i] == UINT8_MAX )
 			{
 				continue;
 			}
-			for (size_t bit = 0; bit < 8; bit++)
+			for ( size_t bit = 0; bit < 8; bit++ )
 			{
-				if (this->IsBitClear(i * 8 + bit))
+				if ( this->IsBitClear( i * 8 + bit ) )
 				{
 					byteIndex = i;
 					bitIndex = bit;
@@ -97,7 +97,7 @@ namespace Engine
 					break;
 				}
 			}
-			if (foundBit)
+			if ( foundBit )
 			{
 				break;
 			}
@@ -106,30 +106,30 @@ namespace Engine
 		return byteIndex != m_sizeOfBytes;
 	}
 
-	bool BitArray::GetFirstSetBit(size_t & o_bitNumber) const
+	bool BitArray::GetFirstSetBit( size_t & o_bitNumber ) const
 	{
 		size_t byteIndex = m_sizeOfBytes;
 		// quick skip bytes where no bits are set   
-		while ((m_pBits[byteIndex] == 0) && (byteIndex < m_sizeOfBytes))
+		while ( ( m_pBits[byteIndex] == 0 ) && ( byteIndex < m_sizeOfBytes ) )
 			byteIndex++;
-		if (byteIndex == m_sizeOfBytes)
+		if ( byteIndex == m_sizeOfBytes )
 		{
 			return false;
 		}
 		// use the compiler intrinsics function to find the first set bit.
 		unsigned long byte = m_pBits[byteIndex];
 		unsigned long bitIndex;
-		_BitScanForward(&bitIndex, byte);
+		_BitScanForward( &bitIndex, byte );
 		o_bitNumber = byteIndex * 8 + bitIndex;
 		return byteIndex != m_sizeOfBytes;
 	}
 
-	bool BitArray::operator[](size_t i_index) const
+	bool BitArray::operator[]( size_t i_index ) const
 	{
-		return this->IsBitSet(i_index);
+		return this->IsBitSet( i_index );
 	}
 
-	bool BitArray::IsBitValid(size_t i_bitNumber) const
+	bool BitArray::IsBitValid( size_t i_bitNumber ) const
 	{
 		return i_bitNumber >= 0 && i_bitNumber < m_numOfBits;
 	}
