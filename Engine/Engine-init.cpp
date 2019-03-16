@@ -11,7 +11,7 @@ namespace Engine
 	bool Engine::Initialize()
 	{
 
-#ifdef USE_FIXED_ALLOCATORS
+#ifdef USE_CUSTOM_MEMORYMANAGEMENT
 		// Initial the memory system
 		const size_t 		sizeHeap = 1024 * 1024;
 		const unsigned int 	numDescriptors = 2048;
@@ -62,7 +62,7 @@ namespace Engine
 		bSuccess = Render::RenderManager::GetInstance().Destroy();
 		assert( bSuccess );
 
-#ifdef USE_FIXED_ALLOCATORS
+#ifdef USE_CUSTOM_MEMORYMANAGEMENT
 		// Destroy the memory management system
 		DestroyMemorySystem();
 #endif // USE_FIXED_ALLOCATORS

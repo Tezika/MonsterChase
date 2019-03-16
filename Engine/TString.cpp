@@ -2,7 +2,7 @@
 #include "TString.h"
 #include "ConsolePrint.h"
 #include "Assert.h"
-#include "Allocator.h"
+#include "MemorySystem.h"
 
 
 namespace Engine
@@ -16,14 +16,14 @@ namespace Engine
 	TString::TString( const TString & i_str )
 	{
 		m_size = i_str.m_size;
-		m_buffer = new TRACK_NEW char[m_size];
+		m_buffer = new char[m_size];
 		strcpy_s( m_buffer, m_size, i_str.m_buffer );
 	}
 
 	TString::TString( const char * i_pStr )
 	{
 		m_size = strlen( i_pStr ) + 1;
-		m_buffer = new TRACK_NEW char[m_size];
+		m_buffer = new char[m_size];
 		strcpy_s( m_buffer, m_size, i_pStr );
 	}
 
@@ -39,7 +39,7 @@ namespace Engine
 			delete[] m_buffer;
 		}
 		m_size = i_str.m_size;
-		m_buffer = new TRACK_NEW char[m_size];
+		m_buffer = new char[m_size];
 		strcpy_s( m_buffer, m_size, i_str.m_buffer );
 	}
 
@@ -50,14 +50,14 @@ namespace Engine
 			delete[] m_buffer;
 		}
 		m_size = strlen( i_pStr ) + 1;
-		m_buffer = new TRACK_NEW char[m_size];
+		m_buffer = new char[m_size];
 		strcpy_s( m_buffer, m_size, i_pStr );
 	}
 
 	void TString::operator+=( const TString & i_str )
 	{
 		size_t newSize = i_str.Length() + this->Length() - 1;
-		char* newBuffer = new TRACK_NEW char[newSize];
+		char* newBuffer = new char[newSize];
 		for ( size_t i = 0; i < this->Length(); i++ )
 		{
 			newBuffer[i] = m_buffer[i];
@@ -77,7 +77,7 @@ namespace Engine
 	void TString::operator+=( const char * i_pStr )
 	{
 		size_t newSize = strlen( i_pStr ) + this->Length() - 1;
-		char* newBuffer = new TRACK_NEW char[newSize];
+		char* newBuffer = new char[newSize];
 		for ( size_t i = 0; i < this->Length(); i++ )
 		{
 			newBuffer[i] = m_buffer[i];
@@ -130,7 +130,7 @@ namespace Engine
 	std::istream & operator>>( std::istream & i_is, TString & i_str )
 	{
 		uint8_t inputSize = 100;
-		char * input = new TRACK_NEW char[inputSize];
+		char * input = new char[inputSize];
 		i_is >> input;
 		uint8_t size = 0;
 		while ( input[size] != '\0' )
@@ -139,7 +139,7 @@ namespace Engine
 		}
 		size++;
 		//Use a temporary buffer as meta buffer.
-		char * temporaryBuffer = new TRACK_NEW char[size];
+		char * temporaryBuffer = new char[size];
 		for ( uint8_t i = 0; i < size - 1; i++ )
 		{
 			temporaryBuffer[i] = input[i];
@@ -158,7 +158,7 @@ namespace Engine
 	{
 		assert( pBuffer != nullptr );
 		m_size = strlen( pBuffer ) + 1;
-		m_buffer = new TRACK_NEW char[m_size];
+		m_buffer = new char[m_size];
 		strcpy_s( m_buffer, m_size, pBuffer );
 	}
 

@@ -5,8 +5,19 @@ namespace Engine
 	class HeapManager;
 	class FixedSizeAllocator;
 
+#define USE_CUSTOM_MEMORYMANAGEMENT
 #define USE_FIXED_ALLOCATORS
 #define OUTPUT_ALLOC_INFO
+
+#ifdef _DEBUG
+#ifdef USE_CUSTOM_MEMORYMANAGEMENT
+#define TRACK_NEW (__FILE__,__LINE__)
+#else
+#define TRACK_NEW
+#endif
+#else
+#define TRACK_NEW
+#endif
 
 #ifdef USE_FIXED_ALLOCATORS
 	struct FSAInitData
@@ -33,6 +44,3 @@ namespace Engine
 
 	HeapManager * GetDefaultHeap();
 }
-
-
-

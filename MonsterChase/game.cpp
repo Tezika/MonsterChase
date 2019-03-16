@@ -7,7 +7,6 @@
 //
 
 #include "game.h"
-#include "Allocator.h"
 #include "InputController.h"
 #include "AIController.h"
 #include "GLibUtility.h"

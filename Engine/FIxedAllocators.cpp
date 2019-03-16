@@ -6,6 +6,7 @@
 #include "MemorySystem.h"
 #include "HeapManager.h"
 
+#ifdef USE_CUSTOM_MEMORYMANAGEMENT
 void * __cdecl myMalloc( size_t i_size )
 {
 #ifdef OUTPUT_ALLOC_INFO
@@ -69,4 +70,5 @@ void operator delete[]( void * i_ptr )
 	printf( "delete [] 0x%" PRIXPTR "\n", reinterpret_cast<uintptr_t>( i_ptr ) );
 	return myFree( i_ptr );
 }
+#endif // USE_CUSTOM_MEMORYMANAGEMENT
 

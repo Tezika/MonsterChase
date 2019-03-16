@@ -120,9 +120,6 @@
     <ClInclude Include="IController.h">
       <Filter>Header Files\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Allocator.h">
-      <Filter>Header Files\MemoryManagement</Filter>
-    </ClInclude>
     <ClInclude Include="Point2D.h">
       <Filter>Header Files\Mathematics</Filter>
     </ClInclude>
@@ -205,9 +202,6 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Allocator.cpp">
-      <Filter>Source Files\MemoryManagement</Filter>
     </ClCompile>
     <ClCompile Include="GLibUtility.cpp">
       <Filter>Source Files\Utility</Filter>
