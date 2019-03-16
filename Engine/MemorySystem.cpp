@@ -28,7 +28,7 @@ namespace Engine
 #ifdef USE_FIXED_ALLOCATORS
 		InitializeFixedSizeAllocators();
 #endif // USE_FIXED_ALLOCATOR
-		DEBUG_PRINT_ENGINE( "The memory system initialized succuessfully!" );
+		DEBUG_PRINT_ENGINE( "The memory management system initialized succuessfully!" );
 		return true;
 	}
 
@@ -59,7 +59,7 @@ namespace Engine
 		// Destory the heap manager
 		assert( s_pDefaultHeap != nullptr );
 		s_pDefaultHeap->Destroy();
-		DEBUG_PRINT_ENGINE( "The memory system destroied succuessfully!" );
+		DEBUG_PRINT_ENGINE( "The memory management system destroied succuessfully!" );
 	}
 
 	HeapManager * GetDefaultHeap()

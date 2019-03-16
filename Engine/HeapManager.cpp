@@ -50,13 +50,13 @@ namespace Engine
 		pHeapManager->m_usedDescriptors = 0;
 		pHeapManager->m_pDescriptorHead = nullptr;
 
-		DEBUG_PRINT_ENGINE( "The heapmanager setup successfully." );
+		DEBUG_PRINT_ENGINE( "The heap manager setup successfully." );
 		return pHeapManager;
 	}
 
 	void HeapManager::Destroy()
 	{
-		DEBUG_PRINT_ENGINE( "The heapmanager destroied successfully." );
+		DEBUG_PRINT_ENGINE( "The heap manager destroied successfully." );
 	}
 
 	void * HeapManager::Alloc( size_t i_size )
