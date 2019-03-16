@@ -56,17 +56,17 @@ namespace Engine
 	bool FixedSizeAllocator::Free( void * i_ptr )
 	{
 		assert( i_ptr != nullptr );
-		//calcuate the bit index for allocate memory
+		// calcuate the bit index for allocate memory
 		size_t i_clearBitNumber = ( reinterpret_cast<uint8_t *>( i_ptr ) - m_pAllocateMemory ) / m_sizeOfBlock;
-		//check if it is the valid index
+		// check if it is the valid index
 		if ( !m_pAllocationBitsArray->IsBitValid( i_clearBitNumber ) )
 		{
 			return false;
 		}
-		//check if it's been already set
+		// check if it's been already set
 		if ( m_pAllocationBitsArray->IsBitClear( i_clearBitNumber ) )
 		{
-			//set this bit.
+			// set this bit.
 			m_pAllocationBitsArray->SetBit( i_clearBitNumber );
 			return true;
 		}

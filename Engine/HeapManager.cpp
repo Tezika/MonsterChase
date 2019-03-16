@@ -91,10 +91,10 @@ namespace Engine
 				p->m_allocated = true;
 				return p->m_pBlockStarAddr;
 			}
-			//The current block can be divided into two. 
+			// The current block can be allocated and also can be divided into two blocks. 
 			else if ( p->m_sizeBlock > newBlockSize )
 			{
-				//subdivde it into two blocks
+				// subdivde it into two blocks
 				auto originalSize = p->m_sizeBlock;
 
 				auto pBlockAddress = reinterpret_cast<void*>( p->m_pBlockStarAddr + originalSize - newBlockSize );
@@ -104,15 +104,12 @@ namespace Engine
 				pBlockAddress = reinterpret_cast<void *>( reinterpret_cast<uintptr_t>( pBlockAddress ) + i_size );
 				subBlock->m_sizeBlock = i_size;
 
-				//change the orginal
+				// change the orginal size
 				p->m_sizeBlock = originalSize - newBlockSize;
-
 
 				m_usedMemory += newBlockSize;
 				m_usedDescriptors++;
 				subBlock->m_allocated = true;
-				//add the subBlock to the list
-				//DEBUG_PRINT("The current allocation address is 0x%08x and size is %d\n", subBlock->m_pBlockStarAddr, subBlock->m_sizeBlock);
 				return subBlock->m_pBlockStarAddr;
 			}
 			else if ( p->m_sizeBlock < i_size )
@@ -123,7 +120,7 @@ namespace Engine
 		// Check whether there is enough memory for new allocation
 		if ( m_pAllocatableMemory + sizeof( BlockDescriptor ) + i_size > m_pMemoryBoundary )
 		{
-			//It cannot allocate new memory; Perhaps, it needs to wait for collecting.
+			//Crap!!! It cannot allocate new memory; Perhaps, it needs to wait for collecting.
 			return nullptr;
 		}
 
@@ -168,7 +165,6 @@ namespace Engine
 		}
 		return true;
 	}
-
 
 	void HeapManager::Collect()
 	{
@@ -248,12 +244,12 @@ namespace Engine
 	BlockDescriptor * HeapManager::MoveToNextBlock( BlockDescriptor *i_pBlock ) const
 	{
 		assert( i_pBlock );
-		//check whether the address cross the boundary or not
+		// check whether the address cross the boundary or not
 		if ( i_pBlock->m_pBlockStarAddr + i_pBlock->m_sizeBlock > this->m_pMemoryBoundary )
 		{
 			return nullptr;
 		}
-		//Move the pointer based on the blocksize.
+		// Move the pointer based on the blocksize.
 		auto pNext = reinterpret_cast<BlockDescriptor *>( i_pBlock->m_pBlockStarAddr + i_pBlock->m_sizeBlock );
 		if ( pNext == nullptr || pNext->m_pBlockStarAddr == nullptr )
 		{
