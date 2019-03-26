@@ -263,4 +263,24 @@ namespace Engine
 	{
 		return Matrix4x4::CreateTranslation( i_vec_translation.x, i_vec_translation.y, i_vec_translation.z );
 	}
+
+	Matrix4x4 Matrix4x4::operator+( const Matrix4x4 i_mtx )
+	{
+		return Matrix4x4(
+			this->GetM11() + i_mtx.GetM11(), this->GetM12() + i_mtx.GetM12(), this->GetM13() + i_mtx.GetM13(), this->GetM14() + i_mtx.GetM14(),
+			this->GetM21() + i_mtx.GetM21(), this->GetM22() + i_mtx.GetM22(), this->GetM23() + i_mtx.GetM23(), this->GetM24() + i_mtx.GetM24(),
+			this->GetM31() + i_mtx.GetM31(), this->GetM32() + i_mtx.GetM32(), this->GetM33() + i_mtx.GetM33(), this->GetM34() + i_mtx.GetM34(),
+			this->GetM41() + i_mtx.GetM41(), this->GetM42() + i_mtx.GetM42(), this->GetM43() + i_mtx.GetM43(), this->GetM44() + i_mtx.GetM44(),
+			);
+	}
+
+	Matrix4x4 Matrix4x4::operator-( const Matrix4x4 i_mtx )
+	{
+		return Matrix4x4(
+			this->GetM11() - i_mtx.GetM11(), this->GetM12() - i_mtx.GetM12(), this->GetM13() - i_mtx.GetM13(), this->GetM14() - i_mtx.GetM14(),
+			this->GetM21() - i_mtx.GetM21(), this->GetM22() - i_mtx.GetM22(), this->GetM23() - i_mtx.GetM23(), this->GetM24() - i_mtx.GetM24(),
+			this->GetM31() - i_mtx.GetM31(), this->GetM32() - i_mtx.GetM32(), this->GetM33() - i_mtx.GetM33(), this->GetM34() - i_mtx.GetM34(),
+			this->GetM41() - i_mtx.GetM41(), this->GetM42() - i_mtx.GetM42(), this->GetM43() - i_mtx.GetM43(), this->GetM44() - i_mtx.GetM44(),
+			);
+	}
 }

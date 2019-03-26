@@ -39,12 +39,17 @@ namespace Engine
 			float i_41, float i_42, float i_43, float i_44
 		);
 
+
 		Matrix4x4( const Matrix4x4 & i_other );
 		void operator=( const Matrix4x4 & i_other );
 		~Matrix4x4();
 
 		void operator*=( const Matrix4x4 & i_other );
 		Matrix4x4  operator*( const Matrix4x4 & i_other );
+
+		Matrix4x4 operator+( const Matrix4x4 & i_mtx );
+
+		Matrix4x4 operator-( const Matrix4x4 & i_mtx );
 
 		void PrintOut();
 
@@ -80,12 +85,36 @@ namespace Engine
 	// Allows us to use V = V * M; (i.e. row vector)
 	inline Vector4 operator*( const Vector4 & i_vec, const Matrix4x4 & i_mtx )
 	{
+		return i_mtx * i_vec;
+	}
+
+	// Scaler multiplication
+	inline Matrix4x4 operator*( const Matrix4x4 & i_mtx, float i_scaler )
+	{
 		assert( i_mtx.GetM11() != NAN );
-		return Vector4(
-			i_vec.x * i_mtx.GetM11() + i_vec.y * i_mtx.GetM21() + i_vec.z  * i_mtx.GetM31() + i_vec.w * i_mtx.GetM41(),
-			i_vec.x * i_mtx.GetM12() + i_vec.y * i_mtx.GetM22() + i_vec.z  * i_mtx.GetM32() + i_vec.w * i_mtx.GetM42(),
-			i_vec.x * i_mtx.GetM13() + i_vec.y * i_mtx.GetM23() + i_vec.z  * i_mtx.GetM33() + i_vec.w * i_mtx.GetM43(),
-			i_vec.x * i_mtx.GetM14() + i_vec.y * i_mtx.GetM24() + i_vec.z  * i_mtx.GetM34() + i_vec.w * i_mtx.GetM44()
+		return Matrix4x4(
+			i_scaler * i_mtx.GetM11(), i_scaler * i_mtx.GetM12(), i_scaler * i_mtx.GetM13(), i_scaler * i_mtx.GetM14(),
+			i_scaler * i_mtx.GetM21(), i_scaler * i_mtx.GetM22(), i_scaler * i_mtx.GetM23(), i_scaler * i_mtx.GetM24(),
+			i_scaler * i_mtx.GetM31(), i_scaler * i_mtx.GetM32(), i_scaler * i_mtx.GetM33(), i_scaler * i_mtx.GetM34(),
+			i_scaler * i_mtx.GetM41(), i_scaler * i_mtx.GetM42(), i_scaler * i_mtx.GetM43(), i_scaler * i_mtx.GetM44()
+		);
+	}
+
+	inline Matrix4x4 operator*( float scaler, const Matrix4x4 & i_mtx )
+	{
+		return i_mtx * scaler;
+	}
+
+	// Scaler Division
+	inline Matrix4x4 operator/( const Matrix4x4 & i_mtx, float i_scaler )
+	{
+		assert( i_mtx.GetM11() != NAN );
+		assert( i_scaler != 0 );
+		return Matrix4x4(
+			i_mtx.GetM11() / i_scaler, i_mtx.GetM12() / i_scaler, i_mtx.GetM13() / i_scaler, i_mtx.GetM14() / i_scaler,
+			i_mtx.GetM21() / i_scaler, i_mtx.GetM22() / i_scaler, i_mtx.GetM23() / i_scaler, i_mtx.GetM24() / i_scaler,
+			i_mtx.GetM31() / i_scaler, i_mtx.GetM32() / i_scaler, i_mtx.GetM33() / i_scaler, i_mtx.GetM34() / i_scaler,
+			i_mtx.GetM41() / i_scaler, i_mtx.GetM42() / i_scaler, i_mtx.GetM43() / i_scaler, i_mtx.GetM44() / i_scaler
 		);
 	}
 };
