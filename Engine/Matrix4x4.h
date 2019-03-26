@@ -45,7 +45,7 @@ namespace Engine
 		~Matrix4x4();
 
 		void operator*=( const Matrix4x4 & i_other );
-		Matrix4x4  operator*( const Matrix4x4 & i_other );
+		Matrix4x4 operator*( const Matrix4x4 & i_other );
 
 		Matrix4x4 operator+( const Matrix4x4 & i_mtx );
 
