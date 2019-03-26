@@ -146,38 +146,38 @@ namespace Engine
 		float a0113 = m_matrix[1][0] * m_matrix[3][1] - m_matrix[1][1] * m_matrix[3][0];
 		float a0112 = m_matrix[1][0] * m_matrix[2][1] - m_matrix[1][1] * m_matrix[2][0];
 
-		float determine = m_matrix[0][0] * ( m_matrix[1][1] * a2323 - m_matrix[1][2] * a1323 + m_matrix[1][3] * a1223 )
+		float determinant = m_matrix[0][0] * ( m_matrix[1][1] * a2323 - m_matrix[1][2] * a1323 + m_matrix[1][3] * a1223 )
 			- m_matrix[0][1] * ( m_matrix[1][0] * a2323 - m_matrix[1][2] * a0323 + m_matrix[1][3] * a0223 )
 			+ m_matrix[0][2] * ( m_matrix[1][0] * a1323 - m_matrix[1][1] * a0323 + m_matrix[1][3] * a0123 )
 			- m_matrix[0][3] * ( m_matrix[1][0] * a1223 - m_matrix[1][1] * a0223 + m_matrix[1][2] * a0123 );
 
-		if ( determine == 0 )
+		if ( determinant == 0 )
 		{
 			return false;
 		}
 
-		determine = 1 / determine;
+		determinant = 1 / determinant;
 
 		// Set each spot's value for out matrix
-		out.m_matrix[0][0] = /*M11*/determine * ( m_matrix[1][1] * a2323 - m_matrix[1][2] * a1323 + m_matrix[1][3] * a1223 );
-		out.m_matrix[0][1] = /*M12*/determine * -( m_matrix[0][1] * a2323 - m_matrix[0][2] * a1323 + m_matrix[0][3] * a1223 );
-		out.m_matrix[0][2] = /*M13*/determine * ( m_matrix[0][1] * a2313 - m_matrix[0][2] * a1313 + m_matrix[0][3] * a1213 );
-		out.m_matrix[0][3] = /*M14*/determine * -( m_matrix[0][1] * a2312 - m_matrix[0][2] * a1312 + m_matrix[0][3] * a1212 );
+		out.m_matrix[0][0] = /*M11*/determinant * ( m_matrix[1][1] * a2323 - m_matrix[1][2] * a1323 + m_matrix[1][3] * a1223 );
+		out.m_matrix[0][1] = /*M12*/determinant * -( m_matrix[0][1] * a2323 - m_matrix[0][2] * a1323 + m_matrix[0][3] * a1223 );
+		out.m_matrix[0][2] = /*M13*/determinant * ( m_matrix[0][1] * a2313 - m_matrix[0][2] * a1313 + m_matrix[0][3] * a1213 );
+		out.m_matrix[0][3] = /*M14*/determinant * -( m_matrix[0][1] * a2312 - m_matrix[0][2] * a1312 + m_matrix[0][3] * a1212 );
 
-		out.m_matrix[1][0] = /*M21*/determine * -( m_matrix[1][0] * a2323 - m_matrix[1][2] * a0323 + m_matrix[1][3] * a0223 );
-		out.m_matrix[1][1] = /*M22*/determine * ( m_matrix[0][0] * a2323 - m_matrix[0][2] * a0323 + m_matrix[0][3] * a0223 );
-		out.m_matrix[1][2] = /*M23*/determine * -( m_matrix[0][0] * a2313 - m_matrix[0][2] * a0313 + m_matrix[0][3] * a0213 );
-		out.m_matrix[1][3] = /*M24*/determine * ( m_matrix[0][0] * a2312 - m_matrix[0][2] * a0312 + m_matrix[0][3] * a0212 );
+		out.m_matrix[1][0] = /*M21*/determinant * -( m_matrix[1][0] * a2323 - m_matrix[1][2] * a0323 + m_matrix[1][3] * a0223 );
+		out.m_matrix[1][1] = /*M22*/determinant * ( m_matrix[0][0] * a2323 - m_matrix[0][2] * a0323 + m_matrix[0][3] * a0223 );
+		out.m_matrix[1][2] = /*M23*/determinant * -( m_matrix[0][0] * a2313 - m_matrix[0][2] * a0313 + m_matrix[0][3] * a0213 );
+		out.m_matrix[1][3] = /*M24*/determinant * ( m_matrix[0][0] * a2312 - m_matrix[0][2] * a0312 + m_matrix[0][3] * a0212 );
 
-		out.m_matrix[2][0] = /*M31*/determine * ( m_matrix[1][0] * a1323 - m_matrix[1][1] * a0323 + m_matrix[1][3] * a0123 );
-		out.m_matrix[2][1] = /*M32*/determine * -( m_matrix[0][0] * a1323 - m_matrix[0][1] * a0323 + m_matrix[0][3] * a0123 );
-		out.m_matrix[2][2] = /*M33*/determine * ( m_matrix[0][0] * a1313 - m_matrix[0][1] * a0313 + m_matrix[0][3] * a0113 );
-		out.m_matrix[2][3] = /*M34*/determine * -( m_matrix[0][0] * a1312 - m_matrix[0][1] * a0312 + m_matrix[0][3] * a0112 );
+		out.m_matrix[2][0] = /*M31*/determinant * ( m_matrix[1][0] * a1323 - m_matrix[1][1] * a0323 + m_matrix[1][3] * a0123 );
+		out.m_matrix[2][1] = /*M32*/determinant * -( m_matrix[0][0] * a1323 - m_matrix[0][1] * a0323 + m_matrix[0][3] * a0123 );
+		out.m_matrix[2][2] = /*M33*/determinant * ( m_matrix[0][0] * a1313 - m_matrix[0][1] * a0313 + m_matrix[0][3] * a0113 );
+		out.m_matrix[2][3] = /*M34*/determinant * -( m_matrix[0][0] * a1312 - m_matrix[0][1] * a0312 + m_matrix[0][3] * a0112 );
 
-		out.m_matrix[3][0] = /*M41*/determine * -( m_matrix[1][0] * a1223 - m_matrix[1][1] * a0223 + m_matrix[1][2] * a0123 );
-		out.m_matrix[3][1] = /*M42*/determine * ( m_matrix[0][0] * a1223 - m_matrix[0][1] * a0223 + m_matrix[0][2] * a0123 );
-		out.m_matrix[3][2] = /*M43*/determine * -( m_matrix[0][0] * a1213 - m_matrix[0][1] * a0213 + m_matrix[0][2] * a0113 );
-		out.m_matrix[3][3] = /*M44*/determine * ( m_matrix[0][0] * a1212 - m_matrix[0][1] * a0212 + m_matrix[0][2] * a0112 );
+		out.m_matrix[3][0] = /*M41*/determinant * -( m_matrix[1][0] * a1223 - m_matrix[1][1] * a0223 + m_matrix[1][2] * a0123 );
+		out.m_matrix[3][1] = /*M42*/determinant * ( m_matrix[0][0] * a1223 - m_matrix[0][1] * a0223 + m_matrix[0][2] * a0123 );
+		out.m_matrix[3][2] = /*M43*/determinant * -( m_matrix[0][0] * a1213 - m_matrix[0][1] * a0213 + m_matrix[0][2] * a0113 );
+		out.m_matrix[3][3] = /*M44*/determinant * ( m_matrix[0][0] * a1212 - m_matrix[0][1] * a0212 + m_matrix[0][2] * a0112 );
 
 		return true;
 	}
@@ -271,7 +271,7 @@ namespace Engine
 			this->GetM21() + i_mtx.GetM21(), this->GetM22() + i_mtx.GetM22(), this->GetM23() + i_mtx.GetM23(), this->GetM24() + i_mtx.GetM24(),
 			this->GetM31() + i_mtx.GetM31(), this->GetM32() + i_mtx.GetM32(), this->GetM33() + i_mtx.GetM33(), this->GetM34() + i_mtx.GetM34(),
 			this->GetM41() + i_mtx.GetM41(), this->GetM42() + i_mtx.GetM42(), this->GetM43() + i_mtx.GetM43(), this->GetM44() + i_mtx.GetM44()
-			);
+		);
 	}
 
 	Matrix4x4 Matrix4x4::operator-( const Matrix4x4 & i_mtx )
@@ -281,6 +281,6 @@ namespace Engine
 			this->GetM21() - i_mtx.GetM21(), this->GetM22() - i_mtx.GetM22(), this->GetM23() - i_mtx.GetM23(), this->GetM24() - i_mtx.GetM24(),
 			this->GetM31() - i_mtx.GetM31(), this->GetM32() - i_mtx.GetM32(), this->GetM33() - i_mtx.GetM33(), this->GetM34() - i_mtx.GetM34(),
 			this->GetM41() - i_mtx.GetM41(), this->GetM42() - i_mtx.GetM42(), this->GetM43() - i_mtx.GetM43(), this->GetM44() - i_mtx.GetM44()
-			);
+		);
 	}
 }
