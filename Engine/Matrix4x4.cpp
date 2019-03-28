@@ -133,6 +133,19 @@ namespace Engine
 		float a0323 = m_matrix[2][0] * m_matrix[3][3] - m_matrix[2][3] * m_matrix[3][0];
 		float a0223 = m_matrix[2][0] * m_matrix[3][2] - m_matrix[2][2] * m_matrix[3][0];
 		float a0123 = m_matrix[2][0] * m_matrix[3][1] - m_matrix[2][1] * m_matrix[3][0];
+
+		float determinant = m_matrix[0][0] * ( m_matrix[1][1] * a2323 - m_matrix[1][2] * a1323 + m_matrix[1][3] * a1223 )
+			- m_matrix[0][1] * ( m_matrix[1][0] * a2323 - m_matrix[1][2] * a0323 + m_matrix[1][3] * a0223 )
+			+ m_matrix[0][2] * ( m_matrix[1][0] * a1323 - m_matrix[1][1] * a0323 + m_matrix[1][3] * a0123 )
+			- m_matrix[0][3] * ( m_matrix[1][0] * a1223 - m_matrix[1][1] * a0223 + m_matrix[1][2] * a0123 );
+
+		if ( determinant == 0 )
+		{
+			return false;
+		}
+
+		determinant = 1 / determinant;
+
 		float a2313 = m_matrix[1][2] * m_matrix[3][3] - m_matrix[1][3] * m_matrix[3][2];
 		float a1313 = m_matrix[1][1] * m_matrix[3][3] - m_matrix[1][3] * m_matrix[3][1];
 		float a1213 = m_matrix[1][1] * m_matrix[3][2] - m_matrix[1][2] * m_matrix[3][1];
