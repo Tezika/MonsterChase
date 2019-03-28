@@ -159,18 +159,6 @@ namespace Engine
 		float a0113 = m_matrix[1][0] * m_matrix[3][1] - m_matrix[1][1] * m_matrix[3][0];
 		float a0112 = m_matrix[1][0] * m_matrix[2][1] - m_matrix[1][1] * m_matrix[2][0];
 
-		float determinant = m_matrix[0][0] * ( m_matrix[1][1] * a2323 - m_matrix[1][2] * a1323 + m_matrix[1][3] * a1223 )
-			- m_matrix[0][1] * ( m_matrix[1][0] * a2323 - m_matrix[1][2] * a0323 + m_matrix[1][3] * a0223 )
-			+ m_matrix[0][2] * ( m_matrix[1][0] * a1323 - m_matrix[1][1] * a0323 + m_matrix[1][3] * a0123 )
-			- m_matrix[0][3] * ( m_matrix[1][0] * a1223 - m_matrix[1][1] * a0223 + m_matrix[1][2] * a0123 );
-
-		if ( determinant == 0 )
-		{
-			return false;
-		}
-
-		determinant = 1 / determinant;
-
 		// Set each spot's value for out matrix
 		out.m_matrix[0][0] = /*M11*/determinant * ( m_matrix[1][1] * a2323 - m_matrix[1][2] * a1323 + m_matrix[1][3] * a1223 );
 		out.m_matrix[0][1] = /*M12*/determinant * -( m_matrix[0][1] * a2323 - m_matrix[0][2] * a1323 + m_matrix[0][3] * a1223 );
