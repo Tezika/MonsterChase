@@ -4,6 +4,7 @@
 
 namespace Engine
 {
+	struct AABB;
 	class GameObject;
 
 	namespace Physics
@@ -30,6 +31,7 @@ namespace Engine
 			PhysicsInfo( float i_mass, float i_drag, SmartPtr<GameObject> i_pGo );
 			SmartPtr<GameObject> m_pGo;
 			Point2D<float> m_force;
+			AABB * m_pAABB;
 			float m_mass;
 			float m_dragness;
 		};

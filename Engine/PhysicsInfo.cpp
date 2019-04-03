@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PhysicsInfo.h"
 #include "GameObject.h"
+#include "AABB.h"
 
 namespace Engine
 {
@@ -22,6 +23,10 @@ namespace Engine
 
 		PhysicsInfo::~PhysicsInfo()
 		{
+			if ( m_pAABB != nullptr )
+			{
+				delete m_pAABB;
+			}
 		}
 	}
 }
