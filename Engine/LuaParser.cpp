@@ -8,6 +8,7 @@
 #include "SmartPtr.h"
 #include "ConsolePrint.h"
 #include "Point2D.h"
+#include "AABB.h"
 
 #define lua_pop_top(L) lua_pop(L,1);
 
@@ -115,6 +116,33 @@ namespace Engine
 			DEBUG_PRINT_GAMEPLAY( "The dragness for the gameobject is %.3f", dragness );
 			// Pop for dragness
 			lua_pop_top( pLuaState );
+
+			// Retrieve the AABB settings
+			lua_pushstring( pLuaState, "AABB" );
+			result = lua_gettable( pLuaState, -2 );
+			assert( result == LUA_TTABLE );
+
+			// Retrieve the center in AABB
+			lua_pushstring( pLuaState, "center" );
+			result = lua_gettable( pLuaState, -2 );
+			assert( result == LUA_TTABLE );
+			Point2D<float> center = ParsePointFromLua<float>( pLuaState );
+			DEBUG_PRINT_GAMEPLAY( "The center for the AABB is %.3f, %.3f", center.m_x, center.m_y );
+			// Pop for the center
+			lua_pop_top( pLuaState );
+
+			// Retrive the extends in AABB
+			lua_pushstring( pLuaState, "extends" );
+			result = lua_gettable( pLuaState, -2 );
+			assert( result == LUA_TTABLE );
+			Point2D<float> extends = ParsePointFromLua<float>( pLuaState );
+			DEBUG_PRINT_GAMEPLAY( "The center for the AABB is %.3f, %.3f", extends.m_x, extends.m_y );
+
+			// Pop for the extends
+			lua_pop_top( pLuaState );
+
+			// Pop for AABB
+			lua_pop_top( pLuaState );
 			// Pop for physics settings
 			lua_pop_top( pLuaState );
 
@@ -139,8 +167,10 @@ namespace Engine
 			ret = GameObject::Create( pName, initial_position );
 			// Create the assoicate physics info
 			Render::RenderManager::GetInstance().AddRenderObject( ret, pSpriteName );
+			// Create and assign the AABB to the physicsinfo
+			AABB * aabb = AABB::Create( center, extends );
 			// Create the player's physics info
-			Physics::PhysicsInfo * pPhysicsInfo = Physics::PhysicsInfo::Create( 1.0, 0.005f, ret );
+			Physics::PhysicsInfo * pPhysicsInfo = Physics::PhysicsInfo::Create( 1.0, 0.005f, ret, aabb );
 			pPhysicsInfo->SetDrivingForce( force );
 			Physics::PhysicsManager::GetInstance().AddPhysicsObject( pPhysicsInfo );
 
