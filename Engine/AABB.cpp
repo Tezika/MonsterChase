@@ -31,7 +31,6 @@ namespace Engine
 		center( Point2D<float>( i_center_x, i_center_y ) ),
 		extends( Point2D<float>( i_extends_x, i_center_y ) )
 	{
-
 	}
 
 	void AABB::operator=( const AABB & i_other )

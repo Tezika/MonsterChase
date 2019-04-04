@@ -92,7 +92,7 @@ namespace Engine
 		for ( size_t i = 0; i < s_numOfFSASize; i++ )
 		{
 			s_pFSASizes[i].sizeBlock = (size_t) pow( 2, i + 3 );
-			s_pFSASizes[i].numBlocks = 100;
+			s_pFSASizes[i].numBlocks = 1000;
 		}
 		return true;
 	}
