@@ -3,7 +3,6 @@
 #include "TString.h"
 #include "IController.h"
 
-
 namespace Engine
 {
 	template<class T>
@@ -24,6 +23,9 @@ namespace Engine
 		inline const Point2D<float> & GetVelocity(){ return m_velocity; }
 		inline void SetVelocity( const Point2D<float> & i_other ){ m_velocity = i_other; }
 
+		inline const float GetZRot(){ return m_zRot; }
+		inline void SetZRot( float i_zRot ){ m_zRot = i_zRot; }
+
 		inline IController * GetController(){ return m_pController; }
 		inline void SetController( IController * i_pController ){ m_pController = i_pController; }
 
@@ -40,6 +42,7 @@ namespace Engine
 		TString m_name;
 		Point2D<float> m_position;
 		Point2D<float> m_velocity;
+		float m_zRot;
 		IController * m_pController;
 	};
 }
