@@ -3,6 +3,7 @@
 #include "TString.h"
 #include "IController.h"
 
+
 namespace Engine
 {
 	template<class T>
@@ -30,7 +31,7 @@ namespace Engine
 		void operator = ( const GameObject & ) = delete;
 
 
-	// Temporary solution for gameplay logic to access the constructors for GameObject.
+		// Temporary solution for gameplay logic to access the constructors for GameObject.
 	protected:
 		GameObject(){};
 		GameObject( const TString &, const Point2D<float> & );
