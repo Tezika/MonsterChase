@@ -8,7 +8,7 @@ gameObject =
         dragness = 0.005,
         AABB = 
         {
-            center = {x=0.5, y=0.5},
+            center = {x=0, y=32},
             extends = {x=64, y=64}
         }
     },
