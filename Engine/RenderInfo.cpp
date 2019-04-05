@@ -14,7 +14,8 @@ namespace Engine
 		RenderInfo::RenderInfo( SmartPtr<GameObject> i_pGo, GLibSprite * i_pSprite, GLibPoint2D i_pos ) :
 			m_pGo( i_pGo ),
 			m_pSprite( i_pSprite ),
-			m_posOfSprite( i_pos )
+			m_posOfSprite( i_pos ),
+			m_bRenderable( true )
 		{
 		}
 

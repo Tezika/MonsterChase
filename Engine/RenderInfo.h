@@ -26,6 +26,9 @@ namespace Engine
 
 			inline SmartPtr<GameObject> GetGameObject() { return m_pGo.AcquireOwnership(); };
 
+			inline bool IsRenderable(){ return m_bRenderable; }
+			inline void SetRenderable( bool i_bRenderable ){ m_bRenderable = i_bRenderable; };
+
 			RenderInfo( const RenderInfo & ) = delete;
 			RenderInfo & operator=( const RenderInfo & ) = delete;
 
@@ -36,6 +39,7 @@ namespace Engine
 			WeakPtr<GameObject> m_pGo;
 			GLibSprite * m_pSprite;
 			GLibPoint2D m_posOfSprite;
+			bool m_bRenderable;
 		};
 	}
 }

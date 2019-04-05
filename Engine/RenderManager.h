@@ -1,5 +1,5 @@
 #pragma once
-#include "../Exports/GLib/GLib.h"
+#include "Windows.h"
 
 namespace Engine
 {
@@ -29,7 +29,7 @@ namespace Engine
 			RenderManager( RenderManager const& ) = delete;
 			void operator=( RenderManager const& ) = delete;
 
-			bool AddRenderObject( SmartPtr<GameObject> i_pGo, const TString & i_strSpriteName );
+			RenderInfo * AddRenderObject( SmartPtr<GameObject> i_pGo, const TString & i_strSpriteName );
 			bool RemoveRenderObject( GameObject * i_pGo );
 
 			// Schedule functions
@@ -44,7 +44,7 @@ namespace Engine
 
 		private:
 			RenderManager() {};
-			GLib::Sprites::Sprite * m_pDotSprite;
+			RenderInfo * m_pDebugDotInfo;
 			TList<RenderInfo> * m_pRenderInfos;
 		};
 	}

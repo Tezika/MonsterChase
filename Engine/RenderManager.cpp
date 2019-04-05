@@ -32,6 +32,7 @@ namespace Engine
 
 		bool RenderManager::Initialize( HINSTANCE i_hInstance, int i_nCmdShow )
 		{
+			// Setup the GLib.
 			bool bSuccess = GLib::Initialize( i_hInstance, i_nCmdShow, "GLibTest", -1, 800, 600 );
 			if ( !bSuccess )
 			{
@@ -40,11 +41,14 @@ namespace Engine
 
 			m_pRenderInfos = new TList<RenderInfo>();
 
-			// Load the debug image resource in.
-			m_pDotSprite = CreateSprite( "Data\\Debug_dot.dds" );
-			assert( m_pDotSprite );
+#ifdef  _DEBUG
+			// Add the debug renderinfo in.
+			m_pDebugDotInfo = this->AddRenderObject( SmartPtr<GameObject>( nullptr ), "Data//Debug_dot.dds" );
+			assert( m_pDebugDotInfo );
+			// Set the renderable as the false initially.
+			m_pDebugDotInfo->SetRenderable( false );
+#endif //  _DEBUG
 
-			//GLib::SetKeyStateChangeCallback( TestKeyCallback );
 			assert( m_pRenderInfos );
 			DEBUG_PRINT_ENGINE( "The render system initialized succuessfully!" );
 			return true;
@@ -69,16 +73,27 @@ namespace Engine
 			while ( ptr != nullptr )
 			{
 				RenderInfo * renderInfo = ptr->GetData();
-				GLibSprite * pSprite = renderInfo->GetSprite();
-				auto posOfGo = renderInfo->GetGameObject()->GetPosition();
+				// Check if it is renderable first
+				if ( !renderInfo->IsRenderable() )
+				{
+					ptr = ptr->GetNext();
+					continue;
+				}
 
-				// Set the render spirte's position based on the current position of gameObject
-				renderInfo->SetPosition( (float) posOfGo.m_x, (float) posOfGo.m_y );
+				GLibSprite * pSprite = renderInfo->GetSprite();
+				SmartPtr<GameObject> pGo = renderInfo->GetGameObject();
+				if ( pGo != nullptr )
+				{
+					Point2D<float> posOfGo = pGo->GetPosition();
+
+					// Set the render spirte's position based on the current position of gameObject
+					renderInfo->SetPosition( posOfGo.m_x, posOfGo.m_y );
+				}
 
 				// Render the sprite
 				if ( pSprite != nullptr )
 				{
-					GLib::Sprites::RenderSprite( *pSprite, renderInfo->GetPosition(), degToRad( renderInfo->GetGameObject()->GetZRot() ) );
+					GLib::Sprites::RenderSprite( *pSprite, renderInfo->GetPosition(), pGo == nullptr ? 0 : degToRad( pGo->GetZRot() ) );
 				}
 
 				ptr = ptr->GetNext();
@@ -89,14 +104,13 @@ namespace Engine
 			GLib::EndRendering();
 		}
 
-		bool RenderManager::AddRenderObject( SmartPtr<GameObject> i_pGo, const TString &  i_strSpriteName )
+		RenderInfo * RenderManager::AddRenderObject( SmartPtr<GameObject> i_pGo, const TString &  i_strSpriteName )
 		{
-			assert( i_pGo );
 			GLibSprite * pSprite = CreateSprite( const_cast<char*> ( i_strSpriteName.c_str() ) );
 			assert( pSprite );
-			RenderInfo * newRenderObject = RenderInfo::Create( i_pGo, pSprite, GLibPoint2D{ (float) i_pGo->GetPosition().m_x, (float) i_pGo->GetPosition().m_y } );
+			RenderInfo * newRenderObject = RenderInfo::Create( i_pGo, pSprite, GLibPoint2D{ 0.0f, 0.0f } );
 			assert( newRenderObject );
-			return ( m_pRenderInfos->InsertToTail( newRenderObject ) != nullptr );
+			return m_pRenderInfos->InsertToTail( newRenderObject )->GetData();
 		}
 
 		bool RenderManager::RemoveRenderObject( GameObject * i_pGo )
@@ -136,14 +150,7 @@ namespace Engine
 			// Delete the renderinfo's manager
 			delete m_pRenderInfos;
 			m_pRenderInfos = nullptr;
-
-			// Remove the debug resource
-			if ( m_pDotSprite != nullptr )
-			{
-				GLib::Sprites::Release( m_pDotSprite );
-				m_pDotSprite = nullptr;
-			}
-
+			m_pDebugDotInfo = nullptr;
 			// Shutdown the GLib fininally
 			GLib::Shutdown();
 			DEBUG_PRINT_ENGINE( "The render system destoried succuessfully!" );
@@ -153,7 +160,8 @@ namespace Engine
 #ifdef _DEBUG
 		void RenderManager::DrawDebugDot( float i_pos_x, float i_pos_y )
 		{
-
+			m_pDebugDotInfo->SetRenderable( true );
+			m_pDebugDotInfo->SetPosition( i_pos_x, i_pos_y );
 		}
 #endif
 	}
