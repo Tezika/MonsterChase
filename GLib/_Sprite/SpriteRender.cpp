@@ -222,7 +222,7 @@ namespace GLib
 
 			DirectX::XMMATRIX mModel = DirectX::XMMatrixRotationZ( i_zRotRadians );
 			DirectX::XMMATRIX mView = DirectX::XMMatrixTranslation( i_Offset.x, i_Offset.y, 0.0f );
-			DirectX::XMMATRIX mScaling = DirectX::XMMatrixScaling( i_scale, i_scale, i_scale );
+			DirectX::XMMATRIX mScaling = DirectX::XMMatrixScaling( i_scale, i_scale, 1 );
 			DirectX::XMMATRIX mModelView = DirectX::XMMatrixMultiply( mModel, mView );
 			mModelView = DirectX::XMMatrixMultiply( mModelView, mScaling );
 
