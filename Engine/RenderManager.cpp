@@ -8,6 +8,12 @@
 #include "GLibUtility.h"
 #include "SmartPtr.h"
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif // !M_PI
+
+#define degToRad(angleDegrees) (float)((angleDegrees) * M_PI / 180.0)
+#define radToDeg(angleRadians) (float)((angleRadians) * 180.0 / M_PI)
 
 namespace Engine
 {
@@ -62,7 +68,7 @@ namespace Engine
 				// Render the sprite
 				if ( pSprite != nullptr )
 				{
-					GLib::Sprites::RenderSprite( *pSprite, renderInfo->GetPosition(), 0 );
+					GLib::Sprites::RenderSprite( *pSprite, renderInfo->GetPosition(), degToRad( renderInfo->GetGameObject()->GetZRot() ) );
 				}
 
 				ptr = ptr->GetNext();

@@ -21,7 +21,6 @@ namespace Engine
 
 	Matrix4x4::~Matrix4x4()
 	{
-
 	}
 
 	Matrix4x4::Matrix4x4( const Matrix4x4 & i_other )
