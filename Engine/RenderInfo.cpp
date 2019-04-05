@@ -15,7 +15,8 @@ namespace Engine
 			m_pGo( i_pGo ),
 			m_pSprite( i_pSprite ),
 			m_posOfSprite( i_pos ),
-			m_bRenderable( true )
+			m_bRenderable( true ),
+			m_renderScale( 1 )
 		{
 		}
 

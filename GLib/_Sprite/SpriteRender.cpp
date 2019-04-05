@@ -126,7 +126,7 @@ namespace GLib
 			assert( hResult == S_OK );
 
 			D3D11_BLEND_DESC bd;
-			ZeroMemory(&bd, sizeof(D3D11_BLEND_DESC));
+			ZeroMemory( &bd, sizeof( D3D11_BLEND_DESC ) );
 
 			bd.RenderTarget[0].BlendEnable = true;
 			bd.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
@@ -137,13 +137,13 @@ namespace GLib
 			bd.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 			bd.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
-			hResult = g_pD3DDevice->CreateBlendState(&bd, &m_pAlphaBlendOn);
-			assert(hResult == S_OK);
+			hResult = g_pD3DDevice->CreateBlendState( &bd, &m_pAlphaBlendOn );
+			assert( hResult == S_OK );
 
 			bd.RenderTarget[0].BlendEnable = false;
 
-			hResult = g_pD3DDevice->CreateBlendState(&bd, &m_pAlphaBlendOff);
-			assert(hResult == S_OK);
+			hResult = g_pD3DDevice->CreateBlendState( &bd, &m_pAlphaBlendOff );
+			assert( hResult == S_OK );
 
 			m_bRenderingEnabled = false;
 			return true;
@@ -151,13 +151,13 @@ namespace GLib
 
 		void Shutdown()
 		{
-			if( m_pSpriteVB )
+			if ( m_pSpriteVB )
 			{
 				delete m_pSpriteVB;
 				m_pSpriteVB = nullptr;
 			}
-			
-			if( m_pSpriteIB )
+
+			if ( m_pSpriteIB )
 			{
 				delete m_pSpriteIB;
 				m_pSpriteIB = nullptr;
@@ -181,7 +181,7 @@ namespace GLib
 			assert( m_pSpriteVL );
 			assert( m_pSpritePS );
 
-			if( m_bRenderingEnabled )
+			if ( m_bRenderingEnabled )
 				return true;
 
 			ID3D11Buffer * pVB = m_pSpriteVB->GetDeviceBuffer();
@@ -209,21 +209,22 @@ namespace GLib
 			m_bRenderingEnabled = false;
 		}
 
-		bool RenderSprite( const Sprite & i_Sprite, const Point2D & i_Offset, float i_zRotRadians )
+		bool RenderSprite( const Sprite & i_Sprite, const Point2D & i_Offset, float i_zRotRadians, float i_scale = 1 )
 		{
-			if( m_bRenderingEnabled == false )
+			if ( m_bRenderingEnabled == false )
 			{
 				DEBUG_PRINT_ENGINE( "Attempting to render sprites outside BeginRendering() / EndRendering() block.\n Call BeginRendering() first." );
 				return false;
 			}
 
-			if( m_pAlphaBlendOn )
+			if ( m_pAlphaBlendOn )
 				g_pImmediateContext->OMSetBlendState( m_pAlphaBlendOn, nullptr, 0xffffffff );
 
 			DirectX::XMMATRIX mModel = DirectX::XMMatrixRotationZ( i_zRotRadians );
 			DirectX::XMMATRIX mView = DirectX::XMMatrixTranslation( i_Offset.x, i_Offset.y, 0.0f );
-			
+			DirectX::XMMATRIX mScaling = DirectX::XMMatrixScaling( i_scale, i_scale, i_scale );
 			DirectX::XMMATRIX mModelView = DirectX::XMMatrixMultiply( mModel, mView );
+			mModelView = DirectX::XMMatrixMultiply( mModelView, mScaling );
 
 			m_SpriteVSContants.m_ModelViewProjection = DirectX::XMMatrixMultiplyTranspose( mModelView, m_Projection );
 
@@ -292,7 +293,7 @@ namespace GLib
 
 			unsigned int indexVB;
 
-			bool result = m_pSpriteVB->AddNewData( &SpriteVertices, sizeof( SpriteVertices[0] ), sizeof( SpriteVertices ),  indexVB );
+			bool result = m_pSpriteVB->AddNewData( &SpriteVertices, sizeof( SpriteVertices[0] ), sizeof( SpriteVertices ), indexVB );
 			assert( result );
 
 			return new Sprite( indexVB, nullptr );
@@ -300,7 +301,7 @@ namespace GLib
 
 		void Release( Sprite * i_pSprite )
 		{
-			if( i_pSprite )
+			if ( i_pSprite )
 			{
 				Release( i_pSprite->m_pTexture );
 

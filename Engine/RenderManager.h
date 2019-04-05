@@ -40,6 +40,7 @@ namespace Engine
 			// Debug function
 #ifdef _DEBUG
 			void DrawDebugDot( float i_pos_x, float i_pos_y );
+			void HideDebugDot();
 #endif
 
 		private:

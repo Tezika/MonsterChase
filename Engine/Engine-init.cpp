@@ -13,6 +13,7 @@ namespace Engine
 
 #ifdef USE_CUSTOM_MEMORYMANAGEMENT
 		// Initial the memory system
+		// For 100M memory
 		const size_t 		sizeHeap = 100 * 1024 * 1024;
 		const unsigned int 	numDescriptors = 2048;
 		// Allocate memory for my test heap.

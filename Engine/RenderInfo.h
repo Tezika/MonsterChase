@@ -29,6 +29,9 @@ namespace Engine
 			inline bool IsRenderable(){ return m_bRenderable; }
 			inline void SetRenderable( bool i_bRenderable ){ m_bRenderable = i_bRenderable; };
 
+			inline void SetRenderScale( float i_scale ){ m_renderScale = i_scale; };
+			inline float GetRenderScale(){ return m_renderScale; };
+
 			RenderInfo( const RenderInfo & ) = delete;
 			RenderInfo & operator=( const RenderInfo & ) = delete;
 
@@ -40,6 +43,7 @@ namespace Engine
 			GLibSprite * m_pSprite;
 			GLibPoint2D m_posOfSprite;
 			bool m_bRenderable;
+			float m_renderScale;
 		};
 	}
 }

@@ -11,13 +11,13 @@ namespace GLib
 
 	void Service( bool & o_bQuitRequested );
 
-	void SetKeyStateChangeCallback(KeyStateChange i_Callback);
+	void SetKeyStateChangeCallback( KeyStateChange i_Callback );
 
 	bool BeginRendering();
 	void EndRendering();
 
 	struct Texture;
-	
+
 	Texture * CreateTexture( void * i_pTextureData, size_t i_sizeTextureData );
 	void Release( Texture * i_pTexture );
 
@@ -35,8 +35,8 @@ namespace GLib
 
 		Sprite * CreateSprite( const SpriteEdges & i_VertexOffsets, float i_Depth, const RGBA & i_Color, const SpriteUVs & i_UVs );
 		void SetTexture( Sprite & i_Sprite, Texture & i_Texture );
-	
-		bool RenderSprite( const Sprite & i_Sprite, const Point2D & i_Offset, float i_zRotRadians );
+
+		bool RenderSprite( const Sprite & i_Sprite, const Point2D & i_Offset, float i_zRotRadians, float i_scale = 1 );
 
 		void Release( Sprite * i_pSprite );
 	} // namespace Sprites

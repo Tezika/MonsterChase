@@ -47,6 +47,7 @@ namespace Engine
 			assert( m_pDebugDotInfo );
 			// Set the renderable as the false initially.
 			m_pDebugDotInfo->SetRenderable( false );
+			m_pDebugDotInfo->SetRenderScale( 0.5f );
 #endif //  _DEBUG
 
 			assert( m_pRenderInfos );
@@ -93,7 +94,7 @@ namespace Engine
 				// Render the sprite
 				if ( pSprite != nullptr )
 				{
-					GLib::Sprites::RenderSprite( *pSprite, renderInfo->GetPosition(), pGo == nullptr ? 0 : degToRad( pGo->GetZRot() ) );
+					GLib::Sprites::RenderSprite( *pSprite, renderInfo->GetPosition(), pGo == nullptr ? 0 : degToRad( pGo->GetZRot() ), renderInfo->GetRenderScale() );
 				}
 
 				ptr = ptr->GetNext();
@@ -162,6 +163,11 @@ namespace Engine
 		{
 			m_pDebugDotInfo->SetRenderable( true );
 			m_pDebugDotInfo->SetPosition( i_pos_x, i_pos_y );
+		}
+
+		void RenderManager::HideDebugDot()
+		{
+			m_pDebugDotInfo->SetRenderable( false );
 		}
 #endif
 	}
