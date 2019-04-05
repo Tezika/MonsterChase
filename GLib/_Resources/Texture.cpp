@@ -15,9 +15,9 @@ namespace GLib
 		ID3D11Resource *			pTextureResource = nullptr;
 		ID3D11ShaderResourceView *	pShaderResource = nullptr;
 
-		HRESULT result = DirectX::CreateDDSTextureFromMemory( g_pD3DDevice, g_pImmediateContext, reinterpret_cast<uint8_t *>(i_pTextureData),
+		HRESULT result = DirectX::CreateDDSTextureFromMemory( g_pD3DDevice, g_pImmediateContext, reinterpret_cast<uint8_t *>( i_pTextureData ),
 			i_sizeTextureData, &pTextureResource, &pShaderResource );
-		if( result == S_OK )
+		if ( result == S_OK )
 			return new Texture( pTextureResource, pShaderResource );
 		else
 			return nullptr;
@@ -27,17 +27,17 @@ namespace GLib
 	{
 		assert( i_pTexture );
 
-		if( i_pTexture->m_pTextureResource == nullptr )
+		if ( i_pTexture->m_pTextureResource == nullptr )
 		{
 			o_Width = o_Height = o_Depth = 0;
 			return false;
 		}
 
 		D3D11_RESOURCE_DIMENSION rd;
-		
+
 		i_pTexture->m_pTextureResource->GetType( &rd );
-		
-		switch( rd )
+
+		switch ( rd )
 		{
 		case D3D11_RESOURCE_DIMENSION_TEXTURE1D:
 		{
@@ -45,11 +45,11 @@ namespace GLib
 			HRESULT hResult = i_pTexture->m_pTextureResource->QueryInterface( __uuidof( ID3D11Texture1D ), reinterpret_cast<void**>( &pTexture ) );
 			assert( hResult == S_OK );
 			assert( pTexture );
-			
+
 			D3D11_TEXTURE1D_DESC td;
 
 			pTexture->GetDesc( &td );
-			
+
 			o_Width = td.Width;
 			o_Height = 1;
 			o_Depth = 1;
@@ -106,7 +106,7 @@ namespace GLib
 
 	void Release( struct Texture * i_pTexture )
 	{
-		if( i_pTexture )
+		if ( i_pTexture )
 		{
 			SafeRelease( i_pTexture->m_pShaderResource );
 			SafeRelease( i_pTexture->m_pTextureResource );

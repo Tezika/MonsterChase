@@ -34,7 +34,7 @@ namespace MonsterChase
 		Game();
 
 	public:
-		bool Initialize( HINSTANCE i_hInstance, int i_nCmdShow );
+		bool Initialize();
 		void Run();
 		void Destroy();
 

@@ -14,8 +14,8 @@
 typedef MonsterChase::Game MCGame;
 int WINAPI wWinMain( HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow )
 {
-	Engine::Initialize();
-	bool bSuccess = MCGame::GetInstance().Initialize( i_hInstance, i_nCmdShow );
+	Engine::Initialize( i_hInstance, i_nCmdShow );
+	bool bSuccess = MCGame::GetInstance().Initialize();
 	if ( bSuccess )
 	{
 		MCGame::GetInstance().Run();

@@ -27,6 +27,7 @@ namespace Engine
 			Point2D<float> cachedAverageVelocity;
 			Point2D<float> cachedPosition;
 			SmartPtr<GameObject> pCachedGo;
+			// Simulate the position
 			while ( ptr != nullptr )
 			{
 				PhysicsInfo * pInfo = ptr->GetData();
@@ -48,8 +49,13 @@ namespace Engine
 				// Update the position based on the average velocity
 				cachedPosition = pCachedGo->GetPosition();
 				pCachedGo->SetPosition( cachedPosition + cachedAverageVelocity * i_dt );
+
+				pInfo->UpdateAABB();
+
 				ptr = ptr->GetNext();
 			}
+			// Update the AABB info in wolrd
+
 		}
 
 		bool PhysicsManager::AddPhysicsObject( PhysicsInfo * i_pInfo )

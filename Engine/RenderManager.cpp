@@ -13,7 +13,6 @@
 #endif // !M_PI
 
 #define degToRad(angleDegrees) (float)((angleDegrees) * M_PI / 180.0)
-#define radToDeg(angleRadians) (float)((angleRadians) * 180.0 / M_PI)
 
 namespace Engine
 {
@@ -31,9 +30,20 @@ namespace Engine
 		//#endif // __DEBUG
 		//		}
 
-		bool RenderManager::Initialize()
+		bool RenderManager::Initialize( HINSTANCE i_hInstance, int i_nCmdShow )
 		{
+			bool bSuccess = GLib::Initialize( i_hInstance, i_nCmdShow, "GLibTest", -1, 800, 600 );
+			if ( !bSuccess )
+			{
+				return bSuccess;
+			}
+
 			m_pRenderInfos = new TList<RenderInfo>();
+
+			// Load the debug image resource in.
+			m_pDotSprite = CreateSprite( "Data\\Debug_dot.dds" );
+			assert( m_pDotSprite );
+
 			//GLib::SetKeyStateChangeCallback( TestKeyCallback );
 			assert( m_pRenderInfos );
 			DEBUG_PRINT_ENGINE( "The render system initialized succuessfully!" );
@@ -127,10 +137,24 @@ namespace Engine
 			delete m_pRenderInfos;
 			m_pRenderInfos = nullptr;
 
+			// Remove the debug resource
+			if ( m_pDotSprite != nullptr )
+			{
+				GLib::Sprites::Release( m_pDotSprite );
+				m_pDotSprite = nullptr;
+			}
+
 			// Shutdown the GLib fininally
 			GLib::Shutdown();
 			DEBUG_PRINT_ENGINE( "The render system destoried succuessfully!" );
 			return true;
 		}
+
+#ifdef _DEBUG
+		void RenderManager::DrawDebugDot( float i_pos_x, float i_pos_y )
+		{
+
+		}
+#endif
 	}
 }

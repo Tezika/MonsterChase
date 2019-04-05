@@ -26,6 +26,8 @@ namespace Engine
 			inline float GetMass(){ return m_mass; };
 			inline float GetDragness(){ return m_dragness; };
 
+			void UpdateAABB();
+
 		private:
 			PhysicsInfo(){};
 			PhysicsInfo( float i_mass, float i_drag, SmartPtr<GameObject> i_pGo, AABB * i_pAABB );

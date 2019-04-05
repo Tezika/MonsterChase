@@ -29,16 +29,10 @@ namespace MonsterChase
 	{
 	}
 
-	bool Game::Initialize( HINSTANCE i_hInstance, int i_nCmdShow )
+	bool Game::Initialize()
 	{
 		DEBUG_PRINT_GAMEPLAY( "----------Begin the setup for the game.----------" );
 		srand( time_t( NULL ) );
-		// Initialize the GLib.
-		bool bSuccess = GLib::Initialize( i_hInstance, i_nCmdShow, "GLibTest", -1, 800, 600 );
-		if ( !bSuccess )
-		{
-			return bSuccess;
-		}
 
 		// Test for lua file
 		m_pPlayer = Engine::CreateGameObjectByFile( "Data\\Lua\\player.lua" );

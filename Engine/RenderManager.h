@@ -1,4 +1,5 @@
 #pragma once
+#include "../Exports/GLib/GLib.h"
 
 namespace Engine
 {
@@ -32,12 +33,18 @@ namespace Engine
 			bool RemoveRenderObject( GameObject * i_pGo );
 
 			// Schedule functions
-			bool Initialize();
+			bool Initialize( HINSTANCE i_hInstance, int i_hPrevInstance );
 			void Update( float i_dt, bool & bEnd );
 			bool Destroy();
 
+			// Debug function
+#ifdef _DEBUG
+			void DrawDebugDot( float i_pos_x, float i_pos_y );
+#endif
+
 		private:
 			RenderManager() {};
+			GLib::Sprites::Sprite * m_pDotSprite;
 			TList<RenderInfo> * m_pRenderInfos;
 		};
 	}

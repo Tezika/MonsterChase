@@ -8,7 +8,7 @@
 
 namespace Engine
 {
-	bool Engine::Initialize()
+	bool Engine::Initialize( HINSTANCE i_hInstance, int i_nCmdShow )
 	{
 
 #ifdef USE_CUSTOM_MEMORYMANAGEMENT
@@ -27,7 +27,7 @@ namespace Engine
 		// Initialize the sub systems
 		// For Rendering
 		bool bSuccess = false;
-		bSuccess = Render::RenderManager::GetInstance().Initialize();
+		bSuccess = Render::RenderManager::GetInstance().Initialize( i_hInstance, i_nCmdShow );
 		assert( bSuccess );
 		bSuccess = false;
 
