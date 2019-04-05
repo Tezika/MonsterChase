@@ -24,6 +24,9 @@ namespace Engine
 		SmartPtr();
 		explicit SmartPtr( T * i_ptr );
 
+		// Constructor for nullptr
+		SmartPtr( std::nullptr_t i_null );
+
 		// Copy Constructor for the same type
 		SmartPtr( const SmartPtr<T>& i_other );
 
@@ -115,6 +118,13 @@ namespace Engine
 	}
 
 	template<class T>
+	inline SmartPtr<T>::SmartPtr( std::nullptr_t i_null ) :
+		m_ptr( nullptr ),
+		m_pRefCounter( nullptr )
+	{
+	}
+
+	template<class T>
 	inline SmartPtr<T>::SmartPtr( T * i_ptr ) :
 		m_ptr( i_ptr )
 	{
@@ -133,8 +143,13 @@ namespace Engine
 		m_ptr( i_other.m_ptr ),
 		m_pRefCounter( i_other.m_pRefCounter )
 	{
-		++m_pRefCounter->refCount;
+		if ( m_pRefCounter != nullptr )
+		{
+			++m_pRefCounter->refCount;
+		}
 	}
+
+
 
 	template<class T>
 	template<class U>
@@ -142,7 +157,11 @@ namespace Engine
 		m_ptr( i_other.m_ptr ),
 		m_pRefCounter( i_other.m_pRefCounter )
 	{
-		++m_pRefCounter->refCount;
+		if ( m_pRefCounter != nullptr )
+		{
+			++m_pRefCounter->refCount;
+		}
+
 	}
 
 	template<class T>
@@ -150,7 +169,10 @@ namespace Engine
 		m_ptr( i_other.m_ptr ),
 		m_pRefCounter( i_other.m_pRefCounter )
 	{
-		++m_pRefCounter->refCount;
+		if ( m_pRefCounter != nullptr )
+		{
+			++m_pRefCounter->refCount;
+		}
 	}
 
 	template<class T>
@@ -159,7 +181,10 @@ namespace Engine
 		m_ptr( i_other.m_ptr ),
 		m_pRefCounter( i_other.m_pRefCounter )
 	{
-		++m_pRefCounter->refCount;
+		if ( m_pRefCounter != nullptr )
+		{
+			++m_pRefCounter->refCount;
+		}
 	}
 
 	template<class T>
@@ -246,8 +271,8 @@ namespace Engine
 	}
 
 	template<class T>
-	SmartPtr<T>::~SmartPtr() 
-	{ 
-		this->ReleaseReference(); 
+	SmartPtr<T>::~SmartPtr()
+	{
+		this->ReleaseReference();
 	}
 }

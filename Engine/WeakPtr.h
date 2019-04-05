@@ -100,7 +100,10 @@ namespace Engine
 		m_ptr( i_other.m_ptr ),
 		m_pRefCounter( i_other.m_pRefCounter )
 	{
-		++m_pRefCounter->weakCount;
+		if ( m_pRefCounter != nullptr )
+		{
+			++m_pRefCounter->weakCount;
+		}
 	}
 
 	template<class T>
@@ -109,7 +112,10 @@ namespace Engine
 		m_ptr( i_other.m_ptr ),
 		m_pRefCounter( i_other.m_pRefCounter )
 	{
-		++m_pRefCounter->weakCount;
+		if ( m_pRefCounter != nullptr )
+		{
+			++m_pRefCounter->weakCount;
+		}
 	}
 
 	template<class T>
@@ -117,7 +123,10 @@ namespace Engine
 		m_ptr( i_other.m_ptr ),
 		m_pRefCounter( i_other.m_pRefCounter )
 	{
-		++m_pRefCounter->weakCount;
+		if ( m_pRefCounter != nullptr )
+		{
+			++m_pRefCounter->weakCount;
+		}
 	}
 
 	template<class T>
@@ -126,7 +135,10 @@ namespace Engine
 		m_ptr( i_other.m_ptr ),
 		m_pRefCounter( i_other.m_pRefCounter )
 	{
-		++m_pRefCounter->weakCount;
+		if ( m_pRefCounter != nullptr )
+		{
+			++m_pRefCounter->weakCount;
+		}
 	}
 
 	// Assignment operators
