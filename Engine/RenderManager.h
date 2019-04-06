@@ -41,23 +41,18 @@ namespace Engine
 			void Update( float i_dt, bool & bEnd );
 			bool Destroy();
 
-			// Debug function
-#if defined(_DEBUG) && defined(_DrawDebugInfo)
-			void DrawDebugDot( float i_pos_x, float i_pos_y );
-			void HideDebugDot();
-#endif
-
 		private:
 			RenderManager() {};
 			RenderInfo * m_pDebugDotInfo;
 			TList<RenderInfo> * m_pRenderInfos;
 
-			bool ClearRenderInfos( TList<RenderInfo> * pRenderInfos );
 			void DrawRenderInfos( TList<RenderInfo> * pRenderInfos );
+			bool ClearRenderInfos( TList<RenderInfo> * pRenderInfos );
 
 			RenderInfo * AddRenderInfo( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo, const TString & i_strSpriteName );
 			bool RemoveRenderInfo( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo );
 #if defined(_DEBUG) && defined(_DrawDebugInfo)
+
 			TList<RenderInfo> * m_pDebugRenderInfos;
 #endif
 		};

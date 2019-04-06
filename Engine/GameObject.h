@@ -26,6 +26,9 @@ namespace Engine
 		inline const float GetZRot(){ return m_zRot; }
 		inline void SetZRot( float i_zRot ){ m_zRot = i_zRot; }
 
+		inline const Point2D<float> GetScale(){ return m_scale; }
+		inline void SetScale( float i_scaleX, float i_scaleY ){ m_scale = Point2D<float>{ i_scaleX, i_scaleY }; }
+
 		inline IController * GetController(){ return m_pController; }
 		inline void SetController( IController * i_pController ){ m_pController = i_pController; }
 
@@ -42,6 +45,7 @@ namespace Engine
 		TString m_name;
 		Point2D<float> m_position;
 		Point2D<float> m_velocity;
+		Point2D<float> m_scale;
 		float m_zRot;
 		IController * m_pController;
 	};

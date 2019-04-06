@@ -84,7 +84,7 @@ namespace Engine
 			// Add RenderInfo in
 			RenderInfo * pRetInfo = this->AddRenderInfo( m_pRenderInfos, i_pGo, i_strSpriteName );
 			assert( pRetInfo );
-			// Add a debug RenderInfo in.
+			// Add a debug AABB RenderInfo in.
 #if defined(_DEBUG) && defined(_DrawDebugInfo)
 			RenderInfo * pDebugInfo = this->AddRenderInfo( m_pDebugRenderInfos, i_pGo, "Data//Bounding_box.dds" );
 			assert( pDebugInfo );
@@ -224,18 +224,5 @@ namespace Engine
 				ptr = ptr->GetNext();
 			}
 		}
-
-#if defined(_DEBUG) && defined(_DrawDebugInfo)
-		void RenderManager::DrawDebugDot( float i_pos_x, float i_pos_y )
-		{
-			//m_pDebugDotInfo->SetRenderable( true );
-			//m_pDebugDotInfo->SetPosition( i_pos_x, i_pos_y );
-		}
-
-		void RenderManager::HideDebugDot()
-		{
-			//m_pDebugDotInfo->SetRenderable( false );
-		}
-#endif
 	}
 }

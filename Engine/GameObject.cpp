@@ -14,7 +14,8 @@ namespace Engine
 		m_position( i_otherPosition ),
 		// Set the initial velocity as zero
 		m_velocity( Point2D<float>( 0, 0 ) ),
-		m_zRot(0)
+		m_scale( Point2D<float>( 1, 1 ) ),
+		m_zRot( 0 )
 	{
 	}
 
