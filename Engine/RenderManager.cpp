@@ -78,17 +78,44 @@ namespace Engine
 
 		RenderInfo * RenderManager::AddRenderObject( SmartPtr<GameObject> i_pGo, const TString &  i_strSpriteName )
 		{
+			// Add RenderInfo in
+			RenderInfo * pRetInfo = this->AddRenderInfo( m_pRenderInfos, i_pGo, i_strSpriteName );
+			assert( pRetInfo );
+			// Add a debug RenderInfo in.
+#if defined(_DEBUG) && defined(_DrawDebugInfo)
+			RenderInfo * pDebugInfo = this->AddRenderInfo( m_pDebugRenderInfos, i_pGo, "Data//Bounding_box.dds" );
+			assert( pDebugInfo );
+#endif
+			return pRetInfo;
+		}
+
+		bool RenderManager::RemoveRenderObject( SmartPtr<GameObject> i_pGo )
+		{
+			assert( i_pGo );
+			bool bSucceed = false;
+			bSucceed = this->RemoveRenderInfo( m_pRenderInfos, i_pGo );
+			assert( bSucceed );
+#if defined(_DEBUG) && defined(_DrawDebugInfo)
+			bSucceed = false;
+			bSucceed = this->RemoveRenderInfo( m_pDebugRenderInfos, i_pGo );
+			assert( bSucceed );
+#endif
+			return bSucceed;
+		}
+
+		RenderInfo * RenderManager::AddRenderInfo( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo, const TString & i_strSpriteName )
+		{
 			GLibSprite * pSprite = CreateSprite( const_cast<char*> ( i_strSpriteName.c_str() ) );
 			assert( pSprite );
 			RenderInfo * newRenderObject = RenderInfo::Create( i_pGo, pSprite, GLibPoint2D{ 0.0f, 0.0f } );
 			assert( newRenderObject );
-			return m_pRenderInfos->InsertToTail( newRenderObject )->GetData();
+			return pRenderInfos->InsertToTail( newRenderObject )->GetData();
 		}
 
-		bool RenderManager::RemoveRenderObject( GameObject * i_pGo )
+		bool RenderManager::RemoveRenderInfo( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo )
 		{
 			assert( i_pGo );
-			Node<RenderInfo> * ptr = m_pRenderInfos->GetHead();
+			Node<RenderInfo> * ptr = pRenderInfos->GetHead();
 			RenderInfo * removeRenderInfo = nullptr;
 			while ( ptr != nullptr )
 			{
@@ -96,7 +123,7 @@ namespace Engine
 				if ( removeRenderInfo->GetGameObject() == i_pGo )
 				{
 					assert( removeRenderInfo );
-					ptr = m_pRenderInfos->Remove( ptr );
+					ptr = pRenderInfos->Remove( ptr );
 					delete removeRenderInfo;
 				}
 				else
@@ -197,37 +224,6 @@ namespace Engine
 		void RenderManager::HideDebugDot()
 		{
 			//m_pDebugDotInfo->SetRenderable( false );
-		}
-
-		RenderInfo * RenderManager::AddDebugRenderObject( SmartPtr<GameObject> i_pGo, const TString &  i_strSpriteName )
-		{
-			GLibSprite * pSprite = CreateSprite( const_cast<char*> ( i_strSpriteName.c_str() ) );
-			assert( pSprite );
-			RenderInfo * newRenderObject = RenderInfo::Create( i_pGo, pSprite, GLibPoint2D{ 0.0f, 0.0f } );
-			assert( newRenderObject );
-			return m_pDebugRenderInfos->InsertToTail( newRenderObject )->GetData();
-		}
-
-		bool RenderManager::RemoveDebugRenderObject( GameObject * i_pGo )
-		{
-			assert( i_pGo );
-			Node<RenderInfo> * ptr = m_pDebugRenderInfos->GetHead();
-			RenderInfo * removeRenderInfo = nullptr;
-			while ( ptr != nullptr )
-			{
-				removeRenderInfo = ptr->GetData();
-				if ( removeRenderInfo->GetGameObject() == i_pGo )
-				{
-					assert( removeRenderInfo );
-					ptr = m_pDebugRenderInfos->Remove( ptr );
-					delete removeRenderInfo;
-				}
-				else
-				{
-					ptr = ptr->GetNext();
-				}
-			}
-			return true;
 		}
 #endif
 	}
