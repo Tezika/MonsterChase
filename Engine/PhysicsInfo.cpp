@@ -42,8 +42,6 @@ namespace Engine
 			Matrix4x4 mtx_ObjToWorld = mtx_translation * mtx_zRotation;
 
 			Vector4 aabbCenterInWorld = mtx_ObjToWorld * Vector4( m_pAABB->center.m_x, m_pAABB->center.m_y, 0, 1 );
-			// Draw a debug dot to indicate the position of the AABB center on the canvas.
-			Render::RenderManager::GetInstance().DrawDebugDot( aabbCenterInWorld.x, aabbCenterInWorld.y );
 		}
 	}
 }

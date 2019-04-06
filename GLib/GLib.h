@@ -36,7 +36,7 @@ namespace GLib
 		Sprite * CreateSprite( const SpriteEdges & i_VertexOffsets, float i_Depth, const RGBA & i_Color, const SpriteUVs & i_UVs );
 		void SetTexture( Sprite & i_Sprite, Texture & i_Texture );
 
-		bool RenderSprite( const Sprite & i_Sprite, const Point2D & i_Offset, float i_zRotRadians, float i_scale = 1 );
+		bool RenderSprite( const Sprite & i_Sprite, const Point2D & i_Offset, float i_zRotRadians, float i_scaleX, float i_scaleY );
 
 		void Release( Sprite * i_pSprite );
 	} // namespace Sprites

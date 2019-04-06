@@ -40,17 +40,13 @@ namespace Engine
 			}
 
 			m_pRenderInfos = new TList<RenderInfo>();
+			assert( m_pRenderInfos );
 
-#ifdef  _DEBUG
-			// Add the debug renderinfo in.
-			m_pDebugDotInfo = this->AddRenderObject( SmartPtr<GameObject>( nullptr ), "Data//Debug_dot.dds" );
-			assert( m_pDebugDotInfo );
-			// Set the renderable as the false initially.
-			m_pDebugDotInfo->SetRenderable( false );
-			m_pDebugDotInfo->SetRenderScale( 0.5f );
+#if defined(_DEBUG) && defined(_DrawDebugInfo)
+			m_pDebugRenderInfos = new TList<RenderInfo>();
+			assert( m_pDebugRenderInfos );
 #endif //  _DEBUG
 
-			assert( m_pRenderInfos );
 			DEBUG_PRINT_ENGINE( "The render system initialized succuessfully!" );
 			return true;
 		}
@@ -68,37 +64,12 @@ namespace Engine
 			GLib::BeginRendering();
 			GLib::Sprites::BeginRendering();
 
-			// Iterate the list to update every RenderInfo
-			// And render every sprite into the screen
-			auto ptr = m_pRenderInfos->GetHead();;
-			while ( ptr != nullptr )
-			{
-				RenderInfo * renderInfo = ptr->GetData();
-				// Check if it is renderable first
-				if ( !renderInfo->IsRenderable() )
-				{
-					ptr = ptr->GetNext();
-					continue;
-				}
+#if defined(_DEBUG) && defined(_DrawDebugInfo)
+			this->DrawRenderInfos( m_pDebugRenderInfos );
+#endif
 
-				GLibSprite * pSprite = renderInfo->GetSprite();
-				SmartPtr<GameObject> pGo = renderInfo->GetGameObject();
-				if ( pGo != nullptr )
-				{
-					Point2D<float> posOfGo = pGo->GetPosition();
+			this->DrawRenderInfos( m_pRenderInfos );
 
-					// Set the render spirte's position based on the current position of gameObject
-					renderInfo->SetPosition( posOfGo.m_x, posOfGo.m_y );
-				}
-
-				// Render the sprite
-				if ( pSprite != nullptr )
-				{
-					GLib::Sprites::RenderSprite( *pSprite, renderInfo->GetPosition(), pGo == nullptr ? 0 : degToRad( pGo->GetZRot() ), renderInfo->GetRenderScale() );
-				}
-
-				ptr = ptr->GetNext();
-			}
 			// Tell GLib we're done rendering sprites
 			GLib::Sprites::EndRendering();
 			// IMPORTANT: Tell GLib we're done rendering
@@ -138,19 +109,17 @@ namespace Engine
 
 		bool RenderManager::Destroy()
 		{
+			bool bSucceed = false;
+
 			// Clean the render objects
-			Node<RenderInfo> * ptr = m_pRenderInfos->GetHead();
-			RenderInfo * removeRenderInfo = nullptr;
-			while ( ptr != nullptr )
-			{
-				removeRenderInfo = ptr->GetData();
-				assert( removeRenderInfo );
-				ptr = m_pRenderInfos->Remove( ptr );
-				delete removeRenderInfo;
-			}
-			// Delete the renderinfo's manager
-			delete m_pRenderInfos;
-			m_pRenderInfos = nullptr;
+			bSucceed = this->ClearRenderInfos( m_pRenderInfos );
+			assert( bSucceed );
+
+#if defined(_DEBUG) && defined(_DrawDebugInfo)
+			bSucceed = false;
+			bSucceed = this->ClearRenderInfos( m_pDebugRenderInfos );
+			assert( bSucceed );
+#endif
 			m_pDebugDotInfo = nullptr;
 			// Shutdown the GLib fininally
 			GLib::Shutdown();
@@ -158,16 +127,107 @@ namespace Engine
 			return true;
 		}
 
-#ifdef _DEBUG
+		bool RenderManager::ClearRenderInfos( TList<RenderInfo> * pRenderInfos )
+		{
+			assert( pRenderInfos );
+			// Clean the render objects
+			Node<RenderInfo> * ptr = pRenderInfos->GetHead();
+			RenderInfo * removeRenderInfo = nullptr;
+			while ( ptr != nullptr )
+			{
+				removeRenderInfo = ptr->GetData();
+				assert( removeRenderInfo );
+				ptr = pRenderInfos->Remove( ptr );
+				delete removeRenderInfo;
+			}
+			// Delete the renderinfo's manager
+			delete pRenderInfos;
+			pRenderInfos = nullptr;
+			return true;
+		}
+
+		void RenderManager::DrawRenderInfos( TList<RenderInfo> * pRenderInfos )
+		{
+			assert( pRenderInfos );
+			// Iterate the list to update every RenderInfo
+			// And render every sprite into the screen
+			auto ptr = pRenderInfos->GetHead();;
+			while ( ptr != nullptr )
+			{
+				RenderInfo * renderInfo = ptr->GetData();
+				// Check if it is renderable first
+				if ( !renderInfo->IsRenderable() )
+				{
+					ptr = ptr->GetNext();
+					continue;
+				}
+
+				GLibSprite * pSprite = renderInfo->GetSprite();
+				SmartPtr<GameObject> pGo = renderInfo->GetGameObject();
+				if ( pGo != nullptr )
+				{
+					Point2D<float> posOfGo = pGo->GetPosition();
+
+					// Set the render spirte's position based on the current position of gameObject
+					renderInfo->SetPosition( posOfGo.m_x, posOfGo.m_y );
+				}
+
+				// Render the sprite
+				if ( pSprite != nullptr )
+				{
+					GLib::Sprites::RenderSprite( *pSprite,
+						renderInfo->GetPosition(),
+						pGo == nullptr ? 0 : degToRad( pGo->GetZRot() ),
+						renderInfo->GetRenderScaleX(),
+						renderInfo->GetRenderScaleY()
+					);
+				}
+
+				ptr = ptr->GetNext();
+			}
+		}
+
+#if defined(_DEBUG) && defined(_DrawDebugInfo)
 		void RenderManager::DrawDebugDot( float i_pos_x, float i_pos_y )
 		{
-			m_pDebugDotInfo->SetRenderable( true );
-			m_pDebugDotInfo->SetPosition( i_pos_x, i_pos_y );
+			//m_pDebugDotInfo->SetRenderable( true );
+			//m_pDebugDotInfo->SetPosition( i_pos_x, i_pos_y );
 		}
 
 		void RenderManager::HideDebugDot()
 		{
-			m_pDebugDotInfo->SetRenderable( false );
+			//m_pDebugDotInfo->SetRenderable( false );
+		}
+
+		RenderInfo * RenderManager::AddDebugRenderObject( SmartPtr<GameObject> i_pGo, const TString &  i_strSpriteName )
+		{
+			GLibSprite * pSprite = CreateSprite( const_cast<char*> ( i_strSpriteName.c_str() ) );
+			assert( pSprite );
+			RenderInfo * newRenderObject = RenderInfo::Create( i_pGo, pSprite, GLibPoint2D{ 0.0f, 0.0f } );
+			assert( newRenderObject );
+			return m_pDebugRenderInfos->InsertToTail( newRenderObject )->GetData();
+		}
+
+		bool RenderManager::RemoveDebugRenderObject( GameObject * i_pGo )
+		{
+			assert( i_pGo );
+			Node<RenderInfo> * ptr = m_pDebugRenderInfos->GetHead();
+			RenderInfo * removeRenderInfo = nullptr;
+			while ( ptr != nullptr )
+			{
+				removeRenderInfo = ptr->GetData();
+				if ( removeRenderInfo->GetGameObject() == i_pGo )
+				{
+					assert( removeRenderInfo );
+					ptr = m_pDebugRenderInfos->Remove( ptr );
+					delete removeRenderInfo;
+				}
+				else
+				{
+					ptr = ptr->GetNext();
+				}
+			}
+			return true;
 		}
 #endif
 	}

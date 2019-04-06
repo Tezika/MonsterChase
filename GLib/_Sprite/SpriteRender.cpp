@@ -209,7 +209,7 @@ namespace GLib
 			m_bRenderingEnabled = false;
 		}
 
-		bool RenderSprite( const Sprite & i_Sprite, const Point2D & i_Offset, float i_zRotRadians, float i_scale = 1 )
+		bool RenderSprite( const Sprite & i_Sprite, const Point2D & i_Offset, float i_zRotRadians, float i_scaleX, float i_scaleY )
 		{
 			if ( m_bRenderingEnabled == false )
 			{
@@ -222,7 +222,7 @@ namespace GLib
 
 			DirectX::XMMATRIX mModel = DirectX::XMMatrixRotationZ( i_zRotRadians );
 			DirectX::XMMATRIX mView = DirectX::XMMatrixTranslation( i_Offset.x, i_Offset.y, 0.0f );
-			DirectX::XMMATRIX mScaling = DirectX::XMMatrixScaling( i_scale, i_scale, 1 );
+			DirectX::XMMATRIX mScaling = DirectX::XMMatrixScaling( i_scaleX, i_scaleY, 1 );
 			DirectX::XMMATRIX mModelView = DirectX::XMMatrixMultiply( mModel, mView );
 			mModelView = DirectX::XMMatrixMultiply( mModelView, mScaling );
 

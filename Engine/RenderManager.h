@@ -15,6 +15,10 @@ namespace Engine
 
 	namespace Render
 	{
+#ifndef _DrawDebugInfo
+//#define _DrawDebugInfo
+#endif // !_DrawDebugInfo
+
 		class RenderInfo;
 
 		// This is a singleton class for handling the Render stuff
@@ -38,15 +42,23 @@ namespace Engine
 			bool Destroy();
 
 			// Debug function
-#ifdef _DEBUG
+#if defined(_DEBUG) && defined(_DrawDebugInfo)
 			void DrawDebugDot( float i_pos_x, float i_pos_y );
 			void HideDebugDot();
+
+			RenderInfo * AddDebugRenderObject( SmartPtr<GameObject> i_pGo, const TString & i_strSpriteName );
+			bool RemoveDebugRenderObject( GameObject * i_pGo );
 #endif
 
 		private:
 			RenderManager() {};
 			RenderInfo * m_pDebugDotInfo;
 			TList<RenderInfo> * m_pRenderInfos;
+			bool ClearRenderInfos( TList<RenderInfo> * pRenderInfos );
+			void DrawRenderInfos( TList<RenderInfo> * pRenderInfos );
+#if defined(_DEBUG) && defined(_DrawDebugInfo)
+				TList<RenderInfo> * m_pDebugRenderInfos;
+#endif
 		};
 	}
 }
