@@ -7,6 +7,9 @@
 #include "TString.h"
 #include "GLibUtility.h"
 #include "SmartPtr.h"
+#include "PhysicsManager.h"
+#include "PhysicsInfo.h"
+#include "AABB.h"
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -85,6 +88,14 @@ namespace Engine
 #if defined(_DEBUG) && defined(_DrawDebugInfo)
 			RenderInfo * pDebugInfo = this->AddRenderInfo( m_pDebugRenderInfos, i_pGo, "Data//Bounding_box.dds" );
 			assert( pDebugInfo );
+			// Adjust the rendering aabb's size based on the actual bounding box size
+			Physics::PhysicsInfo * pAssociatedPhysicsInfo = Physics::PhysicsManager::GetInstance().GetInfoByGameObject( i_pGo );
+			assert( pAssociatedPhysicsInfo );
+			AABB * pAABB = pAssociatedPhysicsInfo->GetAABB();
+			float xScale = pAABB->extends.m_x * 2 / 256;
+			float yScale = pAABB->extends.m_y * 2 / 256;
+			pDebugInfo->SetRenderScaleX( xScale );
+			pDebugInfo->SetRenderScaleY( yScale );
 #endif
 			return pRetInfo;
 		}

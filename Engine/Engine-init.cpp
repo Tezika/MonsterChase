@@ -26,16 +26,18 @@ namespace Engine
 #endif
 
 		// Initialize the sub systems
-		// For Rendering
 		bool bSuccess = false;
-		bSuccess = Render::RenderManager::GetInstance().Initialize( i_hInstance, i_nCmdShow );
-		assert( bSuccess );
-		bSuccess = false;
 
 		// For Physics
 		bSuccess = false;
 		bSuccess = Physics::PhysicsManager::GetInstance().Initialize();
 		assert( bSuccess );
+
+		// For Rendering
+
+		bSuccess = Render::RenderManager::GetInstance().Initialize( i_hInstance, i_nCmdShow );
+		assert( bSuccess );
+		bSuccess = false;
 
 		// For Controller Manager
 		bSuccess = false;

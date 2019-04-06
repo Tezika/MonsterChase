@@ -26,6 +26,9 @@ namespace Engine
 			inline float GetMass(){ return m_mass; };
 			inline float GetDragness(){ return m_dragness; };
 
+			inline AABB * GetAABB(){ return m_pAABB; }
+			inline void SetAABB( AABB * i_pAABB ){ m_pAABB = i_pAABB; }
+
 			void UpdateAABB();
 
 		private:
