@@ -88,6 +88,7 @@ namespace Engine
 
 		PhysicsInfo * PhysicsManager::GetInfoByGameObject( SmartPtr<GameObject> i_pGO )
 		{
+			assert( i_pGO );
 			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
 			PhysicsInfo * pCurrentInfo = nullptr;
 			while ( ptr != nullptr )
@@ -97,6 +98,7 @@ namespace Engine
 				{
 					return pCurrentInfo;
 				}
+				ptr = ptr->GetNext();
 			}
 			return nullptr;
 		}
