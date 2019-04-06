@@ -14,7 +14,7 @@ namespace MonsterChase
 		// Access the current player's controller.
 		InputController * pCurrentController = static_cast<InputController *>( Game::GetInstance().GetCurPlayer()->GetController() );
 		Physics::PhysicsInfo * pCachedPhysicsInfo = pCurrentController->GetPhysicsInfo();
-		static Point2D<float> cachedDrivingForce;
+		static Vector3 cachedDrivingForce = Vector3::Zero;
 		if ( bWentDown )
 		{
 			// Maybe need to encapsulate a little bit better.
@@ -23,26 +23,26 @@ namespace MonsterChase
 			{
 				// For A
 			case 0x41:
-				cachedDrivingForce.m_x = -pCurrentController->GetDrivingForce();
-				cachedDrivingForce.m_y = 0;
+				cachedDrivingForce.x = -pCurrentController->GetDrivingForce();
+				cachedDrivingForce.y = 0;
 				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of left" );
 				break;
 				// For W
 			case 0x57:
-				cachedDrivingForce.m_x = 0;
-				cachedDrivingForce.m_y = pCurrentController->GetDrivingForce();
+				cachedDrivingForce.x = 0;
+				cachedDrivingForce.y = pCurrentController->GetDrivingForce();
 				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of up" );
 				break;
 				// For D
 			case 0x44:
-				cachedDrivingForce.m_x = pCurrentController->GetDrivingForce();
-				cachedDrivingForce.m_y = 0;
+				cachedDrivingForce.x = pCurrentController->GetDrivingForce();
+				cachedDrivingForce.y = 0;
 				DEBUG_PRINT_GAMEPLAY( "Start applying  the force with direction of right" );
 				break;
 				// For S
 			case 0x53:
-				cachedDrivingForce.m_x = 0;
-				cachedDrivingForce.m_y = -pCurrentController->GetDrivingForce();
+				cachedDrivingForce.x = 0;
+				cachedDrivingForce.y = -pCurrentController->GetDrivingForce();
 				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of down" );
 				break;
 			default:
@@ -51,8 +51,8 @@ namespace MonsterChase
 		}
 		else
 		{
-			cachedDrivingForce.m_x = 0;
-			cachedDrivingForce.m_y = 0;
+			cachedDrivingForce.x = 0;
+			cachedDrivingForce.y = 0;
 			DEBUG_PRINT_GAMEPLAY( "Stop applying the force right now!" );
 		}
 		// Apply the force to game object

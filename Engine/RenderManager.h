@@ -52,7 +52,6 @@ namespace Engine
 			RenderInfo * AddRenderInfo( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo, const TString & i_strSpriteName );
 			bool RemoveRenderInfo( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo );
 #if defined(_DEBUG) && defined(_DrawDebugInfo)
-
 			TList<RenderInfo> * m_pDebugRenderInfos;
 #endif
 		};

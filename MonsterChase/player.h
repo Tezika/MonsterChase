@@ -16,7 +16,7 @@ namespace MonsterChase
 	{
 	public:
 		Player();
-		Player( const Engine::TString & name, const Engine::Point2D<float> & i_position, int health );
+		Player( const Engine::TString & name, const Engine::Vector3 & i_position, int health );
 		~Player();
 		void PrintOutInfo() override;
 

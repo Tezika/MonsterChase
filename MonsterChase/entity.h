@@ -17,7 +17,7 @@ namespace MonsterChase
 	{
 	public:
 		Entity();
-		Entity( const Engine::TString & i_name, const Engine::Point2D<float> & i_position, int i_health );
+		Entity( const Engine::TString & i_name, const Engine::Vector3 & i_position, int i_health );
 		virtual ~Entity();
 
 		inline const int GetHealth() { return m_health; }

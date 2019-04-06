@@ -36,6 +36,8 @@ namespace Engine
 		private:
 			PhysicsManager() {};
 			TList<PhysicsInfo> * m_pPhysicsInfos;
+
+			bool CheckCollision( SmartPtr<GameObject> pGoA, SmartPtr<GameObject> pGoB, PhysicsInfo * pPhysicsInfoA, PhysicsInfo * PhysicsInfoB );
 		};
 	}
 }

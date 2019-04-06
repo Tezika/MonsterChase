@@ -22,7 +22,7 @@ namespace Engine
 			m_mass( i_mass ),
 			m_pGo( i_pGo ),
 			m_pAABB( i_pAABB ),
-			m_force( Point2D<float>( 0, 0 ) )
+			m_force( Vector3::Zero )
 		{
 		}
 
@@ -36,8 +36,8 @@ namespace Engine
 
 		void PhysicsInfo::UpdateAABB()
 		{
-			// Update the AABB center position
-			Matrix4x4 mtx_translation = Matrix4x4::CreateTranslation( Vector3( m_pGo->GetPosition().m_x, m_pGo->GetPosition().m_y, 0 ) );
+			// Create the Matrix from local coordinate to world
+			Matrix4x4 mtx_translation = Matrix4x4::CreateTranslation( m_pGo->GetPosition() );
 			Matrix4x4 mtx_zRotation = Matrix4x4::CreateRotationZ( m_pGo->GetZRot() );
 			Matrix4x4 mtx_ObjToWorld = mtx_translation * mtx_zRotation;
 

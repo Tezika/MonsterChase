@@ -44,4 +44,14 @@ namespace Engine
 		float y;
 		float z;
 	};
+
+	inline Vector3 operator+( const Vector3 & i_lvc, const Vector3 & i_rvc )
+	{
+		return Vector3( i_lvc.x + i_rvc.x, i_lvc.y + i_rvc.y, i_lvc.z + i_rvc.z );
+	}
+
+	inline Vector3 operator-( const Vector3 & i_lvc, const Vector3 & i_rvc )
+	{
+		return Vector3( i_lvc.x - i_rvc.x, i_lvc.y - i_rvc.y, i_lvc.z - i_rvc.z );
+	}
 };

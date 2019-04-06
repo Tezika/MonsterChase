@@ -5,6 +5,10 @@
 #include "Assert.h"
 #include "GameObject.h"
 #include "Point2D.h"
+#include "SmartPtr.h"
+#include "Matrix4x4.h"
+#include "Vector3.h"
+#include "Vector4.h"
 
 namespace Engine
 {
@@ -22,24 +26,25 @@ namespace Engine
 		{
 			// Iterate every physics object in the list
 			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
-			Point2D<float> cachedAcceleration;
-			Point2D<float> cachedVelocity;
-			Point2D<float> cachedAverageVelocity;
-			Point2D<float> cachedPosition;
+			Vector3 cachedAcceleration;
+			Vector3 cachedVelocity;
+			Vector3 cachedAverageVelocity;
+			Vector3 cachedPosition;
 			SmartPtr<GameObject> pCachedGo;
 			// Simulate the position
 			while ( ptr != nullptr )
 			{
 				PhysicsInfo * pInfo = ptr->GetData();
 				pCachedGo = pInfo->GetGameObject();
+				Vector3 drivingForce = pInfo->GetDrivingForce();
 				assert( pCachedGo != nullptr );
 				// Caculate the accerlation
-				cachedAcceleration = pInfo->GetDrivingForce() / pInfo->GetMass();
+				cachedAcceleration = drivingForce / pInfo->GetMass();
 				// Use the acceraltion to update the velocity of current gameobject
 				cachedVelocity = pCachedGo->GetVelocity();
 				cachedVelocity += cachedAcceleration * i_dt;
 				// caluate the drag
-				float drag = pInfo->GetDragness() * ( cachedVelocity * cachedVelocity );
+				float drag = pInfo->GetDragness() * ( cachedVelocity.Dot( cachedVelocity ) );
 				// Apply the drag effect to current velocity
 				cachedVelocity -= cachedVelocity.Normalize() * drag;
 				// Update the velocity for go
@@ -50,13 +55,13 @@ namespace Engine
 				cachedPosition = pCachedGo->GetPosition();
 				pCachedGo->SetPosition( cachedPosition + cachedAverageVelocity * i_dt );
 
-				pInfo->UpdateAABB();
-
 				ptr = ptr->GetNext();
 			}
 			// Update the AABB info in wolrd
 
 		}
+
+
 
 		bool PhysicsManager::AddPhysicsObject( PhysicsInfo * i_pInfo )
 		{
@@ -121,6 +126,32 @@ namespace Engine
 
 			DEBUG_PRINT_ENGINE( "The physics system destoried succuessfully!" );
 			return true;
+		}
+
+		bool PhysicsManager::CheckCollision( SmartPtr<GameObject> pGoA, SmartPtr<GameObject> pGoB, PhysicsInfo * pPhysicsInfoA, PhysicsInfo * PhysicsInfoB )
+		{
+			bool bSucceed = false;
+			bool bCollided = false;
+			// Calculate the necessary matrixes
+			Matrix4x4 mtx_AToWorld = pGoA->GetMatrixFromLocalToWorld();
+			Matrix4x4 mtx_WorldToA;
+			bSucceed = mtx_AToWorld.Invert( mtx_WorldToA );
+			assert( bSucceed );
+
+			Matrix4x4 mtx_BToWorld = pGoB->GetMatrixFromLocalToWorld();
+			Matrix4x4 mtx_WorldToB;
+			bSucceed = mtx_BToWorld.Invert( mtx_WorldToB );
+			assert( bSucceed );
+
+			Matrix4x4 mtx_AToB = mtx_WorldToB * mtx_AToWorld;
+
+			// Calculate the relative velocity in the world
+			Vector3 velARelB = pGoA->GetVelocity() - pGoB->GetVelocity();
+			// Change it into the B's coordinate
+			Vector4 velAInB = mtx_WorldToB * Vector4( velARelB, 0.0f );
+
+
+			return bCollided;
 		}
 	}
 }

@@ -187,6 +187,7 @@ namespace Engine
 		void RenderManager::DrawRenderInfos( TList<RenderInfo> * pRenderInfos )
 		{
 			assert( pRenderInfos );
+
 			// Iterate the list to update every RenderInfo
 			// And render every sprite into the screen
 			auto ptr = pRenderInfos->GetHead();;
@@ -204,10 +205,9 @@ namespace Engine
 				SmartPtr<GameObject> pGo = renderInfo->GetGameObject();
 				if ( pGo != nullptr )
 				{
-					Point2D<float> posOfGo = pGo->GetPosition();
-
+					Vector3 posOfGo = pGo->GetPosition();
 					// Set the render spirte's position based on the current position of gameObject
-					renderInfo->SetPosition( posOfGo.m_x, posOfGo.m_y );
+					renderInfo->SetPosition( posOfGo.x, posOfGo.y );
 				}
 
 				// Render the sprite
@@ -220,7 +220,6 @@ namespace Engine
 						renderInfo->GetRenderScaleY()
 					);
 				}
-
 				ptr = ptr->GetNext();
 			}
 		}

@@ -18,7 +18,7 @@ namespace MonsterChase
 
 	}
 
-	Player::Player( const Engine::TString & name, const Point2D<float> & i_position, int health ) :
+	Player::Player( const Engine::TString & name, const Engine::Vector3 & i_position, int health ) :
 		Entity::Entity( name, i_position, health )
 	{
 
@@ -32,6 +32,6 @@ namespace MonsterChase
 	void Player::PrintOutInfo()
 	{
 		Entity::PrintOutInfo();
-		std::cout << "The " << this->GetName() << " current position is  [" << this->GetPosition().m_x << "," << this->GetPosition().m_y << "]." << std::endl;
+		std::cout << "The " << this->GetName() << " current position is  [" << this->GetPosition().x << "," << this->GetPosition().y << "]." << std::endl;
 	}
 }

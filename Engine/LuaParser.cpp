@@ -164,16 +164,16 @@ namespace Engine
 			lua_pop_top( pLuaState );
 
 			// Create the go
-			ret = GameObject::Create( pName, initial_position );
+			ret = GameObject::Create( pName, Vector3{ initial_position.m_x, initial_position.m_y, 0 } );
 
 			// Create and assign the AABB to the physicsinfo
 			AABB * aabb = AABB::Create( center, extends );
 			// Create the player's physics info
 			Physics::PhysicsInfo * pPhysicsInfo = Physics::PhysicsInfo::Create( 1.0, 0.005f, ret, aabb );
-			pPhysicsInfo->SetDrivingForce( force );
+			pPhysicsInfo->SetDrivingForce( Vector3{ initial_position.m_x, initial_position.m_y, 0 } );
 			Physics::PhysicsManager::GetInstance().AddPhysicsObject( pPhysicsInfo );
 
-			// Create the assoicate render info
+			// Create the assoicated render info
 			Render::RenderManager::GetInstance().AddRenderObject( ret, pSpriteName );
 
 			// Pop the table at last
