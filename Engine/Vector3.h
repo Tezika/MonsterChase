@@ -34,7 +34,7 @@ namespace Engine
 
 		float Distance( const Vector3 & i_other );
 
-		inline Vector3 Normalize(){ return Vector3( *this / this->Length() ); };
+		Vector3 Normalize();
 
 		void Printout();
 

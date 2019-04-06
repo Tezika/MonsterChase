@@ -147,9 +147,12 @@ namespace Engine
 
 			// Calculate the relative velocity in the world
 			Vector3 velARelB = pGoA->GetVelocity() - pGoB->GetVelocity();
-			// Change it into the B's coordinate
+			// Translate it into the B's coordinate
 			Vector4 velAInB = mtx_WorldToB * Vector4( velARelB, 0.0f );
 
+			// Check for X axis 
+
+			// Check for Y axis
 
 			return bCollided;
 		}

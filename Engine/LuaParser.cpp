@@ -170,7 +170,7 @@ namespace Engine
 			AABB * aabb = AABB::Create( center, extends );
 			// Create the player's physics info
 			Physics::PhysicsInfo * pPhysicsInfo = Physics::PhysicsInfo::Create( 1.0, 0.005f, ret, aabb );
-			pPhysicsInfo->SetDrivingForce( Vector3{ initial_position.m_x, initial_position.m_y, 0 } );
+			pPhysicsInfo->SetDrivingForce( Vector3{ force.m_x, force.m_y, 0 } );
 			Physics::PhysicsManager::GetInstance().AddPhysicsObject( pPhysicsInfo );
 
 			// Create the assoicated render info

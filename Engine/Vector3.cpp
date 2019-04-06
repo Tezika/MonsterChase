@@ -68,7 +68,7 @@ namespace Engine
 		this->z *= value;
 	}
 
-	Vector3  Vector3::operator/( float value )
+	Vector3 Vector3::operator/( float value )
 	{
 		assert( value != 0 );
 		return Vector3( this->x / value, this->y / value, this->z / value );
@@ -105,6 +105,16 @@ namespace Engine
 	{
 		Vector3 temp = *this - i_other;
 		return temp.Length();
+	}
+
+	Vector3 Vector3::Normalize()
+	{
+		float length = this->Length();
+		if ( length == 0 )
+		{
+			return Vector3::Zero;
+		}
+		return ( *this / length );
 	}
 
 	void Vector3::Printout()
