@@ -34,6 +34,7 @@ namespace Engine
 		inline void SetController( IController * i_pController ){ m_pController = i_pController; }
 
 		Matrix4x4 GetMatrixFromLocalToWorld();
+		Matrix4x4 GetMatrixFromWorldToLocal();
 
 		GameObject( const GameObject & ) = delete;
 		void operator = ( const GameObject & ) = delete;

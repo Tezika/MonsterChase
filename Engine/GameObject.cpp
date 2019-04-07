@@ -25,9 +25,19 @@ namespace Engine
 	{
 		Matrix4x4 mtx_translation = Matrix4x4::CreateTranslation( m_position.x, m_position.y, m_position.z );
 		Matrix4x4 mtx_zRotation = Matrix4x4::CreateRotationZ( m_zRot );
-		Matrix4x4 mtx_scaling = Matrix4x4::CreateScale( m_scale.x, m_scale.y, m_scale.z );
-		Matrix4x4 mtx_localToWorld = mtx_scaling * mtx_translation * mtx_zRotation;
+		// Remove the scale temporarily
+		//Matrix4x4 mtx_scaling = Matrix4x4::CreateScale( m_scale.x, m_scale.y, m_scale.z );
+		Matrix4x4 mtx_localToWorld = mtx_translation * mtx_zRotation;
 		return mtx_localToWorld;
+	}
+
+	Matrix4x4 GameObject::GetMatrixFromWorldToLocal()
+	{
+		Matrix4x4 mtx_invert_translation = Matrix4x4::CreateTranslation( -m_position.x, -m_position.y, -m_position.z );
+		Matrix4x4 mtx_zRotation = Matrix4x4::CreateRotationZ( m_zRot );
+		Matrix4x4 mtx_transpose_zRotation = mtx_zRotation.Transpose();
+		Matrix4x4 mtx_worldToLocal = mtx_transpose_zRotation * mtx_invert_translation;
+		return mtx_worldToLocal;
 	}
 
 	GameObject::~GameObject()

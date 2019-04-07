@@ -9,6 +9,7 @@
 #include "Matrix4x4.h"
 #include "Vector3.h"
 #include "Vector4.h"
+#include "AABB.h"
 
 namespace Engine
 {
@@ -57,11 +58,44 @@ namespace Engine
 
 				ptr = ptr->GetNext();
 			}
-			// Update the AABB info in wolrd
+
+			// Check the collision between two objects
+			SmartPtr<GameObject> pGoA;
+			SmartPtr<GameObject> pGoB;
+			AABB * pABB = nullptr;
+			AABB * pBBB = nullptr;
+
+			Node<PhysicsInfo> * ptr_1 = m_pPhysicsInfos->GetHead();
+			ptr = m_pPhysicsInfos->GetHead();
+			while ( ptr != nullptr )
+			{
+				while ( ptr_1 != nullptr )
+				{
+					if ( ptr == ptr_1 )
+					{
+						ptr_1 = ptr_1->GetNext();
+						continue;
+					}
+					pGoA = ptr->GetData()->GetGameObject();
+					assert( pGoA );
+					pABB = ptr->GetData()->GetAABB();
+					assert( pABB );
+
+					pGoB = ptr_1->GetData()->GetGameObject();
+					assert( pGoB );
+					pBBB = ptr_1->GetData()->GetAABB();
+					assert( pBBB );
+
+					this->CheckCollision( pGoA, pGoB, pABB, pBBB );
+					this->CheckCollision( pGoB, pGoA, pBBB, pABB );
+
+					ptr_1 = ptr_1->GetNext();
+
+				}
+				ptr = ptr->GetNext();
+			}
 
 		}
-
-
 
 		bool PhysicsManager::AddPhysicsObject( PhysicsInfo * i_pInfo )
 		{
@@ -128,27 +162,28 @@ namespace Engine
 			return true;
 		}
 
-		bool PhysicsManager::CheckCollision( SmartPtr<GameObject> pGoA, SmartPtr<GameObject> pGoB, PhysicsInfo * pPhysicsInfoA, PhysicsInfo * PhysicsInfoB )
+		bool PhysicsManager::CheckCollision( SmartPtr<GameObject> pGoA, SmartPtr<GameObject> pGoB, AABB * pABB, AABB * pBBB )
 		{
 			bool bSucceed = false;
 			bool bCollided = false;
 			// Calculate the necessary matrixes
 			Matrix4x4 mtx_AToWorld = pGoA->GetMatrixFromLocalToWorld();
-			Matrix4x4 mtx_WorldToA;
-			bSucceed = mtx_AToWorld.Invert( mtx_WorldToA );
-			assert( bSucceed );
+			Matrix4x4 mtx_WorldToA = pGoA->GetMatrixFromWorldToLocal();
 
 			Matrix4x4 mtx_BToWorld = pGoB->GetMatrixFromLocalToWorld();
-			Matrix4x4 mtx_WorldToB;
-			bSucceed = mtx_BToWorld.Invert( mtx_WorldToB );
-			assert( bSucceed );
+			Matrix4x4 mtx_WorldToB = pGoB->GetMatrixFromWorldToLocal();
 
+			// Calculate the transform matrix from A to B.
 			Matrix4x4 mtx_AToB = mtx_WorldToB * mtx_AToWorld;
+
+			// Translate the bounding box's center from coordinate A to B
+			Vector4 bbCenterAInB = mtx_AToB * Vector4( pABB->center.m_x, pABB->center.m_y, 0, 1.0f );
+			// Translate it's extends form coordinate A to B
 
 			// Calculate the relative velocity in the world
 			Vector3 velARelB = pGoA->GetVelocity() - pGoB->GetVelocity();
-			// Translate it into the B's coordinate
-			Vector4 velAInB = mtx_WorldToB * Vector4( velARelB, 0.0f );
+			// Translate it into the B's coordinate ( Here we do not need to apply the translation )
+			Vector4 velAInB = mtx_WorldToB * Vector4( velARelB, 0 );
 
 			// Check for X axis 
 

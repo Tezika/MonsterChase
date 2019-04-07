@@ -1,7 +1,7 @@
 gameObject = 
 {
     name = "Tezika",
-    initial_position = {x=1,y=1},
+    initial_position = {x=20,y=30},
     physics_settings = {
         mass = 1,
         force = {x=0, y=0},

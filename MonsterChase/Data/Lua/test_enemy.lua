@@ -1,7 +1,7 @@
 gameObject = 
 {
     name = "BadGuy",
-    initial_position = {x=1,y=1},
+    initial_position = {x=0,y=0},
     physics_settings = {
         mass = 1,
         force = {x=300, y=0},

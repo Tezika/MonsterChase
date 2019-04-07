@@ -8,6 +8,8 @@ namespace Engine
 	template<typename T>
 	class TList;
 
+	struct AABB;
+
 	namespace Physics
 	{
 		class PhysicsInfo;
@@ -37,7 +39,7 @@ namespace Engine
 			PhysicsManager() {};
 			TList<PhysicsInfo> * m_pPhysicsInfos;
 
-			bool CheckCollision( SmartPtr<GameObject> pGoA, SmartPtr<GameObject> pGoB, PhysicsInfo * pPhysicsInfoA, PhysicsInfo * PhysicsInfoB );
+			bool CheckCollision( SmartPtr<GameObject> pGoA, SmartPtr<GameObject> pGoB, AABB * pABB, AABB * pBBB );
 		};
 	}
 }
