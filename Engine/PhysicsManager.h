@@ -39,7 +39,24 @@ namespace Engine
 			PhysicsManager() {};
 			TList<PhysicsInfo> * m_pPhysicsInfos;
 
-			bool CheckCollision( SmartPtr<GameObject> pGoA, SmartPtr<GameObject> pGoB, AABB * pABB, AABB * pBBB );
+			bool CheckCollision( SmartPtr<GameObject> pGoA, SmartPtr<GameObject> pGoB,
+				AABB * pABB, AABB * pBBB,
+				float tFrameEnd,
+				float & tOpenEarilest,
+				float & tCloseLatest
+			);
+
+			bool CheckAxisCollision(
+				float aExtendsXinAxis,
+				float aExtendsYInAxis,
+				float bBBExtendsInAxis,
+				float bBBCenterInAxis,
+				float aBBcenterInAxis,
+				float velAInBInAxis,
+				float tFrameEnd,
+				float & tOpenEarilest,
+				float & tCloseLatest
+			);
 		};
 	}
 }

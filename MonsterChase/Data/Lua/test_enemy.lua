@@ -4,12 +4,12 @@ gameObject =
     initial_position = {x=0,y=0},
     physics_settings = {
         mass = 1,
-        force = {x=300, y=0},
+        force = {x=1200, y=0},
         dragness = 0.005,
         AABB = 
         {
-            center = {x=0, y=32},
-            extends = {x=64, y=64}
+            center = {x=128, y=128},
+            extends = {x=128, y=128}
         }
     },
     render_settings = {

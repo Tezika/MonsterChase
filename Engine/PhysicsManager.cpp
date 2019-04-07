@@ -10,6 +10,8 @@
 #include "Vector3.h"
 #include "Vector4.h"
 #include "AABB.h"
+#include <algorithm>
+#include <limits>
 
 namespace Engine
 {
@@ -55,7 +57,6 @@ namespace Engine
 				// Update the position based on the average velocity
 				cachedPosition = pCachedGo->GetPosition();
 				pCachedGo->SetPosition( cachedPosition + cachedAverageVelocity * i_dt );
-
 				ptr = ptr->GetNext();
 			}
 
@@ -67,6 +68,11 @@ namespace Engine
 
 			Node<PhysicsInfo> * ptr_1 = m_pPhysicsInfos->GetHead();
 			ptr = m_pPhysicsInfos->GetHead();
+
+			float tCloseLatest;
+			float tOpenEarilest;
+			float bCollided = true;
+
 			while ( ptr != nullptr )
 			{
 				while ( ptr_1 != nullptr )
@@ -76,6 +82,12 @@ namespace Engine
 						ptr_1 = ptr_1->GetNext();
 						continue;
 					}
+					// Initialize the min and max value for time;
+					tCloseLatest = std::numeric_limits<float>::min();
+					tOpenEarilest = std::numeric_limits<float>::max();
+
+					bCollided = true;
+
 					pGoA = ptr->GetData()->GetGameObject();
 					assert( pGoA );
 					pABB = ptr->GetData()->GetAABB();
@@ -86,8 +98,31 @@ namespace Engine
 					pBBB = ptr_1->GetData()->GetAABB();
 					assert( pBBB );
 
-					this->CheckCollision( pGoA, pGoB, pABB, pBBB );
-					this->CheckCollision( pGoB, pGoA, pBBB, pABB );
+					bCollided = this->CheckCollision( pGoA, pGoB, pABB, pBBB, i_dt, tCloseLatest, tOpenEarilest );
+					if ( !bCollided )
+					{
+						DEBUG_PRINT_GAMEPLAY( "%s and %s hasn't collided yet!", pGoA->GetName(), pGoB->GetName() );
+						ptr_1 = ptr_1->GetNext();
+						continue;
+					}
+
+					bCollided = true;
+					bCollided = this->CheckCollision( pGoB, pGoA, pBBB, pABB, i_dt, tCloseLatest, tOpenEarilest );
+					if ( !bCollided )
+					{
+						DEBUG_PRINT_GAMEPLAY( "%s and %s hasn't collided yet!", pGoA->GetName(), pGoB->GetName() );
+						ptr_1 = ptr_1->GetNext();
+						continue;
+					}
+
+					if ( tCloseLatest < tOpenEarilest )
+					{
+						DEBUG_PRINT_GAMEPLAY( "%s and %s collided right now!", pGoA->GetName(), pGoB->GetName() );
+					}
+					else
+					{
+						DEBUG_PRINT_GAMEPLAY( "%s and %s hasn't collided yet!", pGoA->GetName(), pGoB->GetName() );
+					}
 
 					ptr_1 = ptr_1->GetNext();
 				}
@@ -161,11 +196,15 @@ namespace Engine
 			return true;
 		}
 
-		bool PhysicsManager::CheckCollision( SmartPtr<GameObject> pGoA, SmartPtr<GameObject> pGoB, AABB * pABB, AABB * pBBB )
+		bool PhysicsManager::CheckCollision(
+			SmartPtr<GameObject> pGoA,
+			SmartPtr<GameObject> pGoB,
+			AABB * pABB, AABB * pBBB,
+			float tFrameEnd,
+			float & tCloseLatest,
+			float & tOpenEarilest
+		)
 		{
-			bool bSucceed = false;
-			bool bCollided = false;
-
 			// Calculate the necessary matrixes
 			Matrix4x4 mtx_AToWorld = pGoA->GetMatrixFromLocalToWorld();
 			Matrix4x4 mtx_WorldToA = pGoA->GetMatrixFromWorldToLocal();
@@ -178,19 +217,106 @@ namespace Engine
 
 			// Translate the bounding box's center from coordinate A to B
 			Vector4 ABBCenterInB = mtx_AToB * Vector4( pABB->center.m_x, pABB->center.m_y, 0, 1.0f );
-			// Translate it's extends from coordinate A to B
 
+			// Translate it's extends from coordinate A to B
+			Vector4 AExtendsXInB = mtx_AToB * Vector4( pABB->extends.m_x, 0.0f, 0.0f, 0.0f );
+			Vector4 AExtendsYInB = mtx_AToB * Vector4( 0.0f, pABB->extends.m_y, 0.0f, 0.0f );
 
 			// Calculate the relative velocity in the world
 			Vector3 velARelB = pGoA->GetVelocity() - pGoB->GetVelocity();
 			// Translate it into the B's coordinate ( Here we do not need to apply the translation, so we just assign the zero to w. )
 			Vector4 velAInB = mtx_WorldToB * Vector4( velARelB, 0 );
 
-			// Check for X axis 
+			// Check for X axis
+			bool bCollided = true;
+			bCollided = this->CheckAxisCollision( AExtendsXInB.x, AExtendsYInB.x,
+				pBBB->extends.m_x, pBBB->center.m_x,
+				ABBCenterInB.x,
+				velAInB.x,
+				tFrameEnd,
+				tOpenEarilest,
+				tCloseLatest
+			);
+			if ( !bCollided )
+			{
+				return false;
+			}
 
-			// Check for Y axis
+			// Check for y axis
+			bCollided = true;
+			bCollided = this->CheckAxisCollision( AExtendsXInB.y, AExtendsYInB.y,
+				pBBB->extends.m_y, pBBB->center.m_y,
+				ABBCenterInB.y,
+				velAInB.y,
+				tFrameEnd,
+				tOpenEarilest,
+				tCloseLatest
+			);
+			if ( !bCollided )
+			{
+				return false;
+			}
 
-			return bCollided;
+			return true;
+		}
+
+		bool PhysicsManager::CheckAxisCollision(
+			float aExtendsXinAxis,
+			float aExtendsYInAxis,
+			float bBBExtendsInAxis,
+			float bBBCenterInAxis,
+			float aBBcenterInAxis,
+			float velAInBInAxis,
+			float tFrameEnd,
+			float & tOpenEarilest,
+			float & tCloseLatest
+		)
+		{
+			// Check for X axis
+			float AProjectOntoB = fabs( aExtendsXinAxis ) + fabs( aExtendsYInAxis );
+			float bExtends = bBBExtendsInAxis + AProjectOntoB;
+			float bLeft = bBBCenterInAxis - bExtends;
+			float bRight = bBBCenterInAxis + bExtends;
+
+			float dClose = bLeft - aBBcenterInAxis;
+			float dOpen = bRight - aBBcenterInAxis;
+
+			float tOpen = 0;
+			float tClose = 0;
+
+			// When the realtive velocity projection is zero
+			if ( velAInBInAxis == 0.0f )
+			{
+				// If A's bb center outside the Bleft ~ bRight, there is no collision. 
+				if ( aBBcenterInAxis < bLeft || aBBcenterInAxis > bRight )
+				{
+					return false;
+				}
+			}
+			else
+			{
+				tOpen = dOpen / velAInBInAxis;
+				tClose = dClose / velAInBInAxis;
+				// A move to B in the -x direction, and we just swap two value
+				if ( tOpen < tClose )
+				{
+					std::swap( tOpen, tClose );
+				}
+				// Check the edge: If the close happens in the time point after this frame, there should be no collision
+				if ( tClose > tFrameEnd )
+				{
+					return false;
+				}
+				// Check the edge: If the open's time less than zero, which means the gap should always be in the right, there is no collision too.
+				if ( tOpen < 0 )
+				{
+					return false;
+				}
+				// When passing the edge check, update the earliest open and latest close time
+				tOpenEarilest = tOpen < tOpenEarilest ? tOpen : tOpenEarilest;
+				tCloseLatest = tClose > tCloseLatest ? tClose : tCloseLatest;
+			}
+			return true;
 		}
 	}
 }
