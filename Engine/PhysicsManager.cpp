@@ -90,7 +90,6 @@ namespace Engine
 					this->CheckCollision( pGoB, pGoA, pBBB, pABB );
 
 					ptr_1 = ptr_1->GetNext();
-
 				}
 				ptr = ptr->GetNext();
 			}
@@ -166,6 +165,7 @@ namespace Engine
 		{
 			bool bSucceed = false;
 			bool bCollided = false;
+
 			// Calculate the necessary matrixes
 			Matrix4x4 mtx_AToWorld = pGoA->GetMatrixFromLocalToWorld();
 			Matrix4x4 mtx_WorldToA = pGoA->GetMatrixFromWorldToLocal();
@@ -177,12 +177,13 @@ namespace Engine
 			Matrix4x4 mtx_AToB = mtx_WorldToB * mtx_AToWorld;
 
 			// Translate the bounding box's center from coordinate A to B
-			Vector4 bbCenterAInB = mtx_AToB * Vector4( pABB->center.m_x, pABB->center.m_y, 0, 1.0f );
-			// Translate it's extends form coordinate A to B
+			Vector4 ABBCenterInB = mtx_AToB * Vector4( pABB->center.m_x, pABB->center.m_y, 0, 1.0f );
+			// Translate it's extends from coordinate A to B
+
 
 			// Calculate the relative velocity in the world
 			Vector3 velARelB = pGoA->GetVelocity() - pGoB->GetVelocity();
-			// Translate it into the B's coordinate ( Here we do not need to apply the translation )
+			// Translate it into the B's coordinate ( Here we do not need to apply the translation, so we just assign the zero to w. )
 			Vector4 velAInB = mtx_WorldToB * Vector4( velARelB, 0 );
 
 			// Check for X axis 
