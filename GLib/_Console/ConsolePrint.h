@@ -14,5 +14,5 @@ void ConsolePrint( const char * i_pFmt, const char * i_pFile, unsigned int i_Lin
 #else
 // This is one way we create a do nothing (NO OP) macro that doesn't
 // generate a compiler warning or error
-#define DEBUG_PRINT(fmt,...) void(0)
+#define DEBUG_PRINT_ENGINE(fmt,...) void(0)
 #endif
