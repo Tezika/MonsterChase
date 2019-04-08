@@ -8,8 +8,8 @@ gameObject =
         dragness = 0.005,
         AABB = 
         {
-            center = {x=128, y=128},
-            extends = {x=128, y=128}
+            center = {x=64, y=64},
+            extends = {x=64, y=64}
         }
     },
     render_settings = {

@@ -224,7 +224,7 @@ namespace GLib
 			DirectX::XMMATRIX mView = DirectX::XMMatrixTranslation( i_Offset.x, i_Offset.y, 0.0f );
 			DirectX::XMMATRIX mScaling = DirectX::XMMatrixScaling( i_scaleX, i_scaleY, 1 );
 			DirectX::XMMATRIX mModelView = DirectX::XMMatrixMultiply( mModel, mView );
-			mModelView = DirectX::XMMatrixMultiply( mModelView, mScaling );
+			mModelView = DirectX::XMMatrixMultiply( mScaling, mModelView );
 
 			m_SpriteVSContants.m_ModelViewProjection = DirectX::XMMatrixMultiplyTranspose( mModelView, m_Projection );
 
