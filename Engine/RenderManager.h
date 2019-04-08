@@ -41,6 +41,8 @@ namespace Engine
 			void Update( float i_dt, bool & bEnd );
 			bool Destroy();
 
+			RenderInfo * GetRenderInfoByGameObject( SmartPtr<GameObject> i_pGo );
+
 		private:
 			RenderManager() {};
 			RenderInfo * m_pDebugDotInfo;

@@ -149,6 +149,23 @@ namespace Engine
 			return true;
 		}
 
+		RenderInfo * RenderManager::GetRenderInfoByGameObject( SmartPtr<GameObject> i_pGo )
+		{
+			assert( i_pGo );
+			Node<RenderInfo> * ptr = m_pRenderInfos->GetHead();
+			RenderInfo * pCurrentInfo = nullptr;
+			while ( ptr != nullptr )
+			{
+				pCurrentInfo = ptr->GetData();
+				if ( pCurrentInfo->GetGameObject() == i_pGo )
+				{
+					return pCurrentInfo;
+				}
+				ptr = ptr->GetNext();
+			}
+			return nullptr;
+		}
+
 		bool RenderManager::Destroy()
 		{
 			bool bSucceed = false;

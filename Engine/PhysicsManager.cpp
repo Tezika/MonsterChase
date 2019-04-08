@@ -66,6 +66,9 @@ namespace Engine
 			AABB * pABB = nullptr;
 			AABB * pBBB = nullptr;
 
+			PhysicsInfo * pPhysicsA = nullptr;
+			PhysicsInfo * pPhysicsB = nullptr;
+
 			Node<PhysicsInfo> * ptr_1 = m_pPhysicsInfos->GetHead();
 			ptr = m_pPhysicsInfos->GetHead();
 
@@ -75,6 +78,8 @@ namespace Engine
 
 			while ( ptr != nullptr )
 			{
+				pPhysicsA = ptr->GetData();
+
 				while ( ptr_1 != nullptr )
 				{
 					if ( ptr == ptr_1 )
@@ -88,20 +93,23 @@ namespace Engine
 
 					bCollided = true;
 
-					pGoA = ptr->GetData()->GetGameObject();
+					pPhysicsB = ptr_1->GetData();
+
+					pGoA = pPhysicsA->GetGameObject();
 					assert( pGoA );
-					pABB = ptr->GetData()->GetAABB();
+					pABB = pPhysicsA->GetAABB();
 					assert( pABB );
 
-					pGoB = ptr_1->GetData()->GetGameObject();
+					pGoB = pPhysicsB->GetGameObject();
 					assert( pGoB );
-					pBBB = ptr_1->GetData()->GetAABB();
+					pBBB = pPhysicsB->GetAABB();
 					assert( pBBB );
 
 					bCollided = this->CheckCollision( pGoA, pGoB, pABB, pBBB, i_dt, tCloseLatest, tOpenEarilest );
 					if ( !bCollided )
 					{
-						DEBUG_PRINT_GAMEPLAY( "%s and %s hasn't collided yet!", pGoA->GetName(), pGoB->GetName() );
+						pPhysicsA->SetInCollision( false );
+						pPhysicsB->SetInCollision( false );
 						ptr_1 = ptr_1->GetNext();
 						continue;
 					}
@@ -110,18 +118,21 @@ namespace Engine
 					bCollided = this->CheckCollision( pGoB, pGoA, pBBB, pABB, i_dt, tCloseLatest, tOpenEarilest );
 					if ( !bCollided )
 					{
-						DEBUG_PRINT_GAMEPLAY( "%s and %s hasn't collided yet!", pGoA->GetName(), pGoB->GetName() );
+						pPhysicsA->SetInCollision( false );
+						pPhysicsB->SetInCollision( false );
 						ptr_1 = ptr_1->GetNext();
 						continue;
 					}
 
 					if ( tCloseLatest < tOpenEarilest )
 					{
-						DEBUG_PRINT_GAMEPLAY( "%s and %s collided right now!", pGoA->GetName(), pGoB->GetName() );
+						pPhysicsA->SetInCollision( true );
+						pPhysicsB->SetInCollision( true );
 					}
 					else
 					{
-						DEBUG_PRINT_GAMEPLAY( "%s and %s hasn't collided yet!", pGoA->GetName(), pGoB->GetName() );
+						pPhysicsA->SetInCollision( false );
+						pPhysicsB->SetInCollision( false );
 					}
 
 					ptr_1 = ptr_1->GetNext();

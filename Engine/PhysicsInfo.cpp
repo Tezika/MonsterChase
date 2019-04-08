@@ -22,7 +22,8 @@ namespace Engine
 			m_mass( i_mass ),
 			m_pGo( i_pGo ),
 			m_pAABB( i_pAABB ),
-			m_force( Vector3::Zero )
+			m_force( Vector3::Zero ),
+			m_bInCollision( false )
 		{
 		}
 
