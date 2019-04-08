@@ -158,8 +158,18 @@ namespace Engine
 			assert( result == LUA_TSTRING );
 			const char * pSpriteName = lua_tostring( pLuaState, -1 );
 			DEBUG_PRINT_GAMEPLAY( "The sprite name for the gameobject is %s", pSpriteName );
-			// Pop for sprite name
+			// Pop for sprite's name
 			lua_pop_top( pLuaState );
+
+			// Retrieve the spriteSize
+			lua_pushstring( pLuaState, "sprite_size" );
+			result = lua_gettable( pLuaState, -2 );
+			assert( result == LUA_TTABLE );
+			Point2D<float> spriteSize = ParsePointFromLua<float>( pLuaState );
+			DEBUG_PRINT_GAMEPLAY( "The center for the AABB is %.3f, %.3f", spriteSize.m_x, spriteSize.m_y );
+			// Pop for sprite's size
+			lua_pop_top( pLuaState );
+
 			// Pop for the render settings
 			lua_pop_top( pLuaState );
 
@@ -174,7 +184,7 @@ namespace Engine
 			Physics::PhysicsManager::GetInstance().AddPhysicsObject( pPhysicsInfo );
 
 			// Create the assoicated render info
-			Render::RenderManager::GetInstance().AddRenderObject( ret, pSpriteName );
+			Render::RenderManager::GetInstance().AddRenderObject( ret, pSpriteName, spriteSize.m_x, spriteSize.m_y );
 
 			// Pop the table at last
 			lua_pop_top( pLuaState );

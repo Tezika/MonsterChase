@@ -79,23 +79,17 @@ namespace Engine
 			GLib::EndRendering();
 		}
 
-		RenderInfo * RenderManager::AddRenderObject( SmartPtr<GameObject> i_pGo, const TString &  i_strSpriteName )
+		RenderInfo * RenderManager::AddRenderObject( SmartPtr<GameObject> i_pGo, const TString &  i_strSpriteName, float i_spriteSizeX, float i_spriteSizeY )
 		{
+			assert( i_spriteSizeX != 0 );
+			assert( i_spriteSizeY != 0 );
 			// Add RenderInfo in
-			RenderInfo * pRetInfo = this->AddRenderInfo( m_pRenderInfos, i_pGo, i_strSpriteName );
+			RenderInfo * pRetInfo = this->AddRenderInfo( m_pRenderInfos, i_pGo, i_strSpriteName, i_spriteSizeX, i_spriteSizeY );
 			assert( pRetInfo );
+
 			// Add a debug AABB RenderInfo in.
 #if defined(_DEBUG) && defined(_DrawDebugInfo)
-			RenderInfo * pDebugInfo = this->AddRenderInfo( m_pDebugRenderInfos, i_pGo, "Data//Bounding_box.dds" );
-			assert( pDebugInfo );
-			// Adjust the rendering aabb's size based on the actual bounding box size
-			Physics::PhysicsInfo * pAssociatedPhysicsInfo = Physics::PhysicsManager::GetInstance().GetInfoByGameObject( i_pGo );
-			assert( pAssociatedPhysicsInfo );
-			AABB * pAABB = pAssociatedPhysicsInfo->GetAABB();
-			float xScale = pAABB->extends.m_x * 2 / 256;
-			float yScale = pAABB->extends.m_y * 2 / 256;
-			pDebugInfo->SetRenderScaleX( xScale );
-			pDebugInfo->SetRenderScaleY( yScale );
+			RenderInfo * pDebugInfo = this->AddRenderInfo( m_pDebugRenderInfos, i_pGo, "Data//BoundingBox_Normal.dds", i_spriteSizeX, i_spriteSizeY );
 #endif
 			return pRetInfo;
 		}
@@ -114,13 +108,23 @@ namespace Engine
 			return bSucceed;
 		}
 
-		RenderInfo * RenderManager::AddRenderInfo( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo, const TString & i_strSpriteName )
+		RenderInfo * RenderManager::AddRenderInfo( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo, const TString & i_strSpriteName, float i_spriteSizeX, float i_spriteSizeY )
 		{
+			assert( i_spriteSizeX != 0 );
+			assert( i_spriteSizeY != 0 );
 			GLibSprite * pSprite = CreateSprite( const_cast<char*> ( i_strSpriteName.c_str() ) );
 			assert( pSprite );
-			RenderInfo * newRenderObject = RenderInfo::Create( i_pGo, pSprite, GLibPoint2D{ 0.0f, 0.0f } );
-			assert( newRenderObject );
-			return pRenderInfos->InsertToTail( newRenderObject )->GetData();
+			RenderInfo * pNewRenderObject = RenderInfo::Create( i_pGo, pSprite, GLibPoint2D{ 0.0f, 0.0f } );
+			assert( pNewRenderObject );
+			// Adjust the render size based on AABB size.
+			Physics::PhysicsInfo * pAssociatedPhysicsInfo = Physics::PhysicsManager::GetInstance().GetInfoByGameObject( i_pGo );
+			assert( pAssociatedPhysicsInfo );
+			AABB * pAABB = pAssociatedPhysicsInfo->GetAABB();
+			float xScale = pAABB->extends.m_x * 2 / i_spriteSizeX;
+			float yScale = pAABB->extends.m_y * 2 / i_spriteSizeY;
+			pNewRenderObject->SetRenderScaleX( xScale );
+			pNewRenderObject->SetRenderScaleY( yScale );
+			return pRenderInfos->InsertToTail( pNewRenderObject )->GetData();
 		}
 
 		bool RenderManager::RemoveRenderInfo( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo )
