@@ -1,5 +1,4 @@
 #pragma once
-
 #include "../Exports/GLib/GLib.h"
 #include "SmartPtr.h"
 #include "WeakPtr.h"

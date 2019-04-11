@@ -140,6 +140,21 @@ namespace Engine
 				ptr = ptr->GetNext();
 			}
 
+			// Debug the collision states for objects
+			ptr = m_pPhysicsInfos->GetHead();
+			while ( ptr != nullptr )
+			{
+				PhysicsInfo * pInfo = ptr->GetData();
+				if ( pInfo->GetInCollision() )
+				{
+					DEBUG_PRINT_ENGINE( "The %s is in collision", pInfo->GetGameObject()->GetName().c_str() );
+				}
+				else
+				{
+					DEBUG_PRINT_ENGINE( "The %s isn't in collision", pInfo->GetGameObject()->GetName().c_str() );
+				}
+				ptr = ptr->GetNext();
+			}
 		}
 
 		bool PhysicsManager::AddPhysicsObject( PhysicsInfo * i_pInfo )
