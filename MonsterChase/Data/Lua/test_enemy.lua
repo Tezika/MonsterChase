@@ -1,10 +1,10 @@
 gameObject = 
 {
     name = "BadGuy",
-    initial_position = {x=-300,y=-300},
+    initial_position = {x=-200,y=-100},
     physics_settings = {
         mass = 1,
-        force = {x=1200, y=0},
+        force = {x=2400, y=0},
         dragness = 0.005,
         AABB = 
         {
