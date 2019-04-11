@@ -5,7 +5,7 @@
 //  Created by  TezikaZhou on 2018/9/1.
 //  Copyright � 2018 Tezika ZHou. All rights reserved.
 //
-
+#include "stdafx.h"
 #include "game.h"
 #include "InputController.h"
 #include "AIController.h"
@@ -14,6 +14,7 @@
 #include "Timer.h"
 #include "SubSystems.h"
 #include "LuaParser.h"
+#include "../Exports/GLib/GLib.h"
 
 extern float Timing::GetLastFrameTime();
 extern SmartPtr<GameObject> Engine::CreateGameObjectByFile( const char * pFileName );

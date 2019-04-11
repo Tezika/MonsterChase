@@ -5,9 +5,7 @@
 //  Created by  TezikaZhou on 2018/9/1.
 //  Copyright © 2018 Tezika ZHou. All rights reserved.
 //
-#ifndef game_h
-#define game_h
-
+#pragma once
 #include <iostream>
 #include "enemymanager.h"
 #include "player.h"
@@ -16,7 +14,6 @@
 
 namespace MonsterChase
 {
-
 	//This is a Singleton.
 	class Game
 	{
@@ -54,5 +51,3 @@ namespace MonsterChase
 		int  m_roundTimer_newEnemy;
 	};
 }
-
-#endif /* game_h */
