@@ -6,8 +6,7 @@
 //  Copyright � 2018 Tezika ZHou. All rights reserved.
 //
 
-#ifndef Object_h
-#define Object_h
+#pragma once
 #include "GameObject.h"
 
 
@@ -30,5 +29,3 @@ namespace MonsterChase
 	};
 
 }
-
-#endif /* Object_h */

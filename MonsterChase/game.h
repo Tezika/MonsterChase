@@ -6,6 +6,7 @@
 //  Copyright © 2018 Tezika ZHou. All rights reserved.
 //
 #pragma once
+
 #include <iostream>
 #include "enemymanager.h"
 #include "player.h"

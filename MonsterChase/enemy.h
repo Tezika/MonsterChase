@@ -6,8 +6,7 @@
 //  Copyright © 2018 Tezika ZHou. All rights reserved.
 //
 
-#ifndef enemy_h
-#define enemy_h
+#pragma once
 #include "entity.h"
 
 namespace MonsterChase
@@ -29,4 +28,3 @@ namespace MonsterChase
 	protected:
 	};
 }
-#endif /* enemy_h */

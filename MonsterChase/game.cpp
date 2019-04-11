@@ -14,7 +14,7 @@
 #include "Timer.h"
 #include "SubSystems.h"
 #include "LuaParser.h"
-#include "../Exports/GLib/GLib.h"
+#include "enemymanager.h"
 
 extern float Timing::GetLastFrameTime();
 extern SmartPtr<GameObject> Engine::CreateGameObjectByFile( const char * pFileName );
