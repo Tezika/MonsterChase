@@ -13,7 +13,7 @@ namespace Engine
 	namespace Physics
 	{
 #ifndef _DrawDebugInfoWhileColliding
-#define _DrawDebugInfoWhileColliding
+//#define _DrawDebugInfoWhileColliding
 #endif // !_DrawDebugInfo
 		class PhysicsInfo;
 

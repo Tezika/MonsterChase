@@ -4,7 +4,7 @@
 namespace Engine
 {
 #ifndef _DrawDebugInfo
-#define _DrawDebugInfo
+//#define _DrawDebugInfo
 #endif // !_DrawDebugInfo
 
 	class GameObject;
