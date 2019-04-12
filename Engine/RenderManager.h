@@ -3,6 +3,10 @@
 
 namespace Engine
 {
+#ifndef _DrawDebugInfo
+#define _DrawDebugInfo
+#endif // !_DrawDebugInfo
+
 	class GameObject;
 
 	template<typename T>
@@ -15,10 +19,6 @@ namespace Engine
 
 	namespace Render
 	{
-#ifndef _DrawDebugInfo
-		//#define _DrawDebugInfo
-#endif // !_DrawDebugInfo
-
 		class RenderInfo;
 
 		// This is a singleton class for handling the Render stuff
@@ -41,7 +41,10 @@ namespace Engine
 			void Update( float i_dt, bool & bEnd );
 			bool Destroy();
 
-			RenderInfo * GetRenderInfoByGameObject( SmartPtr<GameObject> i_pGo );
+			RenderInfo * GetRealRenderInfoByGameObject( SmartPtr<GameObject> i_pGo );
+#if defined(_DEBUG) && defined(_DrawDebugInfo)
+			RenderInfo * GetDebugRenderInfoByGameObject( SmartPtr<GameObject> i_pGo );
+#endif
 
 		private:
 			RenderManager() {};
@@ -53,6 +56,7 @@ namespace Engine
 
 			RenderInfo * AddRenderInfo( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo, const TString & i_strSpriteName, float i_spriteSizeX, float i_spriteSizeY );
 			bool RemoveRenderInfo( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo );
+			RenderInfo * GetRenderInfoByGameObject( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo );
 #if defined(_DEBUG) && defined(_DrawDebugInfo)
 			TList<RenderInfo> * m_pDebugRenderInfos;
 #endif

@@ -89,7 +89,9 @@ namespace Engine
 
 			// Add a debug AABB RenderInfo in.
 #if defined(_DEBUG) && defined(_DrawDebugInfo)
-			RenderInfo * pDebugInfo = this->AddRenderInfo( m_pDebugRenderInfos, i_pGo, "Data//BoundingBox_Normal.dds", i_spriteSizeX, i_spriteSizeY );
+			RenderInfo * pDebugInfo = this->AddRenderInfo( m_pDebugRenderInfos, i_pGo, "Data//BoundingBox_Collided.dds", i_spriteSizeX, i_spriteSizeY );
+			assert( pDebugInfo );
+			pDebugInfo->SetRenderable( false );
 #endif
 			return pRetInfo;
 		}
@@ -116,7 +118,7 @@ namespace Engine
 			assert( pSprite );
 			RenderInfo * pNewRenderObject = RenderInfo::Create( i_pGo, pSprite, GLibPoint2D{ 0.0f, 0.0f } );
 			assert( pNewRenderObject );
-			// Adjust the render size based on AABB size.
+			// Adjust the render sprite's size based on AABB size.
 			Physics::PhysicsInfo * pAssociatedPhysicsInfo = Physics::PhysicsManager::GetInstance().GetInfoByGameObject( i_pGo );
 			assert( pAssociatedPhysicsInfo );
 			AABB * pAABB = pAssociatedPhysicsInfo->GetAABB();
@@ -149,10 +151,11 @@ namespace Engine
 			return true;
 		}
 
-		RenderInfo * RenderManager::GetRenderInfoByGameObject( SmartPtr<GameObject> i_pGo )
+		RenderInfo * RenderManager::GetRenderInfoByGameObject( TList<RenderInfo> * i_pRenderInfos, SmartPtr<GameObject> i_pGo )
 		{
 			assert( i_pGo );
-			Node<RenderInfo> * ptr = m_pRenderInfos->GetHead();
+			assert( i_pRenderInfos );
+			Node<RenderInfo> * ptr = i_pRenderInfos->GetHead();
 			RenderInfo * pCurrentInfo = nullptr;
 			while ( ptr != nullptr )
 			{
@@ -244,5 +247,17 @@ namespace Engine
 				ptr = ptr->GetNext();
 			}
 		}
+
+		RenderInfo * RenderManager::GetRealRenderInfoByGameObject( SmartPtr<GameObject> i_pGo )
+		{
+			return this->GetRenderInfoByGameObject( m_pRenderInfos, i_pGo );
+		}
+
+#if defined(_DEBUG) && defined(_DrawDebugInfo)
+		RenderInfo * RenderManager::GetDebugRenderInfoByGameObject( SmartPtr<GameObject> i_pGo )
+		{
+			return this->GetRenderInfoByGameObject( m_pDebugRenderInfos, i_pGo );
+		}
+#endif
 	}
 }

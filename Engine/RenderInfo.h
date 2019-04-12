@@ -31,7 +31,7 @@ namespace Engine
 			inline void SetRenderScaleX( float i_scale ){ m_renderScaleX = i_scale; };
 			inline float GetRenderScaleX(){ return m_renderScaleX; };
 
-			inline void SetRenderScaleY( float i_scale ){ m_renderScaleY = i_scale; };
+			inline void  SetRenderScaleY( float i_scale ){ m_renderScaleY = i_scale; };
 			inline float GetRenderScaleY(){ return m_renderScaleY; };
 
 			RenderInfo( const RenderInfo & ) = delete;

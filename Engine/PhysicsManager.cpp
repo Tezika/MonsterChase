@@ -12,6 +12,8 @@
 #include "AABB.h"
 #include <algorithm>
 #include <limits>
+#include "RenderInfo.h"
+#include "RenderManager.h"
 
 namespace Engine
 {
@@ -87,9 +89,10 @@ namespace Engine
 						ptr_1 = ptr_1->GetNext();
 						continue;
 					}
+
 					// Initialize the min and max value for time;
-					tCloseLatest = std::numeric_limits<float>::min();
-					tOpenEarilest = std::numeric_limits<float>::max();
+					tCloseLatest = -1.0f;
+					tOpenEarilest = 100.0f;// However, this is a magic number :<.
 
 					bCollided = true;
 
@@ -139,6 +142,31 @@ namespace Engine
 				}
 				ptr = ptr->GetNext();
 			}
+
+#if defined(_DEBUG) && defined(_DrawDebugInfoWhileColliding)
+			ptr = this->m_pPhysicsInfos->GetHead();
+			while ( ptr != nullptr )
+			{
+				pPhysicsA = ptr->GetData();
+				pCachedGo = pPhysicsA->GetGameObject();
+				Render::RenderInfo * pRenderInfo = Render::RenderManager::GetInstance().GetRealRenderInfoByGameObject( pCachedGo );
+				Render::RenderInfo * pDebugRenderInfo = Render::RenderManager::GetInstance().GetDebugRenderInfoByGameObject( pCachedGo );
+				// If the object is in collision, it'll render the debug sprite
+				if ( pPhysicsA->GetInCollision() )
+				{
+					pRenderInfo->SetRenderable( false );
+					pDebugRenderInfo->SetRenderable( true );
+				}
+				// If the object is not in collision, it'll render the normal sprite.
+				else
+				{
+					pRenderInfo->SetRenderable( true );
+					pDebugRenderInfo->SetRenderable( false );
+				}
+				ptr = ptr->GetNext();
+			}
+			pCachedGo = nullptr;
+#endif
 		}
 
 		bool PhysicsManager::AddPhysicsObject( PhysicsInfo * i_pInfo )
