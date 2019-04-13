@@ -16,7 +16,5 @@ namespace MonsterChase
 
 	void AIController::UpdateGameObject( float i_dt )
 	{
-		//m_pObject->SetZRot( m_pObject->GetZRot() + 0.1f );
-
 	}
 }
