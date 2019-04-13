@@ -41,4 +41,9 @@ namespace Engine
 		float z;
 		float w;
 	};
+
+	inline float Dot( const Vector4 & i_lhs, const Vector4 & i_rhs )
+	{
+		return i_lhs.x * i_rhs.x + i_lhs.y * i_rhs.y + i_lhs.z * i_rhs.z + i_lhs.w * i_rhs.w;
+	}
 }

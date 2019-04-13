@@ -13,7 +13,7 @@ namespace Engine
 	namespace Physics
 	{
 #ifndef _DrawDebugInfoWhileColliding
-//#define _DrawDebugInfoWhileColliding
+#define _DrawDebugInfoWhileColliding
 #endif // !_DrawDebugInfo
 		class PhysicsInfo;
 
@@ -50,12 +50,11 @@ namespace Engine
 			);
 
 			bool CheckAxisCollision(
-				float aExtendsXinAxis,
-				float aExtendsYInAxis,
-				float bBBExtendsInAxis,
-				float bBBCenterInAxis,
-				float aBBcenterInAxis,
-				float velAInBInAxis,
+				float aBBExtendsProjectedOntoAxis,
+				float bBBExtendsOntoAxis,
+				float bBBCenterOntoAxis,
+				float aBBCenterOntoAxis,
+				float velARelBOnAxis,
 				float tFrameEnd,
 				float & tOpenEarilest,
 				float & tCloseLatest

@@ -245,32 +245,39 @@ namespace Engine
 		{
 			// Calculate the necessary matrixes
 			Matrix4x4 mtx_AToWorld = pGoA->GetMatrixFromLocalToWorld();
-			Matrix4x4 mtx_WorldToA = pGoA->GetMatrixFromWorldToLocal();
-
 			Matrix4x4 mtx_BToWorld = pGoB->GetMatrixFromLocalToWorld();
-			Matrix4x4 mtx_WorldToB = pGoB->GetMatrixFromWorldToLocal();
 
-			// Calculate the transform matrix from A to B.
-			Matrix4x4 mtx_AToB = mtx_WorldToB * mtx_AToWorld;
+			// Calculate the B's collision axis in world
+			// For X
+			Vector4 CollisionAxisXInW = mtx_BToWorld * Vector4::UnitX;
 
-			// Translate the bounding box's center from coordinate A to B
-			Vector4 ABBCenterInB = mtx_AToB * Vector4( pABB->center.m_x, pABB->center.m_y, 0, 1.0f );
+			// Project the BoundingBox's center onto the collision axis in the world
+			Vector4 ABBCenterInW = mtx_AToWorld * Vector4( pABB->center.m_x, pABB->center.m_y, 0, 1.0f );
+			Vector4 BBBCenterInW = mtx_BToWorld * Vector4( pBBB->center.m_x, pBBB->center.m_y, 0, 1.0f );
+			float ABBCenterOntoWX = Dot( ABBCenterInW, CollisionAxisXInW );
+			float BBBCenterOntoWX = Dot( BBBCenterInW, CollisionAxisXInW );
 
-			// Translate it's extends from coordinate A to B
-			Vector4 AExtendsXInB = mtx_AToB * Vector4( pABB->extends.m_x, 0.0f, 0.0f, 0.0f );
-			Vector4 AExtendsYInB = mtx_AToB * Vector4( 0.0f, pABB->extends.m_y, 0.0f, 0.0f );
+			// Project the extends onto the collision axis in the world
+			Vector4 ABBExtendsXInW = mtx_AToWorld * Vector4::UnitX * pABB->extends.m_x;
+			Vector4 ABBExtendsYInW = mtx_AToWorld * Vector4::UnitY * pABB->extends.m_y;
+			Vector4 BBBExtendsXInW = mtx_BToWorld * Vector4::UnitX * pBBB->extends.m_x;
+			Vector4 BBBExtendsYInW = mtx_BToWorld * Vector4::UnitY * pBBB->extends.m_y;
 
-			// Calculate the relative velocity in the world
-			Vector3 velARelB = pGoA->GetVelocity() - pGoB->GetVelocity();
-			// Translate it into the B's coordinate ( Here we do not need to apply the translation, so we just assign the zero to w. )
-			Vector4 velAInB = mtx_WorldToB * Vector4( velARelB, 0 );
+			float AProjectedExtendsX = fabs( Dot( ABBExtendsXInW, CollisionAxisXInW ) ) + fabs( Dot( ABBExtendsYInW, CollisionAxisXInW ) );
+			float BProjectedExntedsX = fabs( Dot( BBBExtendsXInW, CollisionAxisXInW ) ) + fabs( Dot( BBBExtendsYInW, CollisionAxisXInW ) );
+
+			// Calculate the velocity onto the axis
+			float AVelAlongXInW = Dot( Vector4( pGoA->GetVelocity(),0.0f), CollisionAxisXInW );
+			float BVelAlongXInW = Dot( Vector4( pGoB->GetVelocity(), 0.0f ), CollisionAxisXInW );
 
 			// Check for X axis
 			bool bCollided = true;
-			bCollided = this->CheckAxisCollision( AExtendsXInB.x, AExtendsYInB.x,
-				pBBB->extends.m_x, pBBB->center.m_x,
-				ABBCenterInB.x,
-				velAInB.x,
+			bCollided = this->CheckAxisCollision( 
+				AProjectedExtendsX,
+				BProjectedExntedsX,
+				BBBCenterOntoWX,
+				ABBCenterOntoWX,
+				AVelAlongXInW - BVelAlongXInW,
 				tFrameEnd,
 				tOpenEarilest,
 				tCloseLatest
@@ -279,13 +286,28 @@ namespace Engine
 			{
 				return false;
 			}
+			Vector4 CollisionAxisYInW = mtx_BToWorld * Vector4::UnitY;
 
-			// Check for y axis
+			// Recalculate bb's center onto axis
+			float ABBCenterOntoWY = Dot( ABBCenterInW, CollisionAxisYInW );
+			float BBBCenterOntoWY = Dot( BBBCenterInW, CollisionAxisYInW );
+
+			// ReCalculate bbs' extends onto axis
+			float AProjectedExtendsY = fabs( Dot( ABBExtendsXInW, CollisionAxisYInW ) ) + fabs( Dot( ABBExtendsYInW, CollisionAxisYInW ) );
+			float BProjectedExntedsY = fabs( Dot( BBBExtendsXInW, CollisionAxisYInW ) ) + fabs( Dot( BBBExtendsYInW, CollisionAxisYInW ) );
+
+			// Recalculate velocities
+			float AVelAlongYInW = Dot( Vector4( pGoA->GetVelocity(), 0.0f ), CollisionAxisYInW );
+			float BVelAlongYInW = Dot( Vector4( pGoB->GetVelocity(), 0.0f ), CollisionAxisYInW );
+
+			// Check for Y axis
 			bCollided = true;
-			bCollided = this->CheckAxisCollision( AExtendsXInB.y, AExtendsYInB.y,
-				pBBB->extends.m_y, pBBB->center.m_y,
-				ABBCenterInB.y,
-				velAInB.y,
+			bCollided = this->CheckAxisCollision(
+				AProjectedExtendsY,
+				BProjectedExntedsY,
+				BBBCenterOntoWY,
+				ABBCenterOntoWY,
+				AVelAlongYInW - BVelAlongYInW,
 				tFrameEnd,
 				tOpenEarilest,
 				tCloseLatest
@@ -299,42 +321,40 @@ namespace Engine
 		}
 
 		bool PhysicsManager::CheckAxisCollision(
-			float aExtendsXinAxis,
-			float aExtendsYInAxis,
-			float bBBExtendsInAxis,
-			float bBBCenterInAxis,
-			float aBBcenterInAxis,
-			float velAInBInAxis,
+			float aBBExtendsProjectedOntoAxis,
+			float bBBExtendsOntoAxis,
+			float bBBCenterOntoAxis,
+			float aBBCenterOntoAxis,
+			float velARelBOnAxis,
 			float tFrameEnd,
 			float & tOpenEarilest,
 			float & tCloseLatest
 		)
 		{
 			// Check for X axis
-			float AProjectOntoB = fabs( aExtendsXinAxis ) + fabs( aExtendsYInAxis );
-			float bExtends = bBBExtendsInAxis + AProjectOntoB;
-			float bLeft = bBBCenterInAxis - bExtends;
-			float bRight = bBBCenterInAxis + bExtends;
+			float bExtends = bBBExtendsOntoAxis + aBBExtendsProjectedOntoAxis;
+			float bLeft = bBBCenterOntoAxis - bExtends;
+			float bRight = bBBCenterOntoAxis + bExtends;
 
-			float dClose = bLeft - aBBcenterInAxis;
-			float dOpen = bRight - aBBcenterInAxis;
+			float dClose = bLeft - aBBCenterOntoAxis;
+			float dOpen = bRight - aBBCenterOntoAxis;
 
 			float tOpen = 0;
 			float tClose = 0;
 
 			// When the realtive velocity projection is zero
-			if ( velAInBInAxis == 0.0f )
+			if ( velARelBOnAxis == 0.0f )
 			{
 				// If A's bb center outside the Bleft ~ bRight, there is no collision. 
-				if ( aBBcenterInAxis < bLeft || aBBcenterInAxis > bRight )
+				if ( aBBCenterOntoAxis < bLeft || aBBCenterOntoAxis > bRight )
 				{
 					return false;
 				}
 			}
 			else
 			{
-				tOpen = dOpen / velAInBInAxis;
-				tClose = dClose / velAInBInAxis;
+				tOpen = dOpen / velARelBOnAxis;
+				tClose = dClose / velARelBOnAxis;
 				// A move to B in the -x direction, and we just swap two value
 				if ( tOpen < tClose )
 				{
