@@ -23,7 +23,7 @@ namespace Engine
 			m_pGo( i_pGo ),
 			m_pAABB( i_pAABB ),
 			m_force( Vector3::Zero ),
-			m_bInCollision( false ),
+			m_bIsCollision( false ),
 			m_bCollidable( i_bCollidable )
 		{
 		}

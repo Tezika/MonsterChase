@@ -10,6 +10,8 @@ namespace Engine
 
 	struct AABB;
 
+	struct Vector3;
+
 	namespace Physics
 	{
 #ifndef _DrawDebugInfoWhileColliding
@@ -42,12 +44,20 @@ namespace Engine
 			PhysicsManager() {};
 			TList<PhysicsInfo> * m_pPhysicsInfos;
 
-			bool CheckCollision( 
-				PhysicsInfo * pPhysicsInfoA,
-				PhysicsInfo * pPhysicsInfoB,
-				float tFrameEnd,
-				float & tOpenEarilest,
-				float & tCloseLatest
+			bool IsCollision(
+				PhysicsInfo * i_pPhysicsInfoA,
+				PhysicsInfo * i_pPhysicsInfoB,
+				float i_dt,
+				float & i_collisionTime,
+				Vector3 & i_collisionNormal
+			);
+
+			bool CheckCollision(
+				PhysicsInfo * i_pPhysicsInfoA,
+				PhysicsInfo * i_pPhysicsInfoB,
+				float i_tFrameEnd,
+				float & i_tOpenEarilest,
+				float & i_tCloseLatest
 			);
 
 			bool CheckAxisCollision(

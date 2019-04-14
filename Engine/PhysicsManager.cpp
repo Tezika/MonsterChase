@@ -63,20 +63,17 @@ namespace Engine
 			}
 
 			// Check the collision between two objects
-
 			PhysicsInfo * pPhysicsA = nullptr;
 			PhysicsInfo * pPhysicsB = nullptr;
 
 			Node<PhysicsInfo> * ptr_1 = m_pPhysicsInfos->GetHead();
 			ptr = m_pPhysicsInfos->GetHead();
 
-			float tCloseLatest;
-			float tOpenEarilest;
-			float bCollided = true;
 
 			while ( ptr != nullptr )
 			{
 				pPhysicsA = ptr->GetData();
+
 				// if the current object cannot be collided, then move to next one.
 				if ( !pPhysicsA->GetCollidable() )
 				{
@@ -99,44 +96,21 @@ namespace Engine
 						continue;
 					}
 
-					// Initialize the min and max value for time;
-					tCloseLatest = -1;
-					tOpenEarilest = 100.0f;// However, this is a magic number :<.
+					float collisionTime;
+					Vector3 collisionNormal = Vector3::Zero;
 
-					bCollided = true;
-
-
-
-					bCollided = this->CheckCollision( pPhysicsA, pPhysicsB, i_dt, tCloseLatest, tOpenEarilest );
-					if ( !bCollided )
+					// Check the collision between the A and B
+					if ( this->IsCollision( pPhysicsA, pPhysicsB, i_dt, collisionTime, collisionNormal ) )
 					{
-						pPhysicsA->SetInCollision( false );
-						pPhysicsB->SetInCollision( false );
-						ptr_1 = ptr_1->GetNext();
-						continue;
-					}
-
-					bCollided = true;
-					bCollided = this->CheckCollision( pPhysicsB, pPhysicsA, i_dt, tCloseLatest, tOpenEarilest );
-					if ( !bCollided )
-					{
-						pPhysicsA->SetInCollision( false );
-						pPhysicsB->SetInCollision( false );
-						ptr_1 = ptr_1->GetNext();
-						continue;
-					}
-
-					if ( tCloseLatest < tOpenEarilest )
-					{
-						pPhysicsA->SetInCollision( true );
-						pPhysicsB->SetInCollision( true );
+						// try to add new collsiion pair
+						pPhysicsA->SetIsCollision( true );
+						pPhysicsB->SetIsCollision( true );
 					}
 					else
 					{
-						pPhysicsA->SetInCollision( false );
-						pPhysicsB->SetInCollision( false );
+						pPhysicsA->SetIsCollision( false );
+						pPhysicsB->SetIsCollision( false );
 					}
-
 					ptr_1 = ptr_1->GetNext();
 				}
 				ptr = ptr->GetNext();
@@ -151,7 +125,7 @@ namespace Engine
 				Render::RenderInfo * pRenderInfo = Render::RenderManager::GetInstance().GetRealRenderInfoByGameObject( pCachedGo );
 				Render::RenderInfo * pDebugRenderInfo = Render::RenderManager::GetInstance().GetDebugRenderInfoByGameObject( pCachedGo );
 				// If the object is in collision, it'll render the debug sprite
-				if ( pPhysicsA->GetInCollision() )
+				if ( pPhysicsA->GetIsCollision() )
 				{
 					pRenderInfo->SetRenderable( false );
 					pDebugRenderInfo->SetRenderable( true );
@@ -231,6 +205,38 @@ namespace Engine
 
 			DEBUG_PRINT_ENGINE( "The physics system destoried succuessfully!" );
 			return true;
+		}
+
+		bool PhysicsManager::IsCollision(
+			PhysicsInfo * i_pPhysicsInfoA,
+			PhysicsInfo * i_pPhysicsInfoB,
+			float i_dt,
+			float & i_collisionTime,
+			Vector3 & i_collisionNormal )
+		{
+			// Initialize the min and max value for time;
+			float tCloseLatest = -1;
+			float tOpenEarilest = 100.0f;// However, this is a magic number :<.
+			float bCollided = true;
+
+			bCollided = this->CheckCollision( i_pPhysicsInfoA, i_pPhysicsInfoB, i_dt, tCloseLatest, tOpenEarilest );
+			if ( !bCollided )
+			{
+				return false;
+			}
+
+			bCollided = true;
+			bCollided = this->CheckCollision( i_pPhysicsInfoB, i_pPhysicsInfoA, i_dt, tCloseLatest, tOpenEarilest );
+			if ( !bCollided )
+			{
+				return false;
+			}
+
+			if ( tCloseLatest < tOpenEarilest )
+			{
+				return true;
+			}
+			return false;
 		}
 
 		bool PhysicsManager::CheckCollision(
@@ -380,7 +386,7 @@ namespace Engine
 				{
 					return false;
 				}
-				// When passing the edge check, update the earliest open and latest close time
+				// While passing the edge check, update the earliest open and latest close time
 				tOpenEarilest = tOpen < tOpenEarilest ? tOpen : tOpenEarilest;
 				tCloseLatest = tClose > tCloseLatest ? tClose : tCloseLatest;
 			}

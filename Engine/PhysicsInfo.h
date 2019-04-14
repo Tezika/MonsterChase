@@ -29,8 +29,8 @@ namespace Engine
 			inline AABB * GetAABB(){ return m_pAABB; }
 			inline void SetAABB( AABB * i_pAABB ){ m_pAABB = i_pAABB; }
 
-			inline bool GetInCollision(){ return m_bInCollision; };
-			inline void SetInCollision( bool i_inCollision ){ m_bInCollision = i_inCollision; };
+			inline bool GetIsCollision(){ return m_bIsCollision; };
+			inline void SetIsCollision( bool i_inCollision ){ m_bIsCollision = i_inCollision; };
 
 			inline bool GetCollidable() { return m_bCollidable; }
 			inline void SetCollidable( bool i_bCollidable ){ m_bCollidable = i_bCollidable; }
@@ -43,7 +43,7 @@ namespace Engine
 			AABB * m_pAABB;
 			float m_mass;
 			float m_dragness;
-			bool m_bInCollision;
+			bool m_bIsCollision;
 			bool m_bCollidable;
 		};
 	}
