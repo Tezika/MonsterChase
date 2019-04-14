@@ -77,6 +77,8 @@ namespace Engine
 			const char * pName = lua_tostring( pLuaState, -1 );
 			lua_pop_top( pLuaState );
 
+			DEBUG_PRINT_GAMEPLAY( "-----------Start print out the GameObject info for '%s'-------------------", pName );
+
 			// Retrieve the go's inital position
 			lua_pushstring( pLuaState, "initial_position" );
 			result = lua_gettable( pLuaState, -2 );
@@ -84,6 +86,8 @@ namespace Engine
 
 			Point2D<float> initial_position = ParsePointFromLua<float>( pLuaState );
 			lua_pop_top( pLuaState );
+			DEBUG_PRINT_GAMEPLAY( "The initial position for the gameobject is %.3f, %.3f", initial_position.m_x, initial_position.m_y );
+
 			// ------- Physics -----------
 			// Retrieve the go's physics settings
 			lua_pushstring( pLuaState, "physics_settings" );
@@ -143,6 +147,17 @@ namespace Engine
 
 			// Pop for AABB
 			lua_pop_top( pLuaState );
+
+			// Retrive the collidable
+			lua_pushstring( pLuaState, "collidable" );
+			result = lua_gettable( pLuaState, -2 );
+			assert( result == LUA_TBOOLEAN );
+			bool collidable = lua_toboolean( pLuaState, -1 );
+			DEBUG_PRINT_GAMEPLAY( " The collidable for object is %s", collidable ? "true" : "false" );
+
+			// Pop for collidable
+			lua_pop_top( pLuaState );
+
 			// Pop for physics settings
 			lua_pop_top( pLuaState );
 
@@ -173,13 +188,15 @@ namespace Engine
 			// Pop for the render settings
 			lua_pop_top( pLuaState );
 
+			DEBUG_PRINT_GAMEPLAY( "-----------Finish printing out the GameObject info for '%s'-------------------", pName );
+
 			// Create the go
 			ret = GameObject::Create( pName, Vector3{ initial_position.m_x, initial_position.m_y, 0 } );
 
 			// Create and assign the AABB to the physicsinfo
 			AABB * aabb = AABB::Create( center, extends );
 			// Create the player's physics info
-			Physics::PhysicsInfo * pPhysicsInfo = Physics::PhysicsInfo::Create( 1.0, 0.005f, ret, aabb );
+			Physics::PhysicsInfo * pPhysicsInfo = Physics::PhysicsInfo::Create( 1.0, 0.005f, collidable, ret, aabb );
 			pPhysicsInfo->SetDrivingForce( Vector3{ force.m_x, force.m_y, 0 } );
 			Physics::PhysicsManager::GetInstance().AddPhysicsObject( pPhysicsInfo );
 

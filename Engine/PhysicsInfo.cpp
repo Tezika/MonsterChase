@@ -12,18 +12,19 @@ namespace Engine
 {
 	namespace Physics
 	{
-		PhysicsInfo * PhysicsInfo::Create( float i_mass, float i_drag, SmartPtr<GameObject> i_pGo, AABB * i_pAABB )
+		PhysicsInfo * PhysicsInfo::Create( float i_mass, float i_drag, bool i_bCollidable, SmartPtr<GameObject> i_pGo, AABB * i_pAABB )
 		{
-			return new PhysicsInfo( i_mass, i_drag, i_pGo, i_pAABB );
+			return new PhysicsInfo( i_mass, i_drag, i_bCollidable, i_pGo, i_pAABB );
 		}
 
-		PhysicsInfo::PhysicsInfo( float i_mass, float i_drag, SmartPtr<GameObject> i_pGo, AABB * i_pAABB ) :
+		PhysicsInfo::PhysicsInfo( float i_mass, float i_drag, bool i_bCollidable, SmartPtr<GameObject> i_pGo, AABB * i_pAABB ) :
 			m_dragness( i_drag ),
 			m_mass( i_mass ),
 			m_pGo( i_pGo ),
 			m_pAABB( i_pAABB ),
 			m_force( Vector3::Zero ),
-			m_bInCollision( false )
+			m_bInCollision( false ),
+			m_bCollidable( i_bCollidable )
 		{
 		}
 

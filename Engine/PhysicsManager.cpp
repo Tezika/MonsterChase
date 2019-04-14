@@ -77,10 +77,23 @@ namespace Engine
 			while ( ptr != nullptr )
 			{
 				pPhysicsA = ptr->GetData();
-
+				// if the current object cannot be collided, then move to next one.
+				if ( !pPhysicsA->GetCollidable() )
+				{
+					ptr = ptr->GetNext();
+					continue;
+				}
 				while ( ptr_1 != nullptr )
 				{
 					if ( ptr == ptr_1 )
+					{
+						ptr_1 = ptr_1->GetNext();
+						continue;
+					}
+
+					// if the current object cannot be collided, then move to next one.
+					pPhysicsB = ptr_1->GetData();
+					if ( !pPhysicsB->GetCollidable() )
 					{
 						ptr_1 = ptr_1->GetNext();
 						continue;
@@ -92,7 +105,7 @@ namespace Engine
 
 					bCollided = true;
 
-					pPhysicsB = ptr_1->GetData();
+
 
 					bCollided = this->CheckCollision( pPhysicsA, pPhysicsB, i_dt, tCloseLatest, tOpenEarilest );
 					if ( !bCollided )

@@ -12,7 +12,7 @@ namespace Engine
 		class PhysicsInfo
 		{
 		public:
-			static PhysicsInfo * Create( float i_mass, float i_dragness, SmartPtr<GameObject> i_pGo, AABB * i_pAABB );
+			static PhysicsInfo * Create( float i_mass, float i_dragness, bool i_bCollidable, SmartPtr<GameObject> i_pGo, AABB * i_pAABB );
 			~PhysicsInfo();
 
 			PhysicsInfo( const PhysicsInfo & ) = delete;
@@ -32,15 +32,19 @@ namespace Engine
 			inline bool GetInCollision(){ return m_bInCollision; };
 			inline void SetInCollision( bool i_inCollision ){ m_bInCollision = i_inCollision; };
 
+			inline bool GetCollidable() { return m_bCollidable; }
+			inline void SetCollidable( bool i_bCollidable ){ m_bCollidable = i_bCollidable; }
+
 		private:
 			PhysicsInfo(){};
-			PhysicsInfo( float i_mass, float i_drag, SmartPtr<GameObject> i_pGo, AABB * i_pAABB );
+			PhysicsInfo( float i_mass, float i_drag, bool i_bCollidable, SmartPtr<GameObject> i_pGo, AABB * i_pAABB );
 			SmartPtr<GameObject> m_pGo;
 			Vector3 m_force;
 			AABB * m_pAABB;
 			float m_mass;
 			float m_dragness;
 			bool m_bInCollision;
+			bool m_bCollidable;
 		};
 	}
 }
