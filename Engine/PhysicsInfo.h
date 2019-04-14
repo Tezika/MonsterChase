@@ -32,8 +32,6 @@ namespace Engine
 			inline bool GetInCollision(){ return m_bInCollision; };
 			inline void SetInCollision( bool i_inCollision ){ m_bInCollision = i_inCollision; };
 
-			void UpdateAABB();
-
 		private:
 			PhysicsInfo(){};
 			PhysicsInfo( float i_mass, float i_drag, SmartPtr<GameObject> i_pGo, AABB * i_pAABB );

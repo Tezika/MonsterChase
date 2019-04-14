@@ -18,7 +18,7 @@ namespace Engine
 
 		CollisionPair::CollisionPair( const CollisionPair & i_pOther ) :
 			m_collisionTime( i_pOther.m_collisionTime ),
-			m_collisionNormal( i_pOther.m_collisionNormal)
+			m_collisionNormal( i_pOther.m_collisionNormal )
 		{
 			m_pCollidables[0] = i_pOther.m_pCollidables[0];
 			m_pCollidables[1] = i_pOther.m_pCollidables[1];

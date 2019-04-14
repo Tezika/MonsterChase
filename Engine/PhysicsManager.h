@@ -42,8 +42,9 @@ namespace Engine
 			PhysicsManager() {};
 			TList<PhysicsInfo> * m_pPhysicsInfos;
 
-			bool CheckCollision( SmartPtr<GameObject> pGoA, SmartPtr<GameObject> pGoB,
-				AABB * pABB, AABB * pBBB,
+			bool CheckCollision( 
+				PhysicsInfo * pPhysicsInfoA,
+				PhysicsInfo * pPhysicsInfoB,
 				float tFrameEnd,
 				float & tOpenEarilest,
 				float & tCloseLatest

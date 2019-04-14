@@ -189,9 +189,6 @@
     <ClInclude Include="Matrix3x3.h">
       <Filter>Header Files\Mathematics</Filter>
     </ClInclude>
-    <ClInclude Include="Collidable.h">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionPair.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
@@ -271,9 +268,6 @@
     </ClCompile>
     <ClCompile Include="Matrix3x3.cpp">
       <Filter>Source Files\Mathematics</Filter>
-    </ClCompile>
-    <ClCompile Include="Collidable.cpp">
-      <Filter>Source Files\Physics</Filter>
     </ClCompile>
     <ClCompile Include="CollisionPair.cpp">
       <Filter>Source Files\Physics</Filter>

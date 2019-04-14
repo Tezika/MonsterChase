@@ -63,10 +63,6 @@ namespace Engine
 			}
 
 			// Check the collision between two objects
-			SmartPtr<GameObject> pGoA;
-			SmartPtr<GameObject> pGoB;
-			AABB * pABB = nullptr;
-			AABB * pBBB = nullptr;
 
 			PhysicsInfo * pPhysicsA = nullptr;
 			PhysicsInfo * pPhysicsB = nullptr;
@@ -91,24 +87,14 @@ namespace Engine
 					}
 
 					// Initialize the min and max value for time;
-					tCloseLatest = -1.0f;
+					tCloseLatest = -1;
 					tOpenEarilest = 100.0f;// However, this is a magic number :<.
 
 					bCollided = true;
 
 					pPhysicsB = ptr_1->GetData();
 
-					pGoA = pPhysicsA->GetGameObject();
-					assert( pGoA );
-					pABB = pPhysicsA->GetAABB();
-					assert( pABB );
-
-					pGoB = pPhysicsB->GetGameObject();
-					assert( pGoB );
-					pBBB = pPhysicsB->GetAABB();
-					assert( pBBB );
-
-					bCollided = this->CheckCollision( pGoA, pGoB, pABB, pBBB, i_dt, tCloseLatest, tOpenEarilest );
+					bCollided = this->CheckCollision( pPhysicsA, pPhysicsB, i_dt, tCloseLatest, tOpenEarilest );
 					if ( !bCollided )
 					{
 						pPhysicsA->SetInCollision( false );
@@ -118,7 +104,7 @@ namespace Engine
 					}
 
 					bCollided = true;
-					bCollided = this->CheckCollision( pGoB, pGoA, pBBB, pABB, i_dt, tCloseLatest, tOpenEarilest );
+					bCollided = this->CheckCollision( pPhysicsB, pPhysicsA, i_dt, tCloseLatest, tOpenEarilest );
 					if ( !bCollided )
 					{
 						pPhysicsA->SetInCollision( false );
@@ -235,14 +221,24 @@ namespace Engine
 		}
 
 		bool PhysicsManager::CheckCollision(
-			SmartPtr<GameObject> pGoA,
-			SmartPtr<GameObject> pGoB,
-			AABB * pABB, AABB * pBBB,
+			PhysicsInfo * pPhysicsInfoA,
+			PhysicsInfo * pPhysicsInfoB,
 			float tFrameEnd,
 			float & tCloseLatest,
 			float & tOpenEarilest
 		)
 		{
+
+			SmartPtr<GameObject> pGoA = pPhysicsInfoA->GetGameObject();
+			assert( pGoA );
+			AABB * pABB = pPhysicsInfoA->GetAABB();
+			assert( pABB );
+
+			SmartPtr<GameObject> pGoB = pPhysicsInfoB->GetGameObject();
+			assert( pGoB );
+			AABB * pBBB = pPhysicsInfoB->GetAABB();
+			assert( pBBB );
+
 			// Calculate the necessary matrixes
 			Matrix4x4 mtx_AToWorld = pGoA->GetMatrixFromLocalToWorld();
 			Matrix4x4 mtx_BToWorld = pGoB->GetMatrixFromLocalToWorld();

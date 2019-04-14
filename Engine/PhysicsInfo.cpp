@@ -34,15 +34,5 @@ namespace Engine
 				delete m_pAABB;
 			}
 		}
-
-		void PhysicsInfo::UpdateAABB()
-		{
-			// Create the Matrix from local coordinate to world
-			Matrix4x4 mtx_translation = Matrix4x4::CreateTranslation( m_pGo->GetPosition() );
-			Matrix4x4 mtx_zRotation = Matrix4x4::CreateRotationZ( m_pGo->GetZRot() );
-			Matrix4x4 mtx_ObjToWorld = mtx_translation * mtx_zRotation;
-
-			Vector4 aabbCenterInWorld = mtx_ObjToWorld * Vector4( m_pAABB->center.m_x, m_pAABB->center.m_y, 0, 1 );
-		}
 	}
 }
