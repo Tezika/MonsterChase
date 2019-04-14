@@ -23,6 +23,10 @@ namespace Engine
 		{
 			m_pPhysicsInfos = new TList<PhysicsInfo>();
 			assert( m_pPhysicsInfos );
+			m_pCollisionPairs = new TList<CollisionPair>();
+			assert( m_pCollisionPairs );
+			m_pMoveObjects = new TList<PhysicsInfo>();
+			assert( m_pMoveObjects );
 			DEBUG_PRINT_ENGINE( "The physics system initialized succuessfully!" );
 			return true;
 		}
@@ -34,7 +38,7 @@ namespace Engine
 			float collisionTime = 0;
 			float processCollisionTime = 0;
 			this->SimulateCollision( i_dt, collisionTime, processCollisionTime );
-			this->SimulateMovement( i_dt );
+			this->SimulateMovement( i_dt, m_pPhysicsInfos );
 			//while ( 1 )
 			//{
 			//	this->SimulateCollision( cachedFrameTime, collisionTime, processCollisionTime );
@@ -53,7 +57,7 @@ namespace Engine
 			//}
 		}
 
-		void PhysicsManager::SimulateMovement( float i_dt )
+		void PhysicsManager::SimulateMovement( float i_dt, TList<PhysicsInfo> * i_pMoveObjects )
 		{
 			// Iterate every physics object in the list
 			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
@@ -90,7 +94,7 @@ namespace Engine
 			}
 		}
 
-		void PhysicsManager::SimulateCollision( float i_dt, float & i_tEarliestCollision, float & i_processTime )
+		TList<CollisionPair> * PhysicsManager::SimulateCollision( float i_dt, float & i_tEarliestCollision, float & i_processTime )
 		{
 			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
 
@@ -171,6 +175,8 @@ namespace Engine
 				ptr = ptr->GetNext();
 			}
 #endif
+
+			return nullptr;
 		}
 
 		bool PhysicsManager::AddPhysicsObject( PhysicsInfo * i_pInfo )
@@ -220,17 +226,17 @@ namespace Engine
 
 		bool PhysicsManager::Destroy()
 		{
+			m_pCollisionPairs->Clear();
+			delete m_pCollisionPairs;
+			m_pCollisionPairs = nullptr;
+
+			m_pMoveObjects->Clear();
+			delete m_pMoveObjects;
+			m_pMoveObjects = nullptr;
+
 			// Clean the physics objects
-			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
-			PhysicsInfo * removePhysicsInfo = nullptr;
-			while ( ptr != nullptr )
-			{
-				removePhysicsInfo = ptr->GetData();
-				assert( removePhysicsInfo );
-				ptr = m_pPhysicsInfos->Remove( ptr );
-				delete removePhysicsInfo;
-			}
-			// Delete the physicsInfo's manager
+			m_pPhysicsInfos->Clear( true );
+			// Delete some containers
 			delete m_pPhysicsInfos;
 			m_pPhysicsInfos = nullptr;
 

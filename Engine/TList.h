@@ -72,7 +72,7 @@ namespace Engine
 		Node<T> * Remove( Node<T> * );
 		Node<T> * Insert( T * );
 
-		void Clear();
+		void Clear( bool i_deleteNodeData = false );
 
 		inline Node<T> * GetHead(){ return m_pHead; }
 		inline Node<T> * GetTail(){ return m_pTail; }
@@ -155,14 +155,19 @@ namespace Engine
 	}
 
 	template<typename T>
-	void TList<T>::Clear()
+	void TList<T>::Clear( bool i_bDeleteNodeData )
 	{
-		Node<T> * pCur = m_pHead;
-		while ( m_pHead )
+		Node<T> * ptr = m_pHead;
+		T * removeData = nullptr;
+		while ( ptr != nullptr )
 		{
-			m_pHead = m_pHead->GetNext();
-			delete pCur;
-			pCur = m_pHead;
+			if ( i_bDeleteNodeData )
+			{
+				removeData = ptr->GetData();
+				assert( removeData );
+				delete removeData;
+			}
+			ptr = this->Remove( ptr );
 		}
 		m_pHead = nullptr;
 		m_pTail = nullptr;

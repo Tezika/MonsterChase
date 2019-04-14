@@ -58,15 +58,7 @@ namespace Engine
 		bool ControllerManager::Destroy()
 		{
 			// Clean the physics objects
-			Node<IController> * ptr = m_pControllers->GetHead();
-			IController * removeController = nullptr;
-			while ( ptr != nullptr )
-			{
-				removeController = ptr->GetData();
-				assert( removeController );
-				ptr = m_pControllers->Remove( ptr );
-				delete removeController;
-			}
+			m_pControllers->Clear( true );
 			// Delete the physicsInfo's manager
 			delete m_pControllers;
 			m_pControllers = nullptr;

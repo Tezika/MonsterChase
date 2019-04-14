@@ -192,17 +192,7 @@ namespace Engine
 		bool RenderManager::ClearRenderInfos( TList<RenderInfo> * pRenderInfos )
 		{
 			assert( pRenderInfos );
-			// Clean the render objects
-			Node<RenderInfo> * ptr = pRenderInfos->GetHead();
-			RenderInfo * removeRenderInfo = nullptr;
-			while ( ptr != nullptr )
-			{
-				removeRenderInfo = ptr->GetData();
-				assert( removeRenderInfo );
-				ptr = pRenderInfos->Remove( ptr );
-				delete removeRenderInfo;
-			}
-			// Delete the renderinfo's manager
+			pRenderInfos->Clear( true );
 			delete pRenderInfos;
 			pRenderInfos = nullptr;
 			return true;

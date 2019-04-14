@@ -1,5 +1,6 @@
 #pragma once
 #include "SmartPtr.h"
+#include "CollisionPair.h"
 
 namespace Engine
 {
@@ -7,9 +8,7 @@ namespace Engine
 
 	template<typename T>
 	class TList;
-
 	struct AABB;
-
 	struct Vector3;
 
 	namespace Physics
@@ -71,8 +70,12 @@ namespace Engine
 				float & tCloseLatest
 			);
 
-			void SimulateMovement( float i_dt );
-			void SimulateCollision( float i_dt, float & i_tEarliestCollision, float & i_tProcess );
+			TList<CollisionPair> * m_pCollisionPairs;
+			TList<PhysicsInfo> * m_pMoveObjects;
+
+			void SimulateMovement( float i_dt, TList<PhysicsInfo> * i_pMoveObjects );
+			TList<CollisionPair> * SimulateCollision( float i_dt, float & i_tEarliestCollision, float & i_tProcess );
+
 		};
 	}
 }
