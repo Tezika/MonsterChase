@@ -70,6 +70,9 @@ namespace Engine
 				float & tOpenEarilest,
 				float & tCloseLatest
 			);
+
+			void SimulateMovement( float i_dt );
+			void SimulateCollision( float i_dt );
 		};
 	}
 }

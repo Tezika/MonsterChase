@@ -17,14 +17,12 @@ namespace Engine
 		center( i_center ),
 		extends( i_extends )
 	{
-
 	}
 
 	AABB::AABB( const AABB & i_other ) :
 		center( i_other.center ),
 		extends( i_other.extends )
 	{
-
 	}
 
 	AABB::AABB( float i_center_x, float i_center_y, float i_extends_x, float i_extends_y ) :

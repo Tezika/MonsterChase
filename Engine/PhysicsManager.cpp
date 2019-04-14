@@ -29,6 +29,12 @@ namespace Engine
 
 		void PhysicsManager::Simulate( float i_dt )
 		{
+			this->SimulateCollision( i_dt );
+			this->SimulateMovement( i_dt );
+		}
+
+		void PhysicsManager::SimulateMovement( float i_dt )
+		{
 			// Iterate every physics object in the list
 			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
 			Vector3 cachedAcceleration;
@@ -36,6 +42,7 @@ namespace Engine
 			Vector3 cachedAverageVelocity;
 			Vector3 cachedPosition;
 			SmartPtr<GameObject> pCachedGo;
+
 			// Simulate the position
 			while ( ptr != nullptr )
 			{
@@ -61,14 +68,19 @@ namespace Engine
 				pCachedGo->SetPosition( cachedPosition + cachedAverageVelocity * i_dt );
 				ptr = ptr->GetNext();
 			}
+		}
+
+		void PhysicsManager::SimulateCollision( float i_dt )
+		{
+
+			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
 
 			// Check the collision between two objects
 			PhysicsInfo * pPhysicsA = nullptr;
 			PhysicsInfo * pPhysicsB = nullptr;
 
 			Node<PhysicsInfo> * ptr_1 = m_pPhysicsInfos->GetHead();
-			ptr = m_pPhysicsInfos->GetHead();
-
+			SmartPtr<GameObject> pCachedGo;
 
 			while ( ptr != nullptr )
 			{
@@ -116,6 +128,7 @@ namespace Engine
 				ptr = ptr->GetNext();
 			}
 
+			// Draw the debug visual information to indicate the collision.
 #if defined(_DEBUG) && defined(_DrawDebugInfoWhileColliding)
 			ptr = this->m_pPhysicsInfos->GetHead();
 			while ( ptr != nullptr )
@@ -138,7 +151,6 @@ namespace Engine
 				}
 				ptr = ptr->GetNext();
 			}
-			pCachedGo = nullptr;
 #endif
 		}
 
@@ -219,12 +231,14 @@ namespace Engine
 			float tOpenEarilest = 100.0f;// However, this is a magic number :<.
 			float bCollided = true;
 
+			// Check for the A projected onto B's in world.
 			bCollided = this->CheckCollision( i_pPhysicsInfoA, i_pPhysicsInfoB, i_dt, tCloseLatest, tOpenEarilest );
 			if ( !bCollided )
 			{
 				return false;
 			}
 
+			// Swap A and B. Then do the check again.
 			bCollided = true;
 			bCollided = this->CheckCollision( i_pPhysicsInfoB, i_pPhysicsInfoA, i_dt, tCloseLatest, tOpenEarilest );
 			if ( !bCollided )
