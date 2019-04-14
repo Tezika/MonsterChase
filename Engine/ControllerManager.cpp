@@ -12,7 +12,7 @@ namespace Engine
 		bool ControllerManager::AddContrller( IController * i_pController )
 		{
 			assert( i_pController );
-			return m_pControllers->InsertToTail( i_pController );
+			return m_pControllers->Insert( i_pController );
 		}
 
 		bool ControllerManager::RemoveController( IController * i_pController )

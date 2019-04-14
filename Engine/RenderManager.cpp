@@ -36,7 +36,7 @@ namespace Engine
 		bool RenderManager::Initialize( HINSTANCE i_hInstance, int i_nCmdShow )
 		{
 			// Setup the GLib.
-			bool bSuccess = GLib::Initialize( i_hInstance, i_nCmdShow, "GLibTest", -1, 800, 600 );
+			bool bSuccess = GLib::Initialize( i_hInstance, i_nCmdShow, "MonsterChase", -1, 800, 600 );
 			if ( !bSuccess )
 			{
 				return bSuccess;
@@ -126,7 +126,7 @@ namespace Engine
 			float yScale = pAABB->extends.m_y * 2 / i_spriteSizeY;
 			pNewRenderObject->SetRenderScaleX( xScale );
 			pNewRenderObject->SetRenderScaleY( yScale );
-			return pRenderInfos->InsertToTail( pNewRenderObject )->GetData();
+			return pRenderInfos->Insert( pNewRenderObject )->GetData();
 		}
 
 		bool RenderManager::RemoveRenderInfo( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo )

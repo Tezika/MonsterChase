@@ -70,7 +70,9 @@ namespace Engine
 		const size_t Length() { return m_length; }
 
 		Node<T> * Remove( Node<T> * );
-		Node<T> * InsertToTail( T * );
+		Node<T> * Insert( T * );
+
+		void Clear();
 
 		inline Node<T> * GetHead(){ return m_pHead; }
 		inline Node<T> * GetTail(){ return m_pTail; }
@@ -84,7 +86,6 @@ namespace Engine
 	template<typename T>
 	inline TList<T>::TList( const TList<T> & List ) : m_pHead( nullptr ), m_pTail( nullptr )
 	{
-
 	}
 
 	template<typename T>
@@ -131,19 +132,11 @@ namespace Engine
 	template<typename T>
 	inline TList<T>::~TList()
 	{
-		Node<T> * pCur = m_pHead;
-		while ( m_pHead )
-		{
-			m_pHead = m_pHead->GetNext();
-			delete pCur;
-			pCur = m_pHead;
-		}
-		m_pHead = nullptr;
-		m_pTail = nullptr;
+		this->Clear();
 	}
 
 	template<typename T>
-	inline Node<T> * TList<T>::InsertToTail( T * i_pVal )
+	inline Node<T> * TList<T>::Insert( T * i_pVal )
 	{
 		assert( i_pVal );
 		Node<T> * newNode = new Node<T>( i_pVal );
@@ -159,5 +152,19 @@ namespace Engine
 		}
 		m_length++;
 		return newNode;
+	}
+
+	template<typename T>
+	void TList<T>::Clear()
+	{
+		Node<T> * pCur = m_pHead;
+		while ( m_pHead )
+		{
+			m_pHead = m_pHead->GetNext();
+			delete pCur;
+			pCur = m_pHead;
+		}
+		m_pHead = nullptr;
+		m_pTail = nullptr;
 	}
 }

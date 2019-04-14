@@ -29,8 +29,28 @@ namespace Engine
 
 		void PhysicsManager::Simulate( float i_dt )
 		{
-			this->SimulateCollision( i_dt );
+			// Simulate the object movement and collision for the sparse time;
+			float cachedFrameTime = i_dt;
+			float collisionTime = 0;
+			float processCollisionTime = 0;
+			this->SimulateCollision( i_dt, collisionTime, processCollisionTime );
 			this->SimulateMovement( i_dt );
+			//while ( 1 )
+			//{
+			//	this->SimulateCollision( cachedFrameTime, collisionTime, processCollisionTime );
+			//	// Collision Process time is bigger than frame time
+			//	if ( processCollisionTime > cachedFrameTime )
+			//	{
+			//		break;
+			//	}
+			//	cachedFrameTime -= collisionTime;
+			//	// Has already ran out of the frame time
+			//	if ( cachedFrameTime < 0 )
+			//	{
+			//		break;
+			//	}
+			//	this->SimulateMovement( cachedFrameTime );
+			//}
 		}
 
 		void PhysicsManager::SimulateMovement( float i_dt )
@@ -70,9 +90,8 @@ namespace Engine
 			}
 		}
 
-		void PhysicsManager::SimulateCollision( float i_dt )
+		void PhysicsManager::SimulateCollision( float i_dt, float & i_tEarliestCollision, float & i_processTime )
 		{
-
 			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
 
 			// Check the collision between two objects
@@ -157,7 +176,7 @@ namespace Engine
 		bool PhysicsManager::AddPhysicsObject( PhysicsInfo * i_pInfo )
 		{
 			assert( i_pInfo );
-			return m_pPhysicsInfos->InsertToTail( i_pInfo );
+			return m_pPhysicsInfos->Insert( i_pInfo );
 		}
 
 		bool PhysicsManager::RemovePhysicsObject( GameObject * i_pGo )

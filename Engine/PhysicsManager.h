@@ -72,7 +72,7 @@ namespace Engine
 			);
 
 			void SimulateMovement( float i_dt );
-			void SimulateCollision( float i_dt );
+			void SimulateCollision( float i_dt, float & i_tEarliestCollision, float & i_tProcess );
 		};
 	}
 }
