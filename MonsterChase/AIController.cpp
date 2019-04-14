@@ -1,4 +1,3 @@
-#pragma once
 #include "AIController.h"
 #include "game.h"
 #include "Matrix4x4.h"

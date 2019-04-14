@@ -346,7 +346,7 @@ namespace Engine
 			// When the realtive velocity projection is zero
 			if ( velARelBOnAxis == 0.0f )
 			{
-				// If A's bb center outside the Bleft ~ bRight, there is no collision. 
+				// If A's bb center outside the bleft ~ bRight, there is no collision. 
 				if ( aBBCenterOntoAxis < bLeft || aBBCenterOntoAxis > bRight )
 				{
 					return false;

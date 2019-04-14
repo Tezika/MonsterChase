@@ -157,6 +157,8 @@
   <ItemGroup>
     <ClInclude Include="AABB.h" />
     <ClInclude Include="BitArray.h" />
+    <ClInclude Include="Collidable.h" />
+    <ClInclude Include="CollisionPair.h" />
     <ClInclude Include="CommonUtility.h" />
     <ClInclude Include="ConsolePrint.h" />
     <ClInclude Include="ControllerManager.h" />
@@ -191,6 +193,8 @@
   <ItemGroup>
     <ClCompile Include="AABB.cpp" />
     <ClCompile Include="BitArray.cpp" />
+    <ClCompile Include="Collidable.cpp" />
+    <ClCompile Include="CollisionPair.cpp" />
     <ClCompile Include="CommonUtility.cpp" />
     <ClCompile Include="ConsolePrint.cpp" />
     <ClCompile Include="ControllerManager.cpp" />
