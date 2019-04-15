@@ -25,8 +25,6 @@ namespace Engine
 			assert( m_pPhysicsInfos );
 			m_pCollisionPairs = new TList<CollisionPair>();
 			assert( m_pCollisionPairs );
-			m_pMoveObjects = new TList<PhysicsInfo>();
-			assert( m_pMoveObjects );
 			DEBUG_PRINT_ENGINE( "The physics system initialized succuessfully!" );
 			return true;
 		}
@@ -37,29 +35,24 @@ namespace Engine
 			float cachedFrameTime = i_dt;
 			float collisionTime = 0;
 			float processCollisionTime = 0;
-			this->SimulateCollision( i_dt, collisionTime, processCollisionTime );
-			this->SimulateMovement( i_dt, m_pPhysicsInfos );
-			//while ( 1 )
-			//{
-			//	this->SimulateCollision( cachedFrameTime, collisionTime, processCollisionTime );
-			//	// Collision Process time is bigger than frame time
-			//	if ( processCollisionTime > cachedFrameTime )
-			//	{
-			//		break;
-			//	}
-			//	cachedFrameTime -= collisionTime;
-			//	// Has already ran out of the frame time
-			//	if ( cachedFrameTime < 0 )
-			//	{
-			//		break;
-			//	}
-			//	this->SimulateMovement( cachedFrameTime );
-			//}
+			this->SimulateCollision( i_dt, collisionTime, processCollisionTime, m_pCollisionPairs );
+
+			if ( m_pCollisionPairs->Length() == 0 )
+			{
+				// If there is no collision, it'll simulate the movement directly
+				this->SimulateMovement( i_dt );
+			}
+			else
+			{
+				// Find the first collision time point.
+				// Simulate objects' movment toward that time point.
+				// Simualte the collision again based on that.
+			}
 		}
 
-		void PhysicsManager::SimulateMovement( float i_dt, TList<PhysicsInfo> * i_pMoveObjects )
+		void PhysicsManager::SimulateMovement( float i_dt)
 		{
-			// Iterate every physics object in the list
+			// Iterate every physics object in the moving object list
 			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
 			Vector3 cachedAcceleration;
 			Vector3 cachedVelocity;
@@ -94,10 +87,10 @@ namespace Engine
 			}
 		}
 
-		TList<CollisionPair> * PhysicsManager::SimulateCollision( float i_dt, float & i_tEarliestCollision, float & i_processTime )
+		void PhysicsManager::SimulateCollision( float i_dt, float & i_tEarliestCollision, float & i_processTime, TList<CollisionPair> * i_pCollisionPairs )
 		{
+			i_pCollisionPairs->Clear( true );
 			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
-
 			// Check the collision between two objects
 			PhysicsInfo * pPhysicsA = nullptr;
 			PhysicsInfo * pPhysicsB = nullptr;
@@ -140,6 +133,7 @@ namespace Engine
 						// try to add new collsiion pair
 						pPhysicsA->SetIsCollision( true );
 						pPhysicsB->SetIsCollision( true );
+						//m_pCollisionPairs->Insert( new CollisionPair( collisionTime, collisionNormal, pPhysicsA, pPhysicsB ) );
 					}
 					else
 					{
@@ -175,8 +169,6 @@ namespace Engine
 				ptr = ptr->GetNext();
 			}
 #endif
-
-			return nullptr;
 		}
 
 		bool PhysicsManager::AddPhysicsObject( PhysicsInfo * i_pInfo )
@@ -226,13 +218,10 @@ namespace Engine
 
 		bool PhysicsManager::Destroy()
 		{
-			m_pCollisionPairs->Clear();
+			// Clear the collision pairs
+			m_pCollisionPairs->Clear(true);
 			delete m_pCollisionPairs;
 			m_pCollisionPairs = nullptr;
-
-			m_pMoveObjects->Clear();
-			delete m_pMoveObjects;
-			m_pMoveObjects = nullptr;
 
 			// Clean the physics objects
 			m_pPhysicsInfos->Clear( true );
