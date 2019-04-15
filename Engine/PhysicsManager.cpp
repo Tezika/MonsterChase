@@ -50,7 +50,7 @@ namespace Engine
 			}
 		}
 
-		void PhysicsManager::SimulateMovement( float i_dt)
+		void PhysicsManager::SimulateMovement( float i_dt )
 		{
 			// Iterate every physics object in the moving object list
 			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
@@ -219,13 +219,12 @@ namespace Engine
 		bool PhysicsManager::Destroy()
 		{
 			// Clear the collision pairs
-			m_pCollisionPairs->Clear(true);
+			m_pCollisionPairs->Clear( true );
 			delete m_pCollisionPairs;
 			m_pCollisionPairs = nullptr;
 
 			// Clean the physics objects
 			m_pPhysicsInfos->Clear( true );
-			// Delete some containers
 			delete m_pPhysicsInfos;
 			m_pPhysicsInfos = nullptr;
 
