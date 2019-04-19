@@ -11,11 +11,11 @@ namespace Engine
 		{
 		public:
 			float m_collisionTime;
-			Vector3 m_collisionNormal;
+			Vector3  m_collisionNormal;
 			PhysicsInfo * m_pCollidables[2];
 
 			CollisionPair(){};
-			CollisionPair( float i_collisionTime, Vector3 i_collisionNormal, PhysicsInfo * i_pPhysicsInfoA, PhysicsInfo * i_pPhysicsInfoB );
+			CollisionPair( float i_collisionTime, const Vector3 & i_collisionNormal, PhysicsInfo * i_pPhysicsInfoA, PhysicsInfo * i_pPhysicsInfoB );
 			CollisionPair( const CollisionPair & i_pOther );
 		};
 	}

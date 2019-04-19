@@ -6,7 +6,7 @@ namespace Engine
 {
 	namespace Physics
 	{
-		CollisionPair::CollisionPair( float i_collisionTime, Vector3 i_collisionNormal, PhysicsInfo * i_pPhysicsInfoA, PhysicsInfo * i_pPhysicsInfoB ) :
+		CollisionPair::CollisionPair( float i_collisionTime, const Vector3 & i_collisionNormal, PhysicsInfo * i_pPhysicsInfoA, PhysicsInfo * i_pPhysicsInfoB ) :
 			m_collisionTime( i_collisionTime ),
 			m_collisionNormal( i_collisionNormal )
 		{
