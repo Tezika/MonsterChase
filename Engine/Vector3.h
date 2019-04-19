@@ -14,34 +14,33 @@ namespace Engine
 		Vector3( const Vector3 & i_other );
 		void operator=( const Vector3 & i_other );
 
-		Vector3 operator+( const Vector3 & i_other );
+		Vector3 operator+( const Vector3 & i_other ) const;
 		void  operator+=( const Vector3 & i_other );
 
-		Vector3 operator-( const Vector3 & i_other );
+		Vector3 operator-( const Vector3 & i_other ) const;
 		void operator-=( const Vector3 & i_other );
 
 		Vector3 operator-() const;
 
-		Vector3 operator*( float value );
+		Vector3 operator*( float value ) const;
 		void operator*=( float value );
 
-		Vector3 operator/( float value );
+		Vector3 operator/( float value ) const;
 		void operator/=( float value );
 
-		float Dot( const Vector3 & i_other );
+		float Dot( const Vector3 & i_other ) const;
 
-		Vector3 Cross( const Vector3 & i_other );
+		Vector3 Cross( const Vector3 & i_other ) const;
 
-		float Length();
 		float Length() const;
 
-		float Distance( const Vector3 & i_other );
+		float Distance( const Vector3 & i_other ) const;
 
-		Vector3 Normalize();
+		Vector3 Normalize() const;
 
-		Vector3 OrthoNormalize( Vector3 & tangent);
+		Vector3 OrthoNormalize( Vector3 & tangent ) const;
 
-		void Printout();
+		void Printout() const;
 
 		~Vector3();
 
@@ -49,14 +48,4 @@ namespace Engine
 		float y;
 		float z;
 	};
-
-	inline Vector3 operator+( const Vector3 & i_lvc, const Vector3 & i_rvc )
-	{
-		return Vector3( i_lvc.x + i_rvc.x, i_lvc.y + i_rvc.y, i_lvc.z + i_rvc.z );
-	}
-
-	inline Vector3 operator-( const Vector3 & i_lvc, const Vector3 & i_rvc )
-	{
-		return Vector3( i_lvc.x - i_rvc.x, i_lvc.y - i_rvc.y, i_lvc.z - i_rvc.z );
-	}
 };

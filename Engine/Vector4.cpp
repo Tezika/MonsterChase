@@ -40,7 +40,7 @@ namespace Engine
 		this->w = i_other.w;
 	}
 
-	Vector4 Vector4::operator+( const Vector4 & i_other )
+	Vector4 Vector4::operator+( const Vector4 & i_other ) const
 	{
 		return Vector4( this->x + i_other.x, this->y + i_other.y, this->z + i_other.z, this->w + i_other.w );
 	}
@@ -53,7 +53,7 @@ namespace Engine
 		this->w += i_other.w;
 	}
 
-	Vector4 Vector4::operator-( const Vector4 & i_other )
+	Vector4 Vector4::operator-( const Vector4 & i_other ) const
 	{
 		return Vector4( this->x - i_other.x, this->y - i_other.y, this->z - i_other.z, this->w - i_other.w );
 	}
@@ -71,7 +71,7 @@ namespace Engine
 		this->w -= i_other.w;
 	}
 
-	Vector4 Vector4::operator*( float value )
+	Vector4 Vector4::operator*( float value ) const
 	{
 		return Vector4( this->x * value, this->y * value, this->z * value, this->w * value );
 	}
@@ -84,7 +84,7 @@ namespace Engine
 		this->w *= value;
 	}
 
-	Vector4 Vector4::operator/( float value )
+	Vector4 Vector4::operator/( float value ) const
 	{
 		assert( value != 0 );
 		return Vector4( this->x / value, this->y / value, this->z / value, this->w / value );

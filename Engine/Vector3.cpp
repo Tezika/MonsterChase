@@ -32,7 +32,7 @@ namespace Engine
 		this->z = i_other.z;
 	}
 
-	Vector3 Vector3::operator+( const Vector3 & i_other )
+	Vector3 Vector3::operator+( const Vector3 & i_other ) const
 	{
 		return Vector3( this->x + i_other.x, this->y + i_other.y, this->z + i_other.z );
 	}
@@ -44,7 +44,7 @@ namespace Engine
 		this->z += i_other.z;
 	}
 
-	Vector3 Vector3::operator-( const Vector3 & i_other )
+	Vector3 Vector3::operator-( const Vector3 & i_other ) const
 	{
 		return Vector3( this->x - i_other.x, this->y - i_other.y, this->z - i_other.z );
 	}
@@ -61,7 +61,7 @@ namespace Engine
 		this->z -= i_other.z;
 	}
 
-	Vector3  Vector3::operator*( float value )
+	Vector3  Vector3::operator*( float value ) const
 	{
 		return Vector3( this->x * value, this->y * value, this->z * value );
 	}
@@ -73,7 +73,7 @@ namespace Engine
 		this->z *= value;
 	}
 
-	Vector3 Vector3::operator/( float value )
+	Vector3 Vector3::operator/( float value ) const
 	{
 		assert( value != 0 );
 		return Vector3( this->x / value, this->y / value, this->z / value );
@@ -87,12 +87,12 @@ namespace Engine
 		this->z /= value;
 	}
 
-	float Vector3::Dot( const Vector3 & i_other )
+	float Vector3::Dot( const Vector3 & i_other ) const
 	{
 		return this->x * i_other.x + this->y * i_other.y + this->z * i_other.z;
 	}
 
-	Vector3 Vector3::Cross( const Vector3 & i_other )
+	Vector3 Vector3::Cross( const Vector3 & i_other ) const
 	{
 		return Vector3(
 			this->y * i_other.z - this->z * i_other.y,
@@ -101,39 +101,37 @@ namespace Engine
 		);
 	}
 
-	float Vector3::Length()
-	{
-		return sqrtf( this->x * this->x + this->y * this->y + this->z * this->z );
-	}
-	
 	float Vector3::Length() const
 	{
 		return sqrtf( this->x * this->x + this->y * this->y + this->z * this->z );
 	}
 
-	float Vector3::Distance( const Vector3 & i_other )
+	float Vector3::Distance( const Vector3 & i_other ) const
 	{
-		Vector3 temp = *this - i_other;
-		return temp.Length();
+		return sqrtf(
+			( this->x - i_other.x ) * ( this->x - i_other.x ) +
+			( this->y - i_other.y ) * ( this->y - i_other.y ) +
+			( this->z - i_other.z ) * ( this->z - i_other.z )
+		);
 	}
 
-	Vector3 Vector3::Normalize()
+	Vector3 Vector3::Normalize() const
 	{
 		float length = this->Length();
 		if ( length == 0 )
 		{
 			return Vector3::Zero;
 		}
-		return ( *this / length );
+		return Vector3( this->x / length, this->y / length, this->z / length );
 	}
 
-	Vector3 Vector3::OrthoNormalize( Vector3 & tangent )
+	Vector3 Vector3::OrthoNormalize( Vector3 & tangent ) const
 	{
 		Vector3 normalTangent = tangent.Normalize();
 		return this->Normalize().Cross( normalTangent );
 	}
 
-	void Vector3::Printout()
+	void Vector3::Printout() const
 	{
 #ifdef _DEBUG
 		printf( "x: %.5f, y: %.5f, z: %.5f\n", this->x, this->y, this->z );

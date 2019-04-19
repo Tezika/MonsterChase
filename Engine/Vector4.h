@@ -18,18 +18,18 @@ namespace Engine
 		Vector4( const Vector4 & );
 		void operator=( const Vector4 & );
 
-		Vector4 operator+( const Vector4 & i_other );
+		Vector4 operator+( const Vector4 & i_other ) const;
 		void  operator+=( const Vector4 & i_other );
 
-		Vector4 operator-( const Vector4 & i_other );
+		Vector4 operator-( const Vector4 & i_other ) const;
 		void operator-=( const Vector4 & i_other );
 
 		Vector4 operator-() const;
 
-		Vector4 operator*( float value );
+		Vector4 operator*( float value ) const;
 		void operator*=( float value );
 
-		Vector4 operator/( float value );
+		Vector4 operator/( float value ) const;
 		void operator/=( float value );
 
 		float Length() const;
