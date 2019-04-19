@@ -274,7 +274,6 @@ namespace Engine
 			float & tOpenEarilest
 		)
 		{
-
 			SmartPtr<GameObject> pGoA = pPhysicsInfoA->GetGameObject();
 			assert( pGoA );
 			AABB * pABB = pPhysicsInfoA->GetAABB();
