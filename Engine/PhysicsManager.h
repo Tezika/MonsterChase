@@ -56,7 +56,8 @@ namespace Engine
 				PhysicsInfo * i_pPhysicsInfoB,
 				float i_tFrameEnd,
 				float & i_tOpenEarilest,
-				float & i_tCloseLatest
+				float & i_tCloseLatest,
+				Vector3 & i_collisionAxis
 			);
 
 			bool CheckAxisCollision(
@@ -67,7 +68,9 @@ namespace Engine
 				float velARelBOnAxis,
 				float tFrameEnd,
 				float & tOpenEarilest,
-				float & tCloseLatest
+				float & tCloseLatest,
+				const Vector3 & i_currentAxis,
+				Vector3 & i_collisionAxis
 			);
 
 			TList<CollisionPair> * m_pCollisionPairs;

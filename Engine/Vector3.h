@@ -36,6 +36,8 @@ namespace Engine
 
 		Vector3 Normalize();
 
+		Vector3 OrthoNormalize( Vector3 & tangent);
+
 		void Printout();
 
 		~Vector3();

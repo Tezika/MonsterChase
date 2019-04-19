@@ -117,6 +117,12 @@ namespace Engine
 		return ( *this / length );
 	}
 
+	Vector3 Vector3::OrthoNormalize( Vector3 & tangent )
+	{
+		Vector3 normalTangent = tangent.Normalize();
+		return this->Normalize().Cross( normalTangent );
+	}
+
 	void Vector3::Printout()
 	{
 #ifdef _DEBUG

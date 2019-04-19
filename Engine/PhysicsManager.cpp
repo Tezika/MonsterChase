@@ -243,9 +243,10 @@ namespace Engine
 			float tCloseLatest = -1;
 			float tOpenEarilest = 100.0f;// However, this is a magic number :<.
 			float bCollided = true;
+			Vector3 collisionAxis;
 
 			// Check for the A projected onto B's in world.
-			bCollided = this->CheckCollision( i_pPhysicsInfoA, i_pPhysicsInfoB, i_dt, tCloseLatest, tOpenEarilest );
+			bCollided = this->CheckCollision( i_pPhysicsInfoA, i_pPhysicsInfoB, i_dt, tCloseLatest, tOpenEarilest, collisionAxis );
 			if ( !bCollided )
 			{
 				return false;
@@ -253,7 +254,7 @@ namespace Engine
 
 			// Swap A and B. Then do the check again.
 			bCollided = true;
-			bCollided = this->CheckCollision( i_pPhysicsInfoB, i_pPhysicsInfoA, i_dt, tCloseLatest, tOpenEarilest );
+			bCollided = this->CheckCollision( i_pPhysicsInfoB, i_pPhysicsInfoA, i_dt, tCloseLatest, tOpenEarilest, collisionAxis );
 			if ( !bCollided )
 			{
 				return false;
@@ -261,6 +262,9 @@ namespace Engine
 
 			if ( tCloseLatest < tOpenEarilest )
 			{
+				i_collisionTime = tCloseLatest;
+				i_collisionNormal = collisionAxis.OrthoNormalize( Vector3::Forward );
+
 				return true;
 			}
 			return false;
@@ -271,7 +275,8 @@ namespace Engine
 			PhysicsInfo * pPhysicsInfoB,
 			float tFrameEnd,
 			float & tCloseLatest,
-			float & tOpenEarilest
+			float & tOpenEarilest,
+			Vector3 & i_collisionAxis
 		)
 		{
 			SmartPtr<GameObject> pGoA = pPhysicsInfoA->GetGameObject();
@@ -311,6 +316,9 @@ namespace Engine
 			float AVelAlongXInW = Dot( Vector4( pGoA->GetVelocity(), 0.0f ), CollisionAxisXInW );
 			float BVelAlongXInW = Dot( Vector4( pGoB->GetVelocity(), 0.0f ), CollisionAxisXInW );
 
+			// Vector3 collision axis
+			Vector3 vct3_collisionAxis = Vector3( CollisionAxisXInW.x, CollisionAxisXInW.y, CollisionAxisXInW.z );
+
 			// Check for X axis
 			bool bCollided = true;
 			bCollided = this->CheckAxisCollision(
@@ -321,7 +329,9 @@ namespace Engine
 				AVelAlongXInW - BVelAlongXInW,
 				tFrameEnd,
 				tOpenEarilest,
-				tCloseLatest
+				tCloseLatest,
+				i_collisionAxis,
+				vct3_collisionAxis
 			);
 			if ( !bCollided )
 			{
@@ -330,6 +340,7 @@ namespace Engine
 
 			// For Y
 			Vector4 CollisionAxisYInW = mtx_BToWorld * Vector4::UnitY;
+			vct3_collisionAxis = Vector3( CollisionAxisYInW.x, CollisionAxisYInW.y, CollisionAxisYInW.z );
 
 			// Recalculate bb's center onto axis
 			float ABBCenterOnYInW = Dot( ABBCenterInW, CollisionAxisYInW );
@@ -353,7 +364,9 @@ namespace Engine
 				AVelAlongYInW - BVelAlongYInW,
 				tFrameEnd,
 				tOpenEarilest,
-				tCloseLatest
+				tCloseLatest,
+				i_collisionAxis,
+				vct3_collisionAxis
 			);
 			if ( !bCollided )
 			{
@@ -371,7 +384,9 @@ namespace Engine
 			float velARelBOnAxis,
 			float tFrameEnd,
 			float & tOpenEarilest,
-			float & tCloseLatest
+			float & tCloseLatest,
+			const Vector3 & i_currentAxis,
+			Vector3 & i_collisionAxis
 		)
 		{
 			float bExtends = bBBExtendsOntoAxis + aBBExtendsProjectedOntoAxis;
@@ -414,7 +429,13 @@ namespace Engine
 				}
 				// While passing the edge check, update the earliest open and latest close time
 				tOpenEarilest = tOpen < tOpenEarilest ? tOpen : tOpenEarilest;
-				tCloseLatest = tClose > tCloseLatest ? tClose : tCloseLatest;
+				if ( tClose > tCloseLatest )
+				{
+					// Update the latest closing time
+					tCloseLatest = tClose;
+					// Update the collision axis
+					i_collisionAxis = i_currentAxis;
+				}
 			}
 			return true;
 		}
