@@ -111,7 +111,8 @@ namespace Engine
 #endif
 	}
 
-	Vector4::~Vector4()
+	float Vector4::Dot( const Vector4 & i_other ) const
 	{
+		return this->x * i_other.x + this->y * i_other.y + this->z * i_other.z + this->w * i_other.w;
 	}
 }

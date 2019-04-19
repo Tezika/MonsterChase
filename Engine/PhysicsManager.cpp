@@ -44,6 +44,17 @@ namespace Engine
 			}
 			else
 			{
+				//float testVelocity = 1000.0f;
+				//// Test the normal direction
+				//CollisionPair * pPair = m_pCollisionPairs->GetHead()->GetData();
+				//SmartPtr<GameObject> pGoA = pPair->m_pCollidables[0]->GetGameObject();
+				//SmartPtr<GameObject> pGoB = pPair->m_pCollidables[1]->GetGameObject();
+				//Vector3 tempVelocity = pPair->m_collisionNormal * testVelocity;
+				//pGoA->SetVelocity( tempVelocity );
+				//tempVelocity = pPair->m_collisionNormal * testVelocity;
+				//pGoB->SetVelocity( tempVelocity );
+
+				//this->SimulateMovement( i_dt );
 				// Find the first collision time point.
 				// Simulate objects' movment toward that time point.
 				// Simualte the collision again based on that.
@@ -133,7 +144,7 @@ namespace Engine
 						// try to add new collsiion pair
 						pPhysicsA->SetIsCollision( true );
 						pPhysicsB->SetIsCollision( true );
-						//m_pCollisionPairs->Insert( new CollisionPair( collisionTime, collisionNormal, pPhysicsA, pPhysicsB ) );
+						m_pCollisionPairs->Insert( new CollisionPair( collisionTime, collisionNormal, pPhysicsA, pPhysicsB ) );
 					}
 					else
 					{
@@ -264,7 +275,6 @@ namespace Engine
 			{
 				i_collisionTime = tCloseLatest;
 				i_collisionNormal = collisionAxis.OrthoNormalize( Vector3::Forward );
-
 				return true;
 			}
 			return false;
@@ -300,8 +310,8 @@ namespace Engine
 			// Project the BoundingBox's center onto the collision axis in the world
 			Vector4 ABBCenterInW = mtx_AToWorld * Vector4( pABB->center.m_x, pABB->center.m_y, 0, 1.0f );
 			Vector4 BBBCenterInW = mtx_BToWorld * Vector4( pBBB->center.m_x, pBBB->center.m_y, 0, 1.0f );
-			float ABBCenterOnXInW = Dot( ABBCenterInW, CollisionAxisXInW );
-			float BBBCenterOnXInW = Dot( BBBCenterInW, CollisionAxisXInW );
+			float ABBCenterOnXInW = ABBCenterInW.Dot( CollisionAxisXInW );
+			float BBBCenterOnXInW = BBBCenterInW.Dot( CollisionAxisXInW );
 
 			// Project the extends onto the collision axis in the world
 			Vector4 ABBExtendsXInW = mtx_AToWorld * Vector4::UnitX * pABB->extends.m_x;
@@ -309,12 +319,12 @@ namespace Engine
 			Vector4 BBBExtendsXInW = mtx_BToWorld * Vector4::UnitX * pBBB->extends.m_x;
 			Vector4 BBBExtendsYInW = mtx_BToWorld * Vector4::UnitY * pBBB->extends.m_y;
 
-			float AProjectedExtendsOntoX = fabs( Dot( ABBExtendsXInW, CollisionAxisXInW ) ) + fabs( Dot( ABBExtendsYInW, CollisionAxisXInW ) );
-			float BProjectedExntedsOntoX = fabs( Dot( BBBExtendsXInW, CollisionAxisXInW ) ) + fabs( Dot( BBBExtendsYInW, CollisionAxisXInW ) );
+			float AProjectedExtendsOntoX = fabs( ABBExtendsXInW.Dot( CollisionAxisXInW ) ) + fabs( ABBExtendsYInW.Dot( CollisionAxisXInW ) );
+			float BProjectedExntedsOntoX = fabs( BBBExtendsXInW.Dot( CollisionAxisXInW ) ) + fabs( BBBExtendsYInW.Dot( CollisionAxisXInW ) );
 
 			// Calculate the velocity onto the axis
-			float AVelAlongXInW = Dot( Vector4( pGoA->GetVelocity(), 0.0f ), CollisionAxisXInW );
-			float BVelAlongXInW = Dot( Vector4( pGoB->GetVelocity(), 0.0f ), CollisionAxisXInW );
+			float AVelAlongXInW = Vector4( pGoA->GetVelocity(), 0.0f ).Dot( CollisionAxisXInW );
+			float BVelAlongXInW = Vector4( pGoB->GetVelocity(), 0.0f ).Dot( CollisionAxisXInW );
 
 			// Vector3 collision axis
 			Vector3 vct3_collisionAxis = Vector3( CollisionAxisXInW.x, CollisionAxisXInW.y, CollisionAxisXInW.z );
@@ -343,16 +353,16 @@ namespace Engine
 			vct3_collisionAxis = Vector3( CollisionAxisYInW.x, CollisionAxisYInW.y, CollisionAxisYInW.z );
 
 			// Recalculate bb's center onto axis
-			float ABBCenterOnYInW = Dot( ABBCenterInW, CollisionAxisYInW );
-			float BBBCenterOnYInW = Dot( BBBCenterInW, CollisionAxisYInW );
+			float ABBCenterOnYInW = ABBCenterInW.Dot( CollisionAxisYInW );
+			float BBBCenterOnYInW = BBBCenterInW.Dot( CollisionAxisYInW );
 
 			// ReCalculate bbs' extends onto axis
-			float AProjectedExtendsOntoY = fabs( Dot( ABBExtendsXInW, CollisionAxisYInW ) ) + fabs( Dot( ABBExtendsYInW, CollisionAxisYInW ) );
-			float BProjectedExntedsOntoY = fabs( Dot( BBBExtendsXInW, CollisionAxisYInW ) ) + fabs( Dot( BBBExtendsYInW, CollisionAxisYInW ) );
+			float AProjectedExtendsOntoY = fabs( ABBExtendsXInW.Dot( CollisionAxisYInW ) ) + fabs( ABBExtendsYInW.Dot( CollisionAxisYInW ) );
+			float BProjectedExntedsOntoY = fabs( BBBExtendsXInW.Dot( CollisionAxisYInW ) ) + fabs( BBBExtendsYInW.Dot( CollisionAxisYInW ) );
 
 			// Recalculate velocities
-			float AVelAlongYInW = Dot( Vector4( pGoA->GetVelocity(), 0.0f ), CollisionAxisYInW );
-			float BVelAlongYInW = Dot( Vector4( pGoB->GetVelocity(), 0.0f ), CollisionAxisYInW );
+			float AVelAlongYInW = Vector4( pGoA->GetVelocity(), 0.0f ).Dot( CollisionAxisYInW );
+			float BVelAlongYInW = Vector4( pGoB->GetVelocity(), 0.0f ).Dot( CollisionAxisYInW );
 
 			// Check for Y axis
 			bCollided = true;

@@ -36,7 +36,7 @@ namespace Engine
 
 		void Printout() const;
 
-		~Vector4();
+		float Dot( const Vector4 & i_other ) const;
 
 		float x;
 		float y;
