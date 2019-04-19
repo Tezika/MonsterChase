@@ -58,6 +58,11 @@ namespace Engine
 		return Vector4( this->x - i_other.x, this->y - i_other.y, this->z - i_other.z, this->w - i_other.w );
 	}
 
+	Vector4 Vector4::operator-() const
+	{
+		return Vector4( -this->x, -this->y, -this->z, -this->w);
+	}
+
 	void Vector4::operator-=( const Vector4 & i_other )
 	{
 		this->x -= i_other.x;
@@ -94,12 +99,12 @@ namespace Engine
 		this->w /= value;
 	}
 
-	float Vector4::Length()
+	float Vector4::Length() const
 	{
 		return sqrtf( this->x * this->x + this->y * this->y + this->z * this->z + this->w * this->w );
 	}
 
-	void Vector4::Printout()
+	void Vector4::Printout() const
 	{
 #ifdef _DEBUG
 		printf( "x: %.5f, y: %.5f, z: %.5f, w: %.5f\n", this->x, this->y, this->z, this->w );

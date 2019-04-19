@@ -20,6 +20,8 @@ namespace Engine
 		Vector3 operator-( const Vector3 & i_other );
 		void operator-=( const Vector3 & i_other );
 
+		Vector3 operator-() const;
+
 		Vector3 operator*( float value );
 		void operator*=( float value );
 
@@ -31,6 +33,7 @@ namespace Engine
 		Vector3 Cross( const Vector3 & i_other );
 
 		float Length();
+		float Length() const;
 
 		float Distance( const Vector3 & i_other );
 

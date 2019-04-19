@@ -24,15 +24,17 @@ namespace Engine
 		Vector4 operator-( const Vector4 & i_other );
 		void operator-=( const Vector4 & i_other );
 
+		Vector4 operator-() const;
+
 		Vector4 operator*( float value );
 		void operator*=( float value );
 
 		Vector4 operator/( float value );
 		void operator/=( float value );
 
-		float Length();
+		float Length() const;
 
-		void Printout();
+		void Printout() const;
 
 		~Vector4();
 

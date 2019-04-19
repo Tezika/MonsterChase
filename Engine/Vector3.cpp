@@ -49,6 +49,11 @@ namespace Engine
 		return Vector3( this->x - i_other.x, this->y - i_other.y, this->z - i_other.z );
 	}
 
+	Vector3 Vector3::operator-() const
+	{
+		return Vector3( -this->x, -this->y, -this->z );
+	}
+
 	void Vector3::operator-=( const Vector3 & i_other )
 	{
 		this->x -= i_other.x;
@@ -97,6 +102,11 @@ namespace Engine
 	}
 
 	float Vector3::Length()
+	{
+		return sqrtf( this->x * this->x + this->y * this->y + this->z * this->z );
+	}
+	
+	float Vector3::Length() const
 	{
 		return sqrtf( this->x * this->x + this->y * this->y + this->z * this->z );
 	}
