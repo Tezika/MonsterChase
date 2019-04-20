@@ -1,11 +1,11 @@
 gameObject = 
 {
     name = "Tezika",
-    initial_position = {x=100,y=0},
+    initial_position = {x=200,y=-100},
     physics_settings = {
         mass = 1,
-        force = {x=-6000, y=-4800},
-        dragness = 0.005,
+        force = {x=0, y=0},
+        dragness = 0,
         AABB = 
         {
             center = {x=64, y=64},
