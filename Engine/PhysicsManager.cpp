@@ -51,6 +51,8 @@ namespace Engine
 				// Simualte the collision again based on that.
 				while ( pEarliestCollisionPair != nullptr )
 				{
+					// Subtract the process time
+					tLeft -= tProcess;
 					// Subtract the collision time
 					tLeft -= pEarliestCollisionPair->m_collisionTime;
 					if ( tLeft <= 0 )
@@ -58,14 +60,12 @@ namespace Engine
 						// Run out of time and cannot simulate next time
 						break;
 					}
-					// Simulate all objects' movment toward that time point.
-					this->SimulateMovement( pEarliestCollisionPair->m_collisionTime );
 					// Resolve the collision
 					this->ResolveCollision( pEarliestCollisionPair );
+					// Simulate all objects' movment toward that time point.
+					this->SimulateMovement( pEarliestCollisionPair->m_collisionTime );
 					// Simulate the collision again
 					pEarliestCollisionPair = this->SimulateCollision( tLeft, tProcess, m_pCollisionPairs );
-					// Subtract the process time
-					tLeft -= tProcess;
 				}
 			}
 		}
