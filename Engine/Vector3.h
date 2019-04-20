@@ -40,6 +40,8 @@ namespace Engine
 
 		Vector3 OrthoNormalize( const Vector3 & tangent ) const;
 
+		Vector3 Reflect( const Vector3 &i_normal ) const;
+
 		void Printout() const;
 
 		~Vector3();
@@ -48,4 +50,9 @@ namespace Engine
 		float y;
 		float z;
 	};
+
+	inline Vector3 operator*( float value, const Vector3 & i_vct )
+	{
+		return i_vct * value;
+	}
 };

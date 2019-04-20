@@ -131,6 +131,12 @@ namespace Engine
 		return this->Normalize().Cross( normalTangent );
 	}
 
+	Vector3 Vector3::Reflect( const Vector3 & i_normal ) const
+	{
+		Vector3 n = i_normal.Normalize();
+		return *this - 2 * ( this->Dot( n ) ) * n;
+	}
+
 	void Vector3::Printout() const
 	{
 #ifdef _DEBUG
