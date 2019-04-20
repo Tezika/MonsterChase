@@ -44,17 +44,20 @@ namespace Engine
 			}
 			else
 			{
-				//float testVelocity = 1000.0f;
-				//// Test the normal direction
-				//CollisionPair * pPair = m_pCollisionPairs->GetHead()->GetData();
-				//SmartPtr<GameObject> pGoA = pPair->m_pCollidables[0]->GetGameObject();
-				//SmartPtr<GameObject> pGoB = pPair->m_pCollidables[1]->GetGameObject();
-				//Vector3 tempVelocity = pPair->m_collisionNormal * testVelocity;
-				//pGoA->SetVelocity( tempVelocity );
-				//tempVelocity = pPair->m_collisionNormal * testVelocity;
-				//pGoB->SetVelocity( tempVelocity );
+				float testVelocityA = 400.0f;
+				float testVelocityB = 200.0f;
+				// Test for the collision response.
+				CollisionPair * pPair = m_pCollisionPairs->GetHead()->GetData();
+				SmartPtr<GameObject> pGoA = pPair->m_pCollidables[0]->GetGameObject();
+				SmartPtr<GameObject> pGoB = pPair->m_pCollidables[1]->GetGameObject();
+				Vector3 velocity_A = pGoA->GetVelocity().Normalize();
+				Vector3 velocity_B = pGoB->GetVelocity().Normalize();
+				Vector3 tempVelocity = velocity_A.Reflect( -Vector3::Right ) * testVelocityA;
+				pGoA->SetVelocity( tempVelocity );
+				tempVelocity = velocity_B.Reflect( Vector3::Right ) * testVelocityB;
+				pGoB->SetVelocity( tempVelocity );
 
-				//this->SimulateMovement( i_dt );
+				this->SimulateMovement( i_dt );
 				// Find the first collision time point.
 				// Simulate objects' movment toward that time point.
 				// Simualte the collision again based on that.
@@ -254,7 +257,7 @@ namespace Engine
 			float tCloseLatest = -1;
 			float tOpenEarilest = 100.0f;// However, this is a magic number :<.
 			float bCollided = true;
-			Vector3 collisionAxis;
+			Vector3 collisionAxis = Vector3::Zero;
 
 			// Check for the A projected onto B's in world.
 			bCollided = this->CheckCollision( i_pPhysicsInfoA, i_pPhysicsInfoB, i_dt, tCloseLatest, tOpenEarilest, collisionAxis );
@@ -340,8 +343,8 @@ namespace Engine
 				tFrameEnd,
 				tOpenEarilest,
 				tCloseLatest,
-				i_collisionAxis,
-				vct3_collisionAxis
+				vct3_collisionAxis,
+				i_collisionAxis
 			);
 			if ( !bCollided )
 			{
@@ -375,8 +378,8 @@ namespace Engine
 				tFrameEnd,
 				tOpenEarilest,
 				tCloseLatest,
-				i_collisionAxis,
-				vct3_collisionAxis
+				vct3_collisionAxis,
+				i_collisionAxis
 			);
 			if ( !bCollided )
 			{

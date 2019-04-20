@@ -134,7 +134,8 @@ namespace Engine
 	Vector3 Vector3::Reflect( const Vector3 & i_normal ) const
 	{
 		Vector3 n = i_normal.Normalize();
-		return *this - 2 * ( this->Dot( n ) ) * n;
+		Vector3 res = *this - 2 * ( this->Dot( n ) ) * n;
+		return res;
 	}
 
 	void Vector3::Printout() const
