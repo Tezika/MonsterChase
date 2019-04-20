@@ -88,6 +88,15 @@ namespace Engine
 			lua_pop_top( pLuaState );
 			DEBUG_PRINT_GAMEPLAY( "The initial position for the gameobject is %.3f, %.3f", initial_position.m_x, initial_position.m_y );
 
+			// Retrieve the go's inital veclocity
+			lua_pushstring( pLuaState, "initial_velocity" );
+			result = lua_gettable( pLuaState, -2 );
+			assert( result == LUA_TTABLE );
+
+			Point2D<float> initial_velocity = ParsePointFromLua<float>( pLuaState );
+			lua_pop_top( pLuaState );
+			DEBUG_PRINT_GAMEPLAY( "The initial velocity for the gameobject is %.3f, %.3f", initial_velocity.m_x, initial_velocity.m_y );
+
 			// ------- Physics -----------
 			// Retrieve the go's physics settings
 			lua_pushstring( pLuaState, "physics_settings" );
@@ -192,6 +201,8 @@ namespace Engine
 
 			// Create the go
 			ret = GameObject::Create( pName, Vector3{ initial_position.m_x, initial_position.m_y, 0 } );
+			// Set the initial velocity for go.
+			ret->SetVelocity( Vector3{ initial_velocity.m_x, initial_velocity.m_y,0 } );
 
 			// Create and assign the AABB to the physicsinfo
 			AABB * aabb = AABB::Create( center, extends );

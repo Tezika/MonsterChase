@@ -35,10 +35,8 @@ namespace MonsterChase
 		DEBUG_PRINT_GAMEPLAY( "----------Begin the setup for the game.----------" );
 		srand( time_t( NULL ) );
 
-		float testSpeed = 300.0f;
 		// Test for lua file
 		m_pPlayer = Engine::CreateGameObjectByFile( "Data\\Lua\\player.lua" );
-		m_pPlayer->SetVelocity( Vector3{-testSpeed, 0.0f, 0.0f} );
 		// Create an input controller and assign it to the player.
 		InputController * pInputController = new InputController( m_pPlayer, 2000.0f );
 		pInputController->SetControlGameObject( m_pPlayer );
@@ -46,10 +44,7 @@ namespace MonsterChase
 		Controller::ControllerManager::GetInstance().AddContrller( pInputController );
 
 		// Create a test enemy by lua.
-		SmartPtr<GameObject> pEnemy = m_pEnemyManager->CreateEnemy( "Data\\lua\\test_enemy.lua" );
-		pEnemy->SetVelocity( Vector3{ testSpeed, 0.0f, 0.0f } );
-
-
+		m_pEnemyManager->CreateEnemy( "Data\\lua\\test_enemy.lua" );
 
 		DEBUG_PRINT_GAMEPLAY( "----------Finish the setup for the game.----------" );
 		return true;
