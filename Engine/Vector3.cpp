@@ -125,7 +125,7 @@ namespace Engine
 		return Vector3( this->x / length, this->y / length, this->z / length );
 	}
 
-	Vector3 Vector3::OrthoNormalize( Vector3 & tangent ) const
+	Vector3 Vector3::OrthoNormalize( const Vector3 & tangent ) const
 	{
 		Vector3 normalTangent = tangent.Normalize();
 		return this->Normalize().Cross( normalTangent );

@@ -38,7 +38,7 @@ namespace Engine
 
 		Vector3 Normalize() const;
 
-		Vector3 OrthoNormalize( Vector3 & tangent ) const;
+		Vector3 OrthoNormalize( const Vector3 & tangent ) const;
 
 		void Printout() const;
 
