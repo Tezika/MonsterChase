@@ -75,7 +75,7 @@ namespace Engine
 
 			TList<CollisionPair> * m_pCollisionPairs;
 
-			void SimulateMovement( float i_dt);
+			void SimulateMovement( float i_dt );
 			void SimulateCollision( float i_dt, float & i_tEarliestCollision, float & i_tProcess, TList<CollisionPair> * i_pCollisionPairs );
 		};
 	}

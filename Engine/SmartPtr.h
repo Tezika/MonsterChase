@@ -149,8 +149,6 @@ namespace Engine
 		}
 	}
 
-
-
 	template<class T>
 	template<class U>
 	inline SmartPtr<T>::SmartPtr( const SmartPtr<U> & i_other ) :
