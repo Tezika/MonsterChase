@@ -15,16 +15,16 @@ namespace Engine
 			static PhysicsInfo * Create( float i_mass, float i_dragness, bool i_bCollidable, SmartPtr<GameObject> i_pGo, AABB * i_pAABB );
 			~PhysicsInfo();
 
-			PhysicsInfo( const PhysicsInfo & ) = delete;
-			void operator=( const PhysicsInfo & ) = delete;
+			PhysicsInfo( const PhysicsInfo & );
+			void operator=( const PhysicsInfo & );
 
-			inline SmartPtr<GameObject> GetGameObject(){ return m_pGo; }
+			inline SmartPtr<GameObject> GetGameObject() const{ return m_pGo; }
 
-			inline const Vector3 & GetDrivingForce(){ return m_force; };
+			inline const Vector3 & GetDrivingForce(){ return m_force; }
 			inline void SetDrivingForce( const Vector3 & i_oForce ){ m_force = i_oForce; };
 
-			inline float GetMass(){ return m_mass; };
-			inline float GetDragness(){ return m_dragness; };
+			inline float GetMass() const { return m_mass; }
+			inline float GetDragness() const { return m_dragness; }
 
 			inline AABB * GetAABB(){ return m_pAABB; }
 			inline void SetAABB( AABB * i_pAABB ){ m_pAABB = i_pAABB; }

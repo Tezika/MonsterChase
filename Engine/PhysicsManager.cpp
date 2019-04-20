@@ -44,18 +44,16 @@ namespace Engine
 			}
 			else
 			{
-				float testVelocityA = 400.0f;
-				float testVelocityB = 200.0f;
 				// Test for the collision response.
 				CollisionPair * pPair = m_pCollisionPairs->GetHead()->GetData();
 				SmartPtr<GameObject> pGoA = pPair->m_pCollidables[0]->GetGameObject();
 				SmartPtr<GameObject> pGoB = pPair->m_pCollidables[1]->GetGameObject();
-				Vector3 velocity_A = pGoA->GetVelocity().Normalize();
-				Vector3 velocity_B = pGoB->GetVelocity().Normalize();
-				Vector3 tempVelocity = velocity_A.Reflect( pPair->m_collisionNormal ) * testVelocityA;
-				pGoA->SetVelocity( tempVelocity );
-				tempVelocity = velocity_B.Reflect( -pPair->m_collisionNormal ) * testVelocityB;
-				pGoB->SetVelocity( tempVelocity );
+
+				Vector3 dir_vel_A = pGoA->GetVelocity().Normalize().Reflect( pPair->m_collisionNormal );
+				Vector3 dir_vel_B = pGoB->GetVelocity().Normalize().Reflect( pPair->m_collisionNormal );
+
+				// Recalculate the two collidabes velocities based on the momentum
+				this->RecalculateVelBasedOnMomentum( pPair->m_pCollidables[0], pPair->m_pCollidables[1], dir_vel_A, dir_vel_B );
 
 				this->SimulateMovement( i_dt );
 				// Find the first collision time point.
@@ -277,6 +275,7 @@ namespace Engine
 			if ( tCloseLatest < tOpenEarilest )
 			{
 				i_collisionTime = tCloseLatest;
+				// Still confused about the calculation about this one.
 				i_collisionNormal = -collisionAxis;
 				return true;
 			}
@@ -451,6 +450,24 @@ namespace Engine
 				}
 			}
 			return true;
+		}
+
+		void PhysicsManager::RecalculateVelBasedOnMomentum( const PhysicsInfo * pPhysicsInfoA, const PhysicsInfo * pPhysicsInfoB, const Vector3 & velA_dir, const Vector3 & velB_dir )
+		{
+			SmartPtr<GameObject> pGoA = pPhysicsInfoA->GetGameObject();
+			SmartPtr<GameObject> pGoB = pPhysicsInfoB->GetGameObject();
+			float mass_A = pPhysicsInfoA->GetMass();
+			float mass_B = pPhysicsInfoB->GetMass();
+			float vel_A = pGoA->GetVelocity().Length();
+			float vel_B = pGoB->GetVelocity().Length();
+			assert( mass_A > 0 );
+			assert( mass_B > 0 );
+
+			float mag_velA = ( mass_A - mass_B ) / ( mass_A + mass_B ) * vel_A + 2 * mass_B / ( mass_A + mass_B ) * vel_B;
+			float mag_velB = ( mass_B - mass_A ) / ( mass_A + mass_B ) * vel_B + 2 * mass_A / ( mass_A + mass_B ) * vel_A;
+
+			pGoA->SetVelocity( mag_velA * velA_dir );
+			pGoB->SetVelocity( mag_velB * velB_dir );
 		}
 	}
 }
