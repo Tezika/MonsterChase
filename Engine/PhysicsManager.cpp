@@ -52,9 +52,9 @@ namespace Engine
 				SmartPtr<GameObject> pGoB = pPair->m_pCollidables[1]->GetGameObject();
 				Vector3 velocity_A = pGoA->GetVelocity().Normalize();
 				Vector3 velocity_B = pGoB->GetVelocity().Normalize();
-				Vector3 tempVelocity = velocity_A.Reflect( -Vector3::Right ) * testVelocityA;
+				Vector3 tempVelocity = velocity_A.Reflect( pPair->m_collisionNormal ) * testVelocityA;
 				pGoA->SetVelocity( tempVelocity );
-				tempVelocity = velocity_B.Reflect( Vector3::Right ) * testVelocityB;
+				tempVelocity = velocity_B.Reflect( -pPair->m_collisionNormal ) * testVelocityB;
 				pGoB->SetVelocity( tempVelocity );
 
 				this->SimulateMovement( i_dt );
@@ -277,7 +277,7 @@ namespace Engine
 			if ( tCloseLatest < tOpenEarilest )
 			{
 				i_collisionTime = tCloseLatest;
-				i_collisionNormal = collisionAxis.OrthoNormalize( Vector3::Forward );
+				i_collisionNormal = -collisionAxis;
 				return true;
 			}
 			return false;
