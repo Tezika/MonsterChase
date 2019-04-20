@@ -28,6 +28,7 @@ namespace MonsterChase
 	{
 	}
 
+
 	SmartPtr<GameObject> EnemyManager::CreateEnemy( const char * i_pFileName )
 	{
 		assert( i_pFileName );

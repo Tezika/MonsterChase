@@ -51,8 +51,6 @@ namespace Engine
 				// Simualte the collision again based on that.
 				while ( pEarliestCollisionPair != nullptr )
 				{
-					// Subtract the process time
-					tLeft -= tProcess;
 					// Subtract the collision time
 					tLeft -= pEarliestCollisionPair->m_collisionTime;
 					if ( tLeft <= 0 )
@@ -66,6 +64,8 @@ namespace Engine
 					this->ResolveCollision( pEarliestCollisionPair );
 					// Simulate the collision again
 					pEarliestCollisionPair = this->SimulateCollision( tLeft, tProcess, m_pCollisionPairs );
+					// Subtract the process time
+					tLeft -= tProcess;
 				}
 			}
 		}
