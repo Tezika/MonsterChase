@@ -16,12 +16,20 @@ namespace Engine
 			m_pCollidables[1] = i_pPhysicsInfoB;
 		}
 
-		CollisionPair::CollisionPair( const CollisionPair & i_pOther ) :
-			m_collisionTime( i_pOther.m_collisionTime ),
-			m_collisionNormal( i_pOther.m_collisionNormal )
+		CollisionPair::CollisionPair( const CollisionPair & i_other ) :
+			m_collisionTime( i_other.m_collisionTime ),
+			m_collisionNormal( i_other.m_collisionNormal )
 		{
-			m_pCollidables[0] = i_pOther.m_pCollidables[0];
-			m_pCollidables[1] = i_pOther.m_pCollidables[1];
+			m_pCollidables[0] = i_other.m_pCollidables[0];
+			m_pCollidables[1] = i_other.m_pCollidables[1];
+		}
+
+		void CollisionPair::operator=( const CollisionPair & i_other )
+		{
+			m_collisionTime = i_other.m_collisionTime;
+			m_collisionNormal = i_other.m_collisionNormal;
+			m_pCollidables[0] = i_other.m_pCollidables[0];
+			m_pCollidables[1] = i_other.m_pCollidables[1];
 		}
 	}
 }

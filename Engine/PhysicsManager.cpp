@@ -14,6 +14,7 @@
 #include <limits>
 #include "RenderInfo.h"
 #include "RenderManager.h"
+#include <ctime>
 
 namespace Engine
 {
@@ -31,34 +32,41 @@ namespace Engine
 
 		void PhysicsManager::Simulate( float i_dt )
 		{
-			// Simulate the object movement and collision for the sparse time;
-			float cachedFrameTime = i_dt;
-			float collisionTime = 0;
-			float processCollisionTime = 0;
-			this->SimulateCollision( i_dt, collisionTime, processCollisionTime, m_pCollisionPairs );
+			float tProcess = 0;
+			CollisionPair * pEarliestCollisionPair = nullptr;
+			float tLeft = 0;
+			// Find the earliest collision pair.
+			pEarliestCollisionPair = this->SimulateCollision( i_dt, tProcess, m_pCollisionPairs );
 
-			if ( m_pCollisionPairs->Length() == 0 )
+			if ( pEarliestCollisionPair == nullptr )
 			{
 				// If there is no collision, it'll simulate the movement directly
 				this->SimulateMovement( i_dt );
 			}
 			else
 			{
-				// Test for the collision response.
-				CollisionPair * pPair = m_pCollisionPairs->GetHead()->GetData();
-				SmartPtr<GameObject> pGoA = pPair->m_pCollidables[0]->GetGameObject();
-				SmartPtr<GameObject> pGoB = pPair->m_pCollidables[1]->GetGameObject();
+				// Assign timer's time equal to the frame time
+				tLeft = i_dt;
 
-				Vector3 dir_vel_A = pGoA->GetVelocity().Normalize().Reflect( pPair->m_collisionNormal );
-				Vector3 dir_vel_B = pGoB->GetVelocity().Normalize().Reflect( pPair->m_collisionNormal );
-
-				// Recalculate the two collidabes velocities based on the momentum
-				this->RecalculateVelBasedOnMomentum( pPair->m_pCollidables[0], pPair->m_pCollidables[1], dir_vel_A, dir_vel_B );
-
-				this->SimulateMovement( i_dt );
-				// Find the first collision time point.
-				// Simulate objects' movment toward that time point.
 				// Simualte the collision again based on that.
+				while ( pEarliestCollisionPair != nullptr )
+				{
+					// Subtract the process time
+					tLeft -= tProcess;
+					// Subtract the collision time
+					tLeft -= pEarliestCollisionPair->m_collisionTime;
+					if ( tLeft <= 0 )
+					{
+						// Run out of time and cannot simulate next time
+						break;
+					}
+					// Simulate all objects' movment toward that time point.
+					this->SimulateMovement( pEarliestCollisionPair->m_collisionTime );
+					// Resolve the collision
+					this->ResolveCollision( pEarliestCollisionPair );
+					// Simulate the collision again
+					pEarliestCollisionPair = this->SimulateCollision( tLeft, tProcess, m_pCollisionPairs );
+				}
 			}
 		}
 
@@ -99,8 +107,10 @@ namespace Engine
 			}
 		}
 
-		void PhysicsManager::SimulateCollision( float i_dt, float & i_tEarliestCollision, float & i_processTime, TList<CollisionPair> * i_pCollisionPairs )
+		CollisionPair * PhysicsManager::SimulateCollision( float i_dt, float & i_tProcess, TList<CollisionPair> * i_pCollisionPairs )
 		{
+			CollisionPair * pEarliestCollisionPair = nullptr;
+			float tStartProcessing = (float) clock();
 			i_pCollisionPairs->Clear( true );
 			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
 			// Check the collision between two objects
@@ -109,6 +119,8 @@ namespace Engine
 
 			Node<PhysicsInfo> * ptr_1 = m_pPhysicsInfos->GetHead();
 			SmartPtr<GameObject> pCachedGo;
+
+			CollisionPair * pCachedCollisionPair = nullptr;
 
 			while ( ptr != nullptr )
 			{
@@ -143,9 +155,15 @@ namespace Engine
 					if ( this->IsCollision( pPhysicsA, pPhysicsB, i_dt, collisionTime, collisionNormal ) )
 					{
 						// try to add new collsiion pair
+						pCachedCollisionPair = m_pCollisionPairs->Insert( new CollisionPair( collisionTime, collisionNormal, pPhysicsA, pPhysicsB ) )->GetData();
+						if ( pEarliestCollisionPair == nullptr || collisionTime < pEarliestCollisionPair->m_collisionTime )
+						{
+							// Update the earliest collision pair
+							pEarliestCollisionPair = pCachedCollisionPair;
+						}
 						pPhysicsA->SetIsCollision( true );
 						pPhysicsB->SetIsCollision( true );
-						m_pCollisionPairs->Insert( new CollisionPair( collisionTime, collisionNormal, pPhysicsA, pPhysicsB ) );
+
 					}
 					else
 					{
@@ -156,6 +174,9 @@ namespace Engine
 				}
 				ptr = ptr->GetNext();
 			}
+
+			// Update the procession time
+			i_tProcess = (float) clock() - tStartProcessing;
 
 			// Draw the debug visual information to indicate the collision.
 #if defined(_DEBUG) && defined(_DrawDebugInfoWhileColliding)
@@ -181,6 +202,7 @@ namespace Engine
 				ptr = ptr->GetNext();
 			}
 #endif
+			return pEarliestCollisionPair;
 		}
 
 		bool PhysicsManager::AddPhysicsObject( PhysicsInfo * i_pInfo )
@@ -249,7 +271,8 @@ namespace Engine
 			PhysicsInfo * i_pPhysicsInfoB,
 			float i_dt,
 			float & i_collisionTime,
-			Vector3 & i_collisionNormal )
+			Vector3 & i_collisionNormal
+		)
 		{
 			// Initialize the min and max value for time;
 			float tCloseLatest = -1;
@@ -275,7 +298,7 @@ namespace Engine
 			if ( tCloseLatest < tOpenEarilest )
 			{
 				i_collisionTime = tCloseLatest;
-				// Still confused about the calculation about this one.
+				// Still confused about the calculation about normal of collision axis.
 				i_collisionNormal = -collisionAxis;
 				return true;
 			}
@@ -452,7 +475,7 @@ namespace Engine
 			return true;
 		}
 
-		void PhysicsManager::RecalculateVelBasedOnMomentum( const PhysicsInfo * pPhysicsInfoA, const PhysicsInfo * pPhysicsInfoB, const Vector3 & velA_dir, const Vector3 & velB_dir )
+		void PhysicsManager::RecalculateVelByMomentum( const PhysicsInfo * pPhysicsInfoA, const PhysicsInfo * pPhysicsInfoB, const Vector3 & velA_dir, const Vector3 & velB_dir )
 		{
 			SmartPtr<GameObject> pGoA = pPhysicsInfoA->GetGameObject();
 			SmartPtr<GameObject> pGoB = pPhysicsInfoB->GetGameObject();
@@ -468,6 +491,20 @@ namespace Engine
 
 			pGoA->SetVelocity( mag_velA * velA_dir );
 			pGoB->SetVelocity( mag_velB * velB_dir );
+		}
+
+		void PhysicsManager::ResolveCollision( const CollisionPair* pCollisionPair )
+		{
+			assert( pCollisionPair != nullptr );
+			SmartPtr<GameObject> pGoA = pCollisionPair->m_pCollidables[0]->GetGameObject();
+			SmartPtr<GameObject> pGoB = pCollisionPair->m_pCollidables[1]->GetGameObject();
+
+			// Calculate the directions after reflection
+			Vector3 dir_vel_A = pGoA->GetVelocity().Normalize().Reflect( pCollisionPair->m_collisionNormal );
+			Vector3 dir_vel_B = pGoB->GetVelocity().Normalize().Reflect( pCollisionPair->m_collisionNormal );
+
+			// Recalculate the two collidabes velocities based on the momentum
+			this->RecalculateVelByMomentum( pCollisionPair->m_pCollidables[0], pCollisionPair->m_pCollidables[1], dir_vel_A, dir_vel_B );
 		}
 	}
 }

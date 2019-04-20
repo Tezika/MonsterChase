@@ -16,7 +16,8 @@ namespace Engine
 
 			CollisionPair(){};
 			CollisionPair( float i_collisionTime, const Vector3 & i_collisionNormal, PhysicsInfo * i_pPhysicsInfoA, PhysicsInfo * i_pPhysicsInfoB );
-			CollisionPair( const CollisionPair & i_pOther );
+			CollisionPair( const CollisionPair & i_other );
+			void operator= ( const CollisionPair & i_other );
 		};
 	}
 }
