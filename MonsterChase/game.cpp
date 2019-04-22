@@ -43,10 +43,12 @@ namespace MonsterChase
 		m_pPlayer->SetController( pInputController );
 		Controller::ControllerManager::GetInstance().AddContrller( pInputController );
 
-		// Create a test enemy by lua.
+		// Create some test enemies by lua.
 		m_pEnemyManager->CreateEnemy( "Data\\lua\\test_enemy.lua" );
 		m_pEnemyManager->CreateEnemy( "Data\\lua\\test_enemy_1.lua" );
 		m_pEnemyManager->CreateEnemy( "Data\\lua\\test_enemy_2.lua" );
+		m_pEnemyManager->CreateEnemy( "Data\\lua\\test_enemy_3.lua" );
+		m_pEnemyManager->CreateEnemy( "Data\\lua\\test_enemy_4.lua" );
 
 		DEBUG_PRINT_GAMEPLAY( "----------Finish the setup for the game.----------" );
 		return true;

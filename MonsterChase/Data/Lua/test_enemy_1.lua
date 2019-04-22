@@ -9,8 +9,8 @@ gameObject =
         dragness = 0,
         AABB = 
         {
-            center = {x=64, y=64},
-            extends = {x=64, y=64}
+            center = {x=16, y=16},
+            extends = {x=16, y=16}
         },
         collidable = true
     },

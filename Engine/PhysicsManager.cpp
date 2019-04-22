@@ -32,11 +32,11 @@ namespace Engine
 
 		void PhysicsManager::Simulate( float i_dt )
 		{
-			float tProcess = 0;
 			CollisionPair * pEarliestCollisionPair = nullptr;
 			float tLeft = 0;
+			float tProcess = 0;
 			// Find the earliest collision pair.
-			pEarliestCollisionPair = this->SimulateCollision( i_dt, tProcess, m_pCollisionPairs );
+			pEarliestCollisionPair = this->SimulateCollision( i_dt, m_pCollisionPairs );
 
 			if ( pEarliestCollisionPair == nullptr )
 			{
@@ -51,21 +51,39 @@ namespace Engine
 				// Simualte the collision again based on that.
 				while ( pEarliestCollisionPair != nullptr )
 				{
+					DEBUG_PRINT_ENGINE( "The left time is %f, the collision time is %f, and the process time is %f", tLeft, pEarliestCollisionPair->m_collisionTime, tProcess );
 					// Subtract the process time
 					tLeft -= tProcess;
+					if ( pEarliestCollisionPair->m_collisionTime <= 0 )
+					{
+						//Flip two go's velocity
+						SmartPtr<GameObject> pGoA = pEarliestCollisionPair->m_pCollidables[0]->GetGameObject();
+						SmartPtr<GameObject> pGoB = pEarliestCollisionPair->m_pCollidables[1]->GetGameObject();
+						pGoA->SetVelocity( -pGoA->GetVelocity() );
+						pGoB->SetVelocity( -pGoB->GetVelocity() );
+						break;
+					}
 					// Subtract the collision time
 					tLeft -= pEarliestCollisionPair->m_collisionTime;
 					if ( tLeft <= 0 )
 					{
-						// Run out of time and cannot simulate next time
+						// Run out of time and jump out the loop.
 						break;
 					}
+					tProcess = (float) clock();
+					// Simulate all objects' movment toward that time point.
+					this->SimulateMovement( tLeft );
 					// Resolve the collision
 					this->ResolveCollision( pEarliestCollisionPair );
-					// Simulate all objects' movment toward that time point.
-					this->SimulateMovement( pEarliestCollisionPair->m_collisionTime );
 					// Simulate the collision again
-					pEarliestCollisionPair = this->SimulateCollision( tLeft, tProcess, m_pCollisionPairs );
+					pEarliestCollisionPair = this->SimulateCollision( tLeft, m_pCollisionPairs );
+					tProcess = ( (float) clock() - tProcess ) / 1000;
+
+				}
+				if ( tLeft > 0 )
+				{
+					// Simulate the movement once again after jumping out the loop.
+					this->SimulateMovement( tLeft );
 				}
 			}
 		}
@@ -107,10 +125,9 @@ namespace Engine
 			}
 		}
 
-		CollisionPair * PhysicsManager::SimulateCollision( float i_dt, float & i_tProcess, TList<CollisionPair> * i_pCollisionPairs )
+		CollisionPair * PhysicsManager::SimulateCollision( float i_dt, TList<CollisionPair> * i_pCollisionPairs )
 		{
 			CollisionPair * pEarliestCollisionPair = nullptr;
-			float tStartProcessing = (float) clock();
 			i_pCollisionPairs->Clear( true );
 			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
 			// Check the collision between two objects
@@ -174,9 +191,6 @@ namespace Engine
 				}
 				ptr = ptr->GetNext();
 			}
-
-			// Update the procession time
-			i_tProcess = (float) clock() - tStartProcessing;
 
 			// Draw the debug visual information to indicate the collision.
 #if defined(_DEBUG) && defined(_DrawDebugInfoWhileColliding)

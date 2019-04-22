@@ -76,7 +76,7 @@ namespace Engine
 			TList<CollisionPair> * m_pCollisionPairs;
 
 			void SimulateMovement( float i_dt );
-			CollisionPair * SimulateCollision( float i_dt, float & i_tProcess, TList<CollisionPair> * i_pCollisionPairs );
+			CollisionPair * SimulateCollision( float i_dt, TList<CollisionPair> * i_pCollisionPairs );
 
 			void RecalculateVelByMomentum(
 				const PhysicsInfo * pPhysicsInfoA, const PhysicsInfo * pPhysicsInfoB,
