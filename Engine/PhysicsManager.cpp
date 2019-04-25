@@ -52,7 +52,16 @@ namespace Engine
 				// Simualte the collision again based on that.
 				while ( pEarliestCollisionPair != nullptr )
 				{
-
+					// Still curious about how to deal with the situation while the collision time < 0.
+					if ( pEarliestCollisionPair->m_collisionTime <= 0.0f )
+					{
+						SmartPtr<GameObject> pGoA = pEarliestCollisionPair->m_pCollidables[0]->GetGameObject();
+						SmartPtr<GameObject> pGoB = pEarliestCollisionPair->m_pCollidables[1]->GetGameObject();
+						pGoA->SetVelocity( -pGoA->GetVelocity() );
+						pGoB->SetVelocity( -pGoB->GetVelocity() );
+						this->SimulateMovement( tLeft );
+						break;
+					}
 					DEBUG_PRINT_ENGINE( "The left time is %f, the collision time is %f, and the process time is %f", tLeft, pEarliestCollisionPair->m_collisionTime, tProcess );
 					// Subtract the process time
 					tLeft -= tProcess;
@@ -68,16 +77,11 @@ namespace Engine
 					this->SimulateMovement( tLeft );
 					// Resolve the collision
 					this->ResolveCollision( pEarliestCollisionPair );
-					// After resolving, we need to remove the CollisionPair from the link list.
+					// After resolving, it needs to remove the 'CollisionPair' from the link list.
 					m_pCollisionPairs->Remove( pEarliestCollisionPair );
 					pEarliestCollisionPair = this->GetEarliestCollisionPair();
 					tProcess = ( (float) clock() - tProcess ) / 1000;
 				}
-				//if ( tLeft > 0 )
-				//{
-				//	// Simulate the movement once again after jumping out the loop.
-				//	this->SimulateMovement( tLeft );
-				//}
 			}
 		}
 
