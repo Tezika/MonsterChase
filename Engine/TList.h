@@ -71,6 +71,8 @@ namespace Engine
 
 		Node<T> * Remove( Node<T> * );
 		Node<T> * Insert( T * );
+		Node<T> * Remove( T * );
+		Node<T> * Find( T * );
 
 		void Clear( bool i_deleteNodeData = false );
 
@@ -89,7 +91,7 @@ namespace Engine
 	}
 
 	template<typename T>
-	inline Node<T> * TList<T>::Remove( Node<T> * i_pNode )
+	Node<T> * TList<T>::Remove( Node<T> * i_pNode )
 	{
 		assert( i_pNode );
 		Node<T> * ptr = this->GetHead();
@@ -98,6 +100,13 @@ namespace Engine
 		{
 			if ( ptr == i_pNode )
 			{
+				//if the removed node is the tail.
+				if ( ptr == this->m_pTail )
+				{
+					this->m_pTail = ptr_previous;
+				}
+
+				// Remove the head ptr.
 				if ( ptr_previous == nullptr )
 				{
 					this->m_pHead = this->m_pHead->GetNext();
@@ -113,11 +122,6 @@ namespace Engine
 					break;
 				}
 
-				//if the removed node is the tail
-				if ( ptr == this->m_pTail )
-				{
-					this->m_pTail = ptr_previous;
-				}
 			}
 			else
 			{
@@ -125,18 +129,41 @@ namespace Engine
 				ptr = ptr->GetNext();
 			}
 		}
-		m_length--;
+		--m_length;
 		return ptr;
 	}
 
 	template<typename T>
-	inline TList<T>::~TList()
+	Node<T> * TList<T>::Find( T * pData )
+	{
+		assert( pData );
+		Node<T> * ptr = this->GetHead();
+		while ( ptr != nullptr )
+		{
+			if ( ptr->GetData() == pData )
+			{
+				return ptr;
+			}
+			ptr = ptr->GetNext();
+		}
+	}
+
+	template<typename T>
+	Node<T> * TList<T>::Remove( T * pData )
+	{
+		assert( pData );
+		Node<T> * pNode = this->Find( pData );
+		return pNode == nullptr ? nullptr : pNode;
+	}
+
+	template<typename T>
+	TList<T>::~TList()
 	{
 		this->Clear();
 	}
 
 	template<typename T>
-	inline Node<T> * TList<T>::Insert( T * i_pVal )
+	Node<T> * TList<T>::Insert( T * i_pVal )
 	{
 		assert( i_pVal );
 		Node<T> * newNode = new Node<T>( i_pVal );
