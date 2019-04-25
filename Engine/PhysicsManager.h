@@ -14,7 +14,7 @@ namespace Engine
 	namespace Physics
 	{
 #ifndef _DrawDebugInfoWhileColliding
-//#define _DrawDebugInfoWhileColliding
+		//#define _DrawDebugInfoWhileColliding
 #endif // !_DrawDebugInfo
 		class PhysicsInfo;
 
@@ -73,10 +73,12 @@ namespace Engine
 				Vector3 & i_collisionAxis
 			);
 
+			CollisionPair * GetEarliestCollisionPair();
+
 			TList<CollisionPair> * m_pCollisionPairs;
 
 			void SimulateMovement( float i_dt );
-			CollisionPair * SimulateCollision( float i_dt, TList<CollisionPair> * i_pCollisionPairs );
+			void SimulateCollision( float i_dt, TList<CollisionPair> * i_pCollisionPairs );
 
 			void RecalculateVelByMomentum(
 				const PhysicsInfo * pPhysicsInfoA, const PhysicsInfo * pPhysicsInfoB,

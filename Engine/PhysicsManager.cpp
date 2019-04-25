@@ -35,8 +35,9 @@ namespace Engine
 			CollisionPair * pEarliestCollisionPair = nullptr;
 			float tLeft = 0;
 			float tProcess = 0;
-			// Find the earliest collision pair.
-			pEarliestCollisionPair = this->SimulateCollision( i_dt, m_pCollisionPairs );
+			// Gather the collision pairs in one pass.
+			this->SimulateCollision( i_dt, m_pCollisionPairs );
+			pEarliestCollisionPair = this->GetEarliestCollisionPair();
 
 			if ( pEarliestCollisionPair == nullptr )
 			{
@@ -51,18 +52,10 @@ namespace Engine
 				// Simualte the collision again based on that.
 				while ( pEarliestCollisionPair != nullptr )
 				{
+
 					DEBUG_PRINT_ENGINE( "The left time is %f, the collision time is %f, and the process time is %f", tLeft, pEarliestCollisionPair->m_collisionTime, tProcess );
 					// Subtract the process time
 					tLeft -= tProcess;
-					if ( pEarliestCollisionPair->m_collisionTime <= 0 )
-					{
-						//Flip two go's velocity
-						SmartPtr<GameObject> pGoA = pEarliestCollisionPair->m_pCollidables[0]->GetGameObject();
-						SmartPtr<GameObject> pGoB = pEarliestCollisionPair->m_pCollidables[1]->GetGameObject();
-						pGoA->SetVelocity( -pGoA->GetVelocity() );
-						pGoB->SetVelocity( -pGoB->GetVelocity() );
-						break;
-					}
 					// Subtract the collision time
 					tLeft -= pEarliestCollisionPair->m_collisionTime;
 					if ( tLeft <= 0 )
@@ -75,16 +68,16 @@ namespace Engine
 					this->SimulateMovement( tLeft );
 					// Resolve the collision
 					this->ResolveCollision( pEarliestCollisionPair );
-					// Simulate the collision again
-					pEarliestCollisionPair = this->SimulateCollision( tLeft, m_pCollisionPairs );
+					// After resolving, we need to remove the CollisionPair from the link list.
+					m_pCollisionPairs->Remove( pEarliestCollisionPair );
+					pEarliestCollisionPair = this->GetEarliestCollisionPair();
 					tProcess = ( (float) clock() - tProcess ) / 1000;
-
 				}
-				if ( tLeft > 0 )
-				{
-					// Simulate the movement once again after jumping out the loop.
-					this->SimulateMovement( tLeft );
-				}
+				//if ( tLeft > 0 )
+				//{
+				//	// Simulate the movement once again after jumping out the loop.
+				//	this->SimulateMovement( tLeft );
+				//}
 			}
 		}
 
@@ -125,7 +118,7 @@ namespace Engine
 			}
 		}
 
-		CollisionPair * PhysicsManager::SimulateCollision( float i_dt, TList<CollisionPair> * i_pCollisionPairs )
+		void  PhysicsManager::SimulateCollision( float i_dt, TList<CollisionPair> * i_pCollisionPairs )
 		{
 			CollisionPair * pEarliestCollisionPair = nullptr;
 			i_pCollisionPairs->Clear( true );
@@ -136,8 +129,6 @@ namespace Engine
 
 			Node<PhysicsInfo> * ptr_1 = m_pPhysicsInfos->GetHead();
 			SmartPtr<GameObject> pCachedGo;
-
-			CollisionPair * pCachedCollisionPair = nullptr;
 
 			while ( ptr != nullptr )
 			{
@@ -171,13 +162,8 @@ namespace Engine
 					// Check the collision between the A and B
 					if ( this->IsCollision( pPhysicsA, pPhysicsB, i_dt, collisionTime, collisionNormal ) )
 					{
-						// try to add new collsiion pair
-						pCachedCollisionPair = m_pCollisionPairs->Insert( new CollisionPair( collisionTime, collisionNormal, pPhysicsA, pPhysicsB ) )->GetData();
-						if ( pEarliestCollisionPair == nullptr || collisionTime < pEarliestCollisionPair->m_collisionTime )
-						{
-							// Update the earliest collision pair
-							pEarliestCollisionPair = pCachedCollisionPair;
-						}
+						// Add a new collision pair into the list.
+						m_pCollisionPairs->Insert( new CollisionPair( collisionTime, collisionNormal, pPhysicsA, pPhysicsB ) );
 						pPhysicsA->SetIsCollision( true );
 						pPhysicsB->SetIsCollision( true );
 
@@ -216,7 +202,6 @@ namespace Engine
 				ptr = ptr->GetNext();
 			}
 #endif
-			return pEarliestCollisionPair;
 		}
 
 		bool PhysicsManager::AddPhysicsObject( PhysicsInfo * i_pInfo )
@@ -519,6 +504,25 @@ namespace Engine
 
 			// Recalculate the two collidabes velocities based on the momentum
 			this->RecalculateVelByMomentum( pCollisionPair->m_pCollidables[0], pCollisionPair->m_pCollidables[1], dir_vel_A, dir_vel_B );
+		}
+
+		CollisionPair * PhysicsManager::GetEarliestCollisionPair()
+		{
+			if ( m_pCollisionPairs->Length() == 0 )
+			{
+				return nullptr;
+			}
+			Node<CollisionPair> * pCachedCollisionPair = nullptr;
+			Node<CollisionPair> * ptr = m_pCollisionPairs->GetHead();
+			while ( ptr != nullptr )
+			{
+				if ( pCachedCollisionPair == nullptr || ptr->GetData()->m_collisionTime < pCachedCollisionPair->GetData()->m_collisionTime )
+				{
+					pCachedCollisionPair = ptr;
+				}
+				ptr = ptr->GetNext();
+			}
+			return pCachedCollisionPair->GetData();
 		}
 	}
 }
