@@ -36,18 +36,19 @@ namespace MonsterChase
 		srand( time_t( NULL ) );
 
 		// Test for lua file
-		m_pPlayer = Engine::CreateGameObjectByFile( "Data\\Lua\\player.lua" );
-		// Create an input controller and assign it to the player.
-		InputController * pInputController = new InputController( m_pPlayer, 2000.0f );
-		pInputController->SetControlGameObject( m_pPlayer );
-		m_pPlayer->SetController( pInputController );
-		Controller::ControllerManager::GetInstance().AddContrller( pInputController );
+		//m_pPlayer = Engine::CreateGameObjectByFile( "Data\\Lua\\player.lua" );
+		//// Create an input controller and assign it to the player.
+		//InputController * pInputController = new InputController( m_pPlayer, 2000.0f );
+		//pInputController->SetControlGameObject( m_pPlayer );
+		//m_pPlayer->SetController( pInputController );
+		//Controller::ControllerManager::GetInstance().AddContrller( pInputController );
 
 		// Create some test enemies by lua.
 		m_pEnemyManager->CreateEnemy( "Data\\lua\\test_enemy.lua" );
-		//m_pEnemyManager->CreateEnemy( "Data\\lua\\test_enemy_1.lua" );
-		//m_pEnemyManager->CreateEnemy( "Data\\lua\\test_enemy_2.lua" );
-		//m_pEnemyManager->CreateEnemy( "Data\\lua\\test_enemy_3.lua" );
+		m_pEnemyManager->CreateEnemy( "Data\\lua\\player.lua" );
+		m_pEnemyManager->CreateEnemy( "Data\\lua\\test_enemy_1.lua" );
+		m_pEnemyManager->CreateEnemy( "Data\\lua\\test_enemy_2.lua" );
+		m_pEnemyManager->CreateEnemy( "Data\\lua\\test_enemy_3.lua" );
 		m_pEnemyManager->CreateEnemy( "Data\\lua\\test_enemy_4.lua" );
 
 		DEBUG_PRINT_GAMEPLAY( "----------Finish the setup for the game.----------" );
