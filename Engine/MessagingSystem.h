@@ -6,7 +6,6 @@ namespace Engine
 	class TString;
 	template<class...Params>
 	class Delegate;
-
 	namespace MessagingSystem
 	{
 		typedef void( *MessageHandler_t )( const TString & i_Message );
