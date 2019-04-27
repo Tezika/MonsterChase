@@ -161,6 +161,7 @@
     <ClInclude Include="CommonUtility.h" />
     <ClInclude Include="ConsolePrint.h" />
     <ClInclude Include="ControllerManager.h" />
+    <ClInclude Include="Delegate.h" />
     <ClInclude Include="Engine-init.h" />
     <ClInclude Include="FixedAllocators.h" />
     <ClInclude Include="FixedSizeAllocator.h" />
