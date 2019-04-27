@@ -146,6 +146,7 @@ namespace Engine
 			}
 			ptr = ptr->GetNext();
 		}
+		return nullptr;
 	}
 
 	template<typename T>
