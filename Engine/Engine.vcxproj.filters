@@ -91,6 +91,12 @@
     <Filter Include="Source Files\ConsoleDebug">
       <UniqueIdentifier>{9c22c840-5e2e-4b6d-9e66-160cf9205dec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Messaging">
+      <UniqueIdentifier>{35ca0f04-a014-4919-9b4d-018120fbd675}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Messaging">
+      <UniqueIdentifier>{4676a9ea-a60a-4067-8601-b3b16fc24cd0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -192,6 +198,12 @@
     <ClInclude Include="CollisionPair.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="HashString.h">
+      <Filter>Header Files\String</Filter>
+    </ClInclude>
+    <ClInclude Include="MessagingSystem.h">
+      <Filter>Header Files\Messaging</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -271,6 +283,12 @@
     </ClCompile>
     <ClCompile Include="CollisionPair.cpp">
       <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="HashString.cpp">
+      <Filter>Source Files\String</Filter>
+    </ClCompile>
+    <ClCompile Include="MessagingSystem.cpp">
+      <Filter>Source Files\Messaging</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
