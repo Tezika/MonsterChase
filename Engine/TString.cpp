@@ -43,6 +43,19 @@ namespace Engine
 		strcpy_s( m_buffer, m_size, i_str.m_buffer );
 	}
 
+	bool TString::operator==( const TString & i_str ) const
+	{
+		if ( this->Length() != i_str.Length() )
+		{
+			return false;
+		}
+		else
+		{
+			return strcmp( this->GetBuffer(), i_str.GetBuffer() ) == 0;
+		}
+		return true;
+	}
+
 	void TString::operator=( const char * i_pStr )
 	{
 		if ( m_buffer != nullptr )
@@ -99,21 +112,7 @@ namespace Engine
 
 	bool operator==( const TString & i_lhs, const TString & i_rhs )
 	{
-		if ( i_lhs.Length() != i_rhs.Length() )
-		{
-			return false;
-		}
-		else
-		{
-			for ( size_t i = 0; i < i_lhs.Length(); i++ )
-			{
-				if ( i_lhs.m_buffer[i] != i_rhs.m_buffer[i] )
-				{
-					return false;
-				}
-			}
-		}
-		return true;
+		return i_lhs.operator==(i_rhs);
 	}
 
 	bool operator==( const TString & i_lhs, const char * i_pRhs )

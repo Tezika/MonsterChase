@@ -1,8 +1,6 @@
 #pragma once
 
 #include <assert.h>
-#include <algorithm>
-#include <vector>
 
 namespace Engine
 {
@@ -29,18 +27,18 @@ namespace Engine
 				return ( i_other.m_pInstance == this->m_pInstance ) && ( i_other.m_pMethod == this->m_pMethod );
 			}
 
-			void operator(Params ... i_Params ) const
+			void operator()( Params ... i_Params ) const
 			{
 				assert( this->m_pMethod );
 				( *m_pMethod )( this->m_pInstance, i_Params... );
 			}
 
-			void ExecuteIfBound( Params ... i_Parameter ) const
+			void ExecuteIfBound( Params ... i_Params ) const
 			{
 				if ( m_pInstance )
 				{
-					assert( m_pMethodStub );
-					( *m_pMethod )( m_pInstance, i_Parameter ... );
+					assert( m_pMethod );
+					( *m_pMethod )( m_pInstance, i_Params ... );
 				}
 			}
 

@@ -1,19 +1,36 @@
 #pragma once
-
+#include <unordered_map>
 namespace Engine
 {
-	// Use the TString class as a temporary solution. It'll change into the HashedString soon.
 	class TString;
-	template<class...Params>
-	class Delegate;
-	namespace MessagingSystem
+	// Use the TString class as a temporary solution. It'll change into the HashedString soon.
+	namespace Messaging
 	{
-		typedef void( *MessageHandler_t )( const TString & i_Message );
+		template<class...Params>
+		class Delegate;
 
-		void RegisterMessageHandler( const TString & i_Message, MessageHandler_t i_pHandler );
+		template<class...Params>
+		class MultiCastDelegate;
 
-		void DeregisterMessageHandler( const TString & i_Message, MessageHandler_t i_pHandler );
+		class MessageSystem
+		{
+		public:
+			static MessageSystem& GetInstance()
+			{
+				static MessageSystem instance;
+				return instance;
+			}
 
-		void SendMessage( const TString & i_Message );
+			MessageSystem( MessageSystem const& ) = delete;
+			void operator=( MessageSystem const& ) = delete;
+
+			void RegisterMessageHandler( const TString & i_Message, Delegate<> & i_Delegate );
+			void DeregisterMessageHandler( const TString & i_Message, Delegate<> & i_Delegate );
+			void SendMessage( const TString & i_Message );
+
+		private:
+			std::unordered_map<char*, MultiCastDelegate<>> m_Message2Delegates;
+			MessageSystem(){};
+		};
 	}
 }
