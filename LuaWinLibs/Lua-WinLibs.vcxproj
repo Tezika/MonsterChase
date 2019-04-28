@@ -173,7 +173,8 @@
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
     <PostBuildEvent>
-      <Command>copy "$(TargetPath)" "$(SolutionDir)Exports\Lua\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"
+      <Command>IF exist $(SolutionDir)Exports\Lua ( echo $(SolutionDir)Exports\Lua exists ) ELSE ( mkdir $(SolutionDir)Exports\Lua &amp;&amp; echo Export's Lua folder created)
+copy "$(TargetPath)" "$(SolutionDir)Exports\Lua\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"
 copy "$(OutputPath)$(TargetName).pdb" "$(SolutionDir)Exports\Lua\$(ProjectName)_$(PlatformTarget)-$(Configuration).pdb"
 copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Lua\"
 copy "$(ProjectDir)*.hpp" "$(SolutionDir)Exports\Lua\"</Command>
@@ -196,7 +197,8 @@ copy "$(ProjectDir)*.hpp" "$(SolutionDir)Exports\Lua\"</Command>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
     <PostBuildEvent>
-      <Command>copy "$(TargetPath)" "$(SolutionDir)Exports\Lua\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"
+      <Command>IF exist $(SolutionDir)Exports\Lua ( echo $(SolutionDir)Exports\Lua exists ) ELSE ( mkdir $(SolutionDir)Exports\Lua &amp;&amp; echo Export's Lua folder created)
+copy "$(TargetPath)" "$(SolutionDir)Exports\Lua\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"
 copy "$(OutputPath)$(TargetName).pdb" "$(SolutionDir)Exports\Lua\$(ProjectName)_$(PlatformTarget)-$(Configuration).pdb"
 copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Lua\"
 copy "$(ProjectDir)*.hpp" "$(SolutionDir)Exports\Lua\"</Command>
@@ -223,7 +225,8 @@ copy "$(ProjectDir)*.hpp" "$(SolutionDir)Exports\Lua\"</Command>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
     <PostBuildEvent>
-      <Command>copy "$(TargetPath)" "$(SolutionDir)Exports\Lua\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"
+      <Command>IF exist $(SolutionDir)Exports\Lua ( echo $(SolutionDir)Exports\Lua exists ) ELSE ( mkdir $(SolutionDir)Exports\Lua &amp;&amp; echo Export's Lua folder created) 
+copy "$(TargetPath)" "$(SolutionDir)Exports\Lua\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"
 copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Lua\"
 copy "$(ProjectDir)*.hpp" "$(SolutionDir)Exports\Lua\"</Command>
     </PostBuildEvent>
@@ -249,7 +252,8 @@ copy "$(ProjectDir)*.hpp" "$(SolutionDir)Exports\Lua\"</Command>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
     <PostBuildEvent>
-      <Command>copy "$(TargetPath)" "$(SolutionDir)Exports\Lua\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"
+      <Command>IF exist $(SolutionDir)Exports\Lua ( echo $(SolutionDir)Exports\Lua exists ) ELSE ( mkdir $(SolutionDir)Exports\Lua &amp;&amp; echo Export's Lua folder created) 
+copy "$(TargetPath)" "$(SolutionDir)Exports\Lua\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"
 copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Lua\"
 copy "$(ProjectDir)*.hpp" "$(SolutionDir)Exports\Lua\"</Command>
     </PostBuildEvent>
