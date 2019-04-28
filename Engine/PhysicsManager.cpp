@@ -173,6 +173,7 @@ namespace Engine
 						m_pCollisionPairs->Insert( new CollisionPair( collisionTime, collisionNormal, pPhysicsA, pPhysicsB ) );
 						pPhysicsA->SetIsCollision( true );
 						pPhysicsB->SetIsCollision( true );
+						// Test the collision detect by a simple message.
 						Messaging::MessageSystem::GetInstance().SendMessageW( "TestOnCollision" );
 
 					}
