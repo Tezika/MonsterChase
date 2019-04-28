@@ -6,7 +6,7 @@ namespace Engine
 {
 	namespace Messaging
 	{
-		template<class...Params>
+		template<typename...Params>
 		class Delegate
 		{
 		public:
@@ -16,7 +16,7 @@ namespace Engine
 			{
 			}
 
-			template<class T, void ( T::*TMethod )( Params ... )>
+			template<typename T, void ( T::*TMethod )( Params ... )>
 			static Delegate Create( T * pInstance )
 			{
 				return Delegate( pInstance, &method_stub<T, TMethod> );
@@ -60,10 +60,10 @@ namespace Engine
 				assert( m_pMethod );
 			}
 
-			template<class T, void( T::*TMethod )( Params... )>
+			template<typename T, void( T::*TMethod )( Params... )>
 			static void method_stub( void * i_pInstance, Params ... i_Parameters )
 			{
-				( static_cast<T*>( m_pInstance )->*TMethod( i_Parameters... ) );
+				( static_cast<T*>( i_pInstance )->*TMethod )( i_Parameters... );
 			}
 		};
 	}

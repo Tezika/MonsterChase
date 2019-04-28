@@ -7,15 +7,15 @@ namespace Engine
 {
 	namespace Messaging
 	{
-		void MessageSystem::RegisterMessageHandler( const TString & i_Message, Delegate<> & i_Delegate )
+		void MessageSystem::RegisterMessageHandler( const char * i_Message, Delegate<> & i_Delegate )
 		{
-			std::unordered_map<char*, MultiCastDelegate<>>::iterator itr;
-			itr = m_Message2Delegates.find( i_Message.c_str() );
+			std::unordered_map<const char*, MultiCastDelegate<>>::iterator itr;
+			itr = m_Message2Delegates.find( i_Message );
 			if ( itr == m_Message2Delegates.end() )
 			{
 				MultiCastDelegate<> newMultiCastDelegate;
 				newMultiCastDelegate.AddDelegate( i_Delegate );
-				m_Message2Delegates.insert( std::make_pair( i_Message.c_str(), newMultiCastDelegate ) );
+				m_Message2Delegates.insert( std::make_pair( i_Message, newMultiCastDelegate ) );
 			}
 			else
 			{
@@ -23,10 +23,10 @@ namespace Engine
 			}
 		}
 
-		void MessageSystem::DeregisterMessageHandler( const TString & i_Message, Delegate<> & i_Delegate )
+		void MessageSystem::DeregisterMessageHandler( const char * i_Message, Delegate<> & i_Delegate )
 		{
-			std::unordered_map<char*, MultiCastDelegate<>>::iterator itr;
-			itr = m_Message2Delegates.find( i_Message.c_str() );
+			std::unordered_map<const char*, MultiCastDelegate<>>::iterator itr;
+			itr = m_Message2Delegates.find( i_Message );
 			if ( itr == m_Message2Delegates.end() )
 			{
 				return;
@@ -37,11 +37,11 @@ namespace Engine
 			}
 		}
 
-		void MessageSystem::SendMessage( const TString & i_Message )
+		void MessageSystem::SendMessageW( const char * i_Message )
 		{
-			if ( m_Message2Delegates.find( i_Message.c_str() ) != m_Message2Delegates.end() )
+			if ( m_Message2Delegates.find( i_Message ) != m_Message2Delegates.end() )
 			{
-				m_Message2Delegates[i_Message.c_str()].ExecuteIfBound();
+				m_Message2Delegates[i_Message].ExecuteIfBound();
 			}
 		}
 	}

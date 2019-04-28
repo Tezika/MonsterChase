@@ -35,6 +35,8 @@ namespace Engine
 			inline bool GetCollidable() { return m_bCollidable; }
 			inline void SetCollidable( bool i_bCollidable ){ m_bCollidable = i_bCollidable; }
 
+			void OnCollision();
+
 		private:
 			PhysicsInfo(){};
 			PhysicsInfo( float i_mass, float i_drag, bool i_bCollidable, SmartPtr<GameObject> i_pGo, AABB * i_pAABB );

@@ -7,6 +7,8 @@
 #include "Vector3.h"
 #include "Vector4.h"
 #include "RenderManager.h"
+#include "MessagingSystem.h"
+#include "Delegate.h"
 
 namespace Engine
 {
@@ -14,7 +16,10 @@ namespace Engine
 	{
 		PhysicsInfo * PhysicsInfo::Create( float i_mass, float i_drag, bool i_bCollidable, SmartPtr<GameObject> i_pGo, AABB * i_pAABB )
 		{
-			return new PhysicsInfo( i_mass, i_drag, i_bCollidable, i_pGo, i_pAABB );
+			PhysicsInfo * newPhysicsInfo = new PhysicsInfo( i_mass, i_drag, i_bCollidable, i_pGo, i_pAABB );
+			Messaging::Delegate<> testCollisionDelegate = Messaging::Delegate<>::Create<PhysicsInfo, &PhysicsInfo::OnCollision>( newPhysicsInfo );
+			Messaging::MessageSystem::GetInstance().RegisterMessageHandler( "TestOnCollision", testCollisionDelegate );
+			return newPhysicsInfo;
 		}
 
 		PhysicsInfo::PhysicsInfo( float i_mass, float i_drag, bool i_bCollidable, SmartPtr<GameObject> i_pGo, AABB * i_pAABB ) :
@@ -48,6 +53,11 @@ namespace Engine
 			m_bIsCollision = i_other.m_bIsCollision;
 			m_bCollidable = i_other.m_bCollidable;
 			m_pAABB = AABB::Create( i_other.m_pAABB->center, i_other.m_pAABB->extends );
+		}
+
+		void PhysicsInfo::OnCollision()
+		{
+			DEBUG_PRINT_GAMEPLAY( "The %s is on collision right now, this call from the message system.", this->m_pGo->GetName().c_str() );
 		}
 
 		PhysicsInfo::~PhysicsInfo()

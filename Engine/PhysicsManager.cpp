@@ -15,6 +15,8 @@
 #include "RenderInfo.h"
 #include "RenderManager.h"
 #include <ctime>
+#include "MessagingSystem.h"
+
 
 namespace Engine
 {
@@ -26,6 +28,7 @@ namespace Engine
 			assert( m_pPhysicsInfos );
 			m_pCollisionPairs = new TList<CollisionPair>();
 			assert( m_pCollisionPairs );
+
 			DEBUG_PRINT_ENGINE( "The physics system initialized succuessfully!" );
 			return true;
 		}
@@ -62,7 +65,7 @@ namespace Engine
 						this->SimulateMovement( tLeft );
 						break;
 					}
-					DEBUG_PRINT_ENGINE( "The left time is %f, the collision time is %f, and the process time is %f", tLeft, pEarliestCollisionPair->m_collisionTime, tProcess );
+					//DEBUG_PRINT_ENGINE( "The left time is %f, the collision time is %f, and the process time is %f", tLeft, pEarliestCollisionPair->m_collisionTime, tProcess );
 					// Subtract the process time
 					tLeft -= tProcess;
 					// Subtract the collision time
@@ -170,6 +173,7 @@ namespace Engine
 						m_pCollisionPairs->Insert( new CollisionPair( collisionTime, collisionNormal, pPhysicsA, pPhysicsB ) );
 						pPhysicsA->SetIsCollision( true );
 						pPhysicsB->SetIsCollision( true );
+						Messaging::MessageSystem::GetInstance().SendMessageW( "TestOnCollision" );
 
 					}
 					else
@@ -204,9 +208,9 @@ namespace Engine
 					pDebugRenderInfo->SetRenderable( false );
 				}
 				ptr = ptr->GetNext();
-			}
-#endif
 		}
+#endif
+	}
 
 		bool PhysicsManager::AddPhysicsObject( PhysicsInfo * i_pInfo )
 		{
@@ -528,5 +532,5 @@ namespace Engine
 			}
 			return pCachedCollisionPair->GetData();
 		}
-	}
+}
 }

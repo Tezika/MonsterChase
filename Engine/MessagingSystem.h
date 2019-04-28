@@ -1,17 +1,13 @@
 #pragma once
 #include <unordered_map>
+#include "MultiCastDelegate.h"
 namespace Engine
 {
 	class TString;
 	// Use the TString class as a temporary solution. It'll change into the HashedString soon.
+	// It only supports the method with 0 augment right now.
 	namespace Messaging
 	{
-		template<class...Params>
-		class Delegate;
-
-		template<class...Params>
-		class MultiCastDelegate;
-
 		class MessageSystem
 		{
 		public:
@@ -24,12 +20,12 @@ namespace Engine
 			MessageSystem( MessageSystem const& ) = delete;
 			void operator=( MessageSystem const& ) = delete;
 
-			void RegisterMessageHandler( const TString & i_Message, Delegate<> & i_Delegate );
-			void DeregisterMessageHandler( const TString & i_Message, Delegate<> & i_Delegate );
-			void SendMessage( const TString & i_Message );
+			void RegisterMessageHandler( const char *  i_Message, Delegate<> & i_Delegate );
+			void DeregisterMessageHandler( const char * i_Message, Delegate<> & i_Delegate );
+			void SendMessageW( const char * i_Message );
 
 		private:
-			std::unordered_map<char*, MultiCastDelegate<>> m_Message2Delegates;
+			std::unordered_map<const char*, MultiCastDelegate<>> m_Message2Delegates;
 			MessageSystem(){};
 		};
 	}
