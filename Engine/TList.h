@@ -146,6 +146,7 @@ namespace Engine
 			}
 			ptr = ptr->GetNext();
 		}
+		return nullptr;
 	}
 
 	template<typename T>
@@ -153,7 +154,7 @@ namespace Engine
 	{
 		assert( pData );
 		Node<T> * pNode = this->Find( pData );
-		return pNode == nullptr ? nullptr : pNode;
+		return pNode == nullptr ? nullptr : this->Remove( pNode );
 	}
 
 	template<typename T>
