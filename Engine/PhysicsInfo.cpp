@@ -18,7 +18,7 @@ namespace Engine
 		{
 			PhysicsInfo * newPhysicsInfo = new PhysicsInfo( i_mass, i_drag, i_bCollidable, i_pGo, i_pAABB );
 			Messaging::Delegate<> testCollisionDelegate = Messaging::Delegate<>::Create<PhysicsInfo, &PhysicsInfo::OnCollision>( newPhysicsInfo );
-			Messaging::MessageSystem::GetInstance().RegisterMessageHandler( "TestOnCollision", testCollisionDelegate );
+			Messaging::MessageSystem::GetInstance().RegisterMessageDelegate( "TestOnCollision", testCollisionDelegate );
 			return newPhysicsInfo;
 		}
 

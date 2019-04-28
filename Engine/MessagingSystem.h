@@ -15,13 +15,13 @@ namespace Engine
 			{
 				static MessageSystem instance;
 				return instance;
-			}
 
+			}
 			MessageSystem( MessageSystem const& ) = delete;
 			void operator=( MessageSystem const& ) = delete;
 
-			void RegisterMessageHandler( const char *  i_Message, Delegate<> & i_Delegate );
-			void DeregisterMessageHandler( const char * i_Message, Delegate<> & i_Delegate );
+			void RegisterMessageDelegate( const char *  i_Message, Delegate<> & i_Delegate );
+			void DeregisterMessageDelegate( const char * i_Message, Delegate<> & i_Delegate );
 			void SendMessageW( const char * i_Message );
 
 		private:

@@ -7,7 +7,7 @@ namespace Engine
 {
 	namespace Messaging
 	{
-		void MessageSystem::RegisterMessageHandler( const char * i_Message, Delegate<> & i_Delegate )
+		void MessageSystem::RegisterMessageDelegate( const char * i_Message, Delegate<> & i_Delegate )
 		{
 			std::unordered_map<const char*, MultiCastDelegate<>>::iterator itr;
 			itr = m_Message2Delegates.find( i_Message );
@@ -23,7 +23,7 @@ namespace Engine
 			}
 		}
 
-		void MessageSystem::DeregisterMessageHandler( const char * i_Message, Delegate<> & i_Delegate )
+		void MessageSystem::DeregisterMessageDelegate( const char * i_Message, Delegate<> & i_Delegate )
 		{
 			std::unordered_map<const char*, MultiCastDelegate<>>::iterator itr;
 			itr = m_Message2Delegates.find( i_Message );
