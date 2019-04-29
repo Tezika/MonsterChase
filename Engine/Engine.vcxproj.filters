@@ -210,6 +210,9 @@
     <ClInclude Include="MessageSystem.h">
       <Filter>Header Files\Messaging</Filter>
     </ClInclude>
+    <ClInclude Include="HashedString-inl.h">
+      <Filter>Header Files\String</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

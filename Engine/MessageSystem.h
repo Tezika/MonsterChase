@@ -1,5 +1,5 @@
 #pragma once
-#include <unordered_map>
+#include <map>
 #include "MultiCastDelegate.h"
 #include "HashString.h"
 
@@ -28,7 +28,7 @@ namespace Engine
 			void SendMessageW( const HashedString & i_Message );
 
 		private:
-			std::unordered_map<HashedString, MultiCastDelegate<>> m_Message2Delegates;
+			std::map<HashedString, MultiCastDelegate<>> m_Message2Delegates;
 			MessageSystem(){};
 		};
 	}

@@ -35,3 +35,5 @@ namespace Engine
 #endif
 	};
 }
+
+#include "HashedString-inl.h"

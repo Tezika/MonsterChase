@@ -167,6 +167,7 @@
     <ClInclude Include="FixedSizeAllocator.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GLibUtility.h" />
+    <ClInclude Include="HashedString-inl.h" />
     <ClInclude Include="HashString.h" />
     <ClInclude Include="HeapManager.h" />
     <ClInclude Include="IController.h" />

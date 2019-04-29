@@ -10,7 +10,7 @@ namespace Engine
 	{
 		void MessageSystem::RegisterMessageDelegate( const HashedString & i_Message, Delegate<> & i_Delegate )
 		{
-			std::unordered_map<HashedString, MultiCastDelegate<>>::iterator itr;
+			std::map<HashedString, MultiCastDelegate<>>::iterator itr;
 			itr = m_Message2Delegates.find( i_Message );
 			if ( itr == m_Message2Delegates.end() )
 			{
@@ -26,7 +26,7 @@ namespace Engine
 
 		void MessageSystem::DeregisterMessageDelegate( const HashedString & i_Message, Delegate<> & i_Delegate )
 		{
-			std::unordered_map<HashedString, MultiCastDelegate<>>::iterator itr;
+			std::map<HashedString, MultiCastDelegate<>>::iterator itr;
 			itr = m_Message2Delegates.find( i_Message );
 			if ( itr == m_Message2Delegates.end() )
 			{
