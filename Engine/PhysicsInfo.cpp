@@ -7,8 +7,9 @@
 #include "Vector3.h"
 #include "Vector4.h"
 #include "RenderManager.h"
-#include "MessagingSystem.h"
+#include "MessageSystem.h"
 #include "Delegate.h"
+#include "HashString.h"
 
 namespace Engine
 {

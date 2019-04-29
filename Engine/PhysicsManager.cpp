@@ -15,7 +15,7 @@
 #include "RenderInfo.h"
 #include "RenderManager.h"
 #include <ctime>
-#include "MessagingSystem.h"
+#include "MessageSystem.h"
 
 
 namespace Engine

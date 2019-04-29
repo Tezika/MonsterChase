@@ -14,10 +14,10 @@ namespace Engine
 		HashedString & operator=( const HashedString & i_other );
 		HashedString & operator=( const HashedString && i_other );
 
-		unsigned int Get();
+		inline unsigned int Get(){ return m_Hash; }
 
 #ifdef DEBUG_KEEP_STRING
-		inline const char * GetDebugString(){ return m_pStr; };
+		inline const char * GetString(){ return m_pStr; };
 #endif // DEBUG_KEEP_STRING
 
 		static unsigned int Hash( const char * i_str );

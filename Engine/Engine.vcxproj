@@ -174,7 +174,7 @@
     <ClInclude Include="Matrix3x3.h" />
     <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="MemorySystem.h" />
-    <ClInclude Include="MessagingSystem.h" />
+    <ClInclude Include="MessageSystem.h" />
     <ClInclude Include="MultiCastDelegate.h" />
     <ClInclude Include="PhysicsInfo.h" />
     <ClInclude Include="PhysicsManager.h" />
@@ -211,7 +211,7 @@
     <ClCompile Include="Matrix3x3.cpp" />
     <ClCompile Include="Matrix4x4.cpp" />
     <ClCompile Include="MemorySystem.cpp" />
-    <ClCompile Include="MessagingSystem.cpp" />
+    <ClCompile Include="MessageSystem.cpp" />
     <ClCompile Include="PhysicsInfo.cpp" />
     <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="ReferenceCounter.cpp" />

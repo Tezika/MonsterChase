@@ -1,15 +1,16 @@
 #include "stdafx.h"
-#include "MessagingSystem.h"
+#include "MessageSystem.h"
 #include "TString.h"
 #include "MultiCastDelegate.h"
+
 
 namespace Engine
 {
 	namespace Messaging
 	{
-		void MessageSystem::RegisterMessageDelegate( const char * i_Message, Delegate<> & i_Delegate )
+		void MessageSystem::RegisterMessageDelegate( const HashedString & i_Message, Delegate<> & i_Delegate )
 		{
-			std::unordered_map<const char*, MultiCastDelegate<>>::iterator itr;
+			std::unordered_map<HashedString, MultiCastDelegate<>>::iterator itr;
 			itr = m_Message2Delegates.find( i_Message );
 			if ( itr == m_Message2Delegates.end() )
 			{
@@ -23,9 +24,9 @@ namespace Engine
 			}
 		}
 
-		void MessageSystem::DeregisterMessageDelegate( const char * i_Message, Delegate<> & i_Delegate )
+		void MessageSystem::DeregisterMessageDelegate( const HashedString & i_Message, Delegate<> & i_Delegate )
 		{
-			std::unordered_map<const char*, MultiCastDelegate<>>::iterator itr;
+			std::unordered_map<HashedString, MultiCastDelegate<>>::iterator itr;
 			itr = m_Message2Delegates.find( i_Message );
 			if ( itr == m_Message2Delegates.end() )
 			{
@@ -37,7 +38,7 @@ namespace Engine
 			}
 		}
 
-		void MessageSystem::SendMessageW( const char * i_Message )
+		void MessageSystem::SendMessageW( const HashedString & i_Message )
 		{
 			if ( m_Message2Delegates.find( i_Message ) != m_Message2Delegates.end() )
 			{

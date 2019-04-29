@@ -201,13 +201,13 @@
     <ClInclude Include="HashString.h">
       <Filter>Header Files\String</Filter>
     </ClInclude>
-    <ClInclude Include="MessagingSystem.h">
-      <Filter>Header Files\Messaging</Filter>
-    </ClInclude>
     <ClInclude Include="Delegate.h">
       <Filter>Header Files\Messaging</Filter>
     </ClInclude>
     <ClInclude Include="MultiCastDelegate.h">
+      <Filter>Header Files\Messaging</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageSystem.h">
       <Filter>Header Files\Messaging</Filter>
     </ClInclude>
   </ItemGroup>
@@ -293,7 +293,7 @@
     <ClCompile Include="HashString.cpp">
       <Filter>Source Files\String</Filter>
     </ClCompile>
-    <ClCompile Include="MessagingSystem.cpp">
+    <ClCompile Include="MessageSystem.cpp">
       <Filter>Source Files\Messaging</Filter>
     </ClCompile>
   </ItemGroup>
