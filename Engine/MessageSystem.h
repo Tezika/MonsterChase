@@ -27,6 +27,8 @@ namespace Engine
 			void DeregisterMessageDelegate( const HashedString & i_Message, Delegate<> & i_Delegate );
 			void SendMessageW( const HashedString & i_Message );
 
+			bool Destroy();
+
 		private:
 			std::map<HashedString, MultiCastDelegate<>> m_Message2Delegates;
 			MessageSystem(){};

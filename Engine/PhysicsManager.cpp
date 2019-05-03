@@ -209,9 +209,9 @@ namespace Engine
 					pDebugRenderInfo->SetRenderable( false );
 				}
 				ptr = ptr->GetNext();
-		}
+			}
 #endif
-	}
+		}
 
 		bool PhysicsManager::AddPhysicsObject( PhysicsInfo * i_pInfo )
 		{
@@ -533,5 +533,5 @@ namespace Engine
 			}
 			return pCachedCollisionPair->GetData();
 		}
-}
+	}
 }

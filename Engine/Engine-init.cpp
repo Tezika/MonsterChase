@@ -5,6 +5,7 @@
 #include "HeapManager.h"
 #include "SubSystems.h"
 #include "MemorySystem.h"
+#include "MessageSystem.h"
 
 namespace Engine
 {
@@ -62,8 +63,13 @@ namespace Engine
 		assert( bSuccess );
 
 		// For Rendering
+		bSuccess = false;
 		bSuccess = Render::RenderManager::GetInstance().Destroy();
 		assert( bSuccess );
+
+		// For Messaging
+		bSuccess = false;
+		bSuccess = Messaging::MessageSystem::GetInstance().Destroy();
 
 #ifdef USE_CUSTOM_MEMORYMANAGEMENT
 		// Destroy the memory management system

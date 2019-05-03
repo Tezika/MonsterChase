@@ -45,5 +45,10 @@ namespace Engine
 				m_Message2Delegates[i_Message].ExecuteIfBound();
 			}
 		}
+
+		bool MessageSystem::Destroy()
+		{
+			return true;
+		}
 	}
 }
