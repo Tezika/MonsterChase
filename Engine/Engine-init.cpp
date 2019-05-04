@@ -44,6 +44,11 @@ namespace Engine
 		bSuccess = Controller::ControllerManager::GetInstance().Initialize();
 		assert( bSuccess );
 
+		// For Message System
+		bSuccess = false;
+		bSuccess = Messaging::MessageSystem::GetInstance().Initialize();
+		assert( bSuccess );
+
 		return true;
 	}
 
@@ -67,8 +72,9 @@ namespace Engine
 		assert( bSuccess );
 
 		// For Messaging
-		//bSuccess = false;
-		//bSuccess = Messaging::MessageSystem::GetInstance().Destroy();
+		bSuccess = false;
+		bSuccess = Messaging::MessageSystem::GetInstance().Destroy();
+		assert( bSuccess );
 
 
 #ifdef USE_CUSTOM_MEMORYMANAGEMENT

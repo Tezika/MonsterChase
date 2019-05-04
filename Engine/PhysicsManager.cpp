@@ -175,7 +175,7 @@ namespace Engine
 						pPhysicsA->SetIsCollision( true );
 						pPhysicsB->SetIsCollision( true );
 						// Test the collision detect by a simple message.
-						//Messaging::MessageSystem::GetInstance().SendMessageW( "TestOnCollision" );
+						Messaging::MessageSystem::GetInstance().SendMessageW( "TestOnCollision" );
 
 					}
 					else

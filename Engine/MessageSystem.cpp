@@ -11,12 +11,12 @@ namespace Engine
 		void MessageSystem::RegisterMessageDelegate( const HashedString & i_Message, Delegate<> & i_Delegate )
 		{
 			std::map<HashedString, MultiCastDelegate<>>::iterator itr;
-			itr = m_Message2Delegates.find( i_Message );
-			if ( itr == m_Message2Delegates.end() )
+			itr = m_pMessage2Delegates->find( i_Message );
+			if ( itr == m_pMessage2Delegates->end() )
 			{
 				MultiCastDelegate<> newMultiCastDelegate;
 				newMultiCastDelegate.AddDelegate( i_Delegate );
-				m_Message2Delegates.insert( std::make_pair( i_Message, newMultiCastDelegate ) );
+				m_pMessage2Delegates->insert( std::make_pair( i_Message, newMultiCastDelegate ) );
 			}
 			else
 			{
@@ -27,8 +27,8 @@ namespace Engine
 		void MessageSystem::DeregisterMessageDelegate( const HashedString & i_Message, Delegate<> & i_Delegate )
 		{
 			std::map<HashedString, MultiCastDelegate<>>::iterator itr;
-			itr = m_Message2Delegates.find( i_Message );
-			if ( itr == m_Message2Delegates.end() )
+			itr = m_pMessage2Delegates->find( i_Message );
+			if ( itr == m_pMessage2Delegates->end() )
 			{
 				return;
 			}
@@ -40,15 +40,27 @@ namespace Engine
 
 		void MessageSystem::SendMessageW( const HashedString & i_Message )
 		{
-			if ( m_Message2Delegates.find( i_Message ) != m_Message2Delegates.end() )
+			std::map<HashedString, MultiCastDelegate<>>::iterator itr;
+			itr = m_pMessage2Delegates->find( i_Message );
+			if ( itr != m_pMessage2Delegates->end() )
 			{
-				m_Message2Delegates[i_Message].ExecuteIfBound();
+				itr->second.ExecuteIfBound();
 			}
 		}
 
-		MessageSystem::~MessageSystem()
+		bool MessageSystem::Initialize()
 		{
-			m_Message2Delegates.clear();
+			m_pMessage2Delegates = new std::map<HashedString, MultiCastDelegate<>>();
+			assert( m_pMessage2Delegates != nullptr );
+			return true;
+		}
+
+		bool MessageSystem::Destroy()
+		{
+			m_pMessage2Delegates->clear();
+			delete m_pMessage2Delegates;
+			m_pMessage2Delegates = nullptr;
+			return true;
 		}
 	}
 }
