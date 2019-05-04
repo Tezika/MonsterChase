@@ -182,7 +182,7 @@ namespace Engine
 			bSucceed = this->ClearRenderInfos( m_pDebugRenderInfos );
 			assert( bSucceed );
 #endif
-			m_pDebugDotInfo = nullptr;
+
 			// Shutdown the GLib fininally
 			GLib::Shutdown();
 			DEBUG_PRINT_ENGINE( "The render system destoried succuessfully!" );

@@ -16,19 +16,18 @@ namespace Engine
 		public:
 			static MessageSystem& GetInstance()
 			{
+
 				static MessageSystem instance;
 				return instance;
 
 			}
+			~MessageSystem();
 			MessageSystem( MessageSystem const& ) = delete;
 			void operator=( MessageSystem const& ) = delete;
 
 			void RegisterMessageDelegate( const HashedString & i_Message, Delegate<> & i_Delegate );
 			void DeregisterMessageDelegate( const HashedString & i_Message, Delegate<> & i_Delegate );
 			void SendMessageW( const HashedString & i_Message );
-
-			bool Destroy();
-
 		private:
 			std::map<HashedString, MultiCastDelegate<>> m_Message2Delegates;
 			MessageSystem(){};

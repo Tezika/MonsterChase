@@ -1,6 +1,7 @@
 #pragma once
 #include "assert.h"
 #include "string.h"
+#include <crtdbg.h>
 
 namespace Engine
 {
@@ -26,7 +27,6 @@ namespace Engine
 		, m_pStr( strdup( i_other.m_pStr ) )
 #endif // DEBUG_KEEP_STRING
 	{
-
 	}
 
 	inline HashedString::HashedString( const HashedString && i_other ) :
@@ -44,9 +44,9 @@ namespace Engine
 	{
 		m_Hash = i_other.m_Hash;
 #ifdef DEBUG_KEEP_STRING
-		if ( m_pStr nullptr != nullptr )
+		if ( m_pStr != nullptr )
 		{
-			free( m_pStr );
+			delete m_pStr;
 		}
 		m_pStr = strdup( i_other.m_ptr );
 #endif
@@ -57,11 +57,10 @@ namespace Engine
 	{
 		m_Hash = i_other.m_Hash;
 #ifdef DEBUG_KEEP_STRING
-		if ( m_pStr != )
+		if ( m_pStr !=  nullptr)
 		{
-			free( m_pStr );
+			delete m_pStr;
 		}
-
 		m_pStr = i_other.m_ptr;
 		i_other.m_ptr = nullptr;
 #endif
@@ -71,9 +70,9 @@ namespace Engine
 	inline HashedString::~HashedString()
 	{
 #ifdef DEBUG_KEEP_STRING
-		if ( m_pStr != )
+		if ( m_pStr != nullptr )
 		{
-			free( m_pStr );
+			delete m_pStr;
 		}
 		m_pStr = nullptr;
 #endif

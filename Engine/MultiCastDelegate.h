@@ -32,6 +32,11 @@ namespace Engine
 					m_Receivers[i].ExecuteIfBound( i_params ... );
 				}
 			}
+
+			void RemoveAll()
+			{
+				m_Receivers.clear();
+			}
 		private:
 			std::vector<Delegate<Params...>> m_Receivers;
 		};

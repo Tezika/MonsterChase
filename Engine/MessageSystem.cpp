@@ -46,9 +46,9 @@ namespace Engine
 			}
 		}
 
-		bool MessageSystem::Destroy()
+		MessageSystem::~MessageSystem()
 		{
-			return true;
+			m_Message2Delegates.clear();
 		}
 	}
 }

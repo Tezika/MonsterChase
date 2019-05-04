@@ -114,7 +114,6 @@ namespace Engine
 		m_ptr( nullptr ),
 		m_pRefCounter( nullptr )
 	{
-
 	}
 
 	template<class T>

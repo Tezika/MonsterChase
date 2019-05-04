@@ -47,6 +47,10 @@ namespace Engine
 				return m_pInstance != nullptr;
 			}
 
+			~Delegate()
+			{
+			}
+
 		private:
 			typedef void( *MethodStub )( void * pInstance, Params ... );
 			void * m_pInstance;

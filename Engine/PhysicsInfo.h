@@ -1,6 +1,7 @@
 #pragma once
 #include "SmartPtr.h"
 #include "Vector3.h"
+#include "Delegate.h"
 
 namespace Engine
 {
@@ -47,6 +48,7 @@ namespace Engine
 			float m_dragness;
 			bool m_bIsCollision;
 			bool m_bCollidable;
+			Messaging::Delegate<> m_collisionDelegate;
 		};
 	}
 }

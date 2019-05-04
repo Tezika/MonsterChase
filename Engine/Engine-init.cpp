@@ -35,7 +35,6 @@ namespace Engine
 		assert( bSuccess );
 
 		// For Rendering
-
 		bSuccess = Render::RenderManager::GetInstance().Initialize( i_hInstance, i_nCmdShow );
 		assert( bSuccess );
 		bSuccess = false;
@@ -68,8 +67,9 @@ namespace Engine
 		assert( bSuccess );
 
 		// For Messaging
-		bSuccess = false;
-		bSuccess = Messaging::MessageSystem::GetInstance().Destroy();
+		//bSuccess = false;
+		//bSuccess = Messaging::MessageSystem::GetInstance().Destroy();
+
 
 #ifdef USE_CUSTOM_MEMORYMANAGEMENT
 		// Destroy the memory management system

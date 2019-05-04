@@ -82,6 +82,7 @@ namespace Engine
 					this->ResolveCollision( pEarliestCollisionPair );
 					// After resolving, it needs to remove the 'CollisionPair' from the link list.
 					m_pCollisionPairs->Remove( pEarliestCollisionPair );
+					delete pEarliestCollisionPair;
 					pEarliestCollisionPair = this->GetEarliestCollisionPair();
 					tProcess = ( (float) clock() - tProcess ) / 1000;
 				}
@@ -174,7 +175,7 @@ namespace Engine
 						pPhysicsA->SetIsCollision( true );
 						pPhysicsB->SetIsCollision( true );
 						// Test the collision detect by a simple message.
-						Messaging::MessageSystem::GetInstance().SendMessageW( "TestOnCollision" );
+						//Messaging::MessageSystem::GetInstance().SendMessageW( "TestOnCollision" );
 
 					}
 					else
@@ -271,6 +272,7 @@ namespace Engine
 			m_pPhysicsInfos = nullptr;
 
 			DEBUG_PRINT_ENGINE( "The physics system destoried succuessfully!" );
+			//_CrtDumpMemoryLeaks();
 			return true;
 		}
 

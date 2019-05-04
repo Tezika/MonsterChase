@@ -48,7 +48,6 @@ namespace Engine
 
 		private:
 			RenderManager() {};
-			RenderInfo * m_pDebugDotInfo;
 			TList<RenderInfo> * m_pRenderInfos;
 
 			void DrawRenderInfos( TList<RenderInfo> * pRenderInfos );
