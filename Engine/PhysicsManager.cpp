@@ -175,8 +175,7 @@ namespace Engine
 						pPhysicsA->SetIsCollision( true );
 						pPhysicsB->SetIsCollision( true );
 						// Test the collision detect by a simple message.
-						Messaging::MessageSystem::GetInstance().SendMessageW( "TestOnCollision" );
-
+						//Messaging::MessageSystem::GetInstance().SendMessageW( "TestOnCollision" );
 					}
 					else
 					{
@@ -308,8 +307,12 @@ namespace Engine
 			if ( tCloseLatest < tOpenEarilest )
 			{
 				i_collisionTime = tCloseLatest;
-				// Still confused about the calculation about normal of collision axis.
-				i_collisionNormal = -collisionAxis;
+				// Use a trick short-cut to calculate the 2d vector's normal.
+				i_collisionNormal = Vector3( -collisionAxis.y, collisionAxis.x, collisionAxis.z );
+				//DEBUG_PRINT_ENGINE(
+				//	"Detected the collision between the %s and %s",
+				//	i_pPhysicsInfoA->GetGameObject()->GetName().c_str(),
+				//	i_pPhysicsInfoB->GetGameObject()->GetName().c_str() );
 				return true;
 			}
 			return false;
