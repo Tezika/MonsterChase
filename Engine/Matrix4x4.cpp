@@ -2,6 +2,7 @@
 #include "Matrix4x4.h"
 #include "iostream"
 #include "Vector3.h"
+#include "immintrin.h"
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -282,5 +283,174 @@ namespace Engine
 			this->GetM31() - i_mtx.GetM31(), this->GetM32() - i_mtx.GetM32(), this->GetM33() - i_mtx.GetM33(), this->GetM34() - i_mtx.GetM34(),
 			this->GetM41() - i_mtx.GetM41(), this->GetM42() - i_mtx.GetM42(), this->GetM43() - i_mtx.GetM43(), this->GetM44() - i_mtx.GetM44()
 		);
+	}
+
+	bool Matrix4x4::InvertSSE( Matrix4x4 & out ) const
+	{
+		__m128 temp = { 0.0f };
+		__m128 row0, row1, row2, row3;
+		__m128 minor0, minor1, minor2, minor3;
+
+		temp = _mm_loadh_pi( _mm_loadl_pi( temp, reinterpret_cast<const __m64 *>( &m_matrix[0][0] ) ), reinterpret_cast<const __m64 *>( &m_matrix[1][0] ) );
+		row1 = _mm_loadh_pi( _mm_loadl_pi( temp, reinterpret_cast<const __m64 *>( &m_matrix[2][0] ) ), reinterpret_cast<const __m64 *>( &m_matrix[3][0] ) );
+		row0 = _mm_shuffle_ps( temp, row1, 0x88 );
+		row1 = _mm_shuffle_ps( row1, temp, 0xDD );
+		temp = _mm_loadh_pi( _mm_loadl_pi( temp, reinterpret_cast<const __m64 *>( &m_matrix[0][2] ) ), reinterpret_cast<const __m64 *>( &m_matrix[1][2] ) );
+		row3 = _mm_loadh_pi( _mm_loadl_pi( temp, reinterpret_cast<const __m64 *>( &m_matrix[2][2] ) ), reinterpret_cast<const __m64 *>( &m_matrix[3][2] ) );
+		row2 = _mm_shuffle_ps( temp, row3, 0x88 );
+		row3 = _mm_shuffle_ps( row3, temp, 0xDD );
+
+		// -----------------------------------------------
+		temp = _mm_mul_ps( row2, row3 );
+		temp = _mm_shuffle_ps( temp, temp, 0xB1 );
+		minor0 = _mm_mul_ps( row1, temp );
+		minor1 = _mm_mul_ps( row0, temp );
+		temp = _mm_shuffle_ps( temp, temp, 0x4E );
+		minor0 = _mm_sub_ps( _mm_mul_ps( row1, temp ), minor0 );
+		minor1 = _mm_sub_ps( _mm_mul_ps( row0, temp ), minor1 );
+		minor1 = _mm_shuffle_ps( minor1, minor1, 0x4E );
+
+		// -----------------------------------------------
+		temp = _mm_mul_ps( row1, row2 );
+		temp = _mm_shuffle_ps( temp, temp, 0xB1 );
+		minor0 = _mm_add_ps( _mm_mul_ps( row3, temp ), minor0 );
+		minor3 = _mm_mul_ps( row0, temp );
+		temp = _mm_shuffle_ps( temp, temp, 0x4E );
+		minor0 = _mm_sub_ps( minor0, _mm_mul_ps( row3, temp ) );
+		minor3 = _mm_sub_ps( _mm_mul_ps( row0, temp ), minor3 );
+		minor3 = _mm_shuffle_ps( minor3, minor3, 0x4E );
+
+		// -----------------------------------------------
+		temp = _mm_mul_ps( _mm_shuffle_ps( row1, row1, 0x4E ), row3 );
+		temp = _mm_shuffle_ps( temp, temp, 0xB1 );
+		row2 = _mm_shuffle_ps( row2, row2, 0x4E );
+		minor0 = _mm_add_ps( _mm_mul_ps( row2, temp ), minor0 );
+		minor2 = _mm_mul_ps( row0, temp );
+		temp = _mm_shuffle_ps( temp, temp, 0x4E );
+		minor0 = _mm_sub_ps( minor0, _mm_mul_ps( row2, temp ) );
+		minor2 = _mm_sub_ps( _mm_mul_ps( row0, temp ), minor2 );
+		minor2 = _mm_shuffle_ps( minor2, minor2, 0x4E );
+
+		// -----------------------------------------------
+		temp = _mm_mul_ps( row0, row1 );
+		temp = _mm_shuffle_ps( temp, temp, 0xB1 );
+		minor2 = _mm_add_ps( _mm_mul_ps( row3, temp ), minor2 );
+		minor3 = _mm_sub_ps( _mm_mul_ps( row2, temp ), minor3 );
+		temp = _mm_shuffle_ps( temp, temp, 0x4E );
+		minor2 = _mm_sub_ps( _mm_mul_ps( row3, temp ), minor2 );
+		minor3 = _mm_sub_ps( minor3, _mm_mul_ps( row2, temp ) );
+
+		// -----------------------------------------------
+		temp = _mm_mul_ps( row0, row3 );
+		temp = _mm_shuffle_ps( temp, temp, 0xB1 );
+		minor1 = _mm_sub_ps( minor1, _mm_mul_ps( row2, temp ) );
+		minor2 = _mm_add_ps( _mm_mul_ps( row1, temp ), minor2 );
+		temp = _mm_shuffle_ps( temp, temp, 0x4E );
+		minor1 = _mm_add_ps( _mm_mul_ps( row2, temp ), minor1 );
+		minor2 = _mm_sub_ps( minor2, _mm_mul_ps( row1, temp ) );
+
+		// -----------------------------------------------
+		temp = _mm_mul_ps( row0, row2 );
+		temp = _mm_shuffle_ps( temp, temp, 0xB1 );
+		minor1 = _mm_add_ps( _mm_mul_ps( row3, temp ), minor1 );
+		minor3 = _mm_sub_ps( minor3, _mm_mul_ps( row1, temp ) );
+		temp = _mm_shuffle_ps( temp, temp, 0x4E );
+		minor1 = _mm_sub_ps( minor1, _mm_mul_ps( row3, temp ) );
+		minor3 = _mm_add_ps( _mm_mul_ps( row1, temp ), minor3 );
+
+		// -----------------------------------------------
+		__m128 det;
+
+		det = _mm_mul_ps( row0, minor0 );
+		det = _mm_add_ps( _mm_shuffle_ps( det, det, 0x4E ), det );
+		det = _mm_add_ss( _mm_shuffle_ps( det, det, 0xB1 ), det );
+		temp = _mm_rcp_ss( det );
+		det = _mm_sub_ss( _mm_add_ss( temp, temp ), _mm_mul_ss( det, _mm_mul_ss( temp, temp ) ) );
+		det = _mm_shuffle_ps( det, det, 0x00 );
+
+		minor0 = _mm_mul_ps( det, minor0 );
+		_mm_storel_pi( reinterpret_cast<__m64 *>( &out.m_matrix[0][0] ), minor0 );
+		_mm_storeh_pi( reinterpret_cast<__m64 *>( &out.m_matrix[0][2] ), minor0 );
+
+		minor1 = _mm_mul_ps( det, minor1 );
+		_mm_storel_pi( reinterpret_cast<__m64 *>( &out.m_matrix[1][0] ), minor1 );
+		_mm_storeh_pi( reinterpret_cast<__m64 *>( &out.m_matrix[1][2] ), minor1 );
+
+		minor2 = _mm_mul_ps( det, minor2 );
+		_mm_storel_pi( reinterpret_cast<__m64 *>( &out.m_matrix[2][0] ), minor2 );
+		_mm_storeh_pi( reinterpret_cast<__m64 *>( &out.m_matrix[2][2] ), minor2 );
+
+		minor3 = _mm_mul_ps( det, minor3 );
+		_mm_storel_pi( reinterpret_cast<__m64 *>( &out.m_matrix[3][0] ), minor3 );
+		_mm_storeh_pi( reinterpret_cast<__m64 *>( &out.m_matrix[3][2] ), minor3 );
+
+		return true;
+	}
+
+	void Matrix4x4::MultiplySSE( const Matrix4x4 & i_other, Matrix4x4 & out ) const
+	{
+		// load i_other
+		__m128 rhs_row1 = _mm_load_ps( &i_other.m_matrix[0][0] );
+		__m128 rhs_row2 = _mm_load_ps( &i_other.m_matrix[1][0] );
+		__m128 rhs_row3 = _mm_load_ps( &i_other.m_matrix[2][0] );
+		__m128 rhs_row4 = _mm_load_ps( &i_other.m_matrix[3][0] );
+
+		__m128 acc;
+
+		// (*this).col1 * i_other
+		// m_11 * i_other.row1
+		acc = _mm_mul_ps( _mm_load1_ps( &m_matrix[0][0] ), rhs_row1 );
+		// m_12 * i_other.row2
+		acc = _mm_add_ps( acc, _mm_mul_ps( _mm_load1_ps( &m_matrix[0][1] ), rhs_row2 ) );
+		// m_13 * i_other.row3
+		acc = _mm_add_ps( acc, _mm_mul_ps( _mm_load1_ps( &m_matrix[0][2] ), rhs_row3 ) );
+		// m_14 * i_other.row4
+		acc = _mm_add_ps( acc, _mm_mul_ps( _mm_load1_ps( &m_matrix[0][3] ), rhs_row4 ) );
+
+		// write result
+		_mm_storel_pi( reinterpret_cast<__m64 *>( &out.m_matrix[0][0] ), acc );
+		_mm_storeh_pi( reinterpret_cast<__m64 *>( &out.m_matrix[0][2] ), acc );
+
+		// (*this).col2 * i_other
+		// m_21 * i_other.row1
+		acc = _mm_mul_ps( _mm_load1_ps( &m_matrix[1][0] ), rhs_row1 );
+		// m_22 * i_other.row2
+		acc = _mm_add_ps( acc, _mm_mul_ps( _mm_load1_ps( &m_matrix[1][1] ), rhs_row2 ) );
+		// m_23 * i_other.row3
+		acc = _mm_add_ps( acc, _mm_mul_ps( _mm_load1_ps( &m_matrix[1][2] ), rhs_row3 ) );
+		// m_24 * i_other.row4
+		acc = _mm_add_ps( acc, _mm_mul_ps( _mm_load1_ps( &m_matrix[1][3] ), rhs_row4 ) );
+
+		// write result
+		_mm_storel_pi( reinterpret_cast<__m64 *>( &out.m_matrix[1][0] ), acc );
+		_mm_storeh_pi( reinterpret_cast<__m64 *>( &out.m_matrix[1][2] ), acc );
+
+		// (*this).col3 * i_other
+		// m_31 * i_other.row1
+		acc = _mm_mul_ps( _mm_load1_ps( &m_matrix[2][0] ), rhs_row1 );
+		// m_32 * i_other.row2
+		acc = _mm_add_ps( acc, _mm_mul_ps( _mm_load1_ps( &m_matrix[2][1] ), rhs_row2 ) );
+		// m_33 * i_other.row3
+		acc = _mm_add_ps( acc, _mm_mul_ps( _mm_load1_ps( &m_matrix[2][2] ), rhs_row3 ) );
+		// m_34 * i_other.row4
+		acc = _mm_add_ps( acc, _mm_mul_ps( _mm_load1_ps( &m_matrix[2][3] ), rhs_row4 ) );
+
+		// write result
+		_mm_storel_pi( reinterpret_cast<__m64 *>( &out.m_matrix[2][0] ), acc );
+		_mm_storeh_pi( reinterpret_cast<__m64 *>( &out.m_matrix[2][2] ), acc );
+
+		// (*this).col4 * i_other
+		// m_41 * i_other.row1
+		acc = _mm_mul_ps( _mm_load1_ps( &m_matrix[3][0] ), rhs_row1 );
+		// m_42 * i_other.row2
+		acc = _mm_add_ps( acc, _mm_mul_ps( _mm_load1_ps( &m_matrix[3][1] ), rhs_row2 ) );
+		// m_43 * i_other.row3
+		acc = _mm_add_ps( acc, _mm_mul_ps( _mm_load1_ps( &m_matrix[3][2] ), rhs_row3 ) );
+		// m_44 * i_other.row4
+		acc = _mm_add_ps( acc, _mm_mul_ps( _mm_load1_ps( &m_matrix[3][3] ), rhs_row4 ) );
+
+		// write result
+		_mm_storel_pi( reinterpret_cast<__m64 *>( &out.m_matrix[3][0] ), acc );
+		_mm_storeh_pi( reinterpret_cast<__m64 *>( &out.m_matrix[3][2] ), acc );
 	}
 }
