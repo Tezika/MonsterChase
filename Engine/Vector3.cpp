@@ -106,7 +106,7 @@ namespace Engine
 		return sqrtf( this->x * this->x + this->y * this->y + this->z * this->z );
 	}
 
-	float Vector3::Distance( const Vector3 & i_other ) const
+	inline float Vector3::Distance( const Vector3 & i_other ) const
 	{
 		return sqrtf(
 			( this->x - i_other.x ) * ( this->x - i_other.x ) +
@@ -115,7 +115,7 @@ namespace Engine
 		);
 	}
 
-	Vector3 Vector3::Normalize() const
+	inline Vector3 Vector3::Normalize() const
 	{
 		float length = this->Length();
 		if ( length == 0 )

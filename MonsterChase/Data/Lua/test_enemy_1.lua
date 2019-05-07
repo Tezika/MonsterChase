@@ -2,7 +2,7 @@ gameObject =
 {
     name = "BadGuy_1",
     initial_position = {x=0,y=-400},
-    initial_velocity = {x=0,y=200},
+    initial_velocity = {x=0,y=250},
     physics_settings = {
         mass = 1,
         force = {x=0, y=0},

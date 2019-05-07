@@ -40,6 +40,7 @@ namespace Engine
 			float tProcess = 0;
 			// Gather the collision pairs in one pass.
 			this->SimulateCollision( i_dt, m_pCollisionPairs );
+
 			pEarliestCollisionPair = this->GetEarliestCollisionPair();
 
 			if ( pEarliestCollisionPair == nullptr )
@@ -55,6 +56,7 @@ namespace Engine
 				// Simualte the collision again based on that.
 				while ( pEarliestCollisionPair != nullptr )
 				{
+					DEBUG_PRINT_ENGINE( "The count of collision pairs is %d", m_pCollisionPairs->Length() );
 					// Still curious about how to deal with the situation while the collision time < 0.
 					if ( pEarliestCollisionPair->m_collisionTime <= 0.0f )
 					{
@@ -141,13 +143,13 @@ namespace Engine
 			while ( ptr != nullptr )
 			{
 				pPhysicsA = ptr->GetData();
-
 				// if the current object cannot be collided, then move to next one.
 				if ( !pPhysicsA->GetCollidable() )
 				{
 					ptr = ptr->GetNext();
 					continue;
 				}
+				ptr_1 = ptr->GetNext();
 				while ( ptr_1 != nullptr )
 				{
 					if ( ptr == ptr_1 )
@@ -166,17 +168,17 @@ namespace Engine
 
 					float collisionTime;
 					Vector3 collisionNormal = Vector3::Zero;
-
 					// Check the collision between the A and B
 					if ( this->IsCollision( pPhysicsA, pPhysicsB, i_dt, collisionTime, collisionNormal ) )
 					{
 						// Add a new collision pair into the list.
+						DEBUG_PRINT_ENGINE( "Add the %s and %s into the collision pairs", pPhysicsA->GetGameObject()->GetName().c_str(),
+							pPhysicsB->GetGameObject()->GetName().c_str() );
 						m_pCollisionPairs->Insert( new CollisionPair( collisionTime, collisionNormal, pPhysicsA, pPhysicsB ) );
 						pPhysicsA->SetIsCollision( true );
 						pPhysicsB->SetIsCollision( true );
 						// Test the collision detect by a simple message.
-						Messaging::MessageSystem::GetInstance().SendMessageW( "TestOnCollision" );
-
+						//Messaging::MessageSystem::GetInstance().SendMessageW( "TestOnCollision" );
 					}
 					else
 					{
@@ -210,9 +212,9 @@ namespace Engine
 					pDebugRenderInfo->SetRenderable( false );
 				}
 				ptr = ptr->GetNext();
-			}
-#endif
 		}
+#endif
+	}
 
 		bool PhysicsManager::AddPhysicsObject( PhysicsInfo * i_pInfo )
 		{
@@ -308,8 +310,13 @@ namespace Engine
 			if ( tCloseLatest < tOpenEarilest )
 			{
 				i_collisionTime = tCloseLatest;
-				// Still confused about the calculation about normal of collision axis.
-				i_collisionNormal = -collisionAxis;
+				// Use a trick short-cut to calculate the 2d vector's normal.
+				i_collisionNormal = Vector3( -collisionAxis.y, collisionAxis.x, collisionAxis.z );
+				//DEBUG_PRINT_ENGINE(
+				//	"Detected the collision between the %s and %s",
+				//	i_pPhysicsInfoA->GetGameObject()->GetName().c_str(),
+				//	i_pPhysicsInfoB->GetGameObject()->GetName().c_str()
+				//);
 				return true;
 			}
 			return false;
@@ -535,5 +542,5 @@ namespace Engine
 			}
 			return pCachedCollisionPair->GetData();
 		}
-	}
+}
 }

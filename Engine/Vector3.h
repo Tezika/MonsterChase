@@ -55,4 +55,9 @@ namespace Engine
 	{
 		return i_vct * value;
 	}
+
+	inline Vector3 Cross( const Vector3 & i_lhs, const Vector3 & i_rhs )
+	{
+		return i_lhs.Cross( i_rhs );
+	}
 };
