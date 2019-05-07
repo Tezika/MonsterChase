@@ -143,7 +143,6 @@ namespace Engine
 			while ( ptr != nullptr )
 			{
 				pPhysicsA = ptr->GetData();
-				DEBUG_PRINT_ENGINE( "The collision check object_1 is %s", ptr->GetData()->GetGameObject()->GetName().c_str() );
 				// if the current object cannot be collided, then move to next one.
 				if ( !pPhysicsA->GetCollidable() )
 				{
@@ -169,7 +168,6 @@ namespace Engine
 
 					float collisionTime;
 					Vector3 collisionNormal = Vector3::Zero;
-					DEBUG_PRINT_ENGINE( "The collision check object 2 is %s", ptr_1->GetData()->GetGameObject()->GetName().c_str() );
 					// Check the collision between the A and B
 					if ( this->IsCollision( pPhysicsA, pPhysicsB, i_dt, collisionTime, collisionNormal ) )
 					{
