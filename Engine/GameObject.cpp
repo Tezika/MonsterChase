@@ -27,7 +27,9 @@ namespace Engine
 		Matrix4x4 mtx_zRotation = Matrix4x4::CreateRotationZ( m_zRot );
 		// Remove the scale temporarily
 		//Matrix4x4 mtx_scaling = Matrix4x4::CreateScale( m_scale.x, m_scale.y, m_scale.z );
-		Matrix4x4 mtx_localToWorld = mtx_translation * mtx_zRotation;
+		Matrix4x4 mtx_localToWorld;
+		// Change the common matrix multiply into the SSE version.
+		mtx_translation.MultiplySSE( mtx_zRotation, mtx_localToWorld );
 		return mtx_localToWorld;
 	}
 
@@ -36,7 +38,9 @@ namespace Engine
 		Matrix4x4 mtx_invert_translation = Matrix4x4::CreateTranslation( -m_position.x, -m_position.y, -m_position.z );
 		Matrix4x4 mtx_zRotation = Matrix4x4::CreateRotationZ( m_zRot );
 		Matrix4x4 mtx_transpose_zRotation = mtx_zRotation.Transpose();
-		Matrix4x4 mtx_worldToLocal = mtx_transpose_zRotation * mtx_invert_translation;
+		// Change the common matrix multiply into the SSE version.
+		Matrix4x4 mtx_worldToLocal;
+		mtx_transpose_zRotation.MultiplySSE( mtx_invert_translation, mtx_worldToLocal );
 		return mtx_worldToLocal;
 	}
 

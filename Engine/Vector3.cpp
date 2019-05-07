@@ -138,7 +138,7 @@ namespace Engine
 		return res;
 	}
 
-	void Vector3::Printout() const
+	void Vector3::Printout() const  
 	{
 #ifdef _DEBUG
 		printf( "x: %.5f, y: %.5f, z: %.5f\n", this->x, this->y, this->z );
