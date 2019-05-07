@@ -191,7 +191,9 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TString.h" />
     <ClInclude Include="Vector3.h" />
+    <ClInclude Include="Vector3SSE.h" />
     <ClInclude Include="Vector4.h" />
+    <ClInclude Include="Vector4SSE.h" />
     <ClInclude Include="WeakPtr.h" />
   </ItemGroup>
   <ItemGroup>
@@ -227,7 +229,9 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TString.cpp" />
     <ClCompile Include="Vector3.cpp" />
+    <ClCompile Include="Vector3SSE.cpp" />
     <ClCompile Include="Vector4.cpp" />
+    <ClCompile Include="Vector4SSE.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

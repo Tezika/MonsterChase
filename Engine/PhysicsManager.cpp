@@ -56,7 +56,7 @@ namespace Engine
 				// Simualte the collision again based on that.
 				while ( pEarliestCollisionPair != nullptr )
 				{
-					DEBUG_PRINT_ENGINE( "The count of collision pairs is %d", m_pCollisionPairs->Length() );
+					//DEBUG_PRINT_ENGINE( "The count of collision pairs is %d", m_pCollisionPairs->Length() );
 					// Still curious about how to deal with the situation while the collision time < 0.
 					if ( pEarliestCollisionPair->m_collisionTime <= 0.0f )
 					{
@@ -172,8 +172,8 @@ namespace Engine
 					if ( this->IsCollision( pPhysicsA, pPhysicsB, i_dt, collisionTime, collisionNormal ) )
 					{
 						// Add a new collision pair into the list.
-						DEBUG_PRINT_ENGINE( "Add the %s and %s into the collision pairs", pPhysicsA->GetGameObject()->GetName().c_str(),
-							pPhysicsB->GetGameObject()->GetName().c_str() );
+						//DEBUG_PRINT_ENGINE( "Add the %s and %s into the collision pairs", pPhysicsA->GetGameObject()->GetName().c_str(),
+						//	pPhysicsB->GetGameObject()->GetName().c_str() );
 						m_pCollisionPairs->Insert( new CollisionPair( collisionTime, collisionNormal, pPhysicsA, pPhysicsB ) );
 						pPhysicsA->SetIsCollision( true );
 						pPhysicsB->SetIsCollision( true );
@@ -212,9 +212,9 @@ namespace Engine
 					pDebugRenderInfo->SetRenderable( false );
 				}
 				ptr = ptr->GetNext();
-		}
+			}
 #endif
-	}
+		}
 
 		bool PhysicsManager::AddPhysicsObject( PhysicsInfo * i_pInfo )
 		{
@@ -542,5 +542,5 @@ namespace Engine
 			}
 			return pCachedCollisionPair->GetData();
 		}
-}
+	}
 }

@@ -213,6 +213,12 @@
     <ClInclude Include="HashedString-inl.h">
       <Filter>Header Files\String</Filter>
     </ClInclude>
+    <ClInclude Include="Vector3SSE.h">
+      <Filter>Header Files\Mathematics</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4SSE.h">
+      <Filter>Header Files\Mathematics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -298,6 +304,12 @@
     </ClCompile>
     <ClCompile Include="MessageSystem.cpp">
       <Filter>Source Files\Messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3SSE.cpp">
+      <Filter>Source Files\Mathematics</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector4SSE.cpp">
+      <Filter>Source Files\Mathematics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
