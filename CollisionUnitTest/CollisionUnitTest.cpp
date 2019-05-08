@@ -23,6 +23,11 @@
 #include <crtdbg.h>
 #endif // _DEBUG
 
+#ifndef SSE_COLLISIONCHECK
+#define SSE_COLLISIONCHECK
+#endif // !SSE_COLLISIONCHECK
+
+
 float RandomInRange( float min, float max )
 {
 	// Prevent the situation while the max equals the min.
