@@ -23,8 +23,6 @@
 #include <crtdbg.h>
 #endif // _DEBUG
 
-#define USE_SSE_VERSION
-
 float RandomInRange( float min, float max )
 {
 	// Prevent the situation while the max equals the min.
@@ -61,10 +59,17 @@ Engine::Physics::CollisionPair FindCollision( float i_dt )
 			assert( &m_physicsInfos[j] );
 
 			float tCollision = 0.0f;
+			bool collided = false;
 
+#ifdef SSE_COLLISIONCHECK
 			Vector3SSE collisionNormal;
+			collided = Physics::PhysicsManager::GetInstance().IsCollisionSSE( &m_physicsInfos[i], &m_physicsInfos[j], i_dt, tCollision, collisionNormal );
+#else
+			Vector3 collisionNormal;
+			collided = Physics::PhysicsManager::GetInstance().IsCollision( &m_physicsInfos[i], &m_physicsInfos[j], i_dt, tCollision, collisionNormal );
+#endif
 
-			if ( Physics::PhysicsManager::GetInstance().IsCollisionSSE( &m_physicsInfos[i], &m_physicsInfos[j], i_dt, tCollision, collisionNormal ) )
+			if ( collided )
 			{
 				if ( CurrentCollision.m_pCollidables[0] )
 				{
@@ -73,7 +78,11 @@ Engine::Physics::CollisionPair FindCollision( float i_dt )
 						CurrentCollision.m_pCollidables[0] = &m_physicsInfos[i];
 						CurrentCollision.m_pCollidables[1] = &m_physicsInfos[j];
 						CurrentCollision.m_collisionTime = tCollision;
+#ifdef SSE_COLLISIONCHECK
 						CurrentCollision.m_collisionNormal = collisionNormal;
+#else
+						CurrentCollision.m_collisionNormal = Vector3SSE( collisionNormal.x, collisionNormal.y, collisionNormal.z );
+#endif // SSE_COLLISIONCHECK
 					}
 				}
 				else
@@ -81,7 +90,11 @@ Engine::Physics::CollisionPair FindCollision( float i_dt )
 					CurrentCollision.m_pCollidables[0] = &m_physicsInfos[i];
 					CurrentCollision.m_pCollidables[1] = &m_physicsInfos[j];
 					CurrentCollision.m_collisionTime = tCollision;
+#ifdef SSE_COLLISIONCHECK
 					CurrentCollision.m_collisionNormal = collisionNormal;
+#else
+					CurrentCollision.m_collisionNormal = Vector3SSE( collisionNormal.x, collisionNormal.y, collisionNormal.z );
+#endif // SSE_COLLISIONCHECK
 				}
 			}
 		}
