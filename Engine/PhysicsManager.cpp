@@ -9,6 +9,8 @@
 #include "Matrix4x4.h"
 #include "Vector3SSE.h"
 #include "Vector4SSE.h"
+#include "Vector3.h"
+#include "Vector4.h"
 #include "AABB.h"
 #include <algorithm>
 #include <limits>
@@ -116,7 +118,7 @@ namespace Engine
 				// caluate the drag
 				float drag = pInfo->GetDragness() * ( Dot( cachedVelocity, cachedVelocity ) );
 				// Apply the drag effect to current velocity
-	 			cachedVelocity -= cachedVelocity.Normalize() * drag;
+				cachedVelocity -= cachedVelocity.Normalize() * drag;
 				// Update the velocity for go
 				pCachedGo->SetVelocity( cachedVelocity + cachedAcceleration * i_dt );
 				// Caluate the average velocity between this frame and last frame
@@ -169,7 +171,7 @@ namespace Engine
 					float collisionTime;
 					Vector3SSE collisionNormal = Vector3SSE{ 0,0,0 };
 					// Check the collision between the A and B
-					if ( this->IsCollision( pPhysicsA, pPhysicsB, i_dt, collisionTime, collisionNormal ) )
+					if ( this->IsCollisionSSE( pPhysicsA, pPhysicsB, i_dt, collisionTime, collisionNormal ) )
 					{
 						// Add a new collision pair into the list.
 						//DEBUG_PRINT_ENGINE( "Add the %s and %s into the collision pairs", pPhysicsA->GetGameObject()->GetName().c_str(),
@@ -278,7 +280,7 @@ namespace Engine
 			return true;
 		}
 
-		bool PhysicsManager::IsCollision(
+		bool PhysicsManager::IsCollisionSSE(
 			PhysicsInfo * i_pPhysicsInfoA,
 			PhysicsInfo * i_pPhysicsInfoB,
 			float i_dt,
@@ -293,7 +295,7 @@ namespace Engine
 			Vector3SSE collisionAxis = Vector3SSE{ 0.0f, 0.0f, 0.0f };
 
 			// Check for the A projected onto B's in world.
-			bCollided = this->CheckCollision( i_pPhysicsInfoA, i_pPhysicsInfoB, i_dt, tCloseLatest, tOpenEarilest, collisionAxis );
+			bCollided = this->CheckCollisionSSE( i_pPhysicsInfoA, i_pPhysicsInfoB, i_dt, tCloseLatest, tOpenEarilest, collisionAxis );
 			if ( !bCollided )
 			{
 				return false;
@@ -301,7 +303,7 @@ namespace Engine
 
 			// Swap A and B. Then do the check again.
 			bCollided = true;
-			bCollided = this->CheckCollision( i_pPhysicsInfoB, i_pPhysicsInfoA, i_dt, tCloseLatest, tOpenEarilest, collisionAxis );
+			bCollided = this->CheckCollisionSSE( i_pPhysicsInfoB, i_pPhysicsInfoA, i_dt, tCloseLatest, tOpenEarilest, collisionAxis );
 			if ( !bCollided )
 			{
 				return false;
@@ -311,13 +313,13 @@ namespace Engine
 			{
 				i_collisionTime = tCloseLatest;
 				// Use a trick short-cut to calculate the 2d vector's normal.
-				i_collisionNormal = Vector3SSE( -collisionAxis.y(), collisionAxis.x(), collisionAxis.z());
+				i_collisionNormal = Vector3SSE( -collisionAxis.y(), collisionAxis.x(), collisionAxis.z() );
 				return true;
 			}
 			return false;
 		}
 
-		bool PhysicsManager::CheckCollision(
+		bool PhysicsManager::CheckCollisionSSE(
 			PhysicsInfo * pPhysicsInfoA,
 			PhysicsInfo * pPhysicsInfoB,
 			float tFrameEnd,
@@ -368,7 +370,7 @@ namespace Engine
 
 			// Check for X axis
 			bool bCollided = true;
-			bCollided = this->CheckAxisCollision(
+			bCollided = this->CheckAxisCollisionSSE(
 				AProjectedExtendsOntoX,
 				BProjectedExntedsOntoX,
 				BBBCenterOnXInW,
@@ -403,7 +405,7 @@ namespace Engine
 
 			// Check for Y axis
 			bCollided = true;
-			bCollided = this->CheckAxisCollision(
+			bCollided = this->CheckAxisCollisionSSE(
 				AProjectedExtendsOntoY,
 				BProjectedExntedsOntoY,
 				BBBCenterOnYInW,
@@ -412,6 +414,215 @@ namespace Engine
 				tFrameEnd,
 				tOpenEarilest,
 				tCloseLatest,
+				vct3_collisionAxis,
+				i_collisionAxis
+			);
+			if ( !bCollided )
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		bool PhysicsManager::CheckAxisCollisionSSE(
+			float aBBExtendsProjectedOntoAxis,
+			float bBBExtendsOntoAxis,
+			float bBBCenterOntoAxis,
+			float aBBCenterOntoAxis,
+			float velARelBOnAxis,
+			float tFrameEnd,
+			float & tOpenEarilest,
+			float & tCloseLatest,
+			const Vector3SSE & i_currentAxis,
+			Vector3SSE & i_collisionAxis
+		)
+		{
+			float bExtends = bBBExtendsOntoAxis + aBBExtendsProjectedOntoAxis;
+			float bLeft = bBBCenterOntoAxis - bExtends;
+			float bRight = bBBCenterOntoAxis + bExtends;
+
+			float dClose = bLeft - aBBCenterOntoAxis;
+			float dOpen = bRight - aBBCenterOntoAxis;
+
+			float tOpen = 0;
+			float tClose = 0;
+
+			// When the realtive velocity projection is zero
+			if ( velARelBOnAxis == 0.0f )
+			{
+				// If A's bb center outside the bleft ~ bRight, there is no collision. 
+				if ( aBBCenterOntoAxis < bLeft || aBBCenterOntoAxis > bRight )
+				{
+					return false;
+				}
+			}
+			else
+			{
+				tOpen = dOpen / velARelBOnAxis;
+				tClose = dClose / velARelBOnAxis;
+				// A move to B in the -x direction, and we just swap two value
+				if ( tOpen < tClose )
+				{
+					std::swap( tOpen, tClose );
+				}
+				// Check the edge: If the close happens in the time point after this frame, there should be no collision
+				if ( tClose > tFrameEnd )
+				{
+					return false;
+				}
+				// Check the edge: If the open's time less than zero, which means the gap should always be in the right, there is no collision too.
+				if ( tOpen < 0 )
+				{
+					return false;
+				}
+				// While passing the edge check, update the earliest open and latest close time
+				tOpenEarilest = tOpen < tOpenEarilest ? tOpen : tOpenEarilest;
+				if ( tClose > tCloseLatest )
+				{
+					// Update the latest closing time
+					tCloseLatest = tClose;
+					// Update the collision axis
+					i_collisionAxis = i_currentAxis;
+				}
+			}
+			return true;
+		}
+
+		bool PhysicsManager::IsCollision(
+			PhysicsInfo * i_pPhysicsInfoA,
+			PhysicsInfo * i_pPhysicsInfoB,
+			float i_dt,
+			float & i_collisionTime,
+			Vector3 & i_collisionNormal
+		)
+		{
+			// Initialize the min and max value for time;
+			float tCloseLatest = -1;
+			float tOpenEarilest = 100.0f;// However, this is a magic number :<.
+			float bCollided = true;
+			Vector3 collisionAxis = Vector3::Zero;
+
+			// Check for the A projected onto B's in world.
+			bCollided = this->CheckCollision( i_pPhysicsInfoA, i_pPhysicsInfoB, i_dt, tCloseLatest, tOpenEarilest, collisionAxis );
+			if ( !bCollided )
+			{
+				return false;
+			}
+
+			// Swap A and B. Then do the check again.
+			bCollided = true;
+			bCollided = this->CheckCollision( i_pPhysicsInfoB, i_pPhysicsInfoA, i_dt, tCloseLatest, tOpenEarilest, collisionAxis );
+			if ( !bCollided )
+			{
+				return false;
+			}
+
+			if ( tCloseLatest < tOpenEarilest )
+			{
+				i_collisionTime = tCloseLatest;
+				// Use a trick short-cut to calculate the 2d vector's normal.
+				i_collisionNormal = Vector3( -collisionAxis.y, collisionAxis.x, collisionAxis.z );
+				return true;
+			}
+			return false;
+		}
+
+		bool PhysicsManager::CheckCollision(
+			PhysicsInfo * i_pPhysicsInfoA,
+			PhysicsInfo * i_pPhysicsInfoB,
+			float i_tFrameEnd,
+			float & i_tOpenEarilest,
+			float & i_tCloseLatest,
+			Vector3 & i_collisionAxis
+		)
+		{
+			SmartPtr<GameObject> pGoA = i_pPhysicsInfoA->GetGameObject();
+			assert( pGoA );
+			AABB * pABB = i_pPhysicsInfoB->GetAABB();
+			assert( pABB );
+
+			SmartPtr<GameObject> pGoB = i_pPhysicsInfoB->GetGameObject();
+			assert( pGoB );
+			AABB * pBBB = i_pPhysicsInfoB->GetAABB();
+			assert( pBBB );
+
+			// Calculate the necessary matrixes
+			Matrix4x4 mtx_AToWorld = pGoA->GetMatrixFromLocalToWorld();
+			Matrix4x4 mtx_BToWorld = pGoB->GetMatrixFromLocalToWorld();
+
+			// Calculate the B's collision axis in world
+			// For X
+			Vector4 CollisionAxisXInW = mtx_BToWorld * Vector4::UnitX;
+
+			// Project the BoundingBox's center onto the collision axis in the world
+			Vector4 ABBCenterInW = mtx_AToWorld * Vector4( pABB->center.m_x, pABB->center.m_y, 0, 1.0f );
+			Vector4 BBBCenterInW = mtx_BToWorld * Vector4( pBBB->center.m_x, pBBB->center.m_y, 0, 1.0f );
+			float ABBCenterOnXInW = Dot( ABBCenterInW, CollisionAxisXInW );
+			float BBBCenterOnXInW = Dot( BBBCenterInW, CollisionAxisXInW );
+
+			// Project the extends onto the collision axis in the world
+			Vector4 ABBExtendsXInW = mtx_AToWorld * Vector4{ 1.0f, 0.0f, 0.0f, 0.0f } *pABB->extends.m_x;
+			Vector4 ABBExtendsYInW = mtx_AToWorld * Vector4{ 0.0f, 1.0f, 0.0f, 0.0f } *pABB->extends.m_y;
+			Vector4 BBBExtendsXInW = mtx_BToWorld * Vector4{ 1.0f, 0.0f, 0.0f, 0.0f }*pBBB->extends.m_x;
+			Vector4 BBBExtendsYInW = mtx_BToWorld * Vector4{ 0, 1.0f, 0.0f, 0.0f } *pBBB->extends.m_y;
+
+			float AProjectedExtendsOntoX = fabs( Dot( ABBExtendsXInW, CollisionAxisXInW ) ) + fabs( Dot( ABBExtendsYInW, CollisionAxisXInW ) );
+			float BProjectedExntedsOntoX = fabs( Dot( BBBExtendsXInW, CollisionAxisXInW ) ) + fabs( Dot( BBBExtendsYInW, CollisionAxisXInW ) );
+
+			// Calculate the velocity onto the axis
+			float AVelAlongXInW = Dot( Vector4( pGoA->GetVelocity(), 0.0f ), CollisionAxisXInW );
+			float BVelAlongXInW = Dot( Vector4( pGoB->GetVelocity(), 0.0f ), CollisionAxisXInW );
+
+			// Vector3 collision axis
+			Vector3 vct3_collisionAxis = Vector3( CollisionAxisXInW.x, CollisionAxisXInW.y, CollisionAxisXInW.z );
+
+			// Check for X axis
+			bool bCollided = true;
+			bCollided = this->CheckAxisCollision(
+				AProjectedExtendsOntoX,
+				BProjectedExntedsOntoX,
+				BBBCenterOnXInW,
+				ABBCenterOnXInW,
+				AVelAlongXInW - BVelAlongXInW,
+				i_tFrameEnd,
+				i_tOpenEarilest,
+				i_tCloseLatest,
+				vct3_collisionAxis,
+				i_collisionAxis
+			);
+			if ( !bCollided )
+			{
+				return false;
+			}
+
+			// For Y
+			Vector4 CollisionAxisYInW = mtx_BToWorld * Vector4{ 0, 1.0f, 0, 0 };
+			vct3_collisionAxis = Vector3( CollisionAxisYInW.x, CollisionAxisYInW.y, CollisionAxisYInW.z );
+
+			// Recalculate bb's center onto axis
+			float ABBCenterOnYInW = Dot( ABBCenterInW, CollisionAxisYInW );
+			float BBBCenterOnYInW = Dot( BBBCenterInW, CollisionAxisYInW );
+
+			// ReCalculate bbs' extends onto axis
+			float AProjectedExtendsOntoY = fabs( Dot( ABBExtendsXInW, CollisionAxisYInW ) ) + fabs( Dot( ABBExtendsYInW, CollisionAxisYInW ) );
+			float BProjectedExntedsOntoY = fabs( Dot( BBBExtendsXInW, CollisionAxisYInW ) ) + fabs( Dot( BBBExtendsYInW, CollisionAxisYInW ) );
+
+			// Recalculate velocities
+			float AVelAlongYInW = Dot( Vector4( pGoA->GetVelocity(), 0.0f ), CollisionAxisYInW );
+			float BVelAlongYInW = Dot( Vector4( pGoB->GetVelocity(), 0.0f ), CollisionAxisYInW );
+
+			// Check for Y axis
+			bCollided = true;
+			bCollided = this->CheckAxisCollision(
+				AProjectedExtendsOntoY,
+				BProjectedExntedsOntoY,
+				BBBCenterOnYInW,
+				ABBCenterOnYInW,
+				AVelAlongYInW - BVelAlongYInW,
+				i_tFrameEnd,
+				i_tOpenEarilest,
+				i_tCloseLatest,
 				vct3_collisionAxis,
 				i_collisionAxis
 			);
@@ -432,8 +643,8 @@ namespace Engine
 			float tFrameEnd,
 			float & tOpenEarilest,
 			float & tCloseLatest,
-			const Vector3SSE & i_currentAxis,
-			Vector3SSE & i_collisionAxis
+			const Vector3 & i_currentAxis,
+			Vector3 & i_collisionAxis
 		)
 		{
 			float bExtends = bBBExtendsOntoAxis + aBBExtendsProjectedOntoAxis;

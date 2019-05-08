@@ -2,6 +2,7 @@
 namespace Engine
 {
 	struct Vector3;
+	struct Vector3SSE;
 
 	struct Vector4
 	{
@@ -15,6 +16,7 @@ namespace Engine
 		Vector4();
 		Vector4( float i_x, float i_y, float i_z, float i_w );
 		Vector4( const Vector3 & i_vct3, float i_w );
+		Vector4( const Vector3SSE & i_vct3, float i_w );
 		Vector4( const Vector4 & );
 		void operator=( const Vector4 & );
 

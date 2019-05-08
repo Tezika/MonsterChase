@@ -43,12 +43,44 @@ namespace Engine
 			PhysicsManager() {};
 			TList<PhysicsInfo> * m_pPhysicsInfos;
 
-			bool IsCollision(
+			// Collision Check SSE version
+			bool IsCollisionSSE(
 				PhysicsInfo * i_pPhysicsInfoA,
 				PhysicsInfo * i_pPhysicsInfoB,
 				float i_dt,
 				float & i_collisionTime,
 				Vector3SSE & i_collisionNormal
+			);
+
+			bool CheckCollisionSSE(
+				PhysicsInfo * i_pPhysicsInfoA,
+				PhysicsInfo * i_pPhysicsInfoB,
+				float i_tFrameEnd,
+				float & i_tOpenEarilest,
+				float & i_tCloseLatest,
+				Vector3SSE & i_collisionAxis
+			);
+
+			bool CheckAxisCollisionSSE(
+				float aBBExtendsProjectedOntoAxis,
+				float bBBExtendsOntoAxis,
+				float bBBCenterOntoAxis,
+				float aBBCenterOntoAxis,
+				float velARelBOnAxis,
+				float tFrameEnd,
+				float & tOpenEarilest,
+				float & tCloseLatest,
+				const Vector3SSE & i_currentAxis,
+				Vector3SSE & i_collisionAxis
+			);
+
+			// Collision check without SSE
+			bool IsCollision(
+				PhysicsInfo * i_pPhysicsInfoA,
+				PhysicsInfo * i_pPhysicsInfoB,
+				float i_dt,
+				float & i_collisionTime,
+				Vector3 & i_collisionNormal
 			);
 
 			bool CheckCollision(
@@ -57,7 +89,7 @@ namespace Engine
 				float i_tFrameEnd,
 				float & i_tOpenEarilest,
 				float & i_tCloseLatest,
-				Vector3SSE & i_collisionAxis
+				Vector3 & i_collisionAxis
 			);
 
 			bool CheckAxisCollision(
@@ -69,8 +101,8 @@ namespace Engine
 				float tFrameEnd,
 				float & tOpenEarilest,
 				float & tCloseLatest,
-				const Vector3SSE & i_currentAxis,
-				Vector3SSE & i_collisionAxis
+				const Vector3 & i_currentAxis,
+				Vector3 & i_collisionAxis
 			);
 
 			CollisionPair * GetEarliestCollisionPair();

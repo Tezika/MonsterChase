@@ -4,6 +4,7 @@
 #include "assert.h"
 #include "math.h"
 #include "stdio.h"
+#include "Vector3SSE.h"
 
 namespace Engine
 {
@@ -24,6 +25,11 @@ namespace Engine
 
 	Vector4::Vector4( const Vector3 & i_vct3, float i_w )
 		: x( i_vct3.x ), y( i_vct3.y ), z( i_vct3.z ), w( i_w )
+	{
+	}
+
+	Vector4::Vector4( const Vector3SSE & i_vct3, float i_w ) :
+		x( i_vct3.x() ), y( i_vct3.y() ), z( i_vct3.z() ), w( i_w )
 	{
 	}
 
@@ -60,7 +66,7 @@ namespace Engine
 
 	Vector4 Vector4::operator-() const
 	{
-		return Vector4( -this->x, -this->y, -this->z, -this->w);
+		return Vector4( -this->x, -this->y, -this->z, -this->w );
 	}
 
 	void Vector4::operator-=( const Vector4 & i_other )
