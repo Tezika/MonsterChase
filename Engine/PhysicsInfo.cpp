@@ -18,8 +18,6 @@ namespace Engine
 		PhysicsInfo * PhysicsInfo::Create( float i_mass, float i_drag, bool i_bCollidable, SmartPtr<GameObject> i_pGo, AABB * i_pAABB )
 		{
 			PhysicsInfo * newPhysicsInfo = new PhysicsInfo( i_mass, i_drag, i_bCollidable, i_pGo, i_pAABB );
-			newPhysicsInfo->m_collisionDelegate = Messaging::Delegate<>::Create<PhysicsInfo, &PhysicsInfo::OnCollision>( newPhysicsInfo );
-			Messaging::MessageSystem::GetInstance().RegisterMessageDelegate( "TestOnCollision", newPhysicsInfo->m_collisionDelegate );
 			return newPhysicsInfo;
 		}
 
@@ -67,8 +65,6 @@ namespace Engine
 			{
 				delete m_pAABB;
 			}
-			// Deregister the message delegate.
-			Messaging::MessageSystem::GetInstance().DeregisterMessageDelegate( "TestOnCollision", this->m_collisionDelegate );
 		}
 	}
 }

@@ -14,7 +14,7 @@ namespace Engine
 	namespace Physics
 	{
 #ifndef _DrawDebugInfoWhileColliding
-//#define _DrawDebugInfoWhileColliding
+		//#define _DrawDebugInfoWhileColliding
 #endif // !_DrawDebugInfo
 		class PhysicsInfo;
 
@@ -39,9 +39,15 @@ namespace Engine
 			void Simulate( float i_dt );
 			bool Destroy();
 
-		private:
-			PhysicsManager() {};
-			TList<PhysicsInfo> * m_pPhysicsInfos;
+			// Collision check without SSE
+			bool IsCollision(
+				PhysicsInfo * i_pPhysicsInfoA,
+				PhysicsInfo * i_pPhysicsInfoB,
+				float i_dt,
+				float & i_collisionTime,
+				Vector3 & i_collisionNormal
+			);
+
 
 			// Collision Check SSE version
 			bool IsCollisionSSE(
@@ -51,6 +57,10 @@ namespace Engine
 				float & i_collisionTime,
 				Vector3SSE & i_collisionNormal
 			);
+
+		private:
+			PhysicsManager() {};
+			TList<PhysicsInfo> * m_pPhysicsInfos;
 
 			bool CheckCollisionSSE(
 				PhysicsInfo * i_pPhysicsInfoA,
@@ -74,14 +84,6 @@ namespace Engine
 				Vector3SSE & i_collisionAxis
 			);
 
-			// Collision check without SSE
-			bool IsCollision(
-				PhysicsInfo * i_pPhysicsInfoA,
-				PhysicsInfo * i_pPhysicsInfoB,
-				float i_dt,
-				float & i_collisionTime,
-				Vector3 & i_collisionNormal
-			);
 
 			bool CheckCollision(
 				PhysicsInfo * i_pPhysicsInfoA,

@@ -1,6 +1,5 @@
 // CollisionUnitTest.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-
 #include "pch.h"
 #include <iostream>
 #include "Vector3.h"
@@ -10,96 +9,131 @@
 #include "GameObject.h"
 #include "CollisionPair.h"
 #include "Timer.h"
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "SmartPtr.h"
+#include "AABB.h"
+#include "PhysicsInfo.h"
+#include "PhysicsManager.h"
+#include "Assert.h"
+#include "Engine-init.h"
+#if defined _DEBUG
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+#endif // _DEBUG
+
+#define USE_SSE_VERSION
+
+float RandomInRange( float min, float max )
+{
+	// Prevent the situation while the max equals the min.
+	if ( max - min == 0 )
+	{
+		return 0;
+	}
+	return min + static_cast<float>( rand() / ( static_cast<float>( RAND_MAX / ( max - min ) ) ) );
+}
+
+Engine::Vector3SSE GenerateRandomVectorSSE( const Engine::Vector3SSE & i_min, const Engine::Vector3SSE & i_max )
+{
+	float x = RandomInRange( i_min.x(), i_max.x() );
+	float y = RandomInRange( i_min.y(), i_max.y() );
+	float z = RandomInRange( i_min.z(), i_max.z() );
+	return Engine::Vector3SSE( x, y, z );
+}
+
+std::vector<Engine::Physics::PhysicsInfo> m_physicsInfos;
+
+
+Engine::Physics::CollisionPair FindCollision( float i_dt )
+{
+	using namespace Engine;
+	Engine::Physics::CollisionPair CurrentCollision;
+
+	const size_t count = m_physicsInfos.size();
+
+	for ( size_t i = 0; i < ( count - 1 ); i++ )
+	{
+		for ( size_t j = i + 1; j < count; j++ )
+		{
+			assert( &m_physicsInfos[i] );
+			assert( &m_physicsInfos[j] );
+
+			float tCollision = 0.0f;
+
+			Vector3SSE collisionNormal;
+
+			if ( Physics::PhysicsManager::GetInstance().IsCollisionSSE( &m_physicsInfos[i], &m_physicsInfos[j], i_dt, tCollision, collisionNormal ) )
+			{
+				if ( CurrentCollision.m_pCollidables[0] )
+				{
+					if ( tCollision < CurrentCollision.m_collisionTime )
+					{
+						CurrentCollision.m_pCollidables[0] = &m_physicsInfos[i];
+						CurrentCollision.m_pCollidables[1] = &m_physicsInfos[j];
+						CurrentCollision.m_collisionTime = tCollision;
+						CurrentCollision.m_collisionNormal = collisionNormal;
+					}
+				}
+				else
+				{
+					CurrentCollision.m_pCollidables[0] = &m_physicsInfos[i];
+					CurrentCollision.m_pCollidables[1] = &m_physicsInfos[j];
+					CurrentCollision.m_collisionTime = tCollision;
+					CurrentCollision.m_collisionNormal = collisionNormal;
+				}
+			}
+		}
+	}
+	return CurrentCollision;
+}
+
+void CollisionPoolCheck()
+{
+	using namespace Engine;
+
+	const float AreaExtent = 30.0f;
+	const float VeclocityExtent = 300.0f;
+
+	Vector3SSE PositionMin( -AreaExtent, -AreaExtent, 0 );
+	Vector3SSE PositionMax( AreaExtent, AreaExtent, 0 );
+
+	Vector3SSE VelocityMin( -VeclocityExtent, -VeclocityExtent, 0 );
+	Vector3SSE VelocityMax( VeclocityExtent, VeclocityExtent, 0 );
+
+	const size_t numObjects = 100;
+
+	for ( size_t i = 0; i < numObjects; i++ )
+	{
+		Vector3SSE initialPosition = GenerateRandomVectorSSE( PositionMin, PositionMax );
+		Vector3SSE initialVelocity = GenerateRandomVectorSSE( VelocityMin, VelocityMax );
+
+		SmartPtr<GameObject> pNewGo = GameObject::Create( "dummyObject", initialPosition );
+		pNewGo->SetVelocity( initialVelocity );
+		pNewGo->SetZRot( RandomInRange( 0, 180 ) );
+		// Create and assign the AABB to the physicsinfo
+		AABB * aabb = AABB::Create( Point2D<float>{ 16, 16 }, Point2D<float>{16, 16} );
+		// Create the player's physics info
+		Physics::PhysicsInfo * pPhysicsInfo = Physics::PhysicsInfo::Create( 1.0, 0.0f, true, pNewGo, aabb );
+		pPhysicsInfo->SetDrivingForce( Vector3SSE{ 0, 0, 0 } );
+		m_physicsInfos.push_back( *pPhysicsInfo );
+	}
+
+	while ( 1 )
+		Physics::CollisionPair pPair = FindCollision( RandomInRange( 0.1f, 1.0f ) );
+}
 
 int main()
 {
 	srand( time_t( NULL ) );
+	CollisionPoolCheck();
 	std::cout << "Hello World!\n";
+#if defined _DEBUG
+	_CrtDumpMemoryLeaks();
+#endif // _DEBUG
 }
 
-//void CollisionPoolCheck()
-//{
-//	using namespace Engine;
-//
-//	const float AreaExtent = 10.0f;
-//	Vector3 PositionMin( -AreaExtent, -AreaExtent, -AreaExtent );
-//	Vector3 PositionMax( AreaExtent, AreaExtent, AreaExtent );
-//
-//	Vector3 VelocityMin( -1.0f, -1.0f, -1.0f );
-//	Vector3 VelocityMax( 1.0f, 1.0f, 1.0f );
-//
-//	const size_t numObjects = 100;
-//
-//	for ( size_t i = 0; i < numObjects; i++ )
-//	{
-//		GameObject	*pObj = new GameObject;
-//
-//		pObj->m_Position = GenerateRandomVector( PositionMin, PositionMax );
-//		pObj->m_Velocity = GenerateRandomVector( VelocityMin, VelocityMax );
-//
-//		switch ( rand() & 0x03 )
-//		{
-//		case 01:
-//			pObj->m_Orientation = Matrix3::CreateXRotationCV( RandInRange( 0.0f, 90.0f ) );
-//			break;
-//		case 02:
-//			pObj->m_Orientation = Matrix3::CreateYRotationCV( RandInRange( 0.0f, 90.0f ) );
-//			break;
-//		case 03:
-//			pObj->m_Orientation = Matrix3::CreateZRotationCV( RandInRange( 0.0f, 90.0f ) );
-//			break;
-//		default:
-//			pObj->m_Orientation = Matrix3::Identity;
-//			break;
-//		}
-//
-//		pObj->m_BB.m_Center = Vector3( 0.0f, 0.0f, 0.0f );
-//		pObj->m_BB.m_Extents = Vector3( 0.5f, 0.5f, 0.5f );
-//
-//		m_CollisionObjects.push_back( pObj );
-//	}
-//
-//	while ( 1 )
-//		CollisionPair Pair = FindCollision( RandInRange( 0.1f, 1.0f ) );
-//}
-//
-//Engine::Physics::CollisionPair FindCollision( float i_dt )
-//{
-//	Engine::Physics::CollisionPair CurrentCollision = { { 0, 0 }, 0.0f };
-//
-//	const size_t count = m_CollisionObjects.size();
-//
-//	for ( size_t i = 0; i < ( count - 1 ); i++ )
-//	{
-//		for ( size_t j = i + 1; j < count; j++ )
-//		{
-//			assert( m_CollisionObjects[i] );
-//			assert( m_CollisionObjects[j] );
-//
-//			float tCollision = 0.0f;
-//
-//			if ( CheckCollision( *m_CollisionObjects[i], *m_CollisionObjects[j], i_dt, tCollision ) )
-//			{
-//				if ( CurrentCollision.m_pObjects[0] )
-//				{
-//					if ( tCollision < CurrentCollision.m_CollisionTime )
-//					{
-//						CurrentCollision.m_pObjects[0] = m_CollisionObjects[i];
-//						CurrentCollision.m_pObjects[1] = m_CollisionObjects[j];
-//						CurrentCollision.m_CollisionTime = tCollision;
-//					}
-//				}
-//				else
-//				{
-//					CurrentCollision.m_pObjects[0] = m_CollisionObjects[i];
-//					CurrentCollision.m_pObjects[1] = m_CollisionObjects[j];
-//					CurrentCollision.m_CollisionTime = tCollision;
-//				}
-//			}
-//		}
-//	}
-//	return CurrentCollision;
-//}
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
 
