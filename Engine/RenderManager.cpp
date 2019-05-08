@@ -204,7 +204,7 @@ namespace Engine
 
 			// Iterate the list to update every RenderInfo
 			// And render every sprite into the screen
-			auto ptr = pRenderInfos->GetHead();;
+			auto ptr = pRenderInfos->GetHead();
 			while ( ptr != nullptr )
 			{
 				RenderInfo * renderInfo = ptr->GetData();
@@ -219,9 +219,9 @@ namespace Engine
 				SmartPtr<GameObject> pGo = renderInfo->GetGameObject();
 				if ( pGo != nullptr )
 				{
-					Vector3 posOfGo = pGo->GetPosition();
+					Vector3SSE posOfGo = pGo->GetPosition();
 					// Set the render spirte's position based on the current position of gameObject
-					renderInfo->SetPosition( posOfGo.x, posOfGo.y );
+					renderInfo->SetPosition( posOfGo.x(), posOfGo.y() );
 				}
 
 				// Render the sprite

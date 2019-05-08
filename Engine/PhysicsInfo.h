@@ -1,6 +1,6 @@
 #pragma once
 #include "SmartPtr.h"
-#include "Vector3.h"
+#include "Vector3SSE.h"
 #include "Delegate.h"
 
 namespace Engine
@@ -21,8 +21,8 @@ namespace Engine
 
 			inline SmartPtr<GameObject> GetGameObject() const{ return m_pGo; }
 
-			inline const Vector3 & GetDrivingForce(){ return m_force; }
-			inline void SetDrivingForce( const Vector3 & i_oForce ){ m_force = i_oForce; };
+			inline const Vector3SSE & GetDrivingForce(){ return m_force; }
+			inline void SetDrivingForce( const Vector3SSE & i_oForce ){ m_force = i_oForce; };
 
 			inline float GetMass() const { return m_mass; }
 			inline float GetDragness() const { return m_dragness; }
@@ -42,7 +42,7 @@ namespace Engine
 			PhysicsInfo(){};
 			PhysicsInfo( float i_mass, float i_drag, bool i_bCollidable, SmartPtr<GameObject> i_pGo, AABB * i_pAABB );
 			SmartPtr<GameObject> m_pGo;
-			Vector3 m_force;
+			Vector3SSE m_force;
 			AABB * m_pAABB;
 			float m_mass;
 			float m_dragness;

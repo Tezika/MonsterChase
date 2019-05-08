@@ -17,7 +17,7 @@ Enemy::Enemy() :Entity::Entity(), m_attack( 3 )
 {
 }
 
-Enemy::Enemy( const Engine::TString & i_name, const Engine::Vector3 & i_position, int i_health, int i_attack ) :
+Enemy::Enemy( const Engine::TString & i_name, const Engine::Vector3SSE & i_position, int i_health, int i_attack ) :
 	Entity::Entity( i_name, i_position, i_health ),
 	m_attack( i_attack )
 {
@@ -30,5 +30,5 @@ Enemy::~Enemy()
 void Enemy::PrintOutInfo()
 {
 	std::cout << "The " << this->GetName() << " with the attack " << this->GetAttack()
-		<< " and the health " << this->GetHealth() << ", position is  [" << this->GetPosition().x << "," << this->GetPosition().y << "]." << std::endl;
+		<< " and the health " << this->GetHealth() << ", position is  [" << this->GetPosition().x() << "," << this->GetPosition().y() << "]." << std::endl;
 }

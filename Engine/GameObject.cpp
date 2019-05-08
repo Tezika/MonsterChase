@@ -6,24 +6,24 @@
 
 namespace Engine
 {
-	SmartPtr<GameObject> GameObject::Create( const TString & i_otherName, const Vector3 & i_otherPosition )
+	SmartPtr<GameObject> GameObject::Create( const TString & i_otherName, const Vector3SSE & i_otherPosition )
 	{
 		return SmartPtr<GameObject>( new GameObject( i_otherName, i_otherPosition ) );
 	}
 
-	GameObject::GameObject( const TString & i_otherName, const Vector3 & i_otherPosition ) :
+	GameObject::GameObject( const TString & i_otherName, const Vector3SSE & i_otherPosition ) :
 		m_name( i_otherName ),
 		m_position( i_otherPosition ),
 		// Set the initial velocity as zero
-		m_velocity( Vector3::Zero ),
-		m_scale( Vector3{ 1.0, 1.0, 1.0f } ),
+		m_velocity( Vector3SSE{ 0.0f,0.0,0.0f } ),
+		m_scale( Vector3SSE{ 1.0, 1.0, 1.0f } ),
 		m_zRot( 0 )
 	{
 	}
 
 	Matrix4x4 GameObject::GetMatrixFromLocalToWorld()
 	{
-		Matrix4x4 mtx_translation = Matrix4x4::CreateTranslation( m_position.x, m_position.y, m_position.z );
+		Matrix4x4 mtx_translation = Matrix4x4::CreateTranslation( m_position.x(), m_position.y(), m_position.z() );
 		Matrix4x4 mtx_zRotation = Matrix4x4::CreateRotationZ( m_zRot );
 		// Remove the scale temporarily
 		//Matrix4x4 mtx_scaling = Matrix4x4::CreateScale( m_scale.x, m_scale.y, m_scale.z );
@@ -35,7 +35,7 @@ namespace Engine
 
 	Matrix4x4 GameObject::GetMatrixFromWorldToLocal()
 	{
-		Matrix4x4 mtx_invert_translation = Matrix4x4::CreateTranslation( -m_position.x, -m_position.y, -m_position.z );
+		Matrix4x4 mtx_invert_translation = Matrix4x4::CreateTranslation( -m_position.x(), -m_position.y(), -m_position.z() );
 		Matrix4x4 mtx_zRotation = Matrix4x4::CreateRotationZ( m_zRot );
 		Matrix4x4 mtx_transpose_zRotation = mtx_zRotation.Transpose();
 		// Change the common matrix multiply into the SSE version.

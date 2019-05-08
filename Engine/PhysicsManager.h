@@ -48,7 +48,7 @@ namespace Engine
 				PhysicsInfo * i_pPhysicsInfoB,
 				float i_dt,
 				float & i_collisionTime,
-				Vector3 & i_collisionNormal
+				Vector3SSE & i_collisionNormal
 			);
 
 			bool CheckCollision(
@@ -57,7 +57,7 @@ namespace Engine
 				float i_tFrameEnd,
 				float & i_tOpenEarilest,
 				float & i_tCloseLatest,
-				Vector3 & i_collisionAxis
+				Vector3SSE & i_collisionAxis
 			);
 
 			bool CheckAxisCollision(
@@ -69,8 +69,8 @@ namespace Engine
 				float tFrameEnd,
 				float & tOpenEarilest,
 				float & tCloseLatest,
-				const Vector3 & i_currentAxis,
-				Vector3 & i_collisionAxis
+				const Vector3SSE & i_currentAxis,
+				Vector3SSE & i_collisionAxis
 			);
 
 			CollisionPair * GetEarliestCollisionPair();
@@ -82,7 +82,7 @@ namespace Engine
 
 			void RecalculateVelByMomentum(
 				const PhysicsInfo * pPhysicsInfoA, const PhysicsInfo * pPhysicsInfoB,
-				const Vector3 & velA_dir, const Vector3 & velB_dir
+				const Vector3SSE & velA_dir, const Vector3SSE & velB_dir
 			);
 
 			void ResolveCollision( const CollisionPair * pCollisionPair );

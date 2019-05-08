@@ -2,6 +2,7 @@
 #include "Matrix4x4.h"
 #include "iostream"
 #include "Vector3.h"
+#include "Vector3SSE.h"
 #include "immintrin.h"
 
 #ifndef M_PI
@@ -217,6 +218,11 @@ namespace Engine
 		return Matrix4x4::CreateScale( i_vec_scale.x, i_vec_scale.y, i_vec_scale.z );
 	}
 
+	Matrix4x4 Matrix4x4::CreateScale( const Vector3SSE & i_vec_scale )
+	{
+		return Matrix4x4::CreateScale( i_vec_scale.x(), i_vec_scale.y(), i_vec_scale.z() );
+	}
+
 	Matrix4x4 Matrix4x4::CreateRotationX( float i_angle )
 	{
 		float rad = degToRad( i_angle );
@@ -263,6 +269,11 @@ namespace Engine
 	Matrix4x4 Matrix4x4::CreateTranslation( const Vector3 & i_vec_translation )
 	{
 		return Matrix4x4::CreateTranslation( i_vec_translation.x, i_vec_translation.y, i_vec_translation.z );
+	}
+
+	Matrix4x4 Matrix4x4::CreateTranslation( const Vector3SSE & i_vec_translation )
+	{
+		return Matrix4x4::CreateTranslation( i_vec_translation.x(), i_vec_translation.y(), i_vec_translation.z() );
 	}
 
 	Matrix4x4 Matrix4x4::operator+( const Matrix4x4 & i_mtx )

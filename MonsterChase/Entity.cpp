@@ -21,7 +21,7 @@ namespace MonsterChase
 	{
 	}
 
-	Entity::Entity( const Engine::TString & i_name, const Engine::Vector3 & i_position, int i_health )
+	Entity::Entity( const Engine::TString & i_name, const Engine::Vector3SSE & i_position, int i_health )
 		:m_health( i_health )
 	{
 		this->SetName( i_name );

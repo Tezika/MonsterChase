@@ -7,8 +7,8 @@
 #include "Point2D.h"
 #include "SmartPtr.h"
 #include "Matrix4x4.h"
-#include "Vector3.h"
-#include "Vector4.h"
+#include "Vector3SSE.h"
+#include "Vector4SSE.h"
 #include "AABB.h"
 #include <algorithm>
 #include <limits>
@@ -95,10 +95,10 @@ namespace Engine
 		{
 			// Iterate every physics object in the moving object list
 			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
-			Vector3 cachedAcceleration;
-			Vector3 cachedVelocity;
-			Vector3 cachedAverageVelocity;
-			Vector3 cachedPosition;
+			Vector3SSE cachedAcceleration;
+			Vector3SSE cachedVelocity;
+			Vector3SSE cachedAverageVelocity;
+			Vector3SSE cachedPosition;
 			SmartPtr<GameObject> pCachedGo;
 
 			// Simulate the position
@@ -106,7 +106,7 @@ namespace Engine
 			{
 				PhysicsInfo * pInfo = ptr->GetData();
 				pCachedGo = pInfo->GetGameObject();
-				Vector3 drivingForce = pInfo->GetDrivingForce();
+				Vector3SSE drivingForce = pInfo->GetDrivingForce();
 				assert( pCachedGo != nullptr );
 				// Caculate the accerlation
 				cachedAcceleration = drivingForce / pInfo->GetMass();
@@ -114,9 +114,9 @@ namespace Engine
 				cachedVelocity = pCachedGo->GetVelocity();
 				cachedVelocity += cachedAcceleration * i_dt;
 				// caluate the drag
-				float drag = pInfo->GetDragness() * ( cachedVelocity.Dot( cachedVelocity ) );
+				float drag = pInfo->GetDragness() * ( Dot( cachedVelocity, cachedVelocity ) );
 				// Apply the drag effect to current velocity
-				cachedVelocity -= cachedVelocity.Normalize() * drag;
+	 			cachedVelocity -= cachedVelocity.Normalize() * drag;
 				// Update the velocity for go
 				pCachedGo->SetVelocity( cachedVelocity + cachedAcceleration * i_dt );
 				// Caluate the average velocity between this frame and last frame
@@ -167,7 +167,7 @@ namespace Engine
 					}
 
 					float collisionTime;
-					Vector3 collisionNormal = Vector3::Zero;
+					Vector3SSE collisionNormal = Vector3SSE{ 0,0,0 };
 					// Check the collision between the A and B
 					if ( this->IsCollision( pPhysicsA, pPhysicsB, i_dt, collisionTime, collisionNormal ) )
 					{
@@ -283,14 +283,14 @@ namespace Engine
 			PhysicsInfo * i_pPhysicsInfoB,
 			float i_dt,
 			float & i_collisionTime,
-			Vector3 & i_collisionNormal
+			Vector3SSE & i_collisionNormal
 		)
 		{
 			// Initialize the min and max value for time;
 			float tCloseLatest = -1;
 			float tOpenEarilest = 100.0f;// However, this is a magic number :<.
 			float bCollided = true;
-			Vector3 collisionAxis = Vector3::Zero;
+			Vector3SSE collisionAxis = Vector3SSE{ 0.0f, 0.0f, 0.0f };
 
 			// Check for the A projected onto B's in world.
 			bCollided = this->CheckCollision( i_pPhysicsInfoA, i_pPhysicsInfoB, i_dt, tCloseLatest, tOpenEarilest, collisionAxis );
@@ -311,12 +311,7 @@ namespace Engine
 			{
 				i_collisionTime = tCloseLatest;
 				// Use a trick short-cut to calculate the 2d vector's normal.
-				i_collisionNormal = Vector3( -collisionAxis.y, collisionAxis.x, collisionAxis.z );
-				//DEBUG_PRINT_ENGINE(
-				//	"Detected the collision between the %s and %s",
-				//	i_pPhysicsInfoA->GetGameObject()->GetName().c_str(),
-				//	i_pPhysicsInfoB->GetGameObject()->GetName().c_str()
-				//);
+				i_collisionNormal = Vector3SSE( -collisionAxis.y(), collisionAxis.x(), collisionAxis.z());
 				return true;
 			}
 			return false;
@@ -328,7 +323,7 @@ namespace Engine
 			float tFrameEnd,
 			float & tCloseLatest,
 			float & tOpenEarilest,
-			Vector3 & i_collisionAxis
+			Vector3SSE & i_collisionAxis
 		)
 		{
 			SmartPtr<GameObject> pGoA = pPhysicsInfoA->GetGameObject();
@@ -347,29 +342,29 @@ namespace Engine
 
 			// Calculate the B's collision axis in world
 			// For X
-			Vector4 CollisionAxisXInW = mtx_BToWorld * Vector4::UnitX;
+			Vector4SSE CollisionAxisXInW = mtx_BToWorld * Vector4SSE{ 1.0f, 0.0f, 0.0f, 0.0f };
 
 			// Project the BoundingBox's center onto the collision axis in the world
-			Vector4 ABBCenterInW = mtx_AToWorld * Vector4( pABB->center.m_x, pABB->center.m_y, 0, 1.0f );
-			Vector4 BBBCenterInW = mtx_BToWorld * Vector4( pBBB->center.m_x, pBBB->center.m_y, 0, 1.0f );
-			float ABBCenterOnXInW = ABBCenterInW.Dot( CollisionAxisXInW );
-			float BBBCenterOnXInW = BBBCenterInW.Dot( CollisionAxisXInW );
+			Vector4SSE ABBCenterInW = mtx_AToWorld * Vector4SSE( pABB->center.m_x, pABB->center.m_y, 0, 1.0f );
+			Vector4SSE BBBCenterInW = mtx_BToWorld * Vector4SSE( pBBB->center.m_x, pBBB->center.m_y, 0, 1.0f );
+			float ABBCenterOnXInW = Dot( ABBCenterInW, CollisionAxisXInW );
+			float BBBCenterOnXInW = Dot( BBBCenterInW, CollisionAxisXInW );
 
 			// Project the extends onto the collision axis in the world
-			Vector4 ABBExtendsXInW = mtx_AToWorld * Vector4::UnitX * pABB->extends.m_x;
-			Vector4 ABBExtendsYInW = mtx_AToWorld * Vector4::UnitY * pABB->extends.m_y;
-			Vector4 BBBExtendsXInW = mtx_BToWorld * Vector4::UnitX * pBBB->extends.m_x;
-			Vector4 BBBExtendsYInW = mtx_BToWorld * Vector4::UnitY * pBBB->extends.m_y;
+			Vector4SSE ABBExtendsXInW = mtx_AToWorld * Vector4SSE{ 1.0f, 0.0f, 0.0f, 0.0f } *pABB->extends.m_x;
+			Vector4SSE ABBExtendsYInW = mtx_AToWorld * Vector4SSE{ 0.0f, 1.0f, 0.0f, 0.0f } *pABB->extends.m_y;
+			Vector4SSE BBBExtendsXInW = mtx_BToWorld * Vector4SSE{ 1.0f, 0.0f, 0.0f, 0.0f }*pBBB->extends.m_x;
+			Vector4SSE BBBExtendsYInW = mtx_BToWorld * Vector4SSE{ 0, 1.0f, 0.0f, 0.0f } *pBBB->extends.m_y;
 
-			float AProjectedExtendsOntoX = fabs( ABBExtendsXInW.Dot( CollisionAxisXInW ) ) + fabs( ABBExtendsYInW.Dot( CollisionAxisXInW ) );
-			float BProjectedExntedsOntoX = fabs( BBBExtendsXInW.Dot( CollisionAxisXInW ) ) + fabs( BBBExtendsYInW.Dot( CollisionAxisXInW ) );
+			float AProjectedExtendsOntoX = fabs( Dot( ABBExtendsXInW, CollisionAxisXInW ) ) + fabs( Dot( ABBExtendsYInW, CollisionAxisXInW ) );
+			float BProjectedExntedsOntoX = fabs( Dot( BBBExtendsXInW, CollisionAxisXInW ) ) + fabs( Dot( BBBExtendsYInW, CollisionAxisXInW ) );
 
 			// Calculate the velocity onto the axis
-			float AVelAlongXInW = Vector4( pGoA->GetVelocity(), 0.0f ).Dot( CollisionAxisXInW );
-			float BVelAlongXInW = Vector4( pGoB->GetVelocity(), 0.0f ).Dot( CollisionAxisXInW );
+			float AVelAlongXInW = Dot( Vector4SSE( pGoA->GetVelocity(), 0.0f ), CollisionAxisXInW );
+			float BVelAlongXInW = Dot( Vector4SSE( pGoB->GetVelocity(), 0.0f ), CollisionAxisXInW );
 
 			// Vector3 collision axis
-			Vector3 vct3_collisionAxis = Vector3( CollisionAxisXInW.x, CollisionAxisXInW.y, CollisionAxisXInW.z );
+			Vector3SSE vct3_collisionAxis = Vector3SSE( CollisionAxisXInW.x(), CollisionAxisXInW.y(), CollisionAxisXInW.z() );
 
 			// Check for X axis
 			bool bCollided = true;
@@ -391,20 +386,20 @@ namespace Engine
 			}
 
 			// For Y
-			Vector4 CollisionAxisYInW = mtx_BToWorld * Vector4::UnitY;
-			vct3_collisionAxis = Vector3( CollisionAxisYInW.x, CollisionAxisYInW.y, CollisionAxisYInW.z );
+			Vector4SSE CollisionAxisYInW = mtx_BToWorld * Vector4SSE{ 0, 1.0f, 0, 0 };
+			vct3_collisionAxis = Vector3SSE( CollisionAxisYInW.x(), CollisionAxisYInW.y(), CollisionAxisYInW.z() );
 
 			// Recalculate bb's center onto axis
-			float ABBCenterOnYInW = ABBCenterInW.Dot( CollisionAxisYInW );
-			float BBBCenterOnYInW = BBBCenterInW.Dot( CollisionAxisYInW );
+			float ABBCenterOnYInW = Dot( ABBCenterInW, CollisionAxisYInW );
+			float BBBCenterOnYInW = Dot( BBBCenterInW, CollisionAxisYInW );
 
 			// ReCalculate bbs' extends onto axis
-			float AProjectedExtendsOntoY = fabs( ABBExtendsXInW.Dot( CollisionAxisYInW ) ) + fabs( ABBExtendsYInW.Dot( CollisionAxisYInW ) );
-			float BProjectedExntedsOntoY = fabs( BBBExtendsXInW.Dot( CollisionAxisYInW ) ) + fabs( BBBExtendsYInW.Dot( CollisionAxisYInW ) );
+			float AProjectedExtendsOntoY = fabs( Dot( ABBExtendsXInW, CollisionAxisYInW ) ) + fabs( Dot( ABBExtendsYInW, CollisionAxisYInW ) );
+			float BProjectedExntedsOntoY = fabs( Dot( BBBExtendsXInW, CollisionAxisYInW ) ) + fabs( Dot( BBBExtendsYInW, CollisionAxisYInW ) );
 
 			// Recalculate velocities
-			float AVelAlongYInW = Vector4( pGoA->GetVelocity(), 0.0f ).Dot( CollisionAxisYInW );
-			float BVelAlongYInW = Vector4( pGoB->GetVelocity(), 0.0f ).Dot( CollisionAxisYInW );
+			float AVelAlongYInW = Dot( Vector4SSE( pGoA->GetVelocity(), 0.0f ), CollisionAxisYInW );
+			float BVelAlongYInW = Dot( Vector4SSE( pGoB->GetVelocity(), 0.0f ), CollisionAxisYInW );
 
 			// Check for Y axis
 			bCollided = true;
@@ -437,8 +432,8 @@ namespace Engine
 			float tFrameEnd,
 			float & tOpenEarilest,
 			float & tCloseLatest,
-			const Vector3 & i_currentAxis,
-			Vector3 & i_collisionAxis
+			const Vector3SSE & i_currentAxis,
+			Vector3SSE & i_collisionAxis
 		)
 		{
 			float bExtends = bBBExtendsOntoAxis + aBBExtendsProjectedOntoAxis;
@@ -492,7 +487,7 @@ namespace Engine
 			return true;
 		}
 
-		void PhysicsManager::RecalculateVelByMomentum( const PhysicsInfo * pPhysicsInfoA, const PhysicsInfo * pPhysicsInfoB, const Vector3 & velA_dir, const Vector3 & velB_dir )
+		void PhysicsManager::RecalculateVelByMomentum( const PhysicsInfo * pPhysicsInfoA, const PhysicsInfo * pPhysicsInfoB, const Vector3SSE & velA_dir, const Vector3SSE & velB_dir )
 		{
 			SmartPtr<GameObject> pGoA = pPhysicsInfoA->GetGameObject();
 			SmartPtr<GameObject> pGoB = pPhysicsInfoB->GetGameObject();
@@ -506,8 +501,8 @@ namespace Engine
 			float mag_velA = ( mass_A - mass_B ) / ( mass_A + mass_B ) * vel_A + 2 * mass_B / ( mass_A + mass_B ) * vel_B;
 			float mag_velB = ( mass_B - mass_A ) / ( mass_A + mass_B ) * vel_B + 2 * mass_A / ( mass_A + mass_B ) * vel_A;
 
-			pGoA->SetVelocity( mag_velA * velA_dir );
-			pGoB->SetVelocity( mag_velB * velB_dir );
+			pGoA->SetVelocity( velA_dir * mag_velA );
+			pGoB->SetVelocity( velB_dir * mag_velB );
 		}
 
 		void PhysicsManager::ResolveCollision( const CollisionPair* pCollisionPair )
@@ -517,8 +512,8 @@ namespace Engine
 			SmartPtr<GameObject> pGoB = pCollisionPair->m_pCollidables[1]->GetGameObject();
 
 			// Calculate the directions after reflection
-			Vector3 dir_vel_A = pGoA->GetVelocity().Normalize().Reflect( pCollisionPair->m_collisionNormal );
-			Vector3 dir_vel_B = pGoB->GetVelocity().Normalize().Reflect( pCollisionPair->m_collisionNormal );
+			Vector3SSE dir_vel_A = pGoA->GetVelocity().Normalize().Reflect( pCollisionPair->m_collisionNormal );
+			Vector3SSE dir_vel_B = pGoB->GetVelocity().Normalize().Reflect( pCollisionPair->m_collisionNormal );
 
 			// Recalculate the two collidabes velocities based on the momentum
 			this->RecalculateVelByMomentum( pCollisionPair->m_pCollidables[0], pCollisionPair->m_pCollidables[1], dir_vel_A, dir_vel_B );

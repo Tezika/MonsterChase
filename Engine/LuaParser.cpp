@@ -10,6 +10,7 @@
 #include "Point2D.h"
 #include "AABB.h"
 
+
 #define lua_pop_top(L) lua_pop(L,1);
 
 namespace Engine
@@ -200,15 +201,15 @@ namespace Engine
 			DEBUG_PRINT_GAMEPLAY( "-----------Finish printing out the GameObject info for '%s'-------------------", pName );
 
 			// Create the go
-			ret = GameObject::Create( pName, Vector3{ initial_position.m_x, initial_position.m_y, 0 } );
+			ret = GameObject::Create( pName, Vector3SSE{ initial_position.m_x, initial_position.m_y, 0 } );
 			// Set the initial velocity for go.
-			ret->SetVelocity( Vector3{ initial_velocity.m_x, initial_velocity.m_y,0 } );
+			ret->SetVelocity( Vector3SSE{ initial_velocity.m_x, initial_velocity.m_y,0 } );
 
 			// Create and assign the AABB to the physicsinfo
 			AABB * aabb = AABB::Create( center, extends );
 			// Create the player's physics info
 			Physics::PhysicsInfo * pPhysicsInfo = Physics::PhysicsInfo::Create( 1.0, dragness, collidable, ret, aabb );
-			pPhysicsInfo->SetDrivingForce( Vector3{ force.m_x, force.m_y, 0 } );
+			pPhysicsInfo->SetDrivingForce( Vector3SSE{ force.m_x, force.m_y, 0 } );
 			Physics::PhysicsManager::GetInstance().AddPhysicsObject( pPhysicsInfo );
 
 			// Create the assoicated render info

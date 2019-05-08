@@ -5,6 +5,7 @@
 #include "game.h"
 #include "GLib.h"
 #include "PhysicsManager.h"
+#include "Vector3.h"
 
 
 namespace MonsterChase
@@ -56,7 +57,7 @@ namespace MonsterChase
 			DEBUG_PRINT_GAMEPLAY( "Stop applying the force right now!" );
 		}
 		// Apply the force to game object
-		pCachedPhysicsInfo->SetDrivingForce( cachedDrivingForce );
+		pCachedPhysicsInfo->SetDrivingForce( Vector3SSE{ cachedDrivingForce.x, cachedDrivingForce.y, cachedDrivingForce.z } );
 	}
 
 	InputController::InputController() :

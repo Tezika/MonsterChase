@@ -28,7 +28,7 @@ namespace Engine
 			m_mass( i_mass ),
 			m_pGo( i_pGo ),
 			m_pAABB( i_pAABB ),
-			m_force( Vector3::Zero ),
+			m_force( Vector3SSE{ 0,0,0 } ),
 			m_bIsCollision( false ),
 			m_bCollidable( i_bCollidable )
 		{
@@ -38,7 +38,7 @@ namespace Engine
 			m_dragness( i_other.m_dragness ),
 			m_mass( i_other.m_mass ),
 			m_pGo( i_other.m_pGo ),
-			m_force( Vector3::Zero ),
+			m_force( Vector3SSE{ 0,0,0 } ),
 			m_bIsCollision( i_other.m_bIsCollision ),
 			m_bCollidable( i_other.m_bCollidable )
 		{
@@ -50,7 +50,7 @@ namespace Engine
 			m_dragness = i_other.m_dragness;
 			m_mass = i_other.m_mass;
 			m_pGo = i_other.m_pGo;
-			m_force = Vector3::Zero;
+			m_force = Vector3SSE{ 0,0,0 };
 			m_bIsCollision = i_other.m_bIsCollision;
 			m_bCollidable = i_other.m_bCollidable;
 			m_pAABB = AABB::Create( i_other.m_pAABB->center, i_other.m_pAABB->extends );
