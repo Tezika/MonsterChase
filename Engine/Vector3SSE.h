@@ -71,7 +71,7 @@ namespace Engine
 
 	inline float Dot( const Vector3SSE & i_lhs, const Vector3SSE & i_rhs )
 	{
-		return _mm_cvtss_f32( _mm_dp_ps( i_lhs.m_vec, i_lhs.m_vec, 0x71 ) );
+		return _mm_cvtss_f32( _mm_dp_ps( i_lhs.m_vec, i_rhs.m_vec, 0x71 ) );
 	}
 
 	inline Vector3SSE Cross( const Vector3SSE & i_lhs, const Vector3SSE & i_rhs )

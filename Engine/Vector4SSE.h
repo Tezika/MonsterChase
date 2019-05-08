@@ -65,6 +65,6 @@ namespace Engine
 	// Dot, cross, magnitude method
 	inline float Dot( const Vector4SSE & i_lhs, const Vector4SSE & i_rhs )
 	{
-		return _mm_cvtss_f32( _mm_dp_ps( i_lhs.m_vec, i_lhs.m_vec, 0x71 ) );
+		return _mm_cvtss_f32( _mm_dp_ps( i_lhs.m_vec, i_rhs.m_vec, 0x71 ) );
 	}
 }
