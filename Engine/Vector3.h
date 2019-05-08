@@ -46,6 +46,8 @@ namespace Engine
 
 		~Vector3();
 
+		friend inline float Dot( const Vector3 & i_lhs, const Vector3 & i_rhs );
+		friend inline Vector3 Cross( const Vector3 & i_lhs, const Vector3 & i_rhs );
 
 		float x;
 		float y;
@@ -60,5 +62,10 @@ namespace Engine
 	inline Vector3 Cross( const Vector3 & i_lhs, const Vector3 & i_rhs )
 	{
 		return i_lhs.Cross( i_rhs );
+	}
+
+	inline float Dot( const Vector3 & i_lhs, const Vector3 & i_rhs )
+	{
+		return i_lhs.Dot( i_rhs );
 	}
 };

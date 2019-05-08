@@ -38,6 +38,8 @@ namespace Engine
 
 		float Dot( const Vector4 & i_other ) const;
 
+		friend inline float Dot( const Vector4 & i_lhs, const Vector4 & i_rhs );
+
 		float x;
 		float y;
 		float z;
