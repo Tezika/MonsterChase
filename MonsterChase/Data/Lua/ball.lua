@@ -1,16 +1,16 @@
 gameObject = 
 {
     name = "Ball",
-    initial_position = {x=0,y=0},
-    initial_velocity = {x=-100,y=0},
+    initial_position = {x=0,y=-150},
+    initial_velocity = {x=-100,y=100},
     physics_settings = {
         mass = 1,
         force = {x=0, y=0},
         dragness = 0,
         AABB = 
         {
-            center = {x=16, y=16},
-            extends = {x=16, y=16}
+            center = {x=8, y=8},
+            extends = {x=8, y=8}
         },
         collidable = true,
         reflectable = true

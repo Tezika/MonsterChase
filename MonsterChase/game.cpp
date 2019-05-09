@@ -38,6 +38,8 @@ namespace FinalProject
 		this->InitializePlayer( m_player_2 );
 		// Create the ball
 		m_ball = SmartPtr<Ball>( Engine::CreateGameObjectByFile( "Data\\Lua\\ball.lua" ) );
+		// Register the keyboard's detection event
+
 		DEBUG_PRINT_GAMEPLAY( "----------Finish the setup for the game.----------" );
 		return true;
 	}
@@ -59,16 +61,20 @@ namespace FinalProject
 
 	void Game::Destroy()
 	{
+		// Reassign to nullptr to prevent the memory leak
 		m_player_1 = nullptr;
 		m_player_2 = nullptr;
+		m_ball = nullptr;
 		DEBUG_PRINT_GAMEPLAY( "----------Shutdown the game successfully.----------" );
 	}
 
 	void Game::InitializePlayer( const Engine::SmartPtr<Player> & i_player )
 	{
 		using namespace Engine;
+		// This is a magic number decided by tweaking.
+		const float drivingForce = 40000.0f;
 		// For controller: Create an input controller and assign it to the player.
-		InputController * pInputController = new InputController( i_player, 40000 );
+		InputController * pInputController = new InputController( i_player, drivingForce );
 		pInputController->SetControlGameObject( i_player );
 		i_player->SetController( pInputController );
 		Controller::ControllerManager::GetInstance().AddContrller( pInputController );

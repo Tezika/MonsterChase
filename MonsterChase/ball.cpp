@@ -13,6 +13,12 @@ namespace FinalProject
 	{
 	}
 
+	void Ball::Reset()
+	{
+		// Reset ball: Random its position, inital velocity
+
+	}
+
 	Ball::~Ball()
 	{
 	}
