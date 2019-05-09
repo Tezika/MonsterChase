@@ -21,8 +21,7 @@ namespace FinalProject
 	{
 	}
 
-	Entity::Entity( const Engine::TString & i_name, const Engine::Vector3SSE & i_position, int i_health )
-		:m_health( i_health )
+	Entity::Entity( const Engine::TString & i_name, const Engine::Vector3SSE & i_position )
 	{
 		this->SetName( i_name );
 		this->SetPosition( i_position );
@@ -30,6 +29,5 @@ namespace FinalProject
 
 	void Entity::PrintOutInfo()
 	{
-
 	}
 }

@@ -14,7 +14,7 @@ namespace FinalProject
 	{
 		using namespace Engine;
 		// Access the current player's controller.
-		InputController * pCurrentController = static_cast<InputController *>( Game::GetInstance().GetCurPlayer()->GetController() );
+		InputController * pCurrentController = static_cast<InputController *>( Game::GetInstance().GetPlayer1()->GetController() );
 		Physics::PhysicsInfo * pCachedPhysicsInfo = pCurrentController->GetPhysicsInfo();
 		static Vector3 cachedDrivingForce = Vector3::Zero;
 		if ( bWentDown )

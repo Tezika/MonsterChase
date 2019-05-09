@@ -151,16 +151,14 @@ namespace Engine
 	template<class T>
 	template<class U>
 	inline SmartPtr<T>::SmartPtr( const SmartPtr<U> & i_other ) :
-		m_ptr( i_other.m_ptr ),
+		m_ptr( dynamic_cast<T*> ( i_other.m_ptr ) ),
 		m_pRefCounter( i_other.m_pRefCounter )
 	{
 		if ( m_pRefCounter != nullptr )
 		{
 			++m_pRefCounter->refCount;
 		}
-
 	}
-
 	template<class T>
 	inline SmartPtr<T>::SmartPtr( const WeakPtr<T> & i_other ) :
 		m_ptr( i_other.m_ptr ),
@@ -175,7 +173,7 @@ namespace Engine
 	template<class T>
 	template<class U>
 	inline SmartPtr<T>::SmartPtr( const WeakPtr<U> & i_other ) :
-		m_ptr( i_other.m_ptr ),
+		m_ptr( dynamic_cast<T*> ( i_other.m_ptr ) ),
 		m_pRefCounter( i_other.m_pRefCounter )
 	{
 		if ( m_pRefCounter != nullptr )
@@ -240,7 +238,7 @@ namespace Engine
 	template<class U>
 	void SmartPtr<T>::AcquireNewReference( U * i_ptr, ReferenceCounter * i_pCounter )
 	{
-		m_ptr = i_ptr;
+		m_ptr = dynamic_cast<T*> ( i_ptr );
 		m_pRefCounter = i_pCounter;
 		if ( m_pRefCounter != nullptr )
 		{

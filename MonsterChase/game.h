@@ -9,7 +9,7 @@
 
 #include <iostream>
 #include "player.h"
-#include "Windows.h"
+#include "ball.h"
 #include "SmartPtr.h"
 
 namespace FinalProject
@@ -37,10 +37,12 @@ namespace FinalProject
 
 		bool ShouldEnd() { return m_bEnd; }
 		void TriggerEnd() { m_bEnd = true; }
-		Engine::SmartPtr<Engine::GameObject> GetCurPlayer() { return m_pPlayer; }
+		Engine::SmartPtr<Player> GetPlayer1(){ return m_pPlayer_1; };
+		Engine::SmartPtr<Player> GetPlayer2(){ return m_pPlayer_2; };
 
 	private:
-		Engine::SmartPtr<Engine::GameObject> m_pPlayer;
+		Engine::SmartPtr<Player> m_pPlayer_1;
+		Engine::SmartPtr<Player> m_pPlayer_2;
 		bool m_bEnd;
 	};
 }

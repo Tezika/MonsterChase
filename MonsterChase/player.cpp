@@ -13,15 +13,14 @@
 
 namespace FinalProject
 {
-	Player::Player(): Entity::Entity()
+	Player::Player() : Entity::Entity()
 	{
 
 	}
 
-	Player::Player( const Engine::TString & name, const Engine::Vector3SSE & i_position, int health ) :
-		Entity::Entity( name, i_position, health )
+	Player::Player( const Engine::TString & i_name, const Engine::Vector3SSE & i_position ):
+		Entity::Entity( i_name, i_position )
 	{
-
 	}
 
 	Player::~Player()

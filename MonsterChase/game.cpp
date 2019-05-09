@@ -27,11 +27,12 @@ namespace FinalProject
 
 	bool Game::Initialize()
 	{
+		using namespace Engine;
 		DEBUG_PRINT_GAMEPLAY( "----------Begin the setup for the game.----------" );
 		srand( time_t( NULL ) );
 
 		// Test for lua file
-		//m_pPlayer = Engine::CreateGameObjectByFile( "Data\\Lua\\player.lua" );
+		m_pPlayer_1 = SmartPtr<Player>( Engine::CreateGameObjectByFile( "Data\\Lua\\player.lua" ) );
 		//// Create an input controller and assign it to the player.
 		//InputController * pInputController = new InputController( m_pPlayer, 2000.0f );
 		//pInputController->SetControlGameObject( m_pPlayer );
@@ -39,12 +40,6 @@ namespace FinalProject
 		//Controller::ControllerManager::GetInstance().AddContrller( pInputController );
 
 		// Create some test enemies by lua.
-		Engine::CreateGameObjectByFile( "Data\\lua\\player.lua" );
-		Engine::CreateGameObjectByFile( "Data\\lua\\test_enemy.lua" );
-		Engine::CreateGameObjectByFile( "Data\\lua\\test_enemy_1.lua" );
-		Engine::CreateGameObjectByFile( "Data\\lua\\test_enemy_2.lua" );
-		Engine::CreateGameObjectByFile( "Data\\lua\\test_enemy_3.lua" );
-		Engine::CreateGameObjectByFile( "Data\\lua\\test_enemy_4.lua" );
 
 		DEBUG_PRINT_GAMEPLAY( "----------Finish the setup for the game.----------" );
 		return true;
@@ -67,7 +62,8 @@ namespace FinalProject
 
 	void Game::Destroy()
 	{
-		m_pPlayer = nullptr;
+		m_pPlayer_1 = nullptr;
+		m_pPlayer_2 = nullptr;
 		DEBUG_PRINT_GAMEPLAY( "----------Shutdown the game successfully.----------" );
 	}
 }

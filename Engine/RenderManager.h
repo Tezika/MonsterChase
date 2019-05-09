@@ -4,7 +4,7 @@
 namespace Engine
 {
 #ifndef _DrawDebugInfo
-//#define _DrawDebugInfo
+	//#define _DrawDebugInfo
 #endif // !_DrawDebugInfo
 
 	class GameObject;
@@ -37,7 +37,7 @@ namespace Engine
 			bool RemoveRenderObject( SmartPtr<GameObject> i_pGo );
 
 			// Schedule functions
-			bool Initialize( HINSTANCE i_hInstance, int i_hPrevInstance );
+			bool Initialize( HINSTANCE i_hInstance, int i_hPrevInstance, int i_wWidth, int i_wHeight );
 			void Update( float i_dt, bool & bEnd );
 			bool Destroy();
 

@@ -9,7 +9,7 @@
 
 namespace Engine
 {
-	bool Engine::Initialize( HINSTANCE i_hInstance, int i_nCmdShow )
+	bool Engine::Initialize( HINSTANCE i_hInstance, int i_nCmdShow, int i_wWidth, int i_wHeight )
 	{
 
 #ifdef USE_CUSTOM_MEMORYMANAGEMENT
@@ -34,7 +34,7 @@ namespace Engine
 		assert( bSuccess );
 
 		// For Rendering
-		bSuccess = Render::RenderManager::GetInstance().Initialize( i_hInstance, i_nCmdShow );
+		bSuccess = Render::RenderManager::GetInstance().Initialize( i_hInstance, i_nCmdShow, i_wWidth, i_wHeight );
 		assert( bSuccess );
 
 		// For Controller Manager

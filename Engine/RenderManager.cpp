@@ -23,10 +23,10 @@ namespace Engine
 	{
 		extern GLib::Sprites::Sprite * CreateSprite( const char * i_pFilename );
 
-		bool RenderManager::Initialize( HINSTANCE i_hInstance, int i_nCmdShow )
+		bool RenderManager::Initialize( HINSTANCE i_hInstance, int i_nCmdShow, int i_wWidth, int i_wHeight )
 		{
 			// Setup the GLib.
-			bool bSuccess = GLib::Initialize( i_hInstance, i_nCmdShow, "MonsterChase", -1, 800, 600 );
+			bool bSuccess = GLib::Initialize( i_hInstance, i_nCmdShow, "TestWindow", -1, i_wWidth, i_wHeight );
 			if ( !bSuccess )
 			{
 				return bSuccess;

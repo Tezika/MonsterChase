@@ -1,10 +1,10 @@
 gameObject = 
 {
     name = "Player",
-    initial_position = {x=-200,y=-0},
-    initial_velocity = {x=200,y=0},
+    initial_position = {x=0,y=0},
+    initial_velocity = {x=0,y=0},
     physics_settings = {
-        mass = 1,
+        mass = 200,
         force = {x=0, y=0},
         dragness = 0,
         AABB = 
