@@ -52,15 +52,16 @@ namespace MonsterChase
 
 	void Game::Run()
 	{
+		using namespace Engine;
 		do
 		{
 			float dt = Engine::Timing::GetLastFrameTime();
 			// Update the controllers
-			Engine::Controller::ControllerManager::GetInstance().Update( dt );
+			Controller::ControllerManager::GetInstance().Update( dt );
 			// Update the physics system
-			Engine::Physics::PhysicsManager::GetInstance().Simulate( dt );
+			Physics::PhysicsManager::GetInstance().Simulate( dt );
 			// Update the rendering system
-			Engine::Render::RenderManager::GetInstance().Update( dt, m_bEnd );
+			Render::RenderManager::GetInstance().Update( dt, m_bEnd );
 		} while ( !m_bEnd );
 	}
 
