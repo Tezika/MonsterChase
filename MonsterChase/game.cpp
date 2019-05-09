@@ -40,6 +40,8 @@ namespace FinalProject
 		m_ball = SmartPtr<Ball>( Engine::CreateGameObjectByFile( "Data\\Lua\\ball.lua" ) );
 		// Register the keyboard's detection event
 
+		// Set up Walls
+		this->SetupWalls();
 		DEBUG_PRINT_GAMEPLAY( "----------Finish the setup for the game.----------" );
 		return true;
 	}
@@ -65,6 +67,10 @@ namespace FinalProject
 		m_player_1 = nullptr;
 		m_player_2 = nullptr;
 		m_ball = nullptr;
+		m_wall_bottom = nullptr;
+		m_wall_up = nullptr;
+		m_wall_left = nullptr;
+		m_wall_right = nullptr;
 		DEBUG_PRINT_GAMEPLAY( "----------Shutdown the game successfully.----------" );
 	}
 
@@ -78,5 +84,11 @@ namespace FinalProject
 		pInputController->SetControlGameObject( i_player );
 		i_player->SetController( pInputController );
 		Controller::ControllerManager::GetInstance().AddContrller( pInputController );
+	}
+
+	void Game::SetupWalls()
+	{
+		using namespace Engine;
+
 	}
 }

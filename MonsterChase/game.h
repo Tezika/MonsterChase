@@ -9,6 +9,7 @@
 #include <iostream>
 #include "player.h"
 #include "ball.h"
+#include "wall.h"
 #include "SmartPtr.h"
 
 namespace FinalProject
@@ -38,13 +39,17 @@ namespace FinalProject
 		void TriggerEnd() { m_bEnd = true; }
 		Engine::SmartPtr<Player> GetPlayer1(){ return m_player_1; };
 		Engine::SmartPtr<Player> GetPlayer2(){ return m_player_2; };
-		Engine::SmartPtr<Ball> GetCurrentBall(){ return m_ball; }
 
 	private:
 		Engine::SmartPtr<Player> m_player_1;
 		Engine::SmartPtr<Player> m_player_2;
 		Engine::SmartPtr<Ball> m_ball;
+		Engine::SmartPtr<Wall> m_wall_bottom;
+		Engine::SmartPtr<Wall> m_wall_up;
+		Engine::SmartPtr<Wall> m_wall_left;
+		Engine::SmartPtr<Wall> m_wall_right;
 		void InitializePlayer( const Engine::SmartPtr<Player> & i_player );
+		void SetupWalls();
 		bool m_bEnd;
 	};
 }
