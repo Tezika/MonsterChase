@@ -6,12 +6,13 @@
 #include "GLib.h"
 #include "PhysicsManager.h"
 #include "Vector3.h"
-
+#include "ConsolePrint.h"
 
 namespace MonsterChase
 {
 	void InputCallback( unsigned int i_VKeyID, bool bWentDown )
 	{
+		using namespace Engine;
 		// Access the current player's controller.
 		InputController * pCurrentController = static_cast<InputController *>( Game::GetInstance().GetCurPlayer()->GetController() );
 		Physics::PhysicsInfo * pCachedPhysicsInfo = pCurrentController->GetPhysicsInfo();
@@ -22,23 +23,11 @@ namespace MonsterChase
 			// If I want to make it support the arrow keys, I need to modify the input.cpp from GLib.
 			switch ( i_VKeyID )
 			{
-				// For A
-			case 0x41:
-				cachedDrivingForce.x = -pCurrentController->GetDrivingForce();
-				cachedDrivingForce.y = 0;
-				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of left" );
-				break;
 				// For W
 			case 0x57:
 				cachedDrivingForce.x = 0;
 				cachedDrivingForce.y = pCurrentController->GetDrivingForce();
 				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of up" );
-				break;
-				// For D
-			case 0x44:
-				cachedDrivingForce.x = pCurrentController->GetDrivingForce();
-				cachedDrivingForce.y = 0;
-				DEBUG_PRINT_GAMEPLAY( "Start applying  the force with direction of right" );
 				break;
 				// For S
 			case 0x53:
@@ -84,11 +73,11 @@ namespace MonsterChase
 	{
 	}
 
-	Physics::PhysicsInfo * InputController::GetPhysicsInfo()
+	Engine::Physics::PhysicsInfo * InputController::GetPhysicsInfo()
 	{
 		if ( m_pCachedPhysicsInfo == nullptr )
 		{
-			m_pCachedPhysicsInfo = Physics::PhysicsManager::GetInstance().GetInfoByGameObject( m_pControlObject );
+			m_pCachedPhysicsInfo = Engine::Physics::PhysicsManager::GetInstance().GetInfoByGameObject( m_pControlObject );
 		}
 		return m_pCachedPhysicsInfo;
 	}

@@ -8,25 +8,20 @@
 #include "stdafx.h"
 #include "game.h"
 #include "InputController.h"
-#include "AIController.h"
 #include "GLibUtility.h"
 #include <ctime>
 #include "Timer.h"
 #include "SubSystems.h"
 #include "LuaParser.h"
-#include "enemymanager.h"
+#include "ConsolePrint.h"
 
-extern float Timing::GetLastFrameTime();
-extern SmartPtr<GameObject> Engine::CreateGameObjectByFile( const char * pFileName );
+extern float Engine::Timing::GetLastFrameTime();
+extern Engine::SmartPtr<Engine::GameObject> Engine::CreateGameObjectByFile( const char * pFileName );
 
 namespace MonsterChase
 {
 	Game::Game()
-		:m_grid_Width( 32 ),
-		m_grid_Height( 32 ),
-		m_bEnd( false ),
-		m_roundTimer_newEnemy( 0 ),
-		m_pEnemyManager( new EnemyManager() )
+		:m_bEnd( false )
 	{
 	}
 
@@ -44,12 +39,12 @@ namespace MonsterChase
 		//Controller::ControllerManager::GetInstance().AddContrller( pInputController );
 
 		// Create some test enemies by lua.
-		m_pEnemyManager->CreateEnemy( "Data\\lua\\player.lua" );
-		m_pEnemyManager->CreateEnemy( "Data\\lua\\test_enemy.lua" );
-		m_pEnemyManager->CreateEnemy( "Data\\lua\\test_enemy_1.lua" );
-		m_pEnemyManager->CreateEnemy( "Data\\lua\\test_enemy_2.lua" );
-		m_pEnemyManager->CreateEnemy( "Data\\lua\\test_enemy_3.lua" );
-		m_pEnemyManager->CreateEnemy( "Data\\lua\\test_enemy_4.lua" );
+		Engine::CreateGameObjectByFile( "Data\\lua\\player.lua" );
+		Engine::CreateGameObjectByFile( "Data\\lua\\test_enemy.lua" );
+		Engine::CreateGameObjectByFile( "Data\\lua\\test_enemy_1.lua" );
+		Engine::CreateGameObjectByFile( "Data\\lua\\test_enemy_2.lua" );
+		Engine::CreateGameObjectByFile( "Data\\lua\\test_enemy_3.lua" );
+		Engine::CreateGameObjectByFile( "Data\\lua\\test_enemy_4.lua" );
 
 		DEBUG_PRINT_GAMEPLAY( "----------Finish the setup for the game.----------" );
 		return true;
@@ -59,34 +54,19 @@ namespace MonsterChase
 	{
 		do
 		{
-			float dt = Timing::GetLastFrameTime();
+			float dt = Engine::Timing::GetLastFrameTime();
 			// Update the controllers
-			Controller::ControllerManager::GetInstance().Update( dt );
+			Engine::Controller::ControllerManager::GetInstance().Update( dt );
 			// Update the physics system
-			Physics::PhysicsManager::GetInstance().Simulate( dt );
+			Engine::Physics::PhysicsManager::GetInstance().Simulate( dt );
 			// Update the rendering system
-			Render::RenderManager::GetInstance().Update( dt, m_bEnd );
+			Engine::Render::RenderManager::GetInstance().Update( dt, m_bEnd );
 		} while ( !m_bEnd );
 	}
 
 	void Game::Destroy()
 	{
 		m_pPlayer = nullptr;
-		delete m_pEnemyManager;
-		m_pEnemyManager = nullptr;
 		DEBUG_PRINT_GAMEPLAY( "----------Shutdown the game successfully.----------" );
-	}
-
-	int Game::ClampForMap( int val, int maxiumVal )
-	{
-		if ( val <= 0 )
-		{
-			return 1;
-		}
-		else if ( val > maxiumVal )
-		{
-			return maxiumVal;
-		}
-		return val;
 	}
 }
