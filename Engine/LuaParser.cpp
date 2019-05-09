@@ -127,7 +127,7 @@ namespace Engine
 			result = lua_gettable( pLuaState, -2 );
 			assert( result == LUA_TNUMBER );
 			float dragness = lua_tonumber( pLuaState, -1 );
-			DEBUG_PRINT_GAMEPLAY( "The dragness for the gameobject is %.3f", dragness );
+			DEBUG_PRINT_GAMEPLAY( "The dragness for the gameobject is %.7f", dragness );
 			// Pop for dragness
 			lua_pop_top( pLuaState );
 

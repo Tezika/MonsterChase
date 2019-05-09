@@ -4,9 +4,9 @@ gameObject =
     initial_position = {x=0,y=0},
     initial_velocity = {x=0,y=0},
     physics_settings = {
-        mass = 200,
+        mass = 100,
         force = {x=0, y=0},
-        dragness = 0,
+        dragness = 0.00005,
         AABB = 
         {
             center = {x=16, y=16},

@@ -33,12 +33,12 @@ namespace FinalProject
 
 		// Test for lua file
 		m_player_1 = SmartPtr<Player>( Engine::CreateGameObjectByFile( "Data\\Lua\\player_1.lua" ) );
-		m_player_2 = SmartPtr<Player>( Engine::CreateGameObjectByFile( "Data\\Lua\\player_2.lua" ) );
-		//// Create an input controller and assign it to the player.
-		//InputController * pInputController = new InputController( m_pPlayer, 2000.0f );
-		//pInputController->SetControlGameObject( m_pPlayer );
-		//m_pPlayer->SetController( pInputController );
-		//Controller::ControllerManager::GetInstance().AddContrller( pInputController );
+		//m_player_2 = SmartPtr<Player>( Engine::CreateGameObjectByFile( "Data\\Lua\\player_2.lua" ) );
+		// Create an input controller and assign it to the player.
+		InputController * pInputController = new InputController( m_player_1, 40000 );
+		pInputController->SetControlGameObject( m_player_1 );
+		m_player_1->SetController( pInputController );
+		Controller::ControllerManager::GetInstance().AddContrller( pInputController );
 
 		// Create some test enemies by lua.
 
