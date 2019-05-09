@@ -168,6 +168,16 @@ namespace Engine
 			// Pop for collidable
 			lua_pop_top( pLuaState );
 
+			// Retrive the reflectable
+			lua_pushstring( pLuaState, "reflectable" );
+			result = lua_gettable( pLuaState, -2 );
+			assert( result == LUA_TBOOLEAN );
+			bool reflectable = lua_toboolean( pLuaState, -1 );
+			DEBUG_PRINT_GAMEPLAY( " The reflectable for object is %s", reflectable ? "true" : "false" );
+
+			// Pop for reflectable
+			lua_pop_top( pLuaState );
+
 			// Pop for physics settings
 			lua_pop_top( pLuaState );
 
@@ -208,7 +218,7 @@ namespace Engine
 			// Create and assign the AABB to the physicsinfo
 			AABB * aabb = AABB::Create( center, extends );
 			// Create the player's physics info
-			Physics::PhysicsInfo * pPhysicsInfo = Physics::PhysicsInfo::Create( mass, dragness, collidable, ret, aabb );
+			Physics::PhysicsInfo * pPhysicsInfo = Physics::PhysicsInfo::Create( mass, dragness, collidable, reflectable, ret, aabb );
 			pPhysicsInfo->SetDrivingForce( Vector3SSE{ force.m_x, force.m_y, 0 } );
 			Physics::PhysicsManager::GetInstance().AddPhysicsObject( pPhysicsInfo );
 

@@ -15,20 +15,21 @@ namespace Engine
 {
 	namespace Physics
 	{
-		PhysicsInfo * PhysicsInfo::Create( float i_mass, float i_drag, bool i_bCollidable, SmartPtr<GameObject> i_pGo, AABB * i_pAABB )
+		PhysicsInfo * PhysicsInfo::Create( float i_mass, float i_drag, bool i_bCollidable, bool i_bReflectable, SmartPtr<GameObject> i_pGo, AABB * i_pAABB )
 		{
-			PhysicsInfo * newPhysicsInfo = new PhysicsInfo( i_mass, i_drag, i_bCollidable, i_pGo, i_pAABB );
+			PhysicsInfo * newPhysicsInfo = new PhysicsInfo( i_mass, i_drag, i_bCollidable, i_bReflectable, i_pGo, i_pAABB );
 			return newPhysicsInfo;
 		}
 
-		PhysicsInfo::PhysicsInfo( float i_mass, float i_drag, bool i_bCollidable, SmartPtr<GameObject> i_pGo, AABB * i_pAABB ) :
+		PhysicsInfo::PhysicsInfo( float i_mass, float i_drag, bool i_bCollidable, bool i_bReflectable, SmartPtr<GameObject> i_pGo, AABB * i_pAABB ) :
 			m_dragness( i_drag ),
 			m_mass( i_mass ),
 			m_pGo( i_pGo ),
 			m_pAABB( i_pAABB ),
 			m_force( Vector3SSE{ 0,0,0 } ),
 			m_bIsCollision( false ),
-			m_bCollidable( i_bCollidable )
+			m_bCollidable( i_bCollidable ),
+			m_bReflectable( i_bReflectable )
 		{
 		}
 
@@ -38,7 +39,8 @@ namespace Engine
 			m_pGo( i_other.m_pGo ),
 			m_force( Vector3SSE{ 0,0,0 } ),
 			m_bIsCollision( i_other.m_bIsCollision ),
-			m_bCollidable( i_other.m_bCollidable )
+			m_bCollidable( i_other.m_bCollidable ),
+			m_bReflectable( i_other.m_bReflectable )
 		{
 			m_pAABB = AABB::Create( i_other.m_pAABB->center, i_other.m_pAABB->extends );
 		}
@@ -51,6 +53,7 @@ namespace Engine
 			m_force = Vector3SSE{ 0,0,0 };
 			m_bIsCollision = i_other.m_bIsCollision;
 			m_bCollidable = i_other.m_bCollidable;
+			m_bReflectable = i_other.m_bReflectable;
 			m_pAABB = AABB::Create( i_other.m_pAABB->center, i_other.m_pAABB->extends );
 		}
 

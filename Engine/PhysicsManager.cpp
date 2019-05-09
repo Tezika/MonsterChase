@@ -725,6 +725,28 @@ namespace Engine
 			Vector3SSE dir_vel_A = pGoA->GetVelocity().Normalize().Reflect( pCollisionPair->m_collisionNormal );
 			Vector3SSE dir_vel_B = pGoB->GetVelocity().Normalize().Reflect( pCollisionPair->m_collisionNormal );
 
+			// Check if there is any reflectable in the collidables or not.
+			bool anyReflectable = false;
+
+			if ( pCollisionPair->m_pCollidables[0]->IsReflectable() )
+			{
+				anyReflectable = true;
+				Vector3SSE curVelocity = pGoA->GetVelocity();
+				pGoA->SetVelocity( dir_vel_A * curVelocity.Length() );
+			}
+
+			if ( pCollisionPair->m_pCollidables[1]->IsReflectable() )
+			{
+				anyReflectable = true;
+				Vector3SSE curVelocity = pGoB->GetVelocity();
+				pGoB->SetVelocity( dir_vel_B * curVelocity.Length() );
+			}
+
+			if ( anyReflectable )
+			{
+				return;
+			}
+
 			// Recalculate the two collidabes velocities based on the momentum
 			this->RecalculateVelByMomentum( pCollisionPair->m_pCollidables[0], pCollisionPair->m_pCollidables[1], dir_vel_A, dir_vel_B );
 		}

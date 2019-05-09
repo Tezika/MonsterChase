@@ -12,7 +12,8 @@ gameObject =
             center = {x=16, y=48},
             extends = {x=16, y=48}
         },
-        collidable = true
+        collidable = true,
+        reflectable = false
     },
     render_settings = {
         sprite_name = "Data\\BoundingBox_Normal.dds",

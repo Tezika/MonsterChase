@@ -13,7 +13,7 @@ namespace Engine
 		class PhysicsInfo
 		{
 		public:
-			static PhysicsInfo * Create( float i_mass, float i_dragness, bool i_bCollidable, SmartPtr<GameObject> i_pGo, AABB * i_pAABB );
+			static PhysicsInfo * Create( float i_mass, float i_dragness, bool i_bCollidable, bool i_bReflectable, SmartPtr<GameObject> i_pGo, AABB * i_pAABB );
 			~PhysicsInfo();
 
 			PhysicsInfo( const PhysicsInfo & );
@@ -36,11 +36,13 @@ namespace Engine
 			inline bool GetCollidable() { return m_bCollidable; }
 			inline void SetCollidable( bool i_bCollidable ){ m_bCollidable = i_bCollidable; }
 
-			void OnCollision();
+			inline bool IsReflectable(){ return m_bReflectable; }
+			inline void SetReflectable( bool i_bReflectable ){ m_bReflectable = i_bReflectable; }
 
+			void OnCollision();
 		private:
 			PhysicsInfo(){};
-			PhysicsInfo( float i_mass, float i_drag, bool i_bCollidable, SmartPtr<GameObject> i_pGo, AABB * i_pAABB );
+			PhysicsInfo( float i_mass, float i_drag, bool i_bCollidable, bool i_bReflectable, SmartPtr<GameObject> i_pGo, AABB * i_pAABB );
 			SmartPtr<GameObject> m_pGo;
 			Vector3SSE m_force;
 			AABB * m_pAABB;
@@ -48,6 +50,7 @@ namespace Engine
 			float m_dragness;
 			bool m_bIsCollision;
 			bool m_bCollidable;
+			bool m_bReflectable;
 			Messaging::Delegate<> m_collisionDelegate;
 		};
 	}
