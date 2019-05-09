@@ -55,7 +55,6 @@ namespace Engine
 		inline float Length() const { return _mm_cvtss_f32( _mm_sqrt_ps( _mm_dp_ps( m_vec, m_vec, 0x71 ) ) ); }
 		Vector4SSE Normalize() const;
 
-		// Dot, cross, magnitude method
 		friend float Dot( const Vector4SSE & i_lhs, const Vector4SSE & i_rhs );
 
 	private:
