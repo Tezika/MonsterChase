@@ -1,7 +1,7 @@
 gameObject = 
 {
     name = "Player_2",
-    initial_position = {x=0,y=0},
+    initial_position = {x=320,y=-100},
     initial_velocity = {x=0,y=0},
     physics_settings = {
         mass = 100,
@@ -9,8 +9,8 @@ gameObject =
         dragness = 0.00005,
         AABB = 
         {
-            center = {x=16, y=16},
-            extends = {x=16, y=16}
+            center = {x=16, y=48},
+            extends = {x=16, y=48}
         },
         collidable = true
     },

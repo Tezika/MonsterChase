@@ -31,17 +31,11 @@ namespace FinalProject
 		DEBUG_PRINT_GAMEPLAY( "----------Begin the setup for the game.----------" );
 		srand( time_t( NULL ) );
 
-		// Test for lua file
+		// Create the two players
 		m_player_1 = SmartPtr<Player>( Engine::CreateGameObjectByFile( "Data\\Lua\\player_1.lua" ) );
-		//m_player_2 = SmartPtr<Player>( Engine::CreateGameObjectByFile( "Data\\Lua\\player_2.lua" ) );
-		// Create an input controller and assign it to the player.
-		InputController * pInputController = new InputController( m_player_1, 40000 );
-		pInputController->SetControlGameObject( m_player_1 );
-		m_player_1->SetController( pInputController );
-		Controller::ControllerManager::GetInstance().AddContrller( pInputController );
-
-		// Create some test enemies by lua.
-
+		m_player_2 = SmartPtr<Player>( Engine::CreateGameObjectByFile( "Data\\Lua\\player_2.lua" ) );
+		this->InitializePlayer( m_player_1 );
+		this->InitializePlayer( m_player_2 );
 		DEBUG_PRINT_GAMEPLAY( "----------Finish the setup for the game.----------" );
 		return true;
 	}
@@ -66,5 +60,15 @@ namespace FinalProject
 		m_player_1 = nullptr;
 		m_player_2 = nullptr;
 		DEBUG_PRINT_GAMEPLAY( "----------Shutdown the game successfully.----------" );
+	}
+
+	void Game::InitializePlayer( const Engine::SmartPtr<Player> & i_player )
+	{
+		using namespace Engine;
+		// For controller: Create an input controller and assign it to the player.
+		InputController * pInputController = new InputController( i_player, 40000 );
+		pInputController->SetControlGameObject( i_player );
+		i_player->SetController( pInputController );
+		Controller::ControllerManager::GetInstance().AddContrller( pInputController );
 	}
 }

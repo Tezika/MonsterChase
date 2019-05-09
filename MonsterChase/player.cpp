@@ -10,12 +10,12 @@
 #include <math.h>
 #include "player.h"
 #include "game.h"
+#include "InputController.h"
 
 namespace FinalProject
 {
 	Player::Player() : Entity::Entity()
 	{
-
 	}
 
 	Player::Player( const Engine::TString & i_name, const Engine::Vector3SSE & i_position ):

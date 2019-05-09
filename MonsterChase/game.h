@@ -44,6 +44,7 @@ namespace FinalProject
 		Engine::SmartPtr<Player> m_player_1;
 		Engine::SmartPtr<Player> m_player_2;
 		Engine::SmartPtr<Ball> m_ball;
+		void InitializePlayer( const Engine::SmartPtr<Player> & i_player );
 		bool m_bEnd;
 	};
 }

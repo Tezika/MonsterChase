@@ -14,8 +14,8 @@ namespace FinalProject
 	{
 		using namespace Engine;
 		// Access the current player's controller.
-		InputController * pCurrentController = static_cast<InputController *>( Game::GetInstance().GetPlayer1()->GetController() );
-		Physics::PhysicsInfo * pCachedPhysicsInfo = pCurrentController->GetPhysicsInfo();
+		static InputController * pCurrentController = nullptr;
+		static Physics::PhysicsInfo * pCachedPhysicsInfo = nullptr;
 		static Vector3 cachedDrivingForce = Vector3::Zero;
 		if ( bWentDown )
 		{
@@ -25,15 +25,31 @@ namespace FinalProject
 			{
 				// For W
 			case 0x57:
+				pCurrentController = static_cast<InputController *>( Game::GetInstance().GetPlayer1()->GetController() );
 				cachedDrivingForce.x = 0;
 				cachedDrivingForce.y = pCurrentController->GetDrivingForce();
-				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of up" );
+				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of up for player 1" );
 				break;
 				// For S
 			case 0x53:
+				pCurrentController = static_cast<InputController *>( Game::GetInstance().GetPlayer1()->GetController() );
 				cachedDrivingForce.x = 0;
 				cachedDrivingForce.y = -pCurrentController->GetDrivingForce();
-				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of down" );
+				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of down for player 1" );
+				break;
+				// For O
+			case 0x4F:
+				pCurrentController = static_cast<InputController *>( Game::GetInstance().GetPlayer2()->GetController() );
+				cachedDrivingForce.x = 0;
+				cachedDrivingForce.y = pCurrentController->GetDrivingForce();
+				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of up for player 2" );
+				break;
+				// For K
+			case 0x4B:
+				pCurrentController = static_cast<InputController *>( Game::GetInstance().GetPlayer2()->GetController() );
+				cachedDrivingForce.x = 0;
+				cachedDrivingForce.y = -pCurrentController->GetDrivingForce();
+				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of down for player 2" );
 				break;
 			default:
 				break;
@@ -45,7 +61,9 @@ namespace FinalProject
 			cachedDrivingForce.y = 0;
 			DEBUG_PRINT_GAMEPLAY( "Stop applying the force right now!" );
 		}
-		// Apply the force to game object
+		// Get the associated PhysicsInfo.
+		pCachedPhysicsInfo = pCurrentController->GetPhysicsInfo();
+		// Apply the force to GameObject.
 		pCachedPhysicsInfo->SetDrivingForce( Vector3SSE{ cachedDrivingForce.x, cachedDrivingForce.y, cachedDrivingForce.z } );
 	}
 
