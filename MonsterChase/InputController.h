@@ -22,10 +22,14 @@ namespace FinalProject
 		inline Engine::SmartPtr<Engine::GameObject> GetControlGameObject(){ return m_pControlObject; }
 		inline Engine::Physics::PhysicsInfo * GetPhysicsInfo();
 
+		inline bool IsEnable() override { return m_bIsEnable; };
+		inline void SetEnable( bool bIsEnable ) override { m_bIsEnable = bIsEnable; };
+
 		~InputController();
 	private:
 		Engine::SmartPtr<Engine::GameObject> m_pControlObject;
 		Engine::Physics::PhysicsInfo * m_pCachedPhysicsInfo;
 		float m_drivingForce;
+		bool m_bIsEnable;
 	};
 }
