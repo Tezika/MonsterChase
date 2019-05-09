@@ -38,7 +38,6 @@ namespace FinalProject
 		this->InitializePlayer( m_player_2 );
 		// Create the ball
 		m_ball = SmartPtr<Ball>( Engine::CreateGameObjectByFile( "Data\\Lua\\ball.lua" ) );
-		// Register the keyboard's detection event
 
 		// Set up Walls
 		this->SetupWalls();
@@ -74,6 +73,12 @@ namespace FinalProject
 		DEBUG_PRINT_GAMEPLAY( "----------Shutdown the game successfully.----------" );
 	}
 
+	void Game::Reset()
+	{
+
+		DEBUG_PRINT_GAMEPLAY( "----------Reset the game successfully.----------" );
+	}
+
 	void Game::InitializePlayer( const Engine::SmartPtr<Player> & i_player )
 	{
 		using namespace Engine;
@@ -89,9 +94,12 @@ namespace FinalProject
 	void Game::SetupWalls()
 	{
 		using namespace Engine;
+		// Create the wall based on the lua files.
 		m_wall_up = SmartPtr<Wall>( Engine::CreateGameObjectByFile( "Data\\Lua\\wall_up.lua" ) );
 		m_wall_bottom = SmartPtr<Wall>( Engine::CreateGameObjectByFile( "Data\\Lua\\wall_bottom.lua" ) );
 		m_wall_left = SmartPtr<Wall>( Engine::CreateGameObjectByFile( "Data\\Lua\\wall_left.lua" ) );
 		m_wall_right = SmartPtr<Wall>( Engine::CreateGameObjectByFile( "Data\\Lua\\wall_right.lua" ) );
+
+
 	}
 }

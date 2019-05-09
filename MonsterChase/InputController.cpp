@@ -17,6 +17,7 @@ namespace FinalProject
 		static InputController * pCurrentController = nullptr;
 		static Physics::PhysicsInfo * pCachedPhysicsInfo = nullptr;
 		static Vector3 cachedDrivingForce = Vector3::Zero;
+		bool isReset = false;
 		if ( bWentDown )
 		{
 			// Maybe need to encapsulate a little bit better.
@@ -51,6 +52,11 @@ namespace FinalProject
 				cachedDrivingForce.y = -pCurrentController->GetDrivingForce();
 				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of down for player 2" );
 				break;
+				// For space bar
+			case 0x20:
+				isReset = true;
+				Game::GetInstance().Reset();
+				break;
 			default:
 				break;
 			}
@@ -60,6 +66,11 @@ namespace FinalProject
 			cachedDrivingForce.x = 0;
 			cachedDrivingForce.y = 0;
 			DEBUG_PRINT_GAMEPLAY( "Stop applying the force right now!" );
+			return;
+		}
+		if ( isReset )
+		{
+			return;
 		}
 		// Get the associated PhysicsInfo.
 		pCachedPhysicsInfo = pCurrentController->GetPhysicsInfo();

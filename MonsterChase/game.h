@@ -33,6 +33,7 @@ namespace FinalProject
 	public:
 		bool Initialize();
 		void Run();
+		void Reset();
 		void Destroy();
 
 		bool ShouldEnd() { return m_bEnd; }
@@ -43,11 +44,14 @@ namespace FinalProject
 	private:
 		Engine::SmartPtr<Player> m_player_1;
 		Engine::SmartPtr<Player> m_player_2;
+
 		Engine::SmartPtr<Ball> m_ball;
+
 		Engine::SmartPtr<Wall> m_wall_bottom;
 		Engine::SmartPtr<Wall> m_wall_up;
 		Engine::SmartPtr<Wall> m_wall_left;
 		Engine::SmartPtr<Wall> m_wall_right;
+
 		void InitializePlayer( const Engine::SmartPtr<Player> & i_player );
 		void SetupWalls();
 		bool m_bEnd;
