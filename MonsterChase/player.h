@@ -17,6 +17,5 @@ namespace FinalProject
 		Player();
 		Player( const Engine::TString & name, const Engine::Vector3SSE & i_position );
 		~Player();
-		void PrintOutInfo() override;
 	};
 }

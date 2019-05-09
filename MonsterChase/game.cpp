@@ -32,7 +32,8 @@ namespace FinalProject
 		srand( time_t( NULL ) );
 
 		// Test for lua file
-		m_pPlayer_1 = SmartPtr<Player>( Engine::CreateGameObjectByFile( "Data\\Lua\\player.lua" ) );
+		m_player_1 = SmartPtr<Player>( Engine::CreateGameObjectByFile( "Data\\Lua\\player_1.lua" ) );
+		m_player_2 = SmartPtr<Player>( Engine::CreateGameObjectByFile( "Data\\Lua\\player_2.lua" ) );
 		//// Create an input controller and assign it to the player.
 		//InputController * pInputController = new InputController( m_pPlayer, 2000.0f );
 		//pInputController->SetControlGameObject( m_pPlayer );
@@ -62,8 +63,8 @@ namespace FinalProject
 
 	void Game::Destroy()
 	{
-		m_pPlayer_1 = nullptr;
-		m_pPlayer_2 = nullptr;
+		m_player_1 = nullptr;
+		m_player_2 = nullptr;
 		DEBUG_PRINT_GAMEPLAY( "----------Shutdown the game successfully.----------" );
 	}
 }

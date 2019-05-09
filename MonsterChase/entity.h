@@ -18,7 +18,6 @@ namespace FinalProject
 		Entity();
 		Entity( const Engine::TString & i_name, const Engine::Vector3SSE & i_position );
 		virtual ~Entity();
-		virtual void PrintOutInfo();
 	};
 
 }

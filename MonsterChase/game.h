@@ -6,7 +6,6 @@
 //  Copyright © 2018 Tezika ZHou. All rights reserved.
 //
 #pragma once
-
 #include <iostream>
 #include "player.h"
 #include "ball.h"
@@ -37,12 +36,14 @@ namespace FinalProject
 
 		bool ShouldEnd() { return m_bEnd; }
 		void TriggerEnd() { m_bEnd = true; }
-		Engine::SmartPtr<Player> GetPlayer1(){ return m_pPlayer_1; };
-		Engine::SmartPtr<Player> GetPlayer2(){ return m_pPlayer_2; };
+		Engine::SmartPtr<Player> GetPlayer1(){ return m_player_1; };
+		Engine::SmartPtr<Player> GetPlayer2(){ return m_player_2; };
+		Engine::SmartPtr<Ball> GetCurrentBall(){ return m_ball; }
 
 	private:
-		Engine::SmartPtr<Player> m_pPlayer_1;
-		Engine::SmartPtr<Player> m_pPlayer_2;
+		Engine::SmartPtr<Player> m_player_1;
+		Engine::SmartPtr<Player> m_player_2;
+		Engine::SmartPtr<Ball> m_ball;
 		bool m_bEnd;
 	};
 }

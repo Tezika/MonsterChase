@@ -1,6 +1,6 @@
 gameObject = 
 {
-    name = "Player",
+    name = "Player_2",
     initial_position = {x=0,y=0},
     initial_velocity = {x=0,y=0},
     physics_settings = {

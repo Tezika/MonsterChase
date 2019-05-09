@@ -26,8 +26,4 @@ namespace FinalProject
 		this->SetName( i_name );
 		this->SetPosition( i_position );
 	}
-
-	void Entity::PrintOutInfo()
-	{
-	}
 }
