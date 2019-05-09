@@ -18,7 +18,7 @@
 extern float Engine::Timing::GetLastFrameTime();
 extern Engine::SmartPtr<Engine::GameObject> Engine::CreateGameObjectByFile( const char * pFileName );
 
-namespace MonsterChase
+namespace FinalProject
 {
 	Game::Game()
 		:m_bEnd( false )

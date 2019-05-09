@@ -12,7 +12,7 @@
 #include "Windows.h"
 #include "SmartPtr.h"
 
-namespace MonsterChase
+namespace FinalProject
 {
 	//This is a Singleton.
 	class Game

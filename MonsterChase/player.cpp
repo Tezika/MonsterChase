@@ -11,9 +11,9 @@
 #include "player.h"
 #include "game.h"
 
-namespace MonsterChase
+namespace FinalProject
 {
-	Player::Player() :Entity::Entity()
+	Player::Player(): Entity::Entity()
 	{
 
 	}
@@ -32,6 +32,6 @@ namespace MonsterChase
 	void Player::PrintOutInfo()
 	{
 		Entity::PrintOutInfo();
-		std::cout << "The " << this->GetName() << " current position is  [" << this->GetPosition().x()<< "," << this->GetPosition().y()<< "]." << std::endl;
+		std::cout << "The " << this->GetName() << " current position is  [" << this->GetPosition().x() << "," << this->GetPosition().y() << "]." << std::endl;
 	}
 }

@@ -9,7 +9,7 @@
 #pragma once
 #include "entity.h"
 
-namespace MonsterChase
+namespace FinalProject
 {
 	class Player : public Entity
 	{

@@ -8,7 +8,7 @@
 #include "Vector3.h"
 #include "ConsolePrint.h"
 
-namespace MonsterChase
+namespace FinalProject
 {
 	void InputCallback( unsigned int i_VKeyID, bool bWentDown )
 	{

@@ -4,7 +4,7 @@
 #include "PhysicsInfo.h"
 #include "SmartPtr.h"
 
-namespace MonsterChase
+namespace FinalProject
 {
 	class InputController : public Engine::IController
 	{

@@ -10,7 +10,7 @@
 #include "GameObject.h"
 
 
-namespace MonsterChase
+namespace FinalProject
 {
 	class Entity : public Engine::GameObject
 	{

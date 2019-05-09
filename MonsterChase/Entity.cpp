@@ -10,7 +10,7 @@
 #include "entity.h"
 
 
-namespace MonsterChase
+namespace FinalProject
 {
 	Entity::Entity()
 	{

@@ -11,15 +11,15 @@
 #include "game.h"
 #include "Engine-init.h"
 
-typedef MonsterChase::Game MCGame;
+typedef FinalProject::Game FinalGame;
 int WINAPI wWinMain( HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow )
 {
 	Engine::Initialize( i_hInstance, i_nCmdShow );
-	bool bSuccess = MCGame::GetInstance().Initialize();
+	bool bSuccess = FinalGame::GetInstance().Initialize();
 	if ( bSuccess )
 	{
-		MCGame::GetInstance().Run();
-		MCGame::GetInstance().Destroy();
+		FinalGame::GetInstance().Run();
+		FinalGame::GetInstance().Destroy();
 	}
 	Engine::Destroy();
 
