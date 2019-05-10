@@ -97,8 +97,8 @@ namespace FinalProject
 		// Create the wall based on the lua files.
 		m_wall_bottom = SmartPtr<Wall>( Engine::CreateGameObjectByFile( "Data\\Lua\\wall_bottom.lua" ) );
 		m_wall_up = SmartPtr<Wall>( Engine::CreateGameObjectByFile( "Data\\Lua\\wall_up.lua" ) );
-		//m_wall_left = SmartPtr<Wall>( Engine::CreateGameObjectByFile( "Data\\Lua\\wall_left.lua" ) );
-		//m_wall_right = SmartPtr<Wall>( Engine::CreateGameObjectByFile( "Data\\Lua\\wall_right.lua" ) );
-
+		m_wall_right = SmartPtr<Wall>( Engine::CreateGameObjectByFile( "Data\\Lua\\wall_right.lua" ) );
+		m_wall_left = SmartPtr<Wall>( Engine::CreateGameObjectByFile( "Data\\Lua\\wall_left.lua" ) );
+		
 	}
 }
