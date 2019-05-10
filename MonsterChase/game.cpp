@@ -36,6 +36,7 @@ namespace FinalProject
 		m_player_2 = SmartPtr<Player>( Engine::CreateGameObjectByFile( "Data\\Lua\\player_2.lua" ) );
 		this->InitializePlayer( m_player_1 );
 		this->InitializePlayer( m_player_2 );
+
 		// Create the ball
 		m_ball = SmartPtr<Ball>( Engine::CreateGameObjectByFile( "Data\\Lua\\ball.lua" ) );
 

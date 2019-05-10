@@ -133,7 +133,7 @@ void CollisionPoolCheck()
 		// Create and assign the AABB to the physicsinfo
 		AABB * aabb = AABB::Create( Point2D<float>{ 16, 16 }, Point2D<float>{16, 16} );
 		// Create the player's physics info
-		Physics::PhysicsInfo * pPhysicsInfo = Physics::PhysicsInfo::Create( 1.0, 0.0f, true, pNewGo, aabb );
+		Physics::PhysicsInfo * pPhysicsInfo = Physics::PhysicsInfo::Create( 1.0, 0.0f, true, false, pNewGo, aabb );
 		pPhysicsInfo->SetDrivingForce( Vector3SSE{ 0, 0, 0 } );
 		m_physicsInfos.push_back( *pPhysicsInfo );
 	}
