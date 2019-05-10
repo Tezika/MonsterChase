@@ -1,7 +1,7 @@
 gameObject = 
 {
     name = "Player_2",
-    initial_position = {x=320,y=-100},
+    initial_position = {x=340,y=-100},
     initial_velocity = {x=0,y=0},
     physics_settings = {
         mass = 100,
@@ -13,7 +13,7 @@ gameObject =
             extends = {x=16, y=48}
         },
         collidable = true,
-        reflectable = false
+        reflectable = true
     },
     render_settings = {
         sprite_name = "Data\\BoundingBox_Normal.dds",
