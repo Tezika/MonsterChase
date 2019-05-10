@@ -41,6 +41,7 @@ namespace FinalProject
 
 		// Set up Walls
 		this->SetupWalls();
+
 		DEBUG_PRINT_GAMEPLAY( "----------Finish the setup for the game.----------" );
 		return true;
 	}
@@ -75,7 +76,11 @@ namespace FinalProject
 
 	void Game::Reset()
 	{
-
+		if ( m_ball == nullptr )
+		{
+			return;
+		}
+		m_ball->Reset();
 		DEBUG_PRINT_GAMEPLAY( "----------Reset the game successfully.----------" );
 	}
 

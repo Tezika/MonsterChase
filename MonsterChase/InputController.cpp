@@ -17,7 +17,7 @@ namespace FinalProject
 		static InputController * pCurrentController = nullptr;
 		static Physics::PhysicsInfo * pCachedPhysicsInfo = nullptr;
 		static Vector3 cachedDrivingForce = Vector3::Zero;
-		bool isReset = false;
+		bool bApplyForce = true;
 		if ( bWentDown )
 		{
 			// Maybe need to encapsulate a little bit better.
@@ -54,21 +54,22 @@ namespace FinalProject
 				break;
 				// For space bar
 			case 0x20:
-				isReset = true;
+				bApplyForce = false;
 				Game::GetInstance().Reset();
 				break;
 			default:
+				bApplyForce = false;
 				break;
 			}
 		}
 		else
 		{
+			bApplyForce = false;
 			cachedDrivingForce.x = 0;
 			cachedDrivingForce.y = 0;
 			DEBUG_PRINT_GAMEPLAY( "Stop applying the force right now!" );
-			return;
 		}
-		if ( isReset )
+		if ( !bApplyForce )
 		{
 			return;
 		}

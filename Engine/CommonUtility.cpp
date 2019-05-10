@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 namespace Engine
 {
@@ -38,5 +39,15 @@ namespace Engine
 		o_sizeFile = FileSize;
 
 		return pBuffer;
+	}
+
+	float RandomInRange( float min, float max )
+	{
+		// Prevent the situation while the max equals the min.
+		if ( max - min == 0 )
+		{
+			return 0;
+		}
+		return min + static_cast<float>( rand() / ( static_cast<float>( RAND_MAX / ( max - min ) ) ) );
 	}
 }

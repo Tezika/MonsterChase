@@ -146,7 +146,6 @@ int main()
 {
 	srand( time_t( NULL ) );
 	CollisionPoolCheck();
-	std::cout << "Hello World!\n";
 #if defined _DEBUG
 	_CrtDumpMemoryLeaks();
 #endif // _DEBUG
