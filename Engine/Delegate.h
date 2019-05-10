@@ -38,6 +38,10 @@ namespace Engine
 				if ( m_pInstance )
 				{
 					assert( m_pMethod );
+					if ( m_pMethod == nullptr )
+					{
+						return;
+					}
 					( *m_pMethod )( m_pInstance, i_Params ... );
 				}
 			}

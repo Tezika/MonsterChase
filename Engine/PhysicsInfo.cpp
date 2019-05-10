@@ -67,6 +67,7 @@ namespace Engine
 			if ( m_pAABB != nullptr )
 			{
 				delete m_pAABB;
+				m_pAABB = nullptr;
 			}
 		}
 	}

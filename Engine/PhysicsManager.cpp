@@ -175,11 +175,10 @@ namespace Engine
 						// Add a new collision pair into the list.
 						//DEBUG_PRINT_ENGINE( "Add the %s and %s into the collision pairs", pPhysicsA->GetGameObject()->GetName().c_str(),
 						//	pPhysicsB->GetGameObject()->GetName().c_str() );
-						m_pCollisionPairs->Insert( new CollisionPair( collisionTime, collisionNormal, pPhysicsA, pPhysicsB ) );
+						Node<CollisionPair> * pNewCollisionPair = m_pCollisionPairs->Insert( new CollisionPair( collisionTime, collisionNormal, pPhysicsA, pPhysicsB ) );
 						pPhysicsA->SetIsCollision( true );
 						pPhysicsB->SetIsCollision( true );
-						// Test the collision detect by a simple message.
-						//Messaging::MessageSystem::GetInstance().SendMessageW( "TestOnCollision" );
+						Messaging::MessageSystem::GetInstance().SendMessageW( "OnCollision", pNewCollisionPair->GetData() );
 					}
 					else
 					{

@@ -164,5 +164,6 @@ namespace Engine
 	TString::~TString()
 	{
 		delete[] m_buffer;
+		m_buffer = nullptr;
 	}
 }

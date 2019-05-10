@@ -14,6 +14,7 @@
 #include "SubSystems.h"
 #include "LuaParser.h"
 #include "ConsolePrint.h"
+#include "MessageSystem.h"
 
 extern float Engine::Timing::GetLastFrameTime();
 extern Engine::SmartPtr<Engine::GameObject> Engine::CreateGameObjectByFile( const char * pFileName );
@@ -43,6 +44,10 @@ namespace FinalProject
 		// Set up Walls
 		this->SetupWalls();
 
+		// Register some game element events
+		this->m_dBallCollideDeadWall = Messaging::Delegate<void*>::Create<Game, &Game::OnBallCollideDeadWall>( this );
+		Messaging::MessageSystem::GetInstance().RegisterMessageDelegate( "OnBallCollideDeadWall", this->m_dBallCollideDeadWall );
+
 		DEBUG_PRINT_GAMEPLAY( "----------Finish the setup for the game.----------" );
 		return true;
 	}
@@ -64,6 +69,7 @@ namespace FinalProject
 
 	void Game::Destroy()
 	{
+		using namespace Engine;
 		// Reassign to nullptr to prevent the memory leak
 		m_player_1 = nullptr;
 		m_player_2 = nullptr;
@@ -72,6 +78,8 @@ namespace FinalProject
 		m_wall_up = nullptr;
 		m_wall_left = nullptr;
 		m_wall_right = nullptr;
+		// Deregister events
+		Messaging::MessageSystem::GetInstance().DeregisterMessageDelegate( "OnBallCollideDeadWall", this->m_dBallCollideDeadWall );
 		DEBUG_PRINT_GAMEPLAY( "----------Shutdown the game successfully.----------" );
 	}
 
@@ -105,5 +113,14 @@ namespace FinalProject
 		m_wall_up = SmartPtr<Wall>( Engine::CreateGameObjectByFile( "Data\\Lua\\wall_up.lua" ) );
 		m_wall_right = SmartPtr<Wall>( Engine::CreateGameObjectByFile( "Data\\Lua\\wall_right.lua" ) );
 		m_wall_left = SmartPtr<Wall>( Engine::CreateGameObjectByFile( "Data\\Lua\\wall_left.lua" ) );
+		// Set the left and right wall as the dead walls.
+		m_wall_left->SetDead();
+		m_wall_right->SetDead();
+	}
+
+	void Game::OnBallCollideDeadWall( void * i_pInfo )
+	{
+		DEBUG_PRINT_GAMEPLAY( "----------Since the ball collided the dead wall, reset the game right now .----------" );
+		this->Reset();
 	}
 }

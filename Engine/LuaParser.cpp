@@ -10,7 +10,6 @@
 #include "Point2D.h"
 #include "AABB.h"
 
-
 #define lua_pop_top(L) lua_pop(L,1);
 
 namespace Engine

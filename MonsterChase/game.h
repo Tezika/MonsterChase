@@ -11,6 +11,7 @@
 #include "ball.h"
 #include "wall.h"
 #include "SmartPtr.h"
+#include "Delegate.h"
 
 namespace FinalProject
 {
@@ -55,8 +56,12 @@ namespace FinalProject
 		Engine::SmartPtr<Wall> m_wall_left;
 		Engine::SmartPtr<Wall> m_wall_right;
 
+		// Delegates
+		Engine::Messaging::Delegate<void*> m_dBallCollideDeadWall;
+
 		void InitializePlayer( const Engine::SmartPtr<Player> & i_player );
 		void SetupWalls();
+		void OnBallCollideDeadWall( void * i_pInfo );
 		bool m_bEnd;
 	};
 }
