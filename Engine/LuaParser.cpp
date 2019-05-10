@@ -150,7 +150,7 @@ namespace Engine
 			result = lua_gettable( pLuaState, -2 );
 			assert( result == LUA_TTABLE );
 			Point2D<float> extends = ParsePointFromLua<float>( pLuaState );
-			DEBUG_PRINT_GAMEPLAY( "The center for the AABB is %.3f, %.3f", extends.m_x, extends.m_y );
+			DEBUG_PRINT_GAMEPLAY( "The extends for the AABB is %.3f, %.3f", extends.m_x, extends.m_y );
 
 			// Pop for the extends
 			lua_pop_top( pLuaState );

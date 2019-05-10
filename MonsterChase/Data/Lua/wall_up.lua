@@ -1,16 +1,16 @@
 gameObject = 
 {
     name = "Wall_up",
-    initial_position = {x=-400,y=0},
+    initial_position = {x=0,y=295},
     initial_velocity = {x=0,y=0},
     physics_settings = {
-        mass = 20000,
+        mass = 200,
         force = {x=0, y=0},
         dragness = 0,
         AABB = 
         {
-            center = {x=16, y=16},
-            extends = {x=16, y=16}
+            center = {x=0, y=1},
+            extends = {x=400, y=1}
         },
         collidable = true,
         reflectable = false

@@ -42,11 +42,14 @@ namespace FinalProject
 		Engine::SmartPtr<Player> GetPlayer2(){ return m_player_2; };
 
 	private:
+		// Players
 		Engine::SmartPtr<Player> m_player_1;
 		Engine::SmartPtr<Player> m_player_2;
 
+		// Ball
 		Engine::SmartPtr<Ball> m_ball;
 
+		// Walls
 		Engine::SmartPtr<Wall> m_wall_bottom;
 		Engine::SmartPtr<Wall> m_wall_up;
 		Engine::SmartPtr<Wall> m_wall_left;

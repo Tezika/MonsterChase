@@ -14,7 +14,7 @@
 typedef FinalProject::Game FinalGame;
 int WINAPI wWinMain( HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow )
 {
-	Engine::Initialize( i_hInstance, i_nCmdShow, 960, 720 );
+	Engine::Initialize( i_hInstance, i_nCmdShow, 800, 600 );
 	bool bSuccess = FinalGame::GetInstance().Initialize();
 	if ( bSuccess )
 	{
