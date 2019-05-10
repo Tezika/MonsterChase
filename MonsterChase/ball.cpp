@@ -15,7 +15,7 @@ namespace FinalProject
 	{
 	}
 
-	void Ball::Reset()
+	void Ball::Shoot()
 	{
 		using namespace Engine;
 		// Reset ball: Random its position, inital velocity

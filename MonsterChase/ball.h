@@ -8,7 +8,7 @@ namespace FinalProject
 	public:
 		Ball();
 		Ball( const Engine::TString & name, const Engine::Vector3SSE & i_position );
-		void Reset();
+		void Shoot();
 		~Ball();
 	};
 }

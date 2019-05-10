@@ -34,7 +34,7 @@ namespace FinalProject
 	public:
 		bool Initialize();
 		void Run();
-		void Reset();
+		void Restart();
 		void Destroy();
 
 		bool ShouldEnd() { return m_bEnd; }

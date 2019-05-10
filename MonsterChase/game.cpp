@@ -83,13 +83,13 @@ namespace FinalProject
 		DEBUG_PRINT_GAMEPLAY( "----------Shutdown the game successfully.----------" );
 	}
 
-	void Game::Reset()
+	void Game::Restart()
 	{
 		if ( m_ball == nullptr )
 		{
 			return;
 		}
-		m_ball->Reset();
+		m_ball->Shoot();
 		DEBUG_PRINT_GAMEPLAY( "----------Reset the game successfully.----------" );
 	}
 
@@ -121,6 +121,6 @@ namespace FinalProject
 	void Game::OnBallCollideDeadWall( void * i_pInfo )
 	{
 		DEBUG_PRINT_GAMEPLAY( "----------Since the ball collided the dead wall, reset the game right now .----------" );
-		this->Reset();
+		this->Restart();
 	}
 }

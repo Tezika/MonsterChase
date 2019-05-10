@@ -55,7 +55,7 @@ namespace FinalProject
 				// For space bar
 			case 0x20:
 				bApplyForce = false;
-				Game::GetInstance().Reset();
+				Game::GetInstance().Restart();
 				break;
 			default:
 				bApplyForce = false;

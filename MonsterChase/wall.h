@@ -14,6 +14,6 @@ namespace FinalProject
 	private:
 		Engine::Messaging::Delegate<void*> m_dOnCollision;
 		bool m_bDead;
-		void OnCollision(void * i_pCollisionInfo);
+		void OnCollision( void * i_pCollisionInfo );
 	};
 }
