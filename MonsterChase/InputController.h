@@ -23,7 +23,7 @@ namespace FinalProject
 		inline Engine::Physics::PhysicsInfo * GetPhysicsInfo();
 
 		inline bool IsEnable() override { return m_bIsEnable; };
-		inline void SetEnable( bool bIsEnable ) override { m_bIsEnable = bIsEnable; };
+		inline void SetEnable( bool bIsEnable ) override;
 
 		~InputController();
 	private:

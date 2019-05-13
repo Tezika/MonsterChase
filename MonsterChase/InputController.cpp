@@ -6,6 +6,7 @@
 #include "GLib.h"
 #include "PhysicsManager.h"
 #include "Vector3.h"
+#include "Vector3SSE.h"
 #include "ConsolePrint.h"
 
 namespace FinalProject
@@ -73,6 +74,11 @@ namespace FinalProject
 		{
 			return;
 		}
+		// If the controller is not available right now, 
+		if ( !pCurrentController->IsEnable() )
+		{
+			return;
+		}
 		// Get the associated PhysicsInfo.
 		pCachedPhysicsInfo = pCurrentController->GetPhysicsInfo();
 		// Apply the force to GameObject.
@@ -101,6 +107,19 @@ namespace FinalProject
 
 	void InputController::UpdateGameObject( float i_dt )
 	{
+		if ( !m_bIsEnable )
+		{
+			return;
+		}
+	}
+
+	void InputController::SetEnable( bool isEnable )
+	{
+		m_bIsEnable = isEnable;
+		if ( !m_bIsEnable )
+		{
+			this->GetPhysicsInfo()->SetDrivingForce( Engine::Vector3SSE{ 0,0,0 } );
+		}
 	}
 
 	Engine::Physics::PhysicsInfo * InputController::GetPhysicsInfo()

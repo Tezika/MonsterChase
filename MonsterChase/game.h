@@ -12,6 +12,7 @@
 #include "wall.h"
 #include "SmartPtr.h"
 #include "Delegate.h"
+#include "Vector3SSE.h"
 
 namespace FinalProject
 {
@@ -34,6 +35,7 @@ namespace FinalProject
 	public:
 		bool Initialize();
 		void Run();
+		void Reset();
 		void Restart();
 		void Destroy();
 
@@ -58,6 +60,10 @@ namespace FinalProject
 
 		// Delegates
 		Engine::Messaging::Delegate<void*> m_dBallCollideDeadWall;
+
+		// Cached Position
+		Engine::Vector3SSE m_cachedStartPosition_player1;
+		Engine::Vector3SSE m_cachedStartPosition_player2;
 
 		void InitializePlayer( const Engine::SmartPtr<Player> & i_player );
 		void SetupWalls();

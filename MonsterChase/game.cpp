@@ -37,6 +37,9 @@ namespace FinalProject
 		m_player_2 = SmartPtr<Player>( Engine::CreateGameObjectByFile( "Data\\Lua\\player_2.lua" ) );
 		this->InitializePlayer( m_player_1 );
 		this->InitializePlayer( m_player_2 );
+		// Cache the player's start position for further use.
+		m_cachedStartPosition_player1 = m_player_1->GetPosition();
+		m_cachedStartPosition_player2 = m_player_2->GetPosition();
 
 		// Create the ball
 		m_ball = SmartPtr<Ball>( Engine::CreateGameObjectByFile( "Data\\Lua\\ball.lua" ) );
@@ -47,6 +50,9 @@ namespace FinalProject
 		// Register some game element events
 		this->m_dBallCollideDeadWall = Messaging::Delegate<void*>::Create<Game, &Game::OnBallCollideDeadWall>( this );
 		Messaging::MessageSystem::GetInstance().RegisterMessageDelegate( "OnBallCollideDeadWall", this->m_dBallCollideDeadWall );
+
+		// Reset the game at first
+		this->Reset();
 
 		DEBUG_PRINT_GAMEPLAY( "----------Finish the setup for the game.----------" );
 		return true;
@@ -65,6 +71,26 @@ namespace FinalProject
 			// Update the rendering system
 			Render::RenderManager::GetInstance().Update( dt, m_bEnd );
 		} while ( !m_bEnd );
+	}
+
+	void Game::Reset()
+	{
+		using namespace Engine;
+
+		// Close the controllers
+		m_player_1->GetController()->SetEnable( false );
+		m_player_2->GetController()->SetEnable( false );
+
+		// Reset the player's velocity abd position
+		m_player_1->SetVelocity( Vector3SSE{ 0,0,0 } );
+		m_player_2->SetVelocity( Vector3SSE{ 0,0,0 } );
+
+
+		m_player_1->SetPosition( m_cachedStartPosition_player1 );
+		m_player_2->SetPosition( m_cachedStartPosition_player2 );
+
+		//Reset the ball
+		m_ball->Reset();
 	}
 
 	void Game::Destroy()
@@ -89,6 +115,9 @@ namespace FinalProject
 		{
 			return;
 		}
+		// Open the controllers
+		m_player_1->GetController()->SetEnable( true );
+		m_player_2->GetController()->SetEnable( true );
 		m_ball->Shoot();
 		DEBUG_PRINT_GAMEPLAY( "----------Reset the game successfully.----------" );
 	}
@@ -121,6 +150,6 @@ namespace FinalProject
 	void Game::OnBallCollideDeadWall( void * i_pInfo )
 	{
 		DEBUG_PRINT_GAMEPLAY( "----------Since the ball collided the dead wall, reset the game right now .----------" );
-		this->Restart();
+		this->Reset();
 	}
 }

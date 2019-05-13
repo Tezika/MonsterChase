@@ -2,6 +2,7 @@
 #include "ball.h"
 #include "CommonUtility.h"
 #include "ConsolePrint.h"
+#include "Vector3SSE.h"
 
 namespace FinalProject
 {
@@ -47,6 +48,13 @@ namespace FinalProject
 		this->SetVelocity( newVelocity );
 		this->SetPosition( Vector3SSE{ 0, deltaPosition, 0 } );
 		DEBUG_PRINT_GAMEPLAY( "----------Reset the ball successfully.----------" );
+	}
+
+	void Ball::Reset()
+	{
+		using namespace Engine;
+		this->SetVelocity( Vector3SSE{ 0,0,0 } );
+		this->SetPosition( Vector3SSE{ 0,0,0 } );
 	}
 
 	Ball::~Ball()
