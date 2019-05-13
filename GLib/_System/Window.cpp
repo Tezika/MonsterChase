@@ -10,12 +10,12 @@ namespace GLib
 
 	LRESULT CALLBACK WndProc( HWND i_hWnd, UINT i_Message, WPARAM i_wParam, LPARAM i_lParam )
 	{
-		switch( i_Message )
+		switch ( i_Message )
 		{
 		case WM_PAINT:
 		{
 			PAINTSTRUCT			ps;
-			
+
 			HDC hdc = BeginPaint( i_hWnd, &ps );
 			EndPaint( i_hWnd, &ps );
 			break;
@@ -35,7 +35,7 @@ namespace GLib
 	{
 		const LPCWSTR		pWindowClass = L"GLibWindowClass";
 
-		if( i_hInstance == NULL )
+		if ( i_hInstance == NULL )
 			i_hInstance = reinterpret_cast<HINSTANCE>( GetModuleHandle( NULL ) );
 		assert( i_hInstance != NULL );
 
@@ -52,7 +52,7 @@ namespace GLib
 		wcex.lpszMenuName = nullptr;
 		wcex.lpszClassName = pWindowClass;
 		wcex.hIconSm = i_IconID >= 0 ? LoadIcon( i_hInstance, MAKEINTRESOURCE( i_IconID ) ) : nullptr;
-		if( !RegisterClassEx( &wcex ) )
+		if ( !RegisterClassEx( &wcex ) )
 		{
 			DEBUG_PRINT_ENGINE( "Failure calling RegisterClassEx.\n" );
 			return NULL;
@@ -65,7 +65,7 @@ namespace GLib
 		assert( bResult );
 
 		HWND hWindow = CreateWindow( pWindowClass, i_pWindowName, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, CW_USEDEFAULT, CW_USEDEFAULT,
-						rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, i_hInstance, nullptr );
+			rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, i_hInstance, nullptr );
 
 		return hWindow;
 	}

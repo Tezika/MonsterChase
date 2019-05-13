@@ -16,7 +16,7 @@ gameObject =
         reflectable = true
     },
     render_settings = {
-        sprite_name = "Data\\BoundingBox_Normal.dds",
+        sprite_name = "Data\\Ball.dds",
         sprite_size = {x=256, y=256}
     }
 }
