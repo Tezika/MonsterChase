@@ -10,13 +10,13 @@ gameObject =
         AABB = 
         {
             center = {x=0, y=1},
-            extends = {x=400, y=1}
+            extends = {x=500, y=1}
         },
         collidable = true,
         reflectable = false
     },
     render_settings = {
-        sprite_name = "Data\\BoundingBox_Normal.dds",
+        sprite_name = "Data\\Wall.dds",
         sprite_size = {x=256, y=256}
     }
 }
