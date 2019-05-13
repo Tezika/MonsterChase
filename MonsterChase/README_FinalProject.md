@@ -8,7 +8,7 @@
 
 ### Rule 
 
-Basically, The final project is a **2D Pong**. And there are two players who can control the bat to hit the ball.  The aim for this game is to get the ball touch the wall behind the other player.
+Basically, The final project is a **2D Pong**. And there are two players who can control the bat to hit the ball.  The aim for this game is to get the ball touch the wall(**red wall**) behind the other player.
 
 ### Control
 
@@ -24,19 +24,23 @@ PS: When you press the `Space Bar` any time in the game, it will restart the gam
 
 ## Features
 
-* Use `HashedString` to wrap up most of string get a performance perk.
-* Add some custom properties into `lua`file to make it more scalable.
-* Tweak `GLib` a little bit to make it fit for drawing custom size sprite.(But it seems it still a lot of upgrade work to do, such as `drawing text` and support for `debugging drawing`).
+* Used `HashedString` to wrap up most of string get a performance perk.
+* Added some custom properties into `lua`file to make it more scalable.
+* Tweaked `GLib` a little bit to make it fit for drawing custom size sprite.(But it seems it still a lot of upgrade work to do, such as `drawing text` and support for `debugging drawing`).
 
 ## Some Issues
 
-* Cannot use the window `cross mark` to close the application normally. It seems some problem about the memory part. Still need to debug a little bit.
+* Cannot use the window `cross mark` to close the application normally. It seems some problem about the reference counting part. Still need to debug a little bit.
 
   PS: you can use the `debug stop` button to stop the application.
 
 * Maybe there will be some build issues(already asked for joe for help!).
 
+* There is still some collision detection problems.
+
+* Occasionally, there will be a crush when you start the program, which throws an exception in `GLib Message part`.
+
 ## Contact
 
-If there is any question or issue, please slack **@Tezika** or email to tezikazhou@gmail.com, Thanks
+If there is any question or issue, please slack **@Tezika Zhou** or email to tezikazhou@gmail.com, Thanks
 
