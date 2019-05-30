@@ -70,7 +70,7 @@ namespace FinalProject
 			Physics::PhysicsManager::GetInstance().Simulate( dt );
 			// Update the rendering system
 			Render::RenderManager::GetInstance().Update( dt, m_bEnd );
-		} while ( !m_bEnd );
+		} while (!m_bEnd);
 	}
 
 	void Game::Reset()
@@ -111,7 +111,7 @@ namespace FinalProject
 
 	void Game::Restart()
 	{
-		if ( m_ball == nullptr )
+		if (m_ball == nullptr)
 		{
 			return;
 		}
