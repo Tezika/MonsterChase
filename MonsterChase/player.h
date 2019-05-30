@@ -15,7 +15,7 @@ namespace FinalProject
 	{
 	public:
 		Player();
-		Player( const Engine::TString & name, const Engine::Vector3SSE & i_position );
+		Player( const Engine::HashedString & name, const Engine::Vector3SSE & i_position );
 		void Initialize();
 		void Destroy();
 		~Player();

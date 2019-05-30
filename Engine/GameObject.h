@@ -2,6 +2,7 @@
 #include "Vector3SSE.h"
 #include "TString.h"
 #include "IController.h"
+#include "HashString.h"
 
 namespace Engine
 {
@@ -12,11 +13,11 @@ namespace Engine
 	class GameObject
 	{
 	public:
-		static SmartPtr<GameObject>  Create( const TString &, const Vector3SSE & );
+		static SmartPtr<GameObject> Create( const HashedString &, const Vector3SSE & );
 
 		virtual ~GameObject();
-		inline const TString & GetName(){ return m_name; };
-		inline void SetName( const TString & i_name ) { m_name = i_name; }
+		inline const HashedString & GetName(){ return m_name; };
+		inline void SetName( const HashedString & i_name ) { m_name = i_name; }
 
 		inline const Vector3SSE & GetPosition() { return m_position; }
 		inline void SetPosition( const Vector3SSE & i_other ) { m_position = i_other; }
@@ -41,10 +42,10 @@ namespace Engine
 
 	protected:
 		GameObject(){};
-		GameObject( const TString &, const Vector3SSE & );
+		GameObject( const HashedString &, const Vector3SSE & );
 
 	private:
-		TString m_name;
+		HashedString m_name;
 		Vector3SSE m_position;
 		Vector3SSE m_velocity;
 		Vector3SSE m_scale;

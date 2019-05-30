@@ -21,7 +21,9 @@ namespace Engine
 		inline unsigned int Get() { return m_Hash; }
 
 #if defined( DEBUG_KEEP_STRING ) && defined( _DEBUG )
-		inline const char * GetString() { return m_pStr; };
+		inline const char * c_str() const { return m_pStr; };
+#else
+		inline const char * c_str() const { return "" };
 #endif // 
 
 		static unsigned int Hash( const char * i_str );

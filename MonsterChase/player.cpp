@@ -18,7 +18,7 @@ namespace FinalProject
 	{
 	}
 
-	Player::Player( const Engine::TString & i_name, const Engine::Vector3SSE & i_position ):
+	Player::Player( const Engine::HashedString & i_name, const Engine::Vector3SSE & i_position ):
 		Entity::Entity( i_name, i_position )
 	{
 	}
@@ -26,5 +26,13 @@ namespace FinalProject
 	Player::~Player()
 	{
 		//    std::cout<<"Desconstruct the player: "<< this->GetName() << std::endl;
+	}
+
+	void Player::Initialize()
+	{
+	}
+
+	void Player::Destroy()
+	{
 	}
 }

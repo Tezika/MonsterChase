@@ -8,7 +8,7 @@ namespace FinalProject
 	{
 	public:
 		Wall();
-		Wall( const Engine::TString & name, const Engine::Vector3SSE & i_position );
+		Wall( const Engine::HashedString & name, const Engine::Vector3SSE & i_position );
 		void SetDead();
 		~Wall();
 	private:

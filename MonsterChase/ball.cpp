@@ -11,7 +11,7 @@ namespace FinalProject
 	{
 	}
 
-	Ball::Ball( const Engine::TString & i_name, const Engine::Vector3SSE & i_position ) :
+	Ball::Ball( const Engine::HashedString & i_name, const Engine::Vector3SSE & i_position ) :
 		Entity::Entity( i_name, i_position )
 	{
 	}

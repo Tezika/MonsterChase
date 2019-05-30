@@ -21,7 +21,7 @@ namespace FinalProject
 	{
 	}
 
-	Entity::Entity( const Engine::TString & i_name, const Engine::Vector3SSE & i_position )
+	Entity::Entity( const Engine::HashedString & i_name, const Engine::Vector3SSE & i_position )
 	{
 		this->SetName( i_name );
 		this->SetPosition( i_position );
