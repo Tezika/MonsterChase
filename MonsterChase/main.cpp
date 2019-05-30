@@ -16,7 +16,7 @@ int WINAPI wWinMain( HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_
 {
 	Engine::Initialize( i_hInstance, i_nCmdShow, 800, 600 );
 	bool bSuccess = FinalGame::GetInstance().Initialize();
-	if ( bSuccess )
+	if (bSuccess)
 	{
 		FinalGame::GetInstance().Run();
 		FinalGame::GetInstance().Destroy();
