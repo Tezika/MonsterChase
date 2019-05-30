@@ -12,7 +12,6 @@ namespace Engine
 	template<typename T>
 	class TList;
 
-	class TString;
 	class HashedString;
 
 	template<class T>
