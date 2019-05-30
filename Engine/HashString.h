@@ -1,6 +1,10 @@
 ﻿#pragma once
 namespace Engine
 {
+#ifndef DEBUG_KEEP_STRING
+#define DEBUG_KEEP_STRING
+#endif // !DEBUG_KEEP_STRING
+
 	class HashedString
 	{
 	public:
@@ -9,16 +13,16 @@ namespace Engine
 
 		HashedString( const char * i_str );
 		HashedString( const HashedString & i_other );
-		HashedString( const HashedString && i_other );
+		HashedString( HashedString && i_other );
 
 		HashedString & operator=( const HashedString & i_other );
-		HashedString & operator=( const HashedString && i_other );
+		HashedString & operator=( HashedString && i_other );
 
-		inline unsigned int Get(){ return m_Hash; }
+		inline unsigned int Get() { return m_Hash; }
 
-#ifdef DEBUG_KEEP_STRING
-		inline const char * GetString(){ return m_pStr; };
-#endif // DEBUG_KEEP_STRING
+#if defined( DEBUG_KEEP_STRING ) && defined( _DEBUG )
+		inline const char * GetString() { return m_pStr; };
+#endif // 
 
 		static unsigned int Hash( const char * i_str );
 		static unsigned int Hash( const void * i_bytes, size_t i_byteCount );
@@ -30,7 +34,7 @@ namespace Engine
 	private:
 		unsigned int m_Hash;
 
-#ifdef DEBUG_KEEP_STRING
+#if defined( DEBUG_KEEP_STRING ) && defined( _DEBUG )
 		const char * m_pStr;
 #endif
 	};

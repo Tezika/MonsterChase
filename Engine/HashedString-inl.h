@@ -13,8 +13,8 @@ namespace Engine
 
 	inline HashedString::HashedString( const char * i_str ) :
 		m_Hash( Hash( i_str ) )
-#ifdef DEBUG_KEEP_STRING
-		, m_pStr( strdup( i_str ) )
+#if defined( DEBUG_KEEP_STRING) && defined(_DEBUG)
+		, m_pStr( _strdup( i_str ) )
 #endif // DEBUG_KEEP_STRING
 
 	{
@@ -23,19 +23,19 @@ namespace Engine
 
 	inline HashedString::HashedString( const HashedString & i_other ) :
 		m_Hash( i_other.m_Hash )
-#ifdef DEBUG_KEEP_STRING
-		, m_pStr( strdup( i_other.m_pStr ) )
+#if defined( DEBUG_KEEP_STRING) && defined(_DEBUG)
+		, m_pStr( _strdup( i_other.m_pStr ) )
 #endif // DEBUG_KEEP_STRING
 	{
 	}
 
-	inline HashedString::HashedString( const HashedString && i_other ) :
+	inline HashedString::HashedString( HashedString && i_other ) :
 		m_Hash( i_other.m_Hash )
-#ifdef DEBUG_KEEP_STRING
+#if defined( DEBUG_KEEP_STRING) && defined(_DEBUG)
 		, m_pStr( i_other.m_pStr )
 #endif // DEBUG_KEEP_STRING
 	{
-#ifdef DEBUG_KEEP_STRING
+#if defined( DEBUG_KEEP_STRING) && defined(_DEBUG)
 		i_other.m_pStr = nullptr;
 #endif
 	}
@@ -43,34 +43,34 @@ namespace Engine
 	inline HashedString & HashedString::operator=( const HashedString & i_other )
 	{
 		m_Hash = i_other.m_Hash;
-#ifdef DEBUG_KEEP_STRING
-		if ( m_pStr != nullptr )
+#if defined( DEBUG_KEEP_STRING) && defined(_DEBUG)
+		if (m_pStr != nullptr)
 		{
 			delete m_pStr;
 		}
-		m_pStr = strdup( i_other.m_ptr );
+		m_pStr = _strdup( i_other.m_pStr );
 #endif
 		return *this;
 	}
 
-	inline HashedString & HashedString::operator=( const HashedString && i_other )
+	inline HashedString & HashedString::operator=( HashedString && i_other )
 	{
 		m_Hash = i_other.m_Hash;
-#ifdef DEBUG_KEEP_STRING
-		if ( m_pStr !=  nullptr)
+#if defined( DEBUG_KEEP_STRING) && defined(_DEBUG) 
+		if (m_pStr != nullptr)
 		{
 			delete m_pStr;
 		}
-		m_pStr = i_other.m_ptr;
-		i_other.m_ptr = nullptr;
+		m_pStr = i_other.m_pStr;
+		i_other.m_pStr = nullptr;
 #endif
 		return *this;
 	}
 
 	inline HashedString::~HashedString()
 	{
-#ifdef DEBUG_KEEP_STRING
-		if ( m_pStr != nullptr )
+#if defined( DEBUG_KEEP_STRING) && defined(_DEBUG)
+		if (m_pStr != nullptr)
 		{
 			delete m_pStr;
 		}

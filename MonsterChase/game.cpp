@@ -85,7 +85,6 @@ namespace FinalProject
 		m_player_1->SetVelocity( Vector3SSE{ 0,0,0 } );
 		m_player_2->SetVelocity( Vector3SSE{ 0,0,0 } );
 
-
 		m_player_1->SetPosition( m_cachedStartPosition_player1 );
 		m_player_2->SetPosition( m_cachedStartPosition_player2 );
 
