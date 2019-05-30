@@ -5,7 +5,6 @@
 
 namespace Engine
 {
-	class TString;
 	class HashedString;
 
 	namespace Messaging

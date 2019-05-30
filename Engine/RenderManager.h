@@ -13,6 +13,7 @@ namespace Engine
 	class TList;
 
 	class TString;
+	class HashedString;
 
 	template<class T>
 	class SmartPtr;
@@ -33,7 +34,7 @@ namespace Engine
 			RenderManager( RenderManager const& ) = delete;
 			void operator=( RenderManager const& ) = delete;
 
-			RenderInfo * AddRenderObject( SmartPtr<GameObject> i_pGo, const TString & i_strSpriteName, float i_spriteSizeX, float i_spriteSizeY );
+			RenderInfo * AddRenderObject( SmartPtr<GameObject> i_pGo, const char * i_pStrSpriteName, float i_spriteSizeX, float i_spriteSizeY );
 			bool RemoveRenderObject( SmartPtr<GameObject> i_pGo );
 
 			// Schedule functions
@@ -53,7 +54,7 @@ namespace Engine
 			void DrawRenderInfos( TList<RenderInfo> * pRenderInfos );
 			bool ClearRenderInfos( TList<RenderInfo> * pRenderInfos );
 
-			RenderInfo * AddRenderInfo( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo, const TString & i_strSpriteName, float i_spriteSizeX, float i_spriteSizeY );
+			RenderInfo * AddRenderInfo( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo, const char * i_strSpriteName, float i_spriteSizeX, float i_spriteSizeY );
 			bool RemoveRenderInfo( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo );
 			RenderInfo * GetRenderInfoByGameObject( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo );
 #if defined(_DEBUG) && defined(_DrawDebugInfo)

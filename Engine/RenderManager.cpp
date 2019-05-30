@@ -10,6 +10,7 @@
 #include "PhysicsManager.h"
 #include "PhysicsInfo.h"
 #include "AABB.h"
+#include "HashString.h"
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -26,7 +27,7 @@ namespace Engine
 		bool RenderManager::Initialize( HINSTANCE i_hInstance, int i_nCmdShow, int i_wWidth, int i_wHeight )
 		{
 			// Setup the GLib.
-			bool bSuccess = GLib::Initialize( i_hInstance, i_nCmdShow, "TestWindow", -1, i_wWidth, i_wHeight );
+			bool bSuccess = GLib::Initialize( i_hInstance, i_nCmdShow, "Game Window", -1, i_wWidth, i_wHeight );
 			if ( !bSuccess )
 			{
 				return bSuccess;
@@ -69,7 +70,7 @@ namespace Engine
 			GLib::EndRendering();
 		}
 
-		RenderInfo * RenderManager::AddRenderObject( SmartPtr<GameObject> i_pGo, const TString &  i_strSpriteName, float i_spriteSizeX, float i_spriteSizeY )
+		RenderInfo * RenderManager::AddRenderObject( SmartPtr<GameObject> i_pGo, const char * i_strSpriteName, float i_spriteSizeX, float i_spriteSizeY )
 		{
 			assert( i_spriteSizeX != 0 );
 			assert( i_spriteSizeY != 0 );
@@ -100,11 +101,11 @@ namespace Engine
 			return bSucceed;
 		}
 
-		RenderInfo * RenderManager::AddRenderInfo( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo, const TString & i_strSpriteName, float i_spriteSizeX, float i_spriteSizeY )
+		RenderInfo * RenderManager::AddRenderInfo( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo, const char * i_pStrName, float i_spriteSizeX, float i_spriteSizeY )
 		{
 			assert( i_spriteSizeX != 0 );
 			assert( i_spriteSizeY != 0 );
-			GLibSprite * pSprite = CreateSprite( const_cast<char*> ( i_strSpriteName.c_str() ) );
+			GLibSprite * pSprite = CreateSprite( i_pStrName );
 			assert( pSprite );
 			RenderInfo * pNewRenderObject = RenderInfo::Create( i_pGo, pSprite, GLibPoint2D{ 0.0f, 0.0f } );
 			assert( pNewRenderObject );
