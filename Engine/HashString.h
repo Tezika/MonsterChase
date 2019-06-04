@@ -23,7 +23,7 @@ namespace Engine
 #if defined( DEBUG_KEEP_STRING ) && defined( _DEBUG )
 		inline const char * c_str() const { return m_pStr; };
 #else
-		inline const char * c_str() const { return "" };
+		inline const char * c_str() const { return ""; };
 #endif // 
 
 		static unsigned int Hash( const char * i_str );
