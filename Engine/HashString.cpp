@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "HashString.h"
+#include "HashedString.h"
 #include "assert.h"
 
 namespace Engine

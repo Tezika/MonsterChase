@@ -9,7 +9,7 @@
 #include "RenderManager.h"
 #include "MessageSystem.h"
 #include "Delegate.h"
-#include "HashString.h"
+#include "HashedString.h"
 
 namespace Engine
 {

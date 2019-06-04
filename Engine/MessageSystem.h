@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
 #include "MultiCastDelegate.h"
-#include "HashString.h"
+#include "HashedString.h"
 
 namespace Engine
 {

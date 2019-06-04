@@ -10,7 +10,7 @@
 #include "PhysicsManager.h"
 #include "PhysicsInfo.h"
 #include "AABB.h"
-#include "HashString.h"
+#include "HashedString.h"
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846

@@ -2,7 +2,7 @@
 #include "Vector3SSE.h"
 #include "TString.h"
 #include "IController.h"
-#include "HashString.h"
+#include "HashedString.h"
 
 namespace Engine
 {
