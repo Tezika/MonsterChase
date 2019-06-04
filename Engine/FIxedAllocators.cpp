@@ -20,12 +20,16 @@ void * __cdecl myMalloc( size_t i_size )
 	{
 		pReturn = Engine::GetDefaultHeap()->Alloc( i_size );
 	}
+#ifdef OUTPUT_ALLOC_INFO
+	DEBUG_PRINT_ENGINE( "malloc %zu bytes on 0x%" PRIXPTR"", pFSA == nullptr ? i_size : pFSA->GetSize(), reinterpret_cast< uintptr_t >( pReturn ) );
+#endif // OUTPUT_ALLOC_INFO
 #else
 	pReturn = Engine::GetDefaultHeap()->Alloc( i_size );
-#endif
 #ifdef OUTPUT_ALLOC_INFO
 	DEBUG_PRINT_ENGINE( "malloc %zu bytes on 0x%" PRIXPTR"", i_size, reinterpret_cast< uintptr_t >( pReturn ) );
 #endif // OUTPUT_ALLOC_INFO
+#endif
+
 	return pReturn;
 }
 
