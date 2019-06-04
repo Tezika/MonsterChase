@@ -8,7 +8,6 @@ namespace Engine
 	inline HashedString::HashedString() :
 		m_Hash( Hash( "" ) )
 	{
-
 	}
 
 	inline HashedString::HashedString( const char * i_str ) :
@@ -18,7 +17,6 @@ namespace Engine
 #endif // DEBUG_KEEP_STRING
 
 	{
-
 	}
 
 	inline HashedString::HashedString( const HashedString & i_other ) :
@@ -44,7 +42,7 @@ namespace Engine
 	{
 		m_Hash = i_other.m_Hash;
 #if defined( DEBUG_KEEP_STRING) && defined(_DEBUG)
-		if (m_pStr != nullptr)
+		if ( m_pStr != nullptr )
 		{
 			delete m_pStr;
 		}
@@ -57,7 +55,7 @@ namespace Engine
 	{
 		m_Hash = i_other.m_Hash;
 #if defined( DEBUG_KEEP_STRING) && defined(_DEBUG) 
-		if (m_pStr != nullptr)
+		if ( m_pStr != nullptr )
 		{
 			delete m_pStr;
 		}
@@ -70,7 +68,7 @@ namespace Engine
 	inline HashedString::~HashedString()
 	{
 #if defined( DEBUG_KEEP_STRING) && defined(_DEBUG)
-		if (m_pStr != nullptr)
+		if ( m_pStr != nullptr )
 		{
 			delete m_pStr;
 		}

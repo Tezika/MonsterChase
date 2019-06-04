@@ -198,9 +198,6 @@
     <ClInclude Include="CollisionPair.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="HashString.h">
-      <Filter>Header Files\String</Filter>
-    </ClInclude>
     <ClInclude Include="Delegate.h">
       <Filter>Header Files\Messaging</Filter>
     </ClInclude>
@@ -218,6 +215,9 @@
     </ClInclude>
     <ClInclude Include="Vector4SSE.h">
       <Filter>Header Files\Mathematics</Filter>
+    </ClInclude>
+    <ClInclude Include="HashedString.h">
+      <Filter>Header Files\String</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
