@@ -5,9 +5,9 @@ namespace Engine
 	class HeapManager;
 	class FixedSizeAllocator;
 
-	//#define USE_CUSTOM_MEMORYMANAGEMENT
-	//#define USE_FIXED_ALLOCATORS
-	//#define OUTPUT_ALLOC_INFO
+#define USE_CUSTOM_MEMORYMANAGEMENT
+#define USE_FIXED_ALLOCATORS
+#define OUTPUT_ALLOC_INFO
 
 #ifdef _DEBUG
 #ifdef USE_CUSTOM_MEMORYMANAGEMENT
