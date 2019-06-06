@@ -88,11 +88,11 @@ namespace Engine
 	{
 		s_pFSASizes = reinterpret_cast< FSAInitData * >( s_pDefaultHeap->Alloc( sizeof( FSAInitData ) * s_numOfFSASize ) );
 		assert( s_pFSASizes );
-		//For test, the size of block are 8, 16, 32, 64, 128, 256. the number of blocks is 100
+		//For test, the size of block are 8, 16, 32, 64, 128, 256. the number of blocks is 500
 		for (size_t i = 0; i < s_numOfFSASize; i++)
 		{
 			s_pFSASizes[i].sizeBlock = ( size_t )pow( 2, i + 3 );
-			s_pFSASizes[i].numBlocks = 1000;
+			s_pFSASizes[i].numBlocks = 500;
 		}
 		return true;
 	}

@@ -8,11 +8,11 @@ namespace Engine
 	{
 
 	public:
-		Vector3SSE(){};
-		Vector3SSE( float i_x, float i_y, float i_z ) :m_vec( _mm_set_ps( 0, i_z, i_y, i_x ) ){};
-		Vector3SSE( const __m128& i_otherVec ) :m_vec( i_otherVec ){};
-		Vector3SSE( const Vector3SSE &  i_other ) : m_vec( i_other.m_vec ){};
-		void operator=( const Vector3SSE & i_other ){ m_vec = i_other.m_vec; }
+		Vector3SSE() {};
+		Vector3SSE( float i_x, float i_y, float i_z ) :m_vec( _mm_set_ps( 0, i_z, i_y, i_x ) ) {};
+		Vector3SSE( const __m128& i_otherVec ) :m_vec( i_otherVec ) {};
+		Vector3SSE( const Vector3SSE &  i_other ) : m_vec( i_other.m_vec ) {};
+		void operator=( const Vector3SSE & i_other ) { m_vec = i_other.m_vec; }
 
 		//Override the arithmetic operator.
 		inline Vector3SSE operator+( const Vector3SSE & i_other ) const
@@ -20,14 +20,14 @@ namespace Engine
 			return Vector3SSE( _mm_add_ps( m_vec, i_other.m_vec ) );
 		};
 
-		inline void operator+=( const Vector3SSE & i_other ){ m_vec = _mm_add_ps( m_vec, i_other.m_vec ); };
+		inline void operator+=( const Vector3SSE & i_other ) { m_vec = _mm_add_ps( m_vec, i_other.m_vec ); };
 
 		inline Vector3SSE operator-( const Vector3SSE & i_other ) const
 		{
 			return Vector3SSE( _mm_sub_ps( m_vec, i_other.m_vec ) );
 		};
 
-		inline void operator-=( const Vector3SSE & i_other ){ m_vec = _mm_sub_ps( m_vec, i_other.m_vec ); };
+		inline void operator-=( const Vector3SSE & i_other ) { m_vec = _mm_sub_ps( m_vec, i_other.m_vec ); };
 
 		inline Vector3SSE operator*( float value ) const
 		{
@@ -52,9 +52,9 @@ namespace Engine
 			return Vector3SSE( -x(), -y(), -z() );
 		}
 
-		inline float x() const{ return m_vec.m128_f32[0]; };
-		inline float y() const{ return m_vec.m128_f32[1]; };
-		inline float z() const{ return m_vec.m128_f32[2]; };
+		inline float x() const { return m_vec.m128_f32[0]; };
+		inline float y() const { return m_vec.m128_f32[1]; };
+		inline float z() const { return m_vec.m128_f32[2]; };
 
 		inline float Length() const { return _mm_cvtss_f32( _mm_sqrt_ps( _mm_dp_ps( m_vec, m_vec, 0x71 ) ) ); }
 		Vector3SSE Normalize() const;

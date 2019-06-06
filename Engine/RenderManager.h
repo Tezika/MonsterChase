@@ -30,6 +30,7 @@ namespace Engine
 				static RenderManager instance;
 				return instance;
 			}
+
 			RenderManager( RenderManager const& ) = delete;
 			void operator=( RenderManager const& ) = delete;
 

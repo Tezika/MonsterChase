@@ -22,6 +22,9 @@ namespace Engine
 
 		~HeapManager();
 
+		HeapManager( const HeapManager & i_other ) = delete;
+		HeapManager & operator=( const HeapManager & i_other ) = delete;
+
 		void * Alloc( size_t );
 		void * Alloc( size_t, unsigned int );
 
@@ -43,9 +46,6 @@ namespace Engine
 	private:
 		HeapManager();
 		HeapManager( void *, size_t, unsigned int );
-		// prevent copy and assignment
-		HeapManager( const HeapManager & i_other );
-		HeapManager & operator=( const HeapManager & i_other );
 
 		uint8_t * m_pMemory;
 		uint8_t * m_pAllocatableMemory;

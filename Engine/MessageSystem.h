@@ -31,7 +31,7 @@ namespace Engine
 
 		private:
 			std::map<HashedString, MultiCastDelegate<void *>> * m_pMessage2Delegates;
-			MessageSystem(){};
+			MessageSystem() {};
 		};
 	}
 }
