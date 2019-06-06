@@ -9,8 +9,6 @@
 #ifdef USE_CUSTOM_MEMORYMANAGEMENT
 void * __cdecl myMalloc( size_t i_size )
 {
-
-
 	void * pReturn = nullptr;
 #ifdef USE_FIXED_ALLOCATORS
 	Engine::FixedSizeAllocator * pFSA = Engine::FindFixedSizeAllocator( i_size );
@@ -18,18 +16,28 @@ void * __cdecl myMalloc( size_t i_size )
 		pReturn = pFSA->Alloc();
 	if ( pReturn == nullptr )
 	{
-		pReturn = Engine::GetDefaultHeap()->Alloc( i_size );
+		// Allocate the actual memory based on the alignment of 16.
+		pReturn = Engine::GetDefaultHeap()->Alloc( i_size, Engine::HeapManager::s_alignment );
 	}
 #ifdef OUTPUT_ALLOC_INFO
+#ifdef ALIGNMENT_ALLOCATION
+	// If the heap manager allocate the memory based on the aligment, it should calculate the actual memory size.
+	i_size = ( static_cast< size_t >( ( sizeof( Engine::BlockDescriptor ) + i_size ) / Engine::HeapManager::s_alignment ) + 1 ) *  Engine::HeapManager::s_alignment;
+#else
+#endif
 	DEBUG_PRINT_ENGINE( "malloc %zu bytes on 0x%" PRIXPTR"", pFSA == nullptr ? i_size : pFSA->GetSize(), reinterpret_cast< uintptr_t >( pReturn ) );
 #endif // OUTPUT_ALLOC_INFO
 #else
-	pReturn = Engine::GetDefaultHeap()->Alloc( i_size );
+	pReturn = Engine::GetDefaultHeap()->Alloc( i_size, Engine::HeapManager::s_alignment );
 #ifdef OUTPUT_ALLOC_INFO
-	DEBUG_PRINT_ENGINE( "malloc %zu bytes on 0x%" PRIXPTR"", i_size, reinterpret_cast< uintptr_t >( pReturn ) );
-#endif // OUTPUT_ALLOC_INFO
+#ifdef ALIGNMENT_ALLOCATION
+	// If the heap manager allocate the memory based on the aligment, it should calculate the actual memory size.
+	i_size = ( static_cast< size_t >( ( sizeof( Engine::BlockDescriptor ) + i_size ) / Engine::HeapManager::s_alignment ) + 1 ) *  Engine::HeapManager::s_alignment;
+#else
 #endif
-
+	DEBUG_PRINT_ENGINE( "malloc %zu bytes on 0x%" PRIXPTR"", pFSA == nullptr ? i_size : pFSA->GetSize(), reinterpret_cast< uintptr_t >( pReturn ) );
+#endif // OUTPUT_ALLOC_INFOOUTPUT_ALLOC_INFO
+#endif
 	return pReturn;
 }
 

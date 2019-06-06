@@ -10,13 +10,13 @@ namespace Engine
 	{
 		assert( i_pDefaultHeap );
 		//Create the allocator
-		FixedSizeAllocator * pAllocator = reinterpret_cast<FixedSizeAllocator *> ( i_pDefaultHeap->Alloc( sizeof( FixedSizeAllocator ) ) );
+		FixedSizeAllocator * pAllocator = reinterpret_cast< FixedSizeAllocator * > ( i_pDefaultHeap->Alloc( sizeof( FixedSizeAllocator ), Engine::HeapManager::s_alignment ) );
 		assert( pAllocator );
 		pAllocator->m_sizeOfBlock = i_sizeOfBlock;
 		pAllocator->m_numOfBlocks = i_numOfBlocks;
 		//Create the bit array
 		pAllocator->m_pAllocationBitsArray = BitArray::Create( i_numOfBlocks, i_pDefaultHeap, false );
-		pAllocator->m_pAllocateMemory = reinterpret_cast<uint8_t *>( i_pDefaultHeap->Alloc( i_sizeOfBlock * i_numOfBlocks ) );
+		pAllocator->m_pAllocateMemory = reinterpret_cast< uint8_t * >( i_pDefaultHeap->Alloc( i_sizeOfBlock * i_numOfBlocks, Engine::HeapManager::s_alignment ) );
 		return pAllocator;
 	}
 
@@ -57,7 +57,7 @@ namespace Engine
 	{
 		assert( i_ptr != nullptr );
 		// calcuate the bit index for allocate memory
-		size_t i_clearBitNumber = ( reinterpret_cast<uint8_t *>( i_ptr ) - m_pAllocateMemory ) / m_sizeOfBlock;
+		size_t i_clearBitNumber = ( reinterpret_cast< uint8_t * >( i_ptr ) - m_pAllocateMemory ) / m_sizeOfBlock;
 		// check if it is the valid index
 		if ( !m_pAllocationBitsArray->IsBitValid( i_clearBitNumber ) )
 		{

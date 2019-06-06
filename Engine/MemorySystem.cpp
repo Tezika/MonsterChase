@@ -72,7 +72,7 @@ namespace Engine
 	{
 		bool successful = InitializeFSAInitData();
 		assert( successful );
-		s_pFixedSizeAllocators = reinterpret_cast< FixedSizeAllocator ** >( s_pDefaultHeap->Alloc( sizeof( FixedSizeAllocator * ) * s_numOfFSASize ) );
+		s_pFixedSizeAllocators = reinterpret_cast< FixedSizeAllocator ** >( s_pDefaultHeap->Alloc( sizeof( FixedSizeAllocator * ) * s_numOfFSASize, Engine::HeapManager::s_alignment ) );
 		assert( s_pFixedSizeAllocators );
 		for (size_t i = 0; i < s_numOfFSASize; i++)
 		{
@@ -86,7 +86,7 @@ namespace Engine
 
 	bool InitializeFSAInitData()
 	{
-		s_pFSASizes = reinterpret_cast< FSAInitData * >( s_pDefaultHeap->Alloc( sizeof( FSAInitData ) * s_numOfFSASize ) );
+		s_pFSASizes = reinterpret_cast< FSAInitData * >( s_pDefaultHeap->Alloc( sizeof( FSAInitData ) * s_numOfFSASize, Engine::HeapManager::s_alignment ) );
 		assert( s_pFSASizes );
 		//For test, the size of block are 8, 16, 32, 64, 128, 256. the number of blocks is 500
 		for (size_t i = 0; i < s_numOfFSASize; i++)

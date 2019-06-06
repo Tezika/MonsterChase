@@ -6,6 +6,7 @@
 #include "stdint.h"
 #include "HeapManager.h"
 
+unsigned int Engine::HeapManager::s_alignment = 16;
 size_t Engine::HeapManager::s_MinumumToLeave = 0;
 Engine::HeapManager * Engine::HeapManager::s_pDefalutHeapManager = nullptr;
 
@@ -13,35 +14,32 @@ namespace Engine
 {
 	HeapManager::HeapManager()
 	{
-
 	}
 
 	HeapManager::HeapManager( void *i_pMemory, size_t i_sizeMemory, unsigned int i_numDescription ) :
-		m_pAllocatableMemory( reinterpret_cast<uint8_t *>( i_pMemory ) ),
+		m_pAllocatableMemory( reinterpret_cast< uint8_t * >( i_pMemory ) ),
 		m_sizeOfMemory( i_sizeMemory ),
 		m_numOfDescription( i_numDescription ),
 		m_usedMemory( 0 ),
 		m_usedDescriptors( 0 ),
 		m_pDescriptorHead( nullptr ),
-		m_pMemoryMark( reinterpret_cast<uint8_t *>( i_pMemory ) )
+		m_pMemoryMark( reinterpret_cast< uint8_t * >( i_pMemory ) )
 	{
-
 	}
 
 	HeapManager::~HeapManager()
 	{
-
 	}
 
 	HeapManager * HeapManager::Create( void *i_pMemory, size_t i_sizeMemory, unsigned int i_numDescription )
 	{
 		assert( i_pMemory );
 		//Create a HeapManager without using custom new
-		HeapManager * pHeapManager = reinterpret_cast<HeapManager *>( i_pMemory );
+		HeapManager * pHeapManager = reinterpret_cast< HeapManager * >( i_pMemory );
 
-		pHeapManager->m_pMemory = reinterpret_cast<uint8_t *>( i_pMemory );
-		pHeapManager->m_pAllocatableMemory = reinterpret_cast<uint8_t *>( i_pMemory ) + sizeof( HeapManager );
-		pHeapManager->m_pMemoryMark = reinterpret_cast<uint8_t *>( i_pMemory ) + sizeof( HeapManager );
+		pHeapManager->m_pMemory = reinterpret_cast< uint8_t * >( i_pMemory );
+		pHeapManager->m_pAllocatableMemory = reinterpret_cast< uint8_t * >( i_pMemory ) + sizeof( HeapManager );
+		pHeapManager->m_pMemoryMark = reinterpret_cast< uint8_t * >( i_pMemory ) + sizeof( HeapManager );
 
 		pHeapManager->m_sizeOfMemory = i_sizeMemory - sizeof( HeapManager );
 		pHeapManager->m_pMemoryBoundary = pHeapManager->m_pMemoryMark + pHeapManager->m_sizeOfMemory;
@@ -97,11 +95,11 @@ namespace Engine
 				// subdivde it into two blocks
 				auto originalSize = p->m_sizeBlock;
 
-				auto pBlockAddress = reinterpret_cast<void*>( p->m_pBlockStarAddr + originalSize - newBlockSize );
-				auto subBlock = reinterpret_cast<BlockDescriptor *>( pBlockAddress );
-				pBlockAddress = reinterpret_cast<void *>( reinterpret_cast<uintptr_t>( pBlockAddress ) + sizeof( BlockDescriptor ) );
-				subBlock->m_pBlockStarAddr = reinterpret_cast<uint8_t *>( pBlockAddress );
-				pBlockAddress = reinterpret_cast<void *>( reinterpret_cast<uintptr_t>( pBlockAddress ) + i_size );
+				auto pBlockAddress = reinterpret_cast< void* >( p->m_pBlockStarAddr + originalSize - newBlockSize );
+				auto subBlock = reinterpret_cast< BlockDescriptor * >( pBlockAddress );
+				pBlockAddress = reinterpret_cast< void * >( reinterpret_cast< uintptr_t >( pBlockAddress ) + sizeof( BlockDescriptor ) );
+				subBlock->m_pBlockStarAddr = reinterpret_cast< uint8_t * >( pBlockAddress );
+				pBlockAddress = reinterpret_cast< void * >( reinterpret_cast< uintptr_t >( pBlockAddress ) + i_size );
 				subBlock->m_sizeBlock = i_size;
 
 				// change the orginal size
@@ -125,9 +123,9 @@ namespace Engine
 		}
 
 		//Create a descriptor firstly
-		BlockDescriptor* pDescriptor = reinterpret_cast<BlockDescriptor *>( m_pAllocatableMemory );
+		BlockDescriptor* pDescriptor = reinterpret_cast< BlockDescriptor * >( m_pAllocatableMemory );
 		m_pAllocatableMemory = m_pAllocatableMemory + sizeof( BlockDescriptor );
-		pDescriptor->m_pBlockStarAddr = reinterpret_cast<uint8_t *>( m_pAllocatableMemory );
+		pDescriptor->m_pBlockStarAddr = reinterpret_cast< uint8_t * >( m_pAllocatableMemory );
 		m_pAllocatableMemory = m_pAllocatableMemory + i_size;
 		pDescriptor->m_sizeBlock = i_size;
 
@@ -145,8 +143,21 @@ namespace Engine
 
 	void * HeapManager::Alloc( size_t i_size, unsigned int i_alignment )
 	{
-		//The Aligment alloc will come soon.
+#ifdef ALIGNMENT_ALLOCATION
+		// Check if it is available for aligning a new one firstly.
+		if ( m_usedDescriptors > m_numOfDescription - 1 )
+		{
+			return nullptr;
+		}
+		size_t newBlockSize = ( static_cast< size_t >( ( sizeof( BlockDescriptor ) + i_size ) / i_alignment ) + 1 ) *  i_alignment;
+		if ( newBlockSize > this->GetLeftMemory() || newBlockSize <= sizeof( BlockDescriptor ) )
+		{
+			return nullptr;
+		}
+		return Alloc( newBlockSize - sizeof( BlockDescriptor ) );
+#else
 		return Alloc( i_size );
+#endif // ALIGNMENT_ALLOCATION
 	}
 
 	bool HeapManager::Free( void *i_ptr )
@@ -204,7 +215,7 @@ namespace Engine
 	bool HeapManager::IsAllocated( void *i_ptr ) const
 	{
 		assert( i_ptr );
-		return reinterpret_cast<BlockDescriptor*>( ( reinterpret_cast<uint8_t *>( i_ptr ) - sizeof( BlockDescriptor ) ) ) != nullptr ? true : false;
+		return reinterpret_cast< BlockDescriptor* >( ( reinterpret_cast< uint8_t * >( i_ptr ) - sizeof( BlockDescriptor ) ) ) != nullptr ? true : false;
 	}
 
 	void HeapManager::ShowOutstandingAllocations() const
@@ -214,7 +225,7 @@ namespace Engine
 		{
 			if ( p->m_allocated == true )
 			{
-				printf( "The current allocation address is 0x%p and size is %zu\n", reinterpret_cast<uint8_t *>( p->m_pBlockStarAddr ), p->m_sizeBlock );
+				printf( "The current allocation address is 0x%p and size is %zu\n", reinterpret_cast< uint8_t * >( p->m_pBlockStarAddr ), p->m_sizeBlock );
 			}
 			p = this->MoveToNextBlock( p );
 		}
@@ -227,7 +238,7 @@ namespace Engine
 		{
 			if ( p->m_allocated == false )
 			{
-				printf( "The free block's address is 0x%p and size is %zu\n", reinterpret_cast<uint8_t *>( p->m_pBlockStarAddr ), p->m_sizeBlock );
+				printf( "The free block's address is 0x%p and size is %zu\n", reinterpret_cast< uint8_t * >( p->m_pBlockStarAddr ), p->m_sizeBlock );
 			}
 			p = this->MoveToNextBlock( p );
 		}
@@ -250,7 +261,7 @@ namespace Engine
 			return nullptr;
 		}
 		// Move the pointer based on the blocksize.
-		auto pNext = reinterpret_cast<BlockDescriptor *>( i_pBlock->m_pBlockStarAddr + i_pBlock->m_sizeBlock );
+		auto pNext = reinterpret_cast< BlockDescriptor * >( i_pBlock->m_pBlockStarAddr + i_pBlock->m_sizeBlock );
 		if ( pNext == nullptr || pNext->m_pBlockStarAddr == nullptr )
 		{
 			return nullptr;

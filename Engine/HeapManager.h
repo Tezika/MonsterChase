@@ -4,6 +4,11 @@
 
 namespace Engine
 {
+
+#ifndef ALIGNMENT_ALLOCATION
+#define ALIGNMENT_ALLOCATION
+#endif // ALIGNMENT_ALLOCATION
+
 	struct BlockDescriptor
 	{
 	public:
@@ -19,6 +24,7 @@ namespace Engine
 		static HeapManager * s_pDefalutHeapManager;
 		static HeapManager * Create( void *, size_t, unsigned int );
 		static size_t s_MinumumToLeave;
+		static unsigned int s_alignment;
 
 		~HeapManager();
 

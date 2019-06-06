@@ -13,14 +13,15 @@ namespace Engine
 	BitArray * BitArray::Create( size_t i_numBits, HeapManager * i_pDefaultHeap, bool i_clearAll )
 	{
 		assert( i_pDefaultHeap );
-		BitArray * p_bitArray = reinterpret_cast<BitArray *>( i_pDefaultHeap->Alloc( sizeof( BitArray ) ) );
+
+		BitArray * p_bitArray = reinterpret_cast< BitArray * >( i_pDefaultHeap->Alloc( sizeof( BitArray ), Engine::HeapManager::s_alignment ) );
 		assert( p_bitArray );
 
 		p_bitArray->m_numOfBits = i_numBits;
 		float i_bitsPerUnit = 8;
-		p_bitArray->m_sizeOfBytes = (size_t) ceil( (float) ( i_numBits / i_bitsPerUnit ) );
+		p_bitArray->m_sizeOfBytes = ( size_t )ceil( ( float )( i_numBits / i_bitsPerUnit ) );
 
-		p_bitArray->m_pBits = reinterpret_cast<uint8_t *>( i_pDefaultHeap->Alloc( p_bitArray->m_sizeOfBytes ) );
+		p_bitArray->m_pBits = reinterpret_cast< uint8_t * >( i_pDefaultHeap->Alloc( p_bitArray->m_sizeOfBytes, Engine::HeapManager::s_alignment ) );
 		memset( p_bitArray->m_pBits, i_clearAll ? 0 : UINT8_MAX, p_bitArray->m_sizeOfBytes );
 		return p_bitArray;
 	}
