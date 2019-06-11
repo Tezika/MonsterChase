@@ -60,7 +60,7 @@ namespace Engine
 			int result = 0;
 
 			// Necessary stuff to process our data
-			result = luaL_loadbuffer( pLuaState, reinterpret_cast<char *>( pFileContents ), sizeOfFile, nullptr );
+			result = luaL_loadbuffer( pLuaState, reinterpret_cast< char * >( pFileContents ), sizeOfFile, nullptr );
 			assert( result == 0 );
 
 			result = lua_pcall( pLuaState, 0, 0, 0 );
