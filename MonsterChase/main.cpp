@@ -5,6 +5,7 @@
 
 #if defined _DEBUG
 #define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
 #include <crtdbg.h>
 #endif // _DEBUG
 
@@ -23,8 +24,9 @@ int WINAPI wWinMain( HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_
 	}
 	Engine::Destroy();
 
+	system( "pause" );
+
 #if defined _DEBUG
 	_CrtDumpMemoryLeaks();
 #endif // _DEBUG
-	system( "pause" );
 }

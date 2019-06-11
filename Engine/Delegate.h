@@ -71,7 +71,7 @@ namespace Engine
 			template<typename T, void( T::*TMethod )( Params... )>
 			static void method_stub( void * i_pInstance, Params ... i_Parameters )
 			{
-				( static_cast<T*>( i_pInstance )->*TMethod )( i_Parameters... );
+				( static_cast< T* >( i_pInstance )->*TMethod )( i_Parameters... );
 			}
 		};
 	}
