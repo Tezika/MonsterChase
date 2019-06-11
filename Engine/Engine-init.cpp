@@ -52,11 +52,7 @@ namespace Engine
 	void Engine::Destroy()
 	{
 		// Destroy the sub systems firstly
-		// For Messaging
 		bool bSuccess = false;
-		bSuccess = Messaging::MessageSystem::GetInstance().Destroy();
-		assert( bSuccess );
-
 		// For Physics
 		bSuccess = Physics::PhysicsManager::GetInstance().Destroy();
 		assert( bSuccess );
@@ -67,6 +63,11 @@ namespace Engine
 
 		// For Rendering
 		bSuccess = Render::RenderManager::GetInstance().Destroy();
+		assert( bSuccess );
+
+		// For Messaging
+		bSuccess = false;
+		bSuccess = Messaging::MessageSystem::GetInstance().Destroy();
 		assert( bSuccess );
 
 #ifdef USE_CUSTOM_MEMORYMANAGEMENT

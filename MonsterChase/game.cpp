@@ -95,6 +95,8 @@ namespace FinalProject
 	void Game::Destroy()
 	{
 		using namespace Engine;
+		// Deregister events
+		Messaging::MessageSystem::GetInstance().DeregisterMessageDelegate( "OnBallCollideDeadWall", this->m_dBallCollideDeadWall );
 		// Reassign to nullptr to prevent the memory leak
 		m_player_1 = nullptr;
 		m_player_2 = nullptr;
@@ -103,8 +105,6 @@ namespace FinalProject
 		m_wall_up = nullptr;
 		m_wall_left = nullptr;
 		m_wall_right = nullptr;
-		// Deregister events
-		Messaging::MessageSystem::GetInstance().DeregisterMessageDelegate( "OnBallCollideDeadWall", this->m_dBallCollideDeadWall );
 		DEBUG_PRINT_GAMEPLAY( "----------Shutdown the game successfully.----------" );
 	}
 

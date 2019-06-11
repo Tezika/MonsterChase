@@ -23,9 +23,6 @@ int WINAPI wWinMain( HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_
 		FinalGame::GetInstance().Destroy();
 	}
 	Engine::Destroy();
-
-	system( "pause" );
-
 #if defined _DEBUG
 	_CrtDumpMemoryLeaks();
 #endif // _DEBUG

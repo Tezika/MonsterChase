@@ -41,8 +41,8 @@ namespace FinalProject
 
 		bool ShouldEnd() { return m_bEnd; }
 		void TriggerEnd() { m_bEnd = true; }
-		Engine::SmartPtr<Player> GetPlayer1(){ return m_player_1; };
-		Engine::SmartPtr<Player> GetPlayer2(){ return m_player_2; };
+		Engine::SmartPtr<Player> GetPlayer1() { return m_player_1; };
+		Engine::SmartPtr<Player> GetPlayer2() { return m_player_2; };
 
 	private:
 		// Players
@@ -59,7 +59,7 @@ namespace FinalProject
 		Engine::SmartPtr<Wall> m_wall_right;
 
 		// Delegates
-		Engine::Messaging::Delegate<void*> m_dBallCollideDeadWall;
+		Engine::Messaging::Delegate<void*>  m_dBallCollideDeadWall;
 
 		// Cached Position
 		Engine::Vector3SSE m_cachedStartPosition_player1;
