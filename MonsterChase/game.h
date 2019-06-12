@@ -49,8 +49,8 @@ namespace FinalProject
 
 		bool ShouldEnd() { return m_bEnd; }
 		void TriggerEnd() { m_bEnd = true; }
-		SPP GetPlayer1() { return m_player_1; };
-		SPP GetPlayer2() { return m_player_2; };
+		SPP & GetPlayer1() { return m_player_1; };
+		SPP & GetPlayer2() { return m_player_2; };
 
 	private:
 		// Players
