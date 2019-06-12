@@ -80,8 +80,8 @@ namespace FinalProject
 		m_player_2->GetController()->SetEnable(false);
 
 		// Reset the player's velocity abd position
-		m_player_1->SetVelocity(VEC3SEE{ 0,0,0 });
-		m_player_2->SetVelocity(VEC3SEE{ 0,0,0 });
+		m_player_1->SetVelocity( VEC3SEE{ 0,0,0 } );
+		m_player_2->SetVelocity( VEC3SEE{ 0,0,0 } );
 
 		m_player_1->SetPosition(m_cachedStartPosition_player1);
 		m_player_2->SetPosition(m_cachedStartPosition_player2);
