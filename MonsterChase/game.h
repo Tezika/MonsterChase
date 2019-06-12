@@ -16,6 +16,12 @@
 
 namespace FinalProject
 {
+	using SPP = Engine::SmartPtr<Player>;
+	using SPB = Engine::SmartPtr<Ball>;
+	using SPW = Engine::SmartPtr<Wall>;
+	using SPG = Engine::SmartPtr<Engine::GameObject>;
+	using VEC3SEE = Engine::Vector3SSE;
+
 	//This is a Singleton.
 	class Game
 	{
@@ -26,8 +32,8 @@ namespace FinalProject
 			return game;
 		}
 
-		Game( Game const & ) = delete;
-		Game & operator=( Game const & ) = delete;
+		Game(Game const &) = delete;
+		Game & operator=(Game const &) = delete;
 
 	private:
 		Game();
@@ -41,33 +47,33 @@ namespace FinalProject
 
 		bool ShouldEnd() { return m_bEnd; }
 		void TriggerEnd() { m_bEnd = true; }
-		Engine::SmartPtr<Player> GetPlayer1() { return m_player_1; };
-		Engine::SmartPtr<Player> GetPlayer2() { return m_player_2; };
+		SPP GetPlayer1() { return m_player_1; };
+		SPP GetPlayer2() { return m_player_2; };
 
 	private:
 		// Players
-		Engine::SmartPtr<Player> m_player_1;
-		Engine::SmartPtr<Player> m_player_2;
+		SPP m_player_1;
+		SPP m_player_2;
 
 		// Ball
-		Engine::SmartPtr<Ball> m_ball;
+		SPB m_ball;
 
 		// Walls
-		Engine::SmartPtr<Wall> m_wall_bottom;
-		Engine::SmartPtr<Wall> m_wall_up;
-		Engine::SmartPtr<Wall> m_wall_left;
-		Engine::SmartPtr<Wall> m_wall_right;
+		SPW m_wall_bottom;
+		SPW m_wall_up;
+		SPW m_wall_left;
+		SPW m_wall_right;
 
 		// Delegates
 		Engine::Messaging::Delegate<void*>  m_dBallCollideDeadWall;
 
 		// Cached Position
-		Engine::Vector3SSE m_cachedStartPosition_player1;
-		Engine::Vector3SSE m_cachedStartPosition_player2;
+		VEC3SEE m_cachedStartPosition_player1;
+		VEC3SEE m_cachedStartPosition_player2;
 
-		void InitializePlayer( const Engine::SmartPtr<Player> & i_player );
+		void InitializePlayer(const SPP & i_player);
 		void SetupWalls();
-		void OnBallCollideDeadWall( void * i_pInfo );
+		void OnBallCollideDeadWall(void * i_pInfo);
 		bool m_bEnd;
 	};
 }
