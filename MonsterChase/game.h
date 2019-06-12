@@ -21,6 +21,8 @@ namespace FinalProject
 	using SPW = Engine::SmartPtr<Wall>;
 	using SPG = Engine::SmartPtr<Engine::GameObject>;
 	using VEC3SEE = Engine::Vector3SSE;
+	using HSS = Engine::HashedString;
+	using DEL = Engine::Messaging::Delegate<void*>;
 
 	//This is a Singleton.
 	class Game
@@ -65,7 +67,7 @@ namespace FinalProject
 		SPW m_wall_right;
 
 		// Delegates
-		Engine::Messaging::Delegate<void*>  m_dBallCollideDeadWall;
+		DEL m_dBallCollideDeadWall;
 
 		// Cached Position
 		VEC3SEE m_cachedStartPosition_player1;

@@ -48,7 +48,7 @@ namespace FinalProject
 		this->SetupWalls();
 
 		// Register some game element events
-		this->m_dBallCollideDeadWall = Messaging::Delegate<void*>::Create<Game, &Game::OnBallCollideDeadWall>(this);
+		this->m_dBallCollideDeadWall = DEL::Create<Game, &Game::OnBallCollideDeadWall>(this);
 		Messaging::MessageSystem::GetInstance().RegisterMessageDelegate("OnBallCollideDeadWall", this->m_dBallCollideDeadWall);
 
 		// Reset the game at first
@@ -80,8 +80,8 @@ namespace FinalProject
 		m_player_2->GetController()->SetEnable(false);
 
 		// Reset the player's velocity abd position
-		m_player_1->SetVelocity( VEC3SEE{ 0,0,0 } );
-		m_player_2->SetVelocity( VEC3SEE{ 0,0,0 } );
+		m_player_1->SetVelocity(VEC3SEE{ 0,0,0 });
+		m_player_2->SetVelocity(VEC3SEE{ 0,0,0 });
 
 		m_player_1->SetPosition(m_cachedStartPosition_player1);
 		m_player_2->SetPosition(m_cachedStartPosition_player2);
