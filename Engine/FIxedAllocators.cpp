@@ -7,7 +7,7 @@
 #include "HeapManager.h"
 
 #ifdef USE_CUSTOM_MEMORYMANAGEMENT
-void * __cdecl myMalloc( size_t i_size )
+void * __cdecl malloc_c( size_t i_size )
 {
 	void * pReturn = nullptr;
 #ifdef USE_FIXED_ALLOCATORS
@@ -41,7 +41,7 @@ void * __cdecl myMalloc( size_t i_size )
 	return pReturn;
 }
 
-void __cdecl myFree( void * i_ptr )
+void __cdecl free_c( void * i_ptr )
 {
 #ifdef  OUTPUT_ALLOC_INFO
 	DEBUG_PRINT_ENGINE( "free 0x%" PRIXPTR "", reinterpret_cast< uintptr_t >(i_ptr) );
@@ -50,21 +50,23 @@ void __cdecl myFree( void * i_ptr )
 	bool successful = Engine::FreeFromFixedSizeAllocators( i_ptr );
 	if (!successful)
 	{
-		assert( Engine::GetDefaultHeap()->Free( i_ptr ) );
+		/*assert( Engine::GetDefaultHeap()->Free( i_ptr ) );*/
+		Engine::GetDefaultHeap()->Free( i_ptr );
 	}
 #else
-	assert( Engine::GetDefaultHeap()->Free( i_ptr ) );
+	//assert( Engine::GetDefaultHeap()->Free( i_ptr ) );
+	Engine::GetDefaultHeap()->Free( i_ptr );
 #endif
 }
 
 void * operator new(size_t i_size)
 {
-	return myMalloc( i_size );
+	return malloc_c( i_size );
 }
 
 void operator delete(void * i_ptr)
 {
-	return myFree( i_ptr );
+	return free_c( i_ptr );
 }
 
 void * operator new[]( size_t i_size )
@@ -73,7 +75,7 @@ void * operator new[]( size_t i_size )
 	// Here I just wonder that if we need to deal with, what's way can we choose to make it. Overriding the new[] for every class we want to new?
 	// replace with calls to your HeapManager or FixedSizeAllocators
 	printf( "new [] %zu\n", i_size );
-	return myMalloc( i_size );
+	return malloc_c( i_size );
 }
 
 void operator delete[]( void * i_ptr )
@@ -81,6 +83,6 @@ void operator delete[]( void * i_ptr )
 	// replace with calls to your HeapManager or FixedSizeAllocators
 	// There is the same reason of the new[]
 	printf( "delete [] 0x%" PRIXPTR "\n", reinterpret_cast< uintptr_t >(i_ptr) );
-	return myFree( i_ptr );
+	return free_c( i_ptr );
 }
 #endif // USE_CUSTOM_MEMORYMANAGEMENT
