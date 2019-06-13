@@ -25,7 +25,6 @@ namespace Engine
 		bool successd = InitializeMemorySystem( pHeapMemory, sizeHeap, numDescriptors );
 		assert( successd );
 #endif
-
 		// Initialize the sub systems
 		bool bSuccess = false;
 
