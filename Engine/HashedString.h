@@ -2,7 +2,7 @@
 namespace Engine
 {
 #ifndef DEBUG_KEEP_STRING
-//#define DEBUG_KEEP_STRING
+#define DEBUG_KEEP_STRING
 #endif // !DEBUG_KEEP_STRING
 
 	class HashedString

@@ -208,7 +208,7 @@
     <ClCompile Include="FixedSizeAllocator.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GLibUtility.cpp" />
-    <ClCompile Include="HashString.cpp" />
+    <ClCompile Include="HashedString.cpp" />
     <ClCompile Include="HeapManager.cpp" />
     <ClCompile Include="LuaParser.cpp" />
     <ClCompile Include="Matrix3x3.cpp" />
