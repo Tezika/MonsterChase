@@ -31,7 +31,7 @@ namespace FinalProject
 		// Rand a value for the velocity.x
 		float velocity_x = RandomInRange( range_velocity_x_min, range_velocity_x_max );
 		// Rand the sign for the velocity.x
-		r = rand() / static_cast<float>( RAND_MAX );
+		r = rand() / static_cast< float >( RAND_MAX );
 		if ( r >= 0.5f )
 		{
 			velocity_x = -velocity_x;
@@ -39,7 +39,7 @@ namespace FinalProject
 		// Rand a value for the velocity.y
 		float velocity_y = RandomInRange( range_velocity_y_min, range_velocity_y_max );
 		// Rand the sign for the velocity.y
-		r = rand() / static_cast<float>( RAND_MAX );
+		r = rand() / static_cast< float >( RAND_MAX );
 		if ( r >= 0.5f )
 		{
 			velocity_y = -velocity_y;
