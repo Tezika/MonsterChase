@@ -174,7 +174,8 @@ namespace Engine
 			}
 			p = this->MoveToNextBlock( p );
 		}
-		return true;
+
+		return p != nullptr;
 	}
 
 	void HeapManager::Collect()

@@ -12,9 +12,9 @@ void * __cdecl myMalloc( size_t i_size )
 	void * pReturn = nullptr;
 #ifdef USE_FIXED_ALLOCATORS
 	Engine::FixedSizeAllocator * pFSA = Engine::FindFixedSizeAllocator( i_size );
-	if ( pFSA )
+	if (pFSA)
 		pReturn = pFSA->Alloc();
-	if ( pReturn == nullptr )
+	if (pReturn == nullptr)
 	{
 		// Allocate the actual memory based on the alignment of 16.
 		pReturn = Engine::GetDefaultHeap()->Alloc( i_size, Engine::HeapManager::s_alignment );
@@ -22,20 +22,20 @@ void * __cdecl myMalloc( size_t i_size )
 #ifdef OUTPUT_ALLOC_INFO
 #ifdef ALIGNMENT_ALLOCATION
 	// If the heap manager allocate the memory based on the aligment, it should calculate the actual memory size.
-	i_size = ( static_cast< size_t >( ( sizeof( Engine::BlockDescriptor ) + i_size ) / Engine::HeapManager::s_alignment ) + 1 ) *  Engine::HeapManager::s_alignment;
+	i_size = (static_cast< size_t >((sizeof( Engine::BlockDescriptor ) + i_size) / Engine::HeapManager::s_alignment) + 1) *  Engine::HeapManager::s_alignment;
 #else
 #endif
-	DEBUG_PRINT_ENGINE( "malloc %zu bytes on 0x%" PRIXPTR"", pFSA == nullptr ? i_size : pFSA->GetSize(), reinterpret_cast< uintptr_t >( pReturn ) );
+	DEBUG_PRINT_ENGINE( "malloc %zu bytes on 0x%" PRIXPTR"", pFSA == nullptr ? i_size : pFSA->GetSize(), reinterpret_cast< uintptr_t >(pReturn) );
 #endif // OUTPUT_ALLOC_INFO
 #else
 	pReturn = Engine::GetDefaultHeap()->Alloc( i_size, Engine::HeapManager::s_alignment );
 #ifdef OUTPUT_ALLOC_INFO
 #ifdef ALIGNMENT_ALLOCATION
 	// If the heap manager allocate the memory based on the aligment, it should calculate the actual memory size.
-	i_size = ( static_cast< size_t >( ( sizeof( Engine::BlockDescriptor ) + i_size ) / Engine::HeapManager::s_alignment ) + 1 ) *  Engine::HeapManager::s_alignment;
+	i_size = (static_cast< size_t >((sizeof( Engine::BlockDescriptor ) + i_size) / Engine::HeapManager::s_alignment) + 1) *  Engine::HeapManager::s_alignment;
 #else
 #endif
-	DEBUG_PRINT_ENGINE( "malloc %zu bytes on 0x%" PRIXPTR"", pFSA == nullptr ? i_size : pFSA->GetSize(), reinterpret_cast< uintptr_t >( pReturn ) );
+	DEBUG_PRINT_ENGINE( "malloc %zu bytes on 0x%" PRIXPTR"", pFSA == nullptr ? i_size : pFSA->GetSize(), reinterpret_cast< uintptr_t >(pReturn) );
 #endif // OUTPUT_ALLOC_INFOOUTPUT_ALLOC_INFO
 #endif
 	return pReturn;
@@ -44,25 +44,25 @@ void * __cdecl myMalloc( size_t i_size )
 void __cdecl myFree( void * i_ptr )
 {
 #ifdef  OUTPUT_ALLOC_INFO
-	DEBUG_PRINT_ENGINE( "free 0x%" PRIXPTR "", reinterpret_cast< uintptr_t >( i_ptr ) );
+	DEBUG_PRINT_ENGINE( "free 0x%" PRIXPTR "", reinterpret_cast< uintptr_t >(i_ptr) );
 #endif // OUTPUT_ALLOC_INFO
 #ifdef USE_FIXED_ALLOCATORS
 	bool successful = Engine::FreeFromFixedSizeAllocators( i_ptr );
-	if ( !successful )
+	if (!successful)
 	{
-		Engine::GetDefaultHeap()->Free( i_ptr );
+		assert( Engine::GetDefaultHeap()->Free( i_ptr ) );
 	}
 #else
-	Engine::GetDefaultHeap()->Free( i_ptr );
+	assert( Engine::GetDefaultHeap()->Free( i_ptr ) );
 #endif
 }
 
-void * operator new( size_t i_size )
+void * operator new(size_t i_size)
 {
 	return myMalloc( i_size );
 }
 
-void operator delete( void * i_ptr )
+void operator delete(void * i_ptr)
 {
 	return myFree( i_ptr );
 }
@@ -80,7 +80,7 @@ void operator delete[]( void * i_ptr )
 {
 	// replace with calls to your HeapManager or FixedSizeAllocators
 	// There is the same reason of the new[]
-	printf( "delete [] 0x%" PRIXPTR "\n", reinterpret_cast< uintptr_t >( i_ptr ) );
+	printf( "delete [] 0x%" PRIXPTR "\n", reinterpret_cast< uintptr_t >(i_ptr) );
 	return myFree( i_ptr );
 }
 #endif // USE_CUSTOM_MEMORYMANAGEMENT
