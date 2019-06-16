@@ -59,7 +59,7 @@ void __cdecl free_c( void * i_ptr )
 	//assert( Engine::GetDefaultHeap()->Free( i_ptr ) );
 	GetDefaultHeap()->Free( i_ptr );
 #endif
-	}
+}
 
 void * operator new(size_t i_size)
 {
