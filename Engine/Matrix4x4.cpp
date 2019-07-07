@@ -135,12 +135,12 @@ namespace Engine
 		float a0223 = m_matrix[2][0] * m_matrix[3][2] - m_matrix[2][2] * m_matrix[3][0];
 		float a0123 = m_matrix[2][0] * m_matrix[3][1] - m_matrix[2][1] * m_matrix[3][0];
 
-		float determinant = m_matrix[0][0] * ( m_matrix[1][1] * a2323 - m_matrix[1][2] * a1323 + m_matrix[1][3] * a1223 )
-			- m_matrix[0][1] * ( m_matrix[1][0] * a2323 - m_matrix[1][2] * a0323 + m_matrix[1][3] * a0223 )
-			+ m_matrix[0][2] * ( m_matrix[1][0] * a1323 - m_matrix[1][1] * a0323 + m_matrix[1][3] * a0123 )
-			- m_matrix[0][3] * ( m_matrix[1][0] * a1223 - m_matrix[1][1] * a0223 + m_matrix[1][2] * a0123 );
+		float determinant = m_matrix[0][0] * (m_matrix[1][1] * a2323 - m_matrix[1][2] * a1323 + m_matrix[1][3] * a1223)
+			- m_matrix[0][1] * (m_matrix[1][0] * a2323 - m_matrix[1][2] * a0323 + m_matrix[1][3] * a0223)
+			+ m_matrix[0][2] * (m_matrix[1][0] * a1323 - m_matrix[1][1] * a0323 + m_matrix[1][3] * a0123)
+			- m_matrix[0][3] * (m_matrix[1][0] * a1223 - m_matrix[1][1] * a0223 + m_matrix[1][2] * a0123);
 
-		if ( determinant == 0 )
+		if (determinant == 0)
 		{
 			return false;
 		}
@@ -161,25 +161,25 @@ namespace Engine
 		float a0112 = m_matrix[1][0] * m_matrix[2][1] - m_matrix[1][1] * m_matrix[2][0];
 
 		// Set each spot's value for out matrix
-		out.m_matrix[0][0] = /*M11*/determinant * ( m_matrix[1][1] * a2323 - m_matrix[1][2] * a1323 + m_matrix[1][3] * a1223 );
-		out.m_matrix[0][1] = /*M12*/determinant * -( m_matrix[0][1] * a2323 - m_matrix[0][2] * a1323 + m_matrix[0][3] * a1223 );
-		out.m_matrix[0][2] = /*M13*/determinant * ( m_matrix[0][1] * a2313 - m_matrix[0][2] * a1313 + m_matrix[0][3] * a1213 );
-		out.m_matrix[0][3] = /*M14*/determinant * -( m_matrix[0][1] * a2312 - m_matrix[0][2] * a1312 + m_matrix[0][3] * a1212 );
+		out.m_matrix[0][0] = /*M11*/determinant * (m_matrix[1][1] * a2323 - m_matrix[1][2] * a1323 + m_matrix[1][3] * a1223);
+		out.m_matrix[0][1] = /*M12*/determinant * -(m_matrix[0][1] * a2323 - m_matrix[0][2] * a1323 + m_matrix[0][3] * a1223);
+		out.m_matrix[0][2] = /*M13*/determinant * (m_matrix[0][1] * a2313 - m_matrix[0][2] * a1313 + m_matrix[0][3] * a1213);
+		out.m_matrix[0][3] = /*M14*/determinant * -(m_matrix[0][1] * a2312 - m_matrix[0][2] * a1312 + m_matrix[0][3] * a1212);
 
-		out.m_matrix[1][0] = /*M21*/determinant * -( m_matrix[1][0] * a2323 - m_matrix[1][2] * a0323 + m_matrix[1][3] * a0223 );
-		out.m_matrix[1][1] = /*M22*/determinant * ( m_matrix[0][0] * a2323 - m_matrix[0][2] * a0323 + m_matrix[0][3] * a0223 );
-		out.m_matrix[1][2] = /*M23*/determinant * -( m_matrix[0][0] * a2313 - m_matrix[0][2] * a0313 + m_matrix[0][3] * a0213 );
-		out.m_matrix[1][3] = /*M24*/determinant * ( m_matrix[0][0] * a2312 - m_matrix[0][2] * a0312 + m_matrix[0][3] * a0212 );
+		out.m_matrix[1][0] = /*M21*/determinant * -(m_matrix[1][0] * a2323 - m_matrix[1][2] * a0323 + m_matrix[1][3] * a0223);
+		out.m_matrix[1][1] = /*M22*/determinant * (m_matrix[0][0] * a2323 - m_matrix[0][2] * a0323 + m_matrix[0][3] * a0223);
+		out.m_matrix[1][2] = /*M23*/determinant * -(m_matrix[0][0] * a2313 - m_matrix[0][2] * a0313 + m_matrix[0][3] * a0213);
+		out.m_matrix[1][3] = /*M24*/determinant * (m_matrix[0][0] * a2312 - m_matrix[0][2] * a0312 + m_matrix[0][3] * a0212);
 
-		out.m_matrix[2][0] = /*M31*/determinant * ( m_matrix[1][0] * a1323 - m_matrix[1][1] * a0323 + m_matrix[1][3] * a0123 );
-		out.m_matrix[2][1] = /*M32*/determinant * -( m_matrix[0][0] * a1323 - m_matrix[0][1] * a0323 + m_matrix[0][3] * a0123 );
-		out.m_matrix[2][2] = /*M33*/determinant * ( m_matrix[0][0] * a1313 - m_matrix[0][1] * a0313 + m_matrix[0][3] * a0113 );
-		out.m_matrix[2][3] = /*M34*/determinant * -( m_matrix[0][0] * a1312 - m_matrix[0][1] * a0312 + m_matrix[0][3] * a0112 );
+		out.m_matrix[2][0] = /*M31*/determinant * (m_matrix[1][0] * a1323 - m_matrix[1][1] * a0323 + m_matrix[1][3] * a0123);
+		out.m_matrix[2][1] = /*M32*/determinant * -(m_matrix[0][0] * a1323 - m_matrix[0][1] * a0323 + m_matrix[0][3] * a0123);
+		out.m_matrix[2][2] = /*M33*/determinant * (m_matrix[0][0] * a1313 - m_matrix[0][1] * a0313 + m_matrix[0][3] * a0113);
+		out.m_matrix[2][3] = /*M34*/determinant * -(m_matrix[0][0] * a1312 - m_matrix[0][1] * a0312 + m_matrix[0][3] * a0112);
 
-		out.m_matrix[3][0] = /*M41*/determinant * -( m_matrix[1][0] * a1223 - m_matrix[1][1] * a0223 + m_matrix[1][2] * a0123 );
-		out.m_matrix[3][1] = /*M42*/determinant * ( m_matrix[0][0] * a1223 - m_matrix[0][1] * a0223 + m_matrix[0][2] * a0123 );
-		out.m_matrix[3][2] = /*M43*/determinant * -( m_matrix[0][0] * a1213 - m_matrix[0][1] * a0213 + m_matrix[0][2] * a0113 );
-		out.m_matrix[3][3] = /*M44*/determinant * ( m_matrix[0][0] * a1212 - m_matrix[0][1] * a0212 + m_matrix[0][2] * a0112 );
+		out.m_matrix[3][0] = /*M41*/determinant * -(m_matrix[1][0] * a1223 - m_matrix[1][1] * a0223 + m_matrix[1][2] * a0123);
+		out.m_matrix[3][1] = /*M42*/determinant * (m_matrix[0][0] * a1223 - m_matrix[0][1] * a0223 + m_matrix[0][2] * a0123);
+		out.m_matrix[3][2] = /*M43*/determinant * -(m_matrix[0][0] * a1213 - m_matrix[0][1] * a0213 + m_matrix[0][2] * a0113);
+		out.m_matrix[3][3] = /*M44*/determinant * (m_matrix[0][0] * a1212 - m_matrix[0][1] * a0212 + m_matrix[0][2] * a0112);
 
 		return true;
 	}
@@ -187,9 +187,9 @@ namespace Engine
 	void Matrix4x4::PrintOut()
 	{
 #ifdef _DEBUG
-		for ( size_t i = 0; i < 4; i++ )
+		for (size_t i = 0; i < 4; i++)
 		{
-			for ( size_t j = 0; j < 4; j++ )
+			for (size_t j = 0; j < 4; j++)
 			{
 				printf( "%.5f ", m_matrix[i][j] );
 			}
@@ -302,12 +302,12 @@ namespace Engine
 		__m128 row0, row1, row2, row3;
 		__m128 minor0, minor1, minor2, minor3;
 
-		temp = _mm_loadh_pi( _mm_loadl_pi( temp, reinterpret_cast<const __m64 *>( &m_matrix[0][0] ) ), reinterpret_cast<const __m64 *>( &m_matrix[1][0] ) );
-		row1 = _mm_loadh_pi( _mm_loadl_pi( temp, reinterpret_cast<const __m64 *>( &m_matrix[2][0] ) ), reinterpret_cast<const __m64 *>( &m_matrix[3][0] ) );
+		temp = _mm_loadh_pi( _mm_loadl_pi( temp, reinterpret_cast< const __m64 * >(&m_matrix[0][0]) ), reinterpret_cast< const __m64 * >(&m_matrix[1][0]) );
+		row1 = _mm_loadh_pi( _mm_loadl_pi( temp, reinterpret_cast< const __m64 * >(&m_matrix[2][0]) ), reinterpret_cast< const __m64 * >(&m_matrix[3][0]) );
 		row0 = _mm_shuffle_ps( temp, row1, 0x88 );
 		row1 = _mm_shuffle_ps( row1, temp, 0xDD );
-		temp = _mm_loadh_pi( _mm_loadl_pi( temp, reinterpret_cast<const __m64 *>( &m_matrix[0][2] ) ), reinterpret_cast<const __m64 *>( &m_matrix[1][2] ) );
-		row3 = _mm_loadh_pi( _mm_loadl_pi( temp, reinterpret_cast<const __m64 *>( &m_matrix[2][2] ) ), reinterpret_cast<const __m64 *>( &m_matrix[3][2] ) );
+		temp = _mm_loadh_pi( _mm_loadl_pi( temp, reinterpret_cast< const __m64 * >(&m_matrix[0][2]) ), reinterpret_cast< const __m64 * >(&m_matrix[1][2]) );
+		row3 = _mm_loadh_pi( _mm_loadl_pi( temp, reinterpret_cast< const __m64 * >(&m_matrix[2][2]) ), reinterpret_cast< const __m64 * >(&m_matrix[3][2]) );
 		row2 = _mm_shuffle_ps( temp, row3, 0x88 );
 		row3 = _mm_shuffle_ps( row3, temp, 0xDD );
 
@@ -380,20 +380,20 @@ namespace Engine
 		det = _mm_shuffle_ps( det, det, 0x00 );
 
 		minor0 = _mm_mul_ps( det, minor0 );
-		_mm_storel_pi( reinterpret_cast<__m64 *>( &out.m_matrix[0][0] ), minor0 );
-		_mm_storeh_pi( reinterpret_cast<__m64 *>( &out.m_matrix[0][2] ), minor0 );
+		_mm_storel_pi( reinterpret_cast< __m64 * >(&out.m_matrix[0][0]), minor0 );
+		_mm_storeh_pi( reinterpret_cast< __m64 * >(&out.m_matrix[0][2]), minor0 );
 
 		minor1 = _mm_mul_ps( det, minor1 );
-		_mm_storel_pi( reinterpret_cast<__m64 *>( &out.m_matrix[1][0] ), minor1 );
-		_mm_storeh_pi( reinterpret_cast<__m64 *>( &out.m_matrix[1][2] ), minor1 );
+		_mm_storel_pi( reinterpret_cast< __m64 * >(&out.m_matrix[1][0]), minor1 );
+		_mm_storeh_pi( reinterpret_cast< __m64 * >(&out.m_matrix[1][2]), minor1 );
 
 		minor2 = _mm_mul_ps( det, minor2 );
-		_mm_storel_pi( reinterpret_cast<__m64 *>( &out.m_matrix[2][0] ), minor2 );
-		_mm_storeh_pi( reinterpret_cast<__m64 *>( &out.m_matrix[2][2] ), minor2 );
+		_mm_storel_pi( reinterpret_cast< __m64 * >(&out.m_matrix[2][0]), minor2 );
+		_mm_storeh_pi( reinterpret_cast< __m64 * >(&out.m_matrix[2][2]), minor2 );
 
 		minor3 = _mm_mul_ps( det, minor3 );
-		_mm_storel_pi( reinterpret_cast<__m64 *>( &out.m_matrix[3][0] ), minor3 );
-		_mm_storeh_pi( reinterpret_cast<__m64 *>( &out.m_matrix[3][2] ), minor3 );
+		_mm_storel_pi( reinterpret_cast< __m64 * >(&out.m_matrix[3][0]), minor3 );
+		_mm_storeh_pi( reinterpret_cast< __m64 * >(&out.m_matrix[3][2]), minor3 );
 
 		return true;
 	}
@@ -419,8 +419,8 @@ namespace Engine
 		acc = _mm_add_ps( acc, _mm_mul_ps( _mm_load1_ps( &m_matrix[0][3] ), rhs_row4 ) );
 
 		// write result
-		_mm_storel_pi( reinterpret_cast<__m64 *>( &out.m_matrix[0][0] ), acc );
-		_mm_storeh_pi( reinterpret_cast<__m64 *>( &out.m_matrix[0][2] ), acc );
+		_mm_storel_pi( reinterpret_cast< __m64 * >(&out.m_matrix[0][0]), acc );
+		_mm_storeh_pi( reinterpret_cast< __m64 * >(&out.m_matrix[0][2]), acc );
 
 		// (*this).col2 * i_other
 		// m_21 * i_other.row1
@@ -433,8 +433,8 @@ namespace Engine
 		acc = _mm_add_ps( acc, _mm_mul_ps( _mm_load1_ps( &m_matrix[1][3] ), rhs_row4 ) );
 
 		// write result
-		_mm_storel_pi( reinterpret_cast<__m64 *>( &out.m_matrix[1][0] ), acc );
-		_mm_storeh_pi( reinterpret_cast<__m64 *>( &out.m_matrix[1][2] ), acc );
+		_mm_storel_pi( reinterpret_cast< __m64 * >(&out.m_matrix[1][0]), acc );
+		_mm_storeh_pi( reinterpret_cast< __m64 * >(&out.m_matrix[1][2]), acc );
 
 		// (*this).col3 * i_other
 		// m_31 * i_other.row1
@@ -447,8 +447,8 @@ namespace Engine
 		acc = _mm_add_ps( acc, _mm_mul_ps( _mm_load1_ps( &m_matrix[2][3] ), rhs_row4 ) );
 
 		// write result
-		_mm_storel_pi( reinterpret_cast<__m64 *>( &out.m_matrix[2][0] ), acc );
-		_mm_storeh_pi( reinterpret_cast<__m64 *>( &out.m_matrix[2][2] ), acc );
+		_mm_storel_pi( reinterpret_cast< __m64 * >(&out.m_matrix[2][0]), acc );
+		_mm_storeh_pi( reinterpret_cast< __m64 * >(&out.m_matrix[2][2]), acc );
 
 		// (*this).col4 * i_other
 		// m_41 * i_other.row1
@@ -461,7 +461,7 @@ namespace Engine
 		acc = _mm_add_ps( acc, _mm_mul_ps( _mm_load1_ps( &m_matrix[3][3] ), rhs_row4 ) );
 
 		// write result
-		_mm_storel_pi( reinterpret_cast<__m64 *>( &out.m_matrix[3][0] ), acc );
-		_mm_storeh_pi( reinterpret_cast<__m64 *>( &out.m_matrix[3][2] ), acc );
+		_mm_storel_pi( reinterpret_cast< __m64 * >(&out.m_matrix[3][0]), acc );
+		_mm_storeh_pi( reinterpret_cast< __m64 * >(&out.m_matrix[3][2]), acc );
 	}
 }
