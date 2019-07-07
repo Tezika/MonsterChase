@@ -22,7 +22,7 @@ namespace Engine
 	{
 	public:
 		static HeapManager * s_pDefalutHeapManager;
-		static HeapManager * Create( void *, size_t, unsigned int );
+		static HeapManager * Create( void * i_pMemory, size_t i_sizeMemory, unsigned int i_numDescriptors );
 		static size_t s_MinumumToLeave;
 		static unsigned int s_alignment;
 
@@ -30,28 +30,30 @@ namespace Engine
 
 		HeapManager( const HeapManager & i_other ) = delete;
 		HeapManager & operator=( const HeapManager & i_other ) = delete;
+		HeapManager( HeapManager && i_other ) = delete;
+		HeapManager &operator=( HeapManager && i_other ) = delete;
 
-		void * Alloc( size_t );
-		void * Alloc( size_t, unsigned int );
+		void * Alloc( size_t i_sizeMemory );
+		void * Alloc( size_t i_sizeMemory, unsigned int i_alignment );
 
 		void Collect();
-		bool Free( void * );
+		bool Free( void * i_ptr );
 		void Destroy();
 
 		size_t GetMaxiumAllocatableMemory() const;
 
-		bool IsAllocated( void * ) const;
+		bool IsAllocated( void * i_ptr ) const;
 		void ShowFreeBlocks() const;
 		void ShowOutstandingAllocations() const;
 
-		inline bool Contains( void * i_ptr ) const { return ( i_ptr >= m_pMemoryMark ) && ( i_ptr <= m_pMemoryMark + m_sizeOfMemory ); }
+		inline bool Contains( void * i_ptr ) const { return (i_ptr >= m_pMemoryMark) && (i_ptr <= m_pMemoryMark + m_sizeOfMemory); }
 		inline size_t GetUsedMemory() const { return m_usedMemory; }
 		inline size_t GetLeftMemory() const { return m_sizeOfMemory - m_usedMemory; }
 		inline void * GetAssociateMemory() { return m_pMemory; }
 
 	private:
 		HeapManager();
-		HeapManager( void *, size_t, unsigned int );
+		HeapManager( void * i_pMemory, size_t i_size, unsigned int i_numDescriptors );
 
 		uint8_t * m_pMemory;
 		uint8_t * m_pAllocatableMemory;
@@ -61,12 +63,12 @@ namespace Engine
 		size_t m_sizeOfMemory;
 		size_t m_numOfDescription;
 
-		//Using for debuging
+		// Using for debuging
 		size_t m_usedMemory;
 		size_t m_usedDescriptors;
 
-		//Initialized function
-		void Combine( BlockDescriptor *, BlockDescriptor * );
-		Engine::BlockDescriptor* MoveToNextBlock( Engine::BlockDescriptor * ) const;
+		// Initialization functions
+		void Combine( BlockDescriptor * i_pBlock_1, BlockDescriptor * i_pBlock_2 );
+		Engine::BlockDescriptor* MoveToNextBlock( Engine::BlockDescriptor * i_pDescriptor ) const;
 	};
 }
