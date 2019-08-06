@@ -44,6 +44,10 @@ void * __cdecl malloc_c( size_t i_size )
 
 void __cdecl free_c( void * i_ptr )
 {
+	if (i_ptr == nullptr)
+	{
+		return;
+	}
 	using namespace Engine;
 #ifdef  OUTPUT_ALLOC_INFO
 	DEBUG_PRINT_ENGINE( "free 0x%" PRIXPTR "", reinterpret_cast< uintptr_t >(i_ptr) );
@@ -54,7 +58,7 @@ void __cdecl free_c( void * i_ptr )
 	{
 		/*assert( Engine::GetDefaultHeap()->Free( i_ptr ) );*/
 		GetDefaultHeap()->Free( i_ptr );
-	}
+}
 #else
 	//assert( Engine::GetDefaultHeap()->Free( i_ptr ) );
 	GetDefaultHeap()->Free( i_ptr );

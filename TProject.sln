@@ -14,6 +14,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lua-WinLibs", "LuaWinLibs\L
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{064C9BBD-CEC0-4AD9-A4DE-1B570BC9072A}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TProjectSetup", "TProjectSetup\TProjectSetup.vdproj", "{17F1D395-9407-4B03-BF63-5B0A062102EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -54,6 +56,11 @@ Global
 		{064C9BBD-CEC0-4AD9-A4DE-1B570BC9072A}.Release|x64.Build.0 = Release|x64
 		{064C9BBD-CEC0-4AD9-A4DE-1B570BC9072A}.Release|x86.ActiveCfg = Release|Win32
 		{064C9BBD-CEC0-4AD9-A4DE-1B570BC9072A}.Release|x86.Build.0 = Release|Win32
+		{17F1D395-9407-4B03-BF63-5B0A062102EB}.Debug|x64.ActiveCfg = Debug
+		{17F1D395-9407-4B03-BF63-5B0A062102EB}.Debug|x64.Build.0 = Debug
+		{17F1D395-9407-4B03-BF63-5B0A062102EB}.Debug|x86.ActiveCfg = Debug
+		{17F1D395-9407-4B03-BF63-5B0A062102EB}.Release|x64.ActiveCfg = Release
+		{17F1D395-9407-4B03-BF63-5B0A062102EB}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
