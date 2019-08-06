@@ -60,7 +60,7 @@ namespace Engine
 
 		bool InvertSSE( Matrix4x4 & o_mtx ) const;
 
-		void MultiplySSE( const Matrix4x4 & i_other, Matrix4x4 & o_mtx ) const;
+		void MultiplySSE( const Matrix4x4 & i_mtx, Matrix4x4 & o_mtx ) const;
 
 		static Matrix4x4 CreateScale( float i_xScale, float i_yScale, float i_zScale );
 		static Matrix4x4 CreateScale( float i_scale );
