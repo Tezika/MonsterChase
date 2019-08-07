@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Timer.h"
 #include "Windows.h"
+#include "ConsolePrint.h"
 
 #define DESIRED_FPS 60.0f
 #define DESIRED_FRAMETIME_SEC ( 1.0f / DESIRED_FPS )
@@ -13,13 +14,10 @@ namespace Engine
 	{
 		float GetLastFrameTime()
 		{
+
 #ifdef CONSTANT_FRAMETIME
 			return DESIRED_FRAMETIME_SEC;
 #else
-			if (!IsDebuggerPresent())
-			{
-				return DESIRED_FRAMETIME_SEC;
-			}
 			static LARGE_INTEGER g_performanceFrequency;
 			static LARGE_INTEGER g_lastFrame_tickCount;
 			LARGE_INTEGER g_curFrame_tickCount;
