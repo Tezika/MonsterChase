@@ -22,18 +22,18 @@ namespace Engine
 		T y = 0;
 		// Push the first key in;
 		lua_pushnil( pLuaState );
-		while ( lua_next( pLuaState, -2 ) != 0 )
+		while (lua_next( pLuaState, -2 ) != 0)
 		{
 			assert( lua_type( pLuaState, -1 ) == LUA_TNUMBER );
 			assert( lua_type( pLuaState, -2 ) == LUA_TSTRING );
 
 			lua_Number value = lua_tonumber( pLuaState, -1 );
 			const char * key = lua_tostring( pLuaState, -2 );
-			if ( strcmp( key, "x" ) == 0 )
+			if (strcmp( key, "x" ) == 0)
 			{
 				x = value;
 			}
-			else if ( strcmp( key, "y" ) == 0 )
+			else if (strcmp( key, "y" ) == 0)
 			{
 				y = value;
 			}
@@ -49,7 +49,7 @@ namespace Engine
 		size_t sizeOfFile = 0;
 		void * pFileContents = Engine::LoadFile( i_fileName, sizeOfFile );
 		SmartPtr<GameObject> ret;
-		if ( pFileContents && sizeOfFile )
+		if (pFileContents && sizeOfFile)
 		{
 			// Create a new lua state
 			lua_State * pLuaState = luaL_newstate();
@@ -60,7 +60,7 @@ namespace Engine
 			int result = 0;
 
 			// Necessary stuff to process our data
-			result = luaL_loadbuffer( pLuaState, reinterpret_cast< char * >( pFileContents ), sizeOfFile, nullptr );
+			result = luaL_loadbuffer( pLuaState, reinterpret_cast< char * >(pFileContents), sizeOfFile, nullptr );
 			assert( result == 0 );
 
 			result = lua_pcall( pLuaState, 0, 0, 0 );
@@ -228,7 +228,7 @@ namespace Engine
 			lua_pop_top( pLuaState );
 			lua_close( pLuaState );
 		}
-		delete( pFileContents );
+		delete(pFileContents);
 		return ret;
 	}
 }
