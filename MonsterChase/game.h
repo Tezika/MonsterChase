@@ -34,8 +34,8 @@ namespace FinalProject
 			return game;
 		}
 
-		Game(Game const &) = delete;
-		Game & operator=(Game const &) = delete;
+		Game( Game const & ) = delete;
+		Game & operator=( Game const & ) = delete;
 
 	private:
 		Game();
@@ -73,9 +73,9 @@ namespace FinalProject
 		VEC3SEE m_cachedStartPosition_player1;
 		VEC3SEE m_cachedStartPosition_player2;
 
-		void InitializePlayer(const SPP & i_player);
+		void InitializePlayer( const SPP & i_player );
 		void SetupWalls();
-		void OnBallCollideDeadWall(void * i_pInfo);
+		void OnBallCollideDeadWall( void * i_pInfo );
 		bool m_bEnd;
 	};
 }
