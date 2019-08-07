@@ -5,6 +5,7 @@
 #define DESIRED_FPS 60.0f
 #define DESIRED_FRAMETIME_SEC ( 1.0f / DESIRED_FPS )
 #define MAX_FRAMETIME_SEC ( 2 * DESIRED_FRAMETIME_SEC )
+#define CLAMP_FRAMETIME
 
 namespace Engine
 {
@@ -15,7 +16,7 @@ namespace Engine
 #ifdef CONSTANT_FRAMETIME
 			return DESIRED_FRAMETIME_SEC;
 #else
-			if ( !IsDebuggerPresent() )
+			if (!IsDebuggerPresent())
 			{
 				return DESIRED_FRAMETIME_SEC;
 			}
@@ -26,16 +27,16 @@ namespace Engine
 
 			QueryPerformanceCounter( &g_curFrame_tickCount );
 
-			if ( g_lastFrame_tickCount.QuadPart )
+			if (g_lastFrame_tickCount.QuadPart)
 			{
 
 				// Cache the query frequency if it is never cached before.
-				if ( !g_performanceFrequency.QuadPart )
+				if (!g_performanceFrequency.QuadPart)
 				{
 					QueryPerformanceFrequency( &g_performanceFrequency );
 				}
 				// The result we got is millseconds.
-				g_curFrame_elapsedTime = 1000 * static_cast<float>( g_curFrame_tickCount.QuadPart - g_lastFrame_tickCount.QuadPart ) / g_performanceFrequency.QuadPart;
+				g_curFrame_elapsedTime = 1000 * static_cast< float >(g_curFrame_tickCount.QuadPart - g_lastFrame_tickCount.QuadPart) / g_performanceFrequency.QuadPart;
 				// Convert the result to sec.
 				g_curFrame_elapsedTime /= 1000;
 			}
@@ -47,7 +48,7 @@ namespace Engine
 			g_lastFrame_tickCount.QuadPart = g_curFrame_tickCount.QuadPart;
 
 #ifdef CLAMP_FRAMETIME
-			if ( g_curFrame_elapsedTime > MAX_FRAMETIME_SEC )
+			if (g_curFrame_elapsedTime > MAX_FRAMETIME_SEC)
 			{
 				g_curFrame_elapsedTime = MAX_FRAMETIME_SEC;
 			}
