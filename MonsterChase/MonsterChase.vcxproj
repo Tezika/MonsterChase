@@ -23,7 +23,7 @@
     <ProjectGuid>{45DACDD4-B871-43D4-873E-7C5357C157A8}</ProjectGuid>
     <RootNamespace>MonsterChase</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
-    <ProjectName>SimplePong</ProjectName>
+    <ProjectName>TPong</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
