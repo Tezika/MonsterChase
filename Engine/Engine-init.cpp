@@ -14,8 +14,8 @@ namespace Engine
 
 #ifdef USE_CUSTOM_MEMORYMANAGEMENT
 		// Initial the memory system
-		// For 300M memory
-		const size_t 		sizeHeap = 300 * 1000 * 1000;
+		// For 100M memory
+		const size_t 		sizeHeap = 100 * 1000 * 1000;
 		const unsigned int 	numDescriptors = 2048;
 		// Allocate memory for my test heap.
 		void * pHeapMemory = HeapAlloc( GetProcessHeap(), 0, sizeHeap );
