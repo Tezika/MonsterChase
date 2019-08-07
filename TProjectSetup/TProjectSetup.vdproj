@@ -37,6 +37,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -147,7 +163,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:TProjectSetup"
         "ProductCode" = "8:{767CDCF8-9AF8-46F6-A90F-FEBEE236F1CE}"
-        "PackageCode" = "8:{976A9881-9DE8-4CEF-B949-54E3BDD40557}"
+        "PackageCode" = "8:{B78F1E5E-AF2E-40A4-A304-DD505BF5A401}"
         "UpgradeCode" = "8:{348964A9-6ABF-4417-9635-FDF3C43F5976}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -267,20 +283,6 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_43463882CA1E43CA917EA7823A2154D9"
-            {
-            "Name" = "8:TPong"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_4DEB6C01C21F4D51AA5F95785B3C33F6"
-            "Folder" = "8:_D3EC65751B2D4A4282E986F522A279F6"
-            "WorkingFolder" = "8:_D3EC65751B2D4A4282E986F522A279F6"
-            "Icon" = "8:"
-            "Feature" = "8:"
-            }
         }
         "UserInterface"
         {
