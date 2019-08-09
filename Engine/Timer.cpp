@@ -12,6 +12,18 @@ namespace Engine
 {
 	namespace Timing
 	{
+		float GetCurTime()
+		{
+			static LARGE_INTEGER g_performanceFrequency;
+			if (!g_performanceFrequency.QuadPart)
+			{
+				QueryPerformanceFrequency( &g_performanceFrequency );
+			}
+			LARGE_INTEGER g_curTickCount;
+			QueryPerformanceCounter( &g_curTickCount );
+			return static_cast< float >(g_curTickCount.QuadPart) / g_performanceFrequency.QuadPart;
+		}
+
 		float GetLastFrameTime()
 		{
 
@@ -41,19 +53,6 @@ namespace Engine
 			return g_currentFrame_elapsedTime;
 
 #endif // CONSTANT_FRAMETIME
-		}
-
-		float GetCurTime()
-		{
-			static LARGE_INTEGER g_performanceFrequency;
-			if (!g_performanceFrequency.QuadPart)
-			{
-				QueryPerformanceFrequency( &g_performanceFrequency );
-			}
-			float g_curElapsedTime;
-			LARGE_INTEGER g_curTickCount;
-			QueryPerformanceCounter( &g_curTickCount );
-			return static_cast< float >(g_curTickCount.QuadPart) / g_performanceFrequency.QuadPart;
 		}
 	}
 }

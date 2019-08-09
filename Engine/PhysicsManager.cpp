@@ -18,6 +18,7 @@
 #include "RenderManager.h"
 #include <ctime>
 #include "MessageSystem.h"
+#include "Timer.h"
 
 namespace Engine
 {
@@ -78,7 +79,7 @@ namespace Engine
 						// Run out of time and jump out the loop.
 						break;
 					}
-					tProcess = ( float )clock();
+					tProcess = Timing::GetCurTime();
 					// Simulate all objects' movment toward that time point.
 					this->SimulateMovement( tLeft );
 					// Resolve the collision
@@ -87,7 +88,7 @@ namespace Engine
 					m_pCollisionPairs->Remove( pEarliestCollisionPair );
 					delete pEarliestCollisionPair;
 					pEarliestCollisionPair = this->GetEarliestCollisionPair();
-					tProcess = ( ( float )clock() - tProcess ) / 1000;
+					tProcess = Timing::GetCurTime() - tProcess;
 				}
 			}
 		}
