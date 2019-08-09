@@ -6,5 +6,7 @@ namespace Engine
 	{
 		// The unit is sec for this function
 		float GetLastFrameTime();
+
+		float GetCurTime();
 	}
 }

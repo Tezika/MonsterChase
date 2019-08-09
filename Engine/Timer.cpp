@@ -18,42 +18,42 @@ namespace Engine
 #ifdef CONSTANT_FRAMETIME
 			return DESIRED_FRAMETIME_SEC;
 #else
-			static LARGE_INTEGER g_performanceFrequency;
-			static LARGE_INTEGER g_lastFrame_tickCount;
-			LARGE_INTEGER g_curFrame_tickCount;
-			float g_curFrame_elapsedTime;
+			static float g_lastFrame_elapsedTime = -1.0f;
+			float g_currentFrame_elapsedTime;
 
-			QueryPerformanceCounter( &g_curFrame_tickCount );
-
-			if (g_lastFrame_tickCount.QuadPart)
+			float g_curTime = GetCurTime();
+			if (g_lastFrame_elapsedTime == -1.0f)
 			{
-
-				// Cache the query frequency if it is never cached before.
-				if (!g_performanceFrequency.QuadPart)
-				{
-					QueryPerformanceFrequency( &g_performanceFrequency );
-				}
-				// The result we got is millseconds.
-				g_curFrame_elapsedTime = 1000 * static_cast< float >(g_curFrame_tickCount.QuadPart - g_lastFrame_tickCount.QuadPart) / g_performanceFrequency.QuadPart;
-				// Convert the result to sec.
-				g_curFrame_elapsedTime /= 1000;
+				g_lastFrame_elapsedTime = g_curTime;
+				g_currentFrame_elapsedTime = 0.167f;
 			}
 			else
 			{
-				g_curFrame_elapsedTime = 0.0167f;
+				g_currentFrame_elapsedTime = g_curTime - g_lastFrame_elapsedTime;
+				g_lastFrame_elapsedTime = g_curTime;
 			}
-
-			g_lastFrame_tickCount.QuadPart = g_curFrame_tickCount.QuadPart;
-
 #ifdef CLAMP_FRAMETIME
-			if (g_curFrame_elapsedTime > MAX_FRAMETIME_SEC)
+			if (g_currentFrame_elapsedTime > MAX_FRAMETIME_SEC)
 			{
-				g_curFrame_elapsedTime = MAX_FRAMETIME_SEC;
+				g_currentFrame_elapsedTime = MAX_FRAMETIME_SEC;
 			}
 #endif // CLAMP_FRAMETIME
-			return g_curFrame_elapsedTime;
+			return g_currentFrame_elapsedTime;
 
 #endif // CONSTANT_FRAMETIME
+		}
+
+		float GetCurTime()
+		{
+			static LARGE_INTEGER g_performanceFrequency;
+			if (!g_performanceFrequency.QuadPart)
+			{
+				QueryPerformanceFrequency( &g_performanceFrequency );
+			}
+			float g_curElapsedTime;
+			LARGE_INTEGER g_curTickCount;
+			QueryPerformanceCounter( &g_curTickCount );
+			return static_cast< float >(g_curTickCount.QuadPart) / g_performanceFrequency.QuadPart;
 		}
 	}
 }
