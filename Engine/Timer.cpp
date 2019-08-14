@@ -7,6 +7,7 @@
 #define DESIRED_FRAMETIME_SEC ( 1.0f / DESIRED_FPS )
 #define MAX_FRAMETIME_SEC ( 2 * DESIRED_FRAMETIME_SEC )
 #define CLAMP_FRAMETIME
+#define CONSTANT_FRAMETIME
 
 namespace Engine
 {
@@ -18,10 +19,11 @@ namespace Engine
 			if (!g_performanceFrequency.QuadPart)
 			{
 				QueryPerformanceFrequency( &g_performanceFrequency );
-			}
+			}	
 			LARGE_INTEGER g_curTickCount;
 			QueryPerformanceCounter( &g_curTickCount );
-			return static_cast< float >(g_curTickCount.QuadPart) / g_performanceFrequency.QuadPart;
+			auto res = static_cast< float >(g_curTickCount.QuadPart) / g_performanceFrequency.QuadPart;
+			return res;
 		}
 
 		float GetLastFrameTime()
@@ -49,8 +51,8 @@ namespace Engine
 			{
 				g_currentFrame_elapsedTime = MAX_FRAMETIME_SEC;
 			}
+			DEBUG_PRINT_ENGINE( "The current elapsed time is %.5f", g_currentFrame_elapsedTime );
 #endif // CLAMP_FRAMETIME
-			DEBUG_PRINT_ENGINE( "The current frame time is %f", g_currentFrame_elapsedTime );
 			return g_currentFrame_elapsedTime;
 
 #endif // CONSTANT_FRAMETIME

@@ -88,7 +88,7 @@ namespace FinalProject
 	InputController::InputController() :
 		m_pCachedPhysicsInfo( nullptr ),
 		m_pControlObject( nullptr ),
-		m_drivingForce( 300.0f )
+		m_drivingForce( 20.0f )
 	{
 		GLib::SetKeyStateChangeCallback( InputCallback );
 	}

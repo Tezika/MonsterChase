@@ -2,7 +2,7 @@ gameObject =
 {
     name = "Ball",
     initial_position = {x=-150,y=-150},
-    initial_velocity = {x=-150,y=200},
+    initial_velocity = {x=0,y=0},
     physics_settings = {
         mass = 1,
         force = {x=0, y=0},
