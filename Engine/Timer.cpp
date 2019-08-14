@@ -67,7 +67,6 @@ namespace Engine
 				g_curFrame_elapsedTime = MAX_FRAMETIME_SEC;
 			}
 #endif // CLAMP_FRAMETIME
-			DEBUG_PRINT_ENGINE( "The frame time is %.10f", g_curFrame_elapsedTime );
 			return g_curFrame_elapsedTime;
 		}
 	}
