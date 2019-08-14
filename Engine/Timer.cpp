@@ -50,6 +50,7 @@ namespace Engine
 				g_currentFrame_elapsedTime = MAX_FRAMETIME_SEC;
 			}
 #endif // CLAMP_FRAMETIME
+			DEBUG_PRINT_ENGINE( "The current frame time is %f", g_currentFrame_elapsedTime );
 			return g_currentFrame_elapsedTime;
 
 #endif // CONSTANT_FRAMETIME

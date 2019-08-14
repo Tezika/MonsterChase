@@ -678,7 +678,7 @@ namespace Engine
 				if ( tClose > tFrameEnd )
 				{
 					return false;
-				}
+				} 
 				// Check the edge: If the open's time less than zero, which means the gap should always be in the right, there is no collision too.
 				if ( tOpen < 0 )
 				{

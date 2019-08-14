@@ -1,4 +1,4 @@
-# Final Project Read Me 
+# Read Me 
 
 ## How To Test it
 
@@ -14,7 +14,7 @@ Basically, The final project is a **2D Pong**. And there are two players who can
 
 * One player uses the `W`,`S` to move the bat : `W` for move up, 'S' for move down.
 * The other player uses the `O`,`K` to move the bat:  `O` for move up, `K` for move down.
-* Press the `Space Bar` to start the game any time.
+* Press the `Space Bar` to restart the game any time.
 
 ### Game Flow
 
