@@ -5,9 +5,9 @@
 
 #define DESIRED_FPS 60.0f
 #define DESIRED_FRAMETIME_SEC ( 1.0f / DESIRED_FPS )
-#define MAX_FRAMETIME_SEC ( 2 * DESIRED_FRAMETIME_SEC )
+#define MIN_FRAMETIME_SEC   DESIRED_FRAMETIME_SEC 
+#define MAX_FRAMETIME_SEC ( DESIRED_FRAMETIME_SEC * 2)
 #define CLAMP_FRAMETIME
-#define CONSTANT_FRAMETIME
 
 namespace Engine
 {
@@ -19,7 +19,7 @@ namespace Engine
 			if (!g_performanceFrequency.QuadPart)
 			{
 				QueryPerformanceFrequency( &g_performanceFrequency );
-			}	
+			}
 			LARGE_INTEGER g_curTickCount;
 			QueryPerformanceCounter( &g_curTickCount );
 			auto res = static_cast< float >(g_curTickCount.QuadPart) / g_performanceFrequency.QuadPart;
@@ -28,34 +28,47 @@ namespace Engine
 
 		float GetLastFrameTime()
 		{
-
 #ifdef CONSTANT_FRAMETIME
 			return DESIRED_FRAMETIME_SEC;
-#else
-			static float g_lastFrame_elapsedTime = -1.0f;
-			float g_currentFrame_elapsedTime;
+#endif
+			static LARGE_INTEGER g_performanceFrequency;
+			static LARGE_INTEGER g_lastFrame_tickCount;
+			LARGE_INTEGER g_curFrame_tickCount;
+			float g_curFrame_elapsedTime;
 
-			float g_curTime = GetCurTime();
-			if (g_lastFrame_elapsedTime == -1.0f)
+			QueryPerformanceCounter( &g_curFrame_tickCount );
+
+			if (g_lastFrame_tickCount.QuadPart)
 			{
-				g_lastFrame_elapsedTime = g_curTime;
-				g_currentFrame_elapsedTime = 0.167f;
+				// Cache the query frequency if it is never cached before.
+				if (!g_performanceFrequency.QuadPart)
+				{
+					QueryPerformanceFrequency( &g_performanceFrequency );
+				}
+				// Avoid losing the precision and to multiply the 1000000, us.
+				g_curFrame_elapsedTime = 1000000 * static_cast< float >(g_curFrame_tickCount.QuadPart - g_lastFrame_tickCount.QuadPart) / g_performanceFrequency.QuadPart;
+				// Convert the result to sec.
+				g_curFrame_elapsedTime /= 1000000;
 			}
 			else
 			{
-				g_currentFrame_elapsedTime = g_curTime - g_lastFrame_elapsedTime;
-				g_lastFrame_elapsedTime = g_curTime;
+				g_curFrame_elapsedTime = 0.0167f;
 			}
-#ifdef CLAMP_FRAMETIME
-			if (g_currentFrame_elapsedTime > MAX_FRAMETIME_SEC)
-			{
-				g_currentFrame_elapsedTime = MAX_FRAMETIME_SEC;
-			}
-			DEBUG_PRINT_ENGINE( "The current elapsed time is %.5f", g_currentFrame_elapsedTime );
-#endif // CLAMP_FRAMETIME
-			return g_currentFrame_elapsedTime;
 
-#endif // CONSTANT_FRAMETIME
+			g_lastFrame_tickCount.QuadPart = g_curFrame_tickCount.QuadPart;
+
+#ifdef CLAMP_FRAMETIME
+			if (g_curFrame_elapsedTime < MIN_FRAMETIME_SEC)
+			{
+				g_curFrame_elapsedTime = MIN_FRAMETIME_SEC;
+			}
+			if (g_curFrame_elapsedTime > MAX_FRAMETIME_SEC)
+			{
+				g_curFrame_elapsedTime = MAX_FRAMETIME_SEC;
+			}
+#endif // CLAMP_FRAMETIME
+			DEBUG_PRINT_ENGINE( "The frame time is %.10f", g_curFrame_elapsedTime );
+			return g_curFrame_elapsedTime;
 		}
 	}
 }

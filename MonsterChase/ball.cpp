@@ -20,9 +20,9 @@ namespace FinalProject
 	{
 		using namespace Engine;
 		// Reset ball: Random its position, inital velocity
-		const float range_velocity_x_max = 10;
-		const float range_velocity_x_min = 1;
-		const float range_velocity_y_max = 20;
+		const float range_velocity_x_max = 15;
+		const float range_velocity_x_min = 5;
+		const float range_velocity_y_max = 15;
 		const float range_velocity_y_min = 0;
 		const float range_vertical_position = 60;
 		float r = 0;
@@ -30,7 +30,7 @@ namespace FinalProject
 		float deltaPosition = RandomInRange( -range_vertical_position, range_vertical_position );
 		// Rand a value for the velocity.x
 		float velocity_x = RandomInRange( range_velocity_x_min, range_velocity_x_max );
-		// Rand the sign for the velocity.x
+		// Rand the sign for the velocity.x based on the 50%.
 		r = rand() / static_cast< float >(RAND_MAX);
 		if (r >= 0.5f)
 		{
@@ -38,7 +38,7 @@ namespace FinalProject
 		}
 		// Rand a value for the velocity.y
 		float velocity_y = RandomInRange( range_velocity_y_min, range_velocity_y_max );
-		// Rand the sign for the velocity.y
+		// Rand the sign for the velocity.y based on the 50%.
 		r = rand() / static_cast< float >(RAND_MAX);
 		if (r >= 0.5f)
 		{
