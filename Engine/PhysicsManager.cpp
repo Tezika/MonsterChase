@@ -174,9 +174,6 @@ namespace Engine
 					// Check the collision between the A and B
 					if ( this->IsCollisionSSE( pPhysicsA, pPhysicsB, i_dt, collisionTime, collisionNormal ) )
 					{
-						// Add a new collision pair into the list.
-						//DEBUG_PRINT_ENGINE( "Add the %s and %s into the collision pairs", pPhysicsA->GetGameObject()->GetName().c_str(),
-						//	pPhysicsB->GetGameObject()->GetName().c_str() );
 						Node<CollisionPair> * pNewCollisionPair = m_pCollisionPairs->Insert( new CollisionPair( collisionTime, collisionNormal, pPhysicsA, pPhysicsB ) );
 						pPhysicsA->SetIsCollision( true );
 						pPhysicsB->SetIsCollision( true );
