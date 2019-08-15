@@ -13,7 +13,7 @@ namespace Engine
 {
 	namespace Timing
 	{
-		float GetCurTime()
+		float Clock()
 		{
 			static LARGE_INTEGER g_performanceFrequency;
 			if (!g_performanceFrequency.QuadPart)
@@ -22,8 +22,7 @@ namespace Engine
 			}
 			LARGE_INTEGER g_curTickCount;
 			QueryPerformanceCounter( &g_curTickCount );
-			auto res = static_cast< float >(g_curTickCount.QuadPart) / g_performanceFrequency.QuadPart;
-			return res;
+			return static_cast< float >(g_curTickCount.QuadPart) / g_performanceFrequency.QuadPart;
 		}
 
 		float GetLastFrameTime()

@@ -79,7 +79,7 @@ namespace Engine
 						// Run out of time and jump out the loop.
 						break;
 					}
-					tProcess = Timing::GetCurTime();
+					tProcess = Timing::Clock();
 					// Simulate all objects' movment toward that time point.
 					this->SimulateMovement( tLeft );
 					// Resolve the collision
@@ -88,7 +88,8 @@ namespace Engine
 					m_pCollisionPairs->Remove( pEarliestCollisionPair );
 					delete pEarliestCollisionPair;
 					pEarliestCollisionPair = this->GetEarliestCollisionPair();
-					tProcess = Timing::GetCurTime() - tProcess;
+					tProcess = 1000000 * (Timing::Clock() - tProcess);
+					tProcess /= 1000000;
 				}
 			}
 		}
@@ -116,13 +117,13 @@ namespace Engine
 				cachedVelocity = pCachedGo->GetVelocity();
 				cachedVelocity += cachedAcceleration * i_dt;
 				// caluate the drag
-				float drag = pInfo->GetDragness() * ( Dot( cachedVelocity, cachedVelocity ) );
+				float drag = pInfo->GetDragness() * (Dot( cachedVelocity, cachedVelocity ));
 				// Apply the drag effect to current velocity
 				cachedVelocity -= cachedVelocity.Normalize() * drag;
 				// Update the velocity for go
 				pCachedGo->SetVelocity( cachedVelocity + cachedAcceleration * i_dt );
 				// Caluate the average velocity between this frame and last frame
-				cachedAverageVelocity = ( cachedVelocity + pCachedGo->GetVelocity() ) / 2;
+				cachedAverageVelocity = (cachedVelocity + pCachedGo->GetVelocity()) / 2;
 				// Update the position based on the average velocity
 				cachedPosition = pCachedGo->GetPosition();
 				pCachedGo->SetPosition( cachedPosition + cachedAverageVelocity * i_dt );
@@ -678,7 +679,7 @@ namespace Engine
 				if ( tClose > tFrameEnd )
 				{
 					return false;
-				} 
+				}
 				// Check the edge: If the open's time less than zero, which means the gap should always be in the right, there is no collision too.
 				if ( tOpen < 0 )
 				{
@@ -708,8 +709,8 @@ namespace Engine
 			assert( mass_A > 0 );
 			assert( mass_B > 0 );
 
-			float mag_velA = ( mass_A - mass_B ) / ( mass_A + mass_B ) * vel_A + 2 * mass_B / ( mass_A + mass_B ) * vel_B;
-			float mag_velB = ( mass_B - mass_A ) / ( mass_A + mass_B ) * vel_B + 2 * mass_A / ( mass_A + mass_B ) * vel_A;
+			float mag_velA = (mass_A - mass_B) / (mass_A + mass_B) * vel_A + 2 * mass_B / (mass_A + mass_B) * vel_B;
+			float mag_velB = (mass_B - mass_A) / (mass_A + mass_B) * vel_B + 2 * mass_A / (mass_A + mass_B) * vel_A;
 
 			pGoA->SetVelocity( velA_dir * mag_velA );
 			pGoB->SetVelocity( velB_dir * mag_velB );
