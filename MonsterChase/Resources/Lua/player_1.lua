@@ -1,7 +1,7 @@
 gameObject = 
 {
-    name = "Player_2",
-    initial_position = {x=340,y=-100},
+    name = "Player_1",
+    initial_position = {x=-340,y=100},
     initial_velocity = {x=0,y=0},
     physics_settings = {
         mass = 100,
@@ -16,7 +16,7 @@ gameObject =
         reflectable = true
     },
     render_settings = {
-        sprite_name = "Data\\Bat.dds",
+        sprite_name = "Resources\\Bat.dds",
         sprite_size = {x=256, y=256}
     }
 }

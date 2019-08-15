@@ -1,22 +1,22 @@
 gameObject = 
 {
-    name = "Wall_Bottom",
-    initial_position = {x=0,y=-295},
+    name = "Ball",
+    initial_position = {x=-150,y=-150},
     initial_velocity = {x=0,y=0},
     physics_settings = {
-        mass = 200,
+        mass = 1,
         force = {x=0, y=0},
         dragness = 0,
         AABB = 
         {
-            center = {x=0, y=1},
-            extends = {x=500, y=1}
+            center = {x=0, y=8},
+            extends = {x=8, y=8}
         },
         collidable = true,
-        reflectable = false
+        reflectable = true
     },
     render_settings = {
-        sprite_name = "Data\\wall.dds",
+        sprite_name = "Resources\\Ball.dds",
         sprite_size = {x=256, y=256}
     }
 }

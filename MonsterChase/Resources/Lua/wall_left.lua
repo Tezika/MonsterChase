@@ -1,7 +1,7 @@
 gameObject = 
 {
-    name = "Wall_Right",
-    initial_position = {x=395,y=-292},
+    name = "Wall_Left",
+    initial_position = {x=-395,y=-292},
     initial_velocity = {x=0,y=0},
     physics_settings = {
         mass = 200,
@@ -16,7 +16,7 @@ gameObject =
         reflectable = false
     },
     render_settings = {
-        sprite_name = "Data\\Wall_Danger.dds",
+        sprite_name = "Resources\\Wall_Danger.dds",
         sprite_size = {x=256, y=256}
     }
 }

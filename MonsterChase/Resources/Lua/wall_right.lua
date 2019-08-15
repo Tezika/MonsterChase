@@ -1,22 +1,22 @@
 gameObject = 
 {
-    name = "Ball",
-    initial_position = {x=-150,y=-150},
+    name = "Wall_Right",
+    initial_position = {x=395,y=-292},
     initial_velocity = {x=0,y=0},
     physics_settings = {
-        mass = 1,
+        mass = 200,
         force = {x=0, y=0},
         dragness = 0,
         AABB = 
         {
-            center = {x=0, y=8},
-            extends = {x=8, y=8}
+            center = {x=0, y=293},
+            extends = {x=1, y=293}
         },
         collidable = true,
-        reflectable = true
+        reflectable = false
     },
     render_settings = {
-        sprite_name = "Data\\Ball.dds",
+        sprite_name = "Resources\\Wall_Danger.dds",
         sprite_size = {x=256, y=256}
     }
 }
