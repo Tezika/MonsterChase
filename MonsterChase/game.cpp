@@ -123,7 +123,7 @@ namespace FinalProject
 	{
 		using namespace Engine;
 		// This is a magic number decided by tweaking.
-		const float drivingForce = 30.0f;
+		const float drivingForce = 300.0f;
 		// For controller: Create an input controller and assign it to the player.
 		InputController * pInputController = new InputController( i_player, drivingForce );
 		pInputController->SetControlGameObject( i_player );

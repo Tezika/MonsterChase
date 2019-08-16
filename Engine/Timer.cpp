@@ -5,7 +5,7 @@
 
 #define DESIRED_FPS 60.0f
 #define DESIRED_FRAMETIME_SEC ( 1.0f / DESIRED_FPS )
-#define MIN_FRAMETIME_SEC   DESIRED_FRAMETIME_SEC/2
+#define MIN_FRAMETIME_SEC   DESIRED_FRAMETIME_SEC/3
 #define MAX_FRAMETIME_SEC ( DESIRED_FRAMETIME_SEC * 2)
 #define CLAMP_FRAMETIME
 
@@ -57,10 +57,10 @@ namespace Engine
 			g_lastFrame_tickCount.QuadPart = g_curFrame_tickCount.QuadPart;
 
 #ifdef CLAMP_FRAMETIME
-			if ( g_curFrame_elapsedTime < MIN_FRAMETIME_SEC )
-			{
-				g_curFrame_elapsedTime = MIN_FRAMETIME_SEC;
-			}
+			//if ( g_curFrame_elapsedTime < MIN_FRAMETIME_SEC )
+			//{
+			//	g_curFrame_elapsedTime = MIN_FRAMETIME_SEC;
+			//}
 			if ( g_curFrame_elapsedTime > MAX_FRAMETIME_SEC )
 			{
 				g_curFrame_elapsedTime = MAX_FRAMETIME_SEC;

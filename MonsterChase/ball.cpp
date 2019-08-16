@@ -20,9 +20,9 @@ namespace FinalProject
 	{
 		using namespace Engine;
 		// Reset ball: Random its position, inital velocity
-		const float range_velocity_x_max = 15;
-		const float range_velocity_x_min = 5;
-		const float range_velocity_y_max = 15;
+		const float range_velocity_x_max = 500;
+		const float range_velocity_x_min = 50;
+		const float range_velocity_y_max = 300;
 		const float range_velocity_y_min = 0;
 		const float range_vertical_position = 60;
 		float r = 0;

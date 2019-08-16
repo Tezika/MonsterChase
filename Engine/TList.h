@@ -15,11 +15,11 @@ namespace Engine
 		Node<T> & operator=( const Node<T> & );
 		Node<T> & operator=( const Node<T> * );
 
-		inline void SetData( T * i_pData ){ m_pData = i_pData; };
-		inline T * GetData(){ return m_pData; }
+		inline void SetData( T * i_pData ) { m_pData = i_pData; };
+		inline T * GetData() { return m_pData; }
 
-		inline void SetNext( Node<T> * i_pNext ){ m_pNext = i_pNext; }
-		inline Node<T> * GetNext(){ return m_pNext; }
+		inline void SetNext( Node<T> * i_pNext ) { m_pNext = i_pNext; }
+		inline Node<T> * GetNext() { return m_pNext; }
 
 	private:
 		T * m_pData;
@@ -76,8 +76,8 @@ namespace Engine
 
 		void Clear( bool i_deleteNodeData = false );
 
-		inline Node<T> * GetHead(){ return m_pHead; }
-		inline Node<T> * GetTail(){ return m_pTail; }
+		inline Node<T> * GetHead() { return m_pHead; }
+		inline Node<T> * GetTail() { return m_pTail; }
 
 	private:
 		Node<T> * m_pHead;
