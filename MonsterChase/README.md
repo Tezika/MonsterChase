@@ -14,7 +14,8 @@ Basically, This game is a **2D Pong**. And there are two players who can control
 
 * One player uses the `W`,`S` to move the bat : `W` for move up, 'S' for move down.
 * The other player uses the `O`,`K` to move the bat:  `O` for move up, `K` for move down.
-* Press the `Space Bar` to start the game any time.
+* Press the `Space Bar` to start the game anytime.
+* Press the ``Enter`` to pause the game anytime.
 
 ### Game Flow
 
