@@ -27,28 +27,28 @@ namespace FinalProject
 			{
 				// For W
 			case 0x57:
-				pCurrentController = static_cast<InputController *>( Game::GetInstance().GetPlayer1()->GetController() );
+				pCurrentController = static_cast< InputController * >(Game::GetInstance().GetPlayer1()->GetController());
 				cachedDrivingForce.x = 0;
 				cachedDrivingForce.y = pCurrentController->GetDrivingForce();
 				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of up for player 1" );
 				break;
 				// For S
 			case 0x53:
-				pCurrentController = static_cast<InputController *>( Game::GetInstance().GetPlayer1()->GetController() );
+				pCurrentController = static_cast< InputController * >(Game::GetInstance().GetPlayer1()->GetController());
 				cachedDrivingForce.x = 0;
 				cachedDrivingForce.y = -pCurrentController->GetDrivingForce();
 				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of down for player 1" );
 				break;
 				// For O
 			case 0x4F:
-				pCurrentController = static_cast<InputController *>( Game::GetInstance().GetPlayer2()->GetController() );
+				pCurrentController = static_cast< InputController * >(Game::GetInstance().GetPlayer2()->GetController());
 				cachedDrivingForce.x = 0;
 				cachedDrivingForce.y = pCurrentController->GetDrivingForce();
 				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of up for player 2" );
 				break;
 				// For K
 			case 0x4B:
-				pCurrentController = static_cast<InputController *>( Game::GetInstance().GetPlayer2()->GetController() );
+				pCurrentController = static_cast< InputController * >(Game::GetInstance().GetPlayer2()->GetController());
 				cachedDrivingForce.x = 0;
 				cachedDrivingForce.y = -pCurrentController->GetDrivingForce();
 				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of down for player 2" );
@@ -57,6 +57,11 @@ namespace FinalProject
 			case 0x20:
 				bApplyForce = false;
 				Game::GetInstance().Restart();
+				break;
+				// For the enter key
+			case 0x0D:
+				bApplyForce = false;
+				Game::GetInstance().TooglePause();
 				break;
 			default:
 				bApplyForce = false;

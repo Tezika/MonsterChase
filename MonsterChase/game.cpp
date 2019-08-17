@@ -22,7 +22,7 @@ extern FinalProject::SPG Engine::CreateGameObjectByFile( const char * pFileName 
 namespace FinalProject
 {
 	Game::Game()
-		:m_bEnd( false )
+		:m_bEnd( false ), m_bPause( false )
 	{
 	}
 
@@ -64,11 +64,14 @@ namespace FinalProject
 		do
 		{
 			float dt = Engine::Timing::GetLastFrameTime();
-			// Update the controllers
-			Controller::ControllerManager::GetInstance().Update( dt );
-			// Update the physics system
-			Physics::PhysicsManager::GetInstance().Simulate( dt );
-			// Update the rendering system
+			if ( !m_bPause )
+			{
+				// Update the controllers
+				Controller::ControllerManager::GetInstance().Update( dt );
+				// Update the physics system
+				Physics::PhysicsManager::GetInstance().Simulate( dt );
+			}
+			// Update the rendering system anyway
 			Render::RenderManager::GetInstance().Update( dt, m_bEnd );
 		} while ( !m_bEnd );
 	}
@@ -108,7 +111,7 @@ namespace FinalProject
 
 	void Game::Restart()
 	{
-		if ( m_ball == nullptr )
+		if ( m_ball == nullptr || m_bPause )
 		{
 			return;
 		}

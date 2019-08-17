@@ -47,8 +47,10 @@ namespace FinalProject
 		void Restart();
 		void Destroy();
 
-		bool ShouldEnd() { return m_bEnd; }
-		void TriggerEnd() { m_bEnd = true; }
+		inline bool ShouldEnd() { return m_bEnd; };
+		inline void TriggerEnd() { m_bEnd = true; };
+		inline bool InPaused() { return m_bPause; };
+		inline void TooglePause() { m_bPause = !m_bPause; };
 		SPP & GetPlayer1() { return m_player_1; };
 		SPP & GetPlayer2() { return m_player_2; };
 
@@ -77,5 +79,6 @@ namespace FinalProject
 		void SetupWalls();
 		void OnBallCollideDeadWall( void * i_pInfo );
 		bool m_bEnd;
+		bool m_bPause;
 	};
 }

@@ -9,7 +9,8 @@
 #include <iostream>
 #include <math.h>
 #include "player.h"
-#include "game.h"
+#include "game.h" 
+
 #include "InputController.h"
 
 namespace FinalProject
