@@ -46,7 +46,7 @@ namespace Engine
 
 	GameObject::~GameObject()
 	{
-		if (m_pController != nullptr)
+		if ( m_pController != nullptr )
 		{
 			m_pController = nullptr;
 		}
