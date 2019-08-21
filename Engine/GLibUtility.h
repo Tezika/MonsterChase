@@ -1,5 +1,5 @@
 #pragma once
-#include "../Exports/GLib/GLib.h"
+#include "GLib.h"
 namespace Engine
 {
 	namespace Render

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "LuaParser.h"
-#include "../Exports/Lua/lua.hpp"
+#include "lua.hpp"
 #include "GameObject.h"
 #include "SubSystems.h"
 #include "Assert.h"
