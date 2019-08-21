@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TPong", "MonsterChase\MonsterChase.vcxproj", "{45DACDD4-B871-43D4-873E-7C5357C157A8}"
 	ProjectSection(ProjectDependencies) = postProject
 		{064C9BBD-CEC0-4AD9-A4DE-1B570BC9072A} = {064C9BBD-CEC0-4AD9-A4DE-1B570BC9072A}
+		{E0B771E3-B2C4-4558-936D-99769C2254AF} = {E0B771E3-B2C4-4558-936D-99769C2254AF}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Graphics", "GLib\GLib.vcxproj", "{B2AB67DE-B7FA-42BA-B060-959487392AEA}"
@@ -13,13 +14,13 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lua-WinLibs", "LuaWinLibs\Lua-WinLibs.vcxproj", "{BDF98E69-FC1B-4010-B9D7-8DB75E26A245}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{064C9BBD-CEC0-4AD9-A4DE-1B570BC9072A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{E0B771E3-B2C4-4558-936D-99769C2254AF} = {E0B771E3-B2C4-4558-936D-99769C2254AF}
-	EndProjectSection
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TProjectSetup", "TProjectSetup\TProjectSetup.vdproj", "{17F1D395-9407-4B03-BF63-5B0A062102EB}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Audio", "Audio\Audio.vcxproj", "{E0B771E3-B2C4-4558-936D-99769C2254AF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{064C9BBD-CEC0-4AD9-A4DE-1B570BC9072A} = {064C9BBD-CEC0-4AD9-A4DE-1B570BC9072A}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
