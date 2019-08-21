@@ -3,18 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimplePong", "MonsterChase\MonsterChase.vcxproj", "{45DACDD4-B871-43D4-873E-7C5357C157A8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TPong", "MonsterChase\MonsterChase.vcxproj", "{45DACDD4-B871-43D4-873E-7C5357C157A8}"
 	ProjectSection(ProjectDependencies) = postProject
 		{064C9BBD-CEC0-4AD9-A4DE-1B570BC9072A} = {064C9BBD-CEC0-4AD9-A4DE-1B570BC9072A}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsLib", "GLib\GLib.vcxproj", "{B2AB67DE-B7FA-42BA-B060-959487392AEA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Graphics", "GLib\GLib.vcxproj", "{B2AB67DE-B7FA-42BA-B060-959487392AEA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lua-WinLibs", "LuaWinLibs\Lua-WinLibs.vcxproj", "{BDF98E69-FC1B-4010-B9D7-8DB75E26A245}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{064C9BBD-CEC0-4AD9-A4DE-1B570BC9072A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E0B771E3-B2C4-4558-936D-99769C2254AF} = {E0B771E3-B2C4-4558-936D-99769C2254AF}
+	EndProjectSection
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TProjectSetup", "TProjectSetup\TProjectSetup.vdproj", "{17F1D395-9407-4B03-BF63-5B0A062102EB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Audio", "Audio\Audio.vcxproj", "{E0B771E3-B2C4-4558-936D-99769C2254AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +66,14 @@ Global
 		{17F1D395-9407-4B03-BF63-5B0A062102EB}.Debug|x86.ActiveCfg = Debug
 		{17F1D395-9407-4B03-BF63-5B0A062102EB}.Release|x64.ActiveCfg = Release
 		{17F1D395-9407-4B03-BF63-5B0A062102EB}.Release|x86.ActiveCfg = Release
+		{E0B771E3-B2C4-4558-936D-99769C2254AF}.Debug|x64.ActiveCfg = Debug|x64
+		{E0B771E3-B2C4-4558-936D-99769C2254AF}.Debug|x64.Build.0 = Debug|x64
+		{E0B771E3-B2C4-4558-936D-99769C2254AF}.Debug|x86.ActiveCfg = Debug|Win32
+		{E0B771E3-B2C4-4558-936D-99769C2254AF}.Debug|x86.Build.0 = Debug|Win32
+		{E0B771E3-B2C4-4558-936D-99769C2254AF}.Release|x64.ActiveCfg = Release|x64
+		{E0B771E3-B2C4-4558-936D-99769C2254AF}.Release|x64.Build.0 = Release|x64
+		{E0B771E3-B2C4-4558-936D-99769C2254AF}.Release|x86.ActiveCfg = Release|Win32
+		{E0B771E3-B2C4-4558-936D-99769C2254AF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
