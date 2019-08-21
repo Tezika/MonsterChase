@@ -57,10 +57,6 @@ namespace Engine
 			g_lastFrame_tickCount.QuadPart = g_curFrame_tickCount.QuadPart;
 
 #ifdef CLAMP_FRAMETIME
-			//if ( g_curFrame_elapsedTime < MIN_FRAMETIME_SEC )
-			//{
-			//	g_curFrame_elapsedTime = MIN_FRAMETIME_SEC;
-			//}
 			if ( g_curFrame_elapsedTime > MAX_FRAMETIME_SEC )
 			{
 				g_curFrame_elapsedTime = MAX_FRAMETIME_SEC;
@@ -68,5 +64,5 @@ namespace Engine
 #endif // CLAMP_FRAMETIME
 			return g_curFrame_elapsedTime;
 		}
-	}
+	} 
 }
