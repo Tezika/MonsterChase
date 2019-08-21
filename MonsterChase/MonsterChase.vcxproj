@@ -92,7 +92,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>d3d11.lib;Engine.lib;GLib_$(platformtarget)-$(configuration).lib;Lua-WinLibs_$(platformtarget)-$(configuration).lib;fmod_vc.lib;fmodL_vc.lib;fsbank_vc.lib;fmodstudio_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;Engine.lib;Graphics_$(platformtarget)-$(configuration).lib;Lua-WinLibs_$(platformtarget)-$(configuration).lib;fmod_vc.lib;fmodL_vc.lib;fsbank_vc.lib;fmodstudio_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Libs_Debug_$(platform);$(SolutionDir)Exports\GLib;$(SolutionDir)Exports\Lua;$(SolutionDir)Exports\FMOD\core\lib\$(platform);$(SolutionDir)Exports\FMOD\fsbank\lib\$(platform);$(SolutionDir)Exports\FMOD\studio\lib\$(platform)</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
     </Link>
@@ -108,7 +108,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>d3d11.lib;Engine.lib;GLib_$(platformtarget)-$(configuration).lib;Lua-WinLibs_$(platformtarget)-$(configuration).lib;fmod_vc.lib;fmodL_vc.lib;fsbank_vc.lib;fmodstudio_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;Engine.lib;Graphics_$(platformtarget)-$(configuration).lib;Lua-WinLibs_$(platformtarget)-$(configuration).lib;fmod_vc.lib;fmodL_vc.lib;fsbank_vc.lib;fmodstudio_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Libs_Debug_$(platform);$(SolutionDir)Exports\GLib;$(SolutionDir)Exports\Lua;$(SolutionDir)Exports\FMOD\fsbank\lib\$(platform);$(SolutionDir)Exports\FMOD\core\lib\$(platform);$(SolutionDir)Exports\FMOD\studio\lib\$(platform)</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
     </Link>
@@ -127,7 +127,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>d3d11.lib;Engine.lib;GLib_$(platformtarget)-$(configuration).lib;Lua-WinLibs_$(platformtarget)-$(configuration).lib;fmod_vc.lib;fmodL_vc.lib;fsbank_vc.lib;fmodstudio_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;Engine.lib;Graphics_$(platformtarget)-$(configuration).lib;Lua-WinLibs_$(platformtarget)-$(configuration).lib;fmod_vc.lib;fmodL_vc.lib;fsbank_vc.lib;fmodstudio_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Libs_Release_$(platform);$(SolutionDir)Exports\GLib;$(SolutionDir)Exports\Lua;$(SolutionDir)Exports\FMOD\core\lib\$(platform);$(SolutionDir)Exports\FMOD\fsbank\lib\$(platform);$(SolutionDir)Exports\FMOD\studio\lib\$(platform)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -145,7 +145,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>d3d11.lib;Engine.lib;GLib_$(platformtarget)-$(configuration).lib;Lua-WinLibs_$(platformtarget)-$(configuration).lib;fmod_vc.lib;fmodL_vc.lib;fsbank_vc.lib;fmodstudio_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;Engine.lib;Graphics_$(platformtarget)-$(configuration).lib;Lua-WinLibs_$(platformtarget)-$(configuration).lib;fmod_vc.lib;fmodL_vc.lib;fsbank_vc.lib;fmodstudio_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Libs_Release_$(platform);$(SolutionDir)Exports\GLib;$(SolutionDir)Exports\Lua;$(SolutionDir)Exports\FMOD\core\lib\$(platform);$(SolutionDir)Exports\FMOD\fsbank\lib\$(platform);$(SolutionDir)Exports\FMOD\studio\lib\$(platform)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
