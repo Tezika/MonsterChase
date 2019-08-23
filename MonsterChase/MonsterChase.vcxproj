@@ -108,7 +108,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>d3d11.lib;Engine.lib;Graphics_$(platformtarget)-$(configuration).lib;Lua-WinLibs_$(platformtarget)-$(configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;Engine.lib;Audio.lib;Graphics_$(platformtarget)-$(configuration).lib;Lua-WinLibs_$(platformtarget)-$(configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Libs_Debug_$(platform);$(SolutionDir)Exports\GLib;$(SolutionDir)Exports\Lua;$(SolutionDir)Audio\FMOD\fsbank\lib\$(platform);$(SolutionDir)Audio\FMOD\core\lib\$(platform);$(SolutionDir)Audio\FMOD\studio\lib\$(platform)</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
     </Link>
