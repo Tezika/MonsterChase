@@ -103,13 +103,13 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine;$(SolutionDir)GLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine;$(SolutionDir)GLib;$(SolutionDir)Audio;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>d3d11.lib;Engine.lib;Graphics_$(platformtarget)-$(configuration).lib;Lua-WinLibs_$(platformtarget)-$(configuration).lib;fmod_vc.lib;fmodL_vc.lib;fsbank_vc.lib;fmodstudio_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libs_Debug_$(platform);$(SolutionDir)Exports\GLib;$(SolutionDir)Exports\Lua;$(SolutionDir)Exports\FMOD\fsbank\lib\$(platform);$(SolutionDir)Exports\FMOD\core\lib\$(platform);$(SolutionDir)Exports\FMOD\studio\lib\$(platform)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;Engine.lib;Graphics_$(platformtarget)-$(configuration).lib;Lua-WinLibs_$(platformtarget)-$(configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libs_Debug_$(platform);$(SolutionDir)Exports\GLib;$(SolutionDir)Exports\Lua;$(SolutionDir)Audio\FMOD\fsbank\lib\$(platform);$(SolutionDir)Audio\FMOD\core\lib\$(platform);$(SolutionDir)Audio\FMOD\studio\lib\$(platform)</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
