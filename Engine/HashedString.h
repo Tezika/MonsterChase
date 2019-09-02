@@ -12,11 +12,11 @@ namespace Engine
 		~HashedString();
 
 		HashedString( const char * i_str );
-		HashedString( const HashedString & i_other );
-		HashedString( HashedString && i_other );
+		HashedString( const HashedString & i_other ) noexcept;
+		HashedString( HashedString && i_other ) noexcept;
 
-		HashedString & operator=( const HashedString & i_other );
-		HashedString & operator=( HashedString && i_other );
+		HashedString & operator=( const HashedString & i_other ) noexcept;
+		HashedString & operator=( HashedString && i_other ) noexcept;
 
 		inline unsigned int Get() { return m_Hash; }
 

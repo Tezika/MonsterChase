@@ -15,9 +15,10 @@ namespace Engine
 		m_name( i_otherName ),
 		m_position( i_otherPosition ),
 		// Set the initial velocity as zero
-		m_velocity( Vector3SSE{ 0.0f,0.0,0.0f } ),
-		m_scale( Vector3SSE{ 1.0, 1.0, 1.0f } ),
-		m_zRot( 0 )
+		m_velocity( Vector3SSE { 0.0f,0.0,0.0f } ),
+		m_scale( Vector3SSE { 1.0, 1.0, 1.0f } ),
+		m_zRot( 0 ),
+		m_pController( nullptr )
 	{
 	}
 

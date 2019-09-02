@@ -21,7 +21,7 @@ namespace Engine
 #endif // DEBUG_KEEP_STRING
 	}
 
-	inline HashedString::HashedString( const HashedString & i_other ) :
+	inline HashedString::HashedString( const HashedString & i_other ) noexcept:
 		m_Hash( i_other.m_Hash )
 		//#if defined( DEBUG_KEEP_STRING) && defined(_DEBUG)
 		//		, m_pStr( _strdup( i_other.m_pStr ) )
@@ -34,7 +34,7 @@ namespace Engine
 #endif // DEBUG_KEEP_STRING
 	}
 
-	inline HashedString::HashedString( HashedString && i_other ) :
+	inline HashedString::HashedString( HashedString && i_other ) noexcept:
 		m_Hash( i_other.m_Hash )
 #if defined( DEBUG_KEEP_STRING) && defined(_DEBUG)
 		, m_pStr( i_other.m_pStr )
@@ -45,7 +45,7 @@ namespace Engine
 #endif
 	}
 
-	inline HashedString & HashedString::operator=( const HashedString & i_other )
+	inline HashedString & HashedString::operator=( const HashedString & i_other ) noexcept
 	{
 		m_Hash = i_other.m_Hash;
 #if defined( DEBUG_KEEP_STRING) && defined(_DEBUG)
@@ -58,7 +58,7 @@ namespace Engine
 		return *this;
 	}
 
-	inline HashedString & HashedString::operator=( HashedString && i_other )
+	inline HashedString & HashedString::operator=( HashedString && i_other ) noexcept
 	{
 		m_Hash = i_other.m_Hash;
 #if defined( DEBUG_KEEP_STRING) && defined(_DEBUG) 
