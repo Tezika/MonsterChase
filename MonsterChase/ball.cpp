@@ -11,7 +11,7 @@ namespace FinalProject
 	{
 	}
 
-	Ball::Ball( const Engine::HashedString & i_name, const Engine::Vector3SSE & i_position ) :
+	Ball::Ball( const Engine::HashedString& i_name, const Engine::Vector3SSE& i_position ) :
 		Entity::Entity( i_name, i_position )
 	{
 	}
@@ -31,16 +31,16 @@ namespace FinalProject
 		// Rand a value for the velocity.x
 		float velocity_x = RandomInRange( range_velocity_x_min, range_velocity_x_max );
 		// Rand the sign for the velocity.x based on the 50%.
-		r = rand() / static_cast< float >(RAND_MAX);
-		if ( r >= 0.5f )
+		r = rand() / static_cast<float>(RAND_MAX);
+		if (r >= 0.5f)
 		{
 			velocity_x = -velocity_x;
 		}
 		// Rand a value for the velocity.y
 		float velocity_y = RandomInRange( range_velocity_y_min, range_velocity_y_max );
 		// Rand the sign for the velocity.y based on the 50%.
-		r = rand() / static_cast< float >(RAND_MAX);
-		if ( r >= 0.5f )
+		r = rand() / static_cast<float>(RAND_MAX);
+		if (r >= 0.5f)
 		{
 			velocity_y = -velocity_y;
 		}

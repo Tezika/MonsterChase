@@ -2,7 +2,7 @@
 #include "LuaParser.h"
 #include "lua.hpp"
 #include "GameObject.h"
-#include "SubSystems.h"
+#include "SubSystemHeaders.h"
 #include "Assert.h"
 #include "CommonUtility.h"
 #include "SmartPtr.h"
@@ -15,7 +15,7 @@
 namespace Engine
 {
 	template<typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
-	Point2D<T> ParsePointFromLua( lua_State * pLuaState )
+	Point2D<T> ParsePointFromLua( lua_State* pLuaState )
 	{
 		assert( pLuaState );
 		T x = 0;
@@ -28,7 +28,7 @@ namespace Engine
 			assert( lua_type( pLuaState, -2 ) == LUA_TSTRING );
 
 			lua_Number value = lua_tonumber( pLuaState, -1 );
-			const char * key = lua_tostring( pLuaState, -2 );
+			const char* key = lua_tostring( pLuaState, -2 );
 			if (strcmp( key, "x" ) == 0)
 			{
 				x = value;
@@ -43,16 +43,16 @@ namespace Engine
 		return Point2D<T>( x, y );
 	}
 
-	SmartPtr<GameObject> CreateGameObjectByFile( const char * i_fileName )
+	SmartPtr<GameObject> CreateGameObjectByFile( const char* i_fileName )
 	{
 		assert( i_fileName );
 		size_t sizeOfFile = 0;
-		void * pFileContents = Engine::LoadFile( i_fileName, sizeOfFile );
+		void* pFileContents = Engine::LoadFile( i_fileName, sizeOfFile );
 		SmartPtr<GameObject> ret;
 		if (pFileContents && sizeOfFile)
 		{
 			// Create a new lua state
-			lua_State * pLuaState = luaL_newstate();
+			lua_State* pLuaState = luaL_newstate();
 			assert( pLuaState );
 
 			luaL_openlibs( pLuaState );
@@ -60,7 +60,7 @@ namespace Engine
 			int result = 0;
 
 			// Necessary stuff to process our data
-			result = luaL_loadbuffer( pLuaState, reinterpret_cast< char * >(pFileContents), sizeOfFile, nullptr );
+			result = luaL_loadbuffer( pLuaState, reinterpret_cast<char*>(pFileContents), sizeOfFile, nullptr );
 			assert( result == 0 );
 
 			result = lua_pcall( pLuaState, 0, 0, 0 );
@@ -74,7 +74,7 @@ namespace Engine
 			lua_pushstring( pLuaState, "name" );
 			result = lua_gettable( pLuaState, -2 );
 			assert( result == LUA_TSTRING );
-			const char * pName = lua_tostring( pLuaState, -1 );
+			const char* pName = lua_tostring( pLuaState, -1 );
 			lua_pop_top( pLuaState );
 
 			DEBUG_PRINT_GAMEPLAY( "-----------Start print out the GameObject info for '%s'-------------------", pName );
@@ -190,7 +190,7 @@ namespace Engine
 			lua_pushstring( pLuaState, "sprite_name" );
 			result = lua_gettable( pLuaState, -2 );
 			assert( result == LUA_TSTRING );
-			const char * pSpriteName = lua_tostring( pLuaState, -1 );
+			const char* pSpriteName = lua_tostring( pLuaState, -1 );
 			DEBUG_PRINT_GAMEPLAY( "The sprite name for the gameobject is %s", pSpriteName );
 			// Pop for sprite's name
 			lua_pop_top( pLuaState );
@@ -215,9 +215,9 @@ namespace Engine
 			ret->SetVelocity( Vector3SSE{ initial_velocity.m_x, initial_velocity.m_y,0 } );
 
 			// Create and assign the AABB to the physicsinfo
-			AABB * aabb = AABB::Create( center, extends );
+			AABB* aabb = AABB::Create( center, extends );
 			// Create the player's physics info
-			Physics::PhysicsInfo * pPhysicsInfo = Physics::PhysicsInfo::Create( mass, dragness, collidable, reflectable, ret, aabb );
+			Physics::PhysicsInfo* pPhysicsInfo = Physics::PhysicsInfo::Create( mass, dragness, collidable, reflectable, ret, aabb );
 			pPhysicsInfo->SetDrivingForce( Vector3SSE{ force.m_x, force.m_y, 0 } );
 			Physics::PhysicsManager::GetInstance().AddPhysicsObject( pPhysicsInfo );
 

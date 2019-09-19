@@ -147,9 +147,6 @@
     <ClInclude Include="PhysicsManager.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="SubSystems.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ControllerManager.h">
       <Filter>Header Files\Controller</Filter>
     </ClInclude>
@@ -218,6 +215,9 @@
     </ClInclude>
     <ClInclude Include="HashedString.h">
       <Filter>Header Files\String</Filter>
+    </ClInclude>
+    <ClInclude Include="SubSystemHeaders.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

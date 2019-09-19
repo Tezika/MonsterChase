@@ -16,8 +16,7 @@ namespace FinalProject
 	{
 	public:
 		Entity();
-		Entity( const Engine::HashedString & i_name, const Engine::Vector3SSE & i_position );
+		Entity( const Engine::HashedString& i_name, const Engine::Vector3SSE& i_position );
 		virtual ~Entity();
 	};
-
 }
