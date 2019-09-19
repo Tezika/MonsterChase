@@ -17,7 +17,7 @@
 #include "MessageSystem.h"
 
 extern float Engine::Timing::GetLastFrameTime();
-extern FinalProject::SPG Engine::CreateGameObjectByFile( const char * pFileName );
+extern FinalProject::SPG Engine::CreateGameObjectByFile( const char* pFileName );
 
 namespace FinalProject
 {
@@ -48,7 +48,7 @@ namespace FinalProject
 		this->SetupWalls();
 
 		// Register some game element events
-		this->m_dBallCollideDeadWall = DEL::Create<Game, &Game::OnBallCollideDeadWall>( this );
+		this->m_dBallCollideDeadWall = DEL::Create<Game, & Game::OnBallCollideDeadWall>( this );
 		Messaging::MessageSystem::GetInstance().RegisterMessageDelegate( "OnBallCollideDeadWall", this->m_dBallCollideDeadWall );
 
 		// Reset the game at first
@@ -64,7 +64,7 @@ namespace FinalProject
 		do
 		{
 			float dt = Engine::Timing::GetLastFrameTime();
-			if ( !m_bPause )
+			if (!m_bPause)
 			{
 				// Update the controllers
 				Controller::ControllerManager::GetInstance().Update( dt );
@@ -73,7 +73,7 @@ namespace FinalProject
 			}
 			// Update the rendering system anyway
 			Render::RenderManager::GetInstance().Update( dt, m_bEnd );
-		} while ( !m_bEnd );
+		} while (!m_bEnd);
 	}
 
 	void Game::Reset()
@@ -111,7 +111,7 @@ namespace FinalProject
 
 	void Game::Restart()
 	{
-		if ( m_ball == nullptr || m_bPause )
+		if (m_ball == nullptr || m_bPause)
 		{
 			return;
 		}
@@ -122,13 +122,13 @@ namespace FinalProject
 		DEBUG_PRINT_GAMEPLAY( "----------Reset the game successfully.----------" );
 	}
 
-	void Game::InitializePlayer( const SPP & i_player )
+	void Game::InitializePlayer( const SPP& i_player )
 	{
 		using namespace Engine;
 		// This is a magic number decided by tweaking.
 		const float drivingForce = 600.0f;
 		// For controller: Create an input controller and assign it to the player.
-		InputController * pInputController = new InputController( i_player, drivingForce );
+		InputController* pInputController = new InputController( i_player, drivingForce );
 		pInputController->SetControlGameObject( i_player );
 		i_player->SetController( pInputController );
 		Controller::ControllerManager::GetInstance().AddContrller( pInputController );
@@ -146,7 +146,7 @@ namespace FinalProject
 		m_wall_right->SetDead();
 	}
 
-	void Game::OnBallCollideDeadWall( void * i_pInfo )
+	void Game::OnBallCollideDeadWall( void* i_pInfo )
 	{
 		DEBUG_PRINT_GAMEPLAY( "----------Since the ball collided the dead wall, reset the game right now .----------" );
 		this->Reset();

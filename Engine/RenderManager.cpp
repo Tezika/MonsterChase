@@ -61,7 +61,6 @@ namespace Engine
 #if defined(_DEBUG) && defined(_DrawDebugInfo)
 			this->DrawRenderInfos( m_pDebugRenderInfos );
 #endif
-
 			this->DrawRenderInfos( m_pRenderInfos );
 
 			// Tell GLib we're done rendering sprites
