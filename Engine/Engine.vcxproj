@@ -233,6 +233,14 @@
     <ClCompile Include="Vector4.cpp" />
     <ClCompile Include="Vector4SSE.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GLib\GLib.vcxproj">
+      <Project>{b2ab67de-b7fa-42ba-b060-959487392aea}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\LuaWinLibs\Lua-WinLibs.vcxproj">
+      <Project>{bdf98e69-fc1b-4010-b9d7-8db75e26a245}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

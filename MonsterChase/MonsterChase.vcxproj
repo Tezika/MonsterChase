@@ -166,6 +166,11 @@
     <ClInclude Include="InputController.h" />
     <ClInclude Include="wall.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Engine\Engine.vcxproj">
+      <Project>{064c9bbd-cec0-4ad9-a4de-1b570bc9072a}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
