@@ -12,7 +12,7 @@ namespace FinalProject
 	{
 	}
 
-	Wall::Wall( const Engine::HashedString & i_name, const Engine::Vector3SSE & i_position ) :
+	Wall::Wall( const Engine::HashedString& i_name, const Engine::Vector3SSE& i_position ) :
 		Entity::Entity( i_name, i_position ), m_bDead( false )
 	{
 	}
@@ -22,19 +22,19 @@ namespace FinalProject
 		using namespace Engine;
 		m_bDead = true;
 		// Register the delegate for the collision event
-		this->m_dOnCollision = Messaging::Delegate<void*>::Create<Wall, &Wall::OnCollision>( this );
+		this->m_dOnCollision = Messaging::Delegate<void*>::Create<Wall, & Wall::OnCollision>( this );
 		Messaging::MessageSystem::GetInstance().RegisterMessageDelegate( "OnCollision", this->m_dOnCollision );
 	}
 
-	void Wall::OnCollision( void * i_pCollisionInfo )
+	void Wall::OnCollision( void* i_pCollisionInfo )
 	{
 		using namespace Engine;
 		using namespace Engine::Physics;
-		CollisionPair * pCollisionPair = reinterpret_cast<CollisionPair *>( i_pCollisionInfo );
+		CollisionPair* pCollisionPair = reinterpret_cast<CollisionPair*>(i_pCollisionInfo);
 		assert( pCollisionPair );
 		SmartPtr<GameObject> pGO1 = pCollisionPair->m_pCollidables[0]->GetGameObject();
 		SmartPtr<GameObject> pGO2 = pCollisionPair->m_pCollidables[1]->GetGameObject();
-		if ( pGO1 == this || pGO2 == this )
+		if (pGO1 == this || pGO2 == this)
 		{
 			Messaging::MessageSystem::GetInstance().SendMessageW( "OnBallCollideDeadWall", this );
 		}
@@ -43,7 +43,7 @@ namespace FinalProject
 	Wall::~Wall()
 	{
 		using namespace Engine;
-		if ( m_bDead )
+		if (m_bDead)
 		{
 			Messaging::MessageSystem::GetInstance().DeregisterMessageDelegate( "OnCollision", this->m_dOnCollision );
 		}
