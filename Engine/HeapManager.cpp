@@ -7,7 +7,7 @@
 #include "HeapManager.h"
 
 unsigned int Engine::HeapManager::s_alignment = 16;
-size_t Engine::HeapManager::s_MinumumToLeave = 0;
+size_t Engine::HeapManager::s_MinimumToLeave = 0;
 Engine::HeapManager * Engine::HeapManager::s_pDefalutHeapManager = nullptr;
 
 namespace Engine
