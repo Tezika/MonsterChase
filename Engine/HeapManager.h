@@ -12,7 +12,7 @@ namespace Engine
 	struct BlockDescriptor
 	{
 	public:
-		uint8_t * m_pBlockStarAddr; // pointer to the block of memory this BlockDescriptor describes.
+		uint8_t * m_pBlockStarAddr; // The pointer to the block of memory this BlockDescriptor describes.
 		size_t m_sizeBlock; // size of that block of memory
 		bool m_allocated; // to flag this block that has been allocated or not.
 	};
@@ -23,7 +23,7 @@ namespace Engine
 	public:
 		static HeapManager * s_pDefalutHeapManager;
 		static HeapManager * Create( void * i_pMemory, size_t i_sizeMemory, unsigned int i_numDescriptors );
-		static size_t s_MinumumToLeave;
+		static size_t s_MinimumToLeave;
 		static unsigned int s_alignment;
 
 		~HeapManager();
