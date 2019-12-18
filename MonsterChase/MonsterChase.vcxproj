@@ -167,9 +167,6 @@
     <ClInclude Include="wall.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Audio\Audio.vcxproj">
-      <Project>{e0b771e3-b2c4-4558-936d-99769c2254af}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Engine\Engine.vcxproj">
       <Project>{064c9bbd-cec0-4ad9-a4de-1b570bc9072a}</Project>
     </ProjectReference>

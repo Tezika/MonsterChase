@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="Windows\Utilities\WAVFileReader.cpp">
+      <Filter>Windows\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="sContext.cpp" />
+    <ClCompile Include="Windows\sContext.win.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\sChannel.win.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="sChannel.cpp" />
+    <ClCompile Include="sSoundEffect.cpp" />
+    <ClCompile Include="sSoundSource.cpp" />
+    <ClCompile Include="sSoundSource.win.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Audio.h" />
+    <ClInclude Include="Windows\ExternalLibraries.win.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\Utilities\WAVFileReader.h">
+      <Filter>Windows\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="sContext.h" />
+    <ClInclude Include="Includes.h" />
+    <ClInclude Include="sChannel.h" />
+    <ClInclude Include="sSoundEffect.h" />
+    <ClInclude Include="sSoundSource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Windows">
+      <UniqueIdentifier>{1eeea449-828d-4c83-9720-b2a8114a42a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\Utilities">
+      <UniqueIdentifier>{f82139ec-6be9-4768-bd5d-2f60efa7664c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
