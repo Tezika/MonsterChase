@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "LuaParser.h"
-#include "lua.hpp"
 #include "GameObject.h"
 #include "SubSystemHeaders.h"
 #include "Assert.h"
@@ -9,6 +8,7 @@
 #include "ConsolePrint.h"
 #include "Point2D.h"
 #include "AABB.h"
+#include <LuaWinLibs/lua.hpp>
 
 #define lua_pop_top(L) lua_pop(L,1);
 
