@@ -4,7 +4,7 @@
 #include "ConsolePrint.h"
 #include "Vector3SSE.h"
 
-namespace FinalProject
+namespace TPong
 {
 	Ball::Ball() :
 		Entity::Entity()

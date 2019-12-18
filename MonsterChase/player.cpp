@@ -13,7 +13,7 @@
 
 #include "InputController.h"
 
-namespace FinalProject
+namespace TPong
 {
 	Player::Player() : Entity::Entity()
 	{

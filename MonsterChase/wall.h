@@ -2,7 +2,7 @@
 #include "entity.h"
 #include "Delegate.h"
 
-namespace FinalProject
+namespace TPong
 {
 	class Wall : public Entity
 	{

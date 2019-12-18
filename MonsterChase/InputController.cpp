@@ -1,15 +1,15 @@
 #include "stdafx.h"
 #include "InputController.h"
 #include "Point2D.h"
-#include <iostream>
 #include "game.h"
 #include "GLib.h"
 #include "PhysicsManager.h"
 #include "Vector3.h"
 #include "Vector3SSE.h"
 #include "ConsolePrint.h"
+#include <iostream>
 
-namespace FinalProject
+namespace TPong
 {
 	void InputCallback( unsigned int i_VKeyID, bool bWentDown )
 	{

@@ -14,7 +14,7 @@
 #include "Delegate.h"
 #include "Vector3SSE.h"
 
-namespace FinalProject
+namespace TPong
 {
 	using SPP = Engine::SmartPtr<Player>;
 	using SPB = Engine::SmartPtr<Ball>;

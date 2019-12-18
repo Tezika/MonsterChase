@@ -10,7 +10,7 @@
 #include "GameObject.h"
 
 
-namespace FinalProject
+namespace TPong
 {
 	class Entity : public Engine::GameObject
 	{

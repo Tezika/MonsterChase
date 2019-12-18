@@ -5,7 +5,7 @@
 #include "PhysicsInfo.h"
 #include "ConsolePrint.h"
 
-namespace FinalProject
+namespace TPong
 {
 	Wall::Wall() :
 		Entity::Entity(), m_bDead( false )

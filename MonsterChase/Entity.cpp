@@ -10,7 +10,7 @@
 #include "entity.h"
 
 
-namespace FinalProject
+namespace TPong
 {
 	Entity::Entity()
 	{

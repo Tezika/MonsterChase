@@ -1,7 +1,7 @@
 #pragma once
 #include "entity.h"
 
-namespace FinalProject
+namespace TPong
 {
 	class Ball : public Entity
 	{

@@ -17,9 +17,9 @@
 #include "MessageSystem.h"
 
 extern float Engine::Timing::GetLastFrameTime();
-extern FinalProject::SPG Engine::CreateGameObjectByFile( const char* pFileName );
+extern TPong::SPG Engine::CreateGameObjectByFile( const char* pFileName );
 
-namespace FinalProject
+namespace TPong
 {
 	Game::Game()
 		:m_bEnd( false ), m_bPause( false )

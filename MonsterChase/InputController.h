@@ -4,7 +4,7 @@
 #include "PhysicsInfo.h"
 #include "SmartPtr.h"
 
-namespace FinalProject
+namespace TPong
 {
 	class InputController : public Engine::IController
 	{

@@ -8,7 +8,7 @@ namespace Engine
 	class IController
 	{
 	public:
-		IController() {};
+		IController() = default;
 		virtual void SetControlGameObject( const SmartPtr<GameObject> & i_other ) = 0;
 		virtual void UpdateGameObject( float i_dt ) = 0;
 		virtual bool IsEnable() = 0;

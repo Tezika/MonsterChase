@@ -12,7 +12,7 @@
 #include "game.h"
 #include "Engine-init.h"
 
-typedef FinalProject::Game FinalGame;
+typedef TPong::Game FinalGame;
 int WINAPI wWinMain( HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow )
 {
 	Engine::Initialize( i_hInstance, i_nCmdShow, 800, 600 );

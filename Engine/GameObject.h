@@ -31,7 +31,7 @@ namespace Engine
 		inline const Vector3SSE & GetScale(){ return m_scale; }
 		inline void SetScale( float i_scaleX, float i_scaleY, float i_scaleZ = 1 ){ m_scale = Vector3SSE{ i_scaleX, i_scaleY, i_scaleZ }; }
 
-		inline IController * GetController(){ return m_pController; }
+		inline IController* GetController(){ return m_pController; }
 		inline void SetController( IController * i_pController ){ m_pController = i_pController; }
 
 		Matrix4x4 GetMatrixFromLocalToWorld();
@@ -41,7 +41,7 @@ namespace Engine
 		void operator = ( const GameObject & ) = delete;
 
 	protected:
-		GameObject(){};
+		GameObject() = default;
 		GameObject( const HashedString &, const Vector3SSE & );
 
 	private:
@@ -50,6 +50,6 @@ namespace Engine
 		Vector3SSE m_velocity;
 		Vector3SSE m_scale;
 		float m_zRot;
-		IController * m_pController;
+		IController* m_pController;
 	};
 }
