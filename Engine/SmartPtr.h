@@ -2,6 +2,7 @@
 #include "WeakPtr.h"
 #include "ReferenceCounter.h"
 #include "Assert.h"
+#include "GameObject.h"
 
 namespace Engine
 {

@@ -31,11 +31,11 @@ namespace Engine
 			const char* key = lua_tostring( pLuaState, -2 );
 			if (strcmp( key, "x" ) == 0)
 			{
-				x = value;
+				x = static_cast<T>(value);
 			}
 			else if (strcmp( key, "y" ) == 0)
 			{
-				y = value;
+				y = static_cast<T>(value);
 			}
 			// pop the value
 			lua_pop_top( pLuaState );
@@ -107,7 +107,7 @@ namespace Engine
 			lua_pushstring( pLuaState, "mass" );
 			result = lua_gettable( pLuaState, -2 );
 			assert( result == LUA_TNUMBER );
-			float mass = lua_tonumber( pLuaState, -1 );
+			float mass = static_cast<float>(lua_tonumber( pLuaState, -1 ));
 			DEBUG_PRINT_GAMEPLAY( "The mass for the gameobject is %.3f", mass );
 			// Pop for mass
 			lua_pop_top( pLuaState );
@@ -125,7 +125,7 @@ namespace Engine
 			lua_pushstring( pLuaState, "dragness" );
 			result = lua_gettable( pLuaState, -2 );
 			assert( result == LUA_TNUMBER );
-			float dragness = lua_tonumber( pLuaState, -1 );
+			float dragness = static_cast<float>(lua_tonumber( pLuaState, -1 ));
 			DEBUG_PRINT_GAMEPLAY( "The dragness for the gameobject is %.7f", dragness );
 			// Pop for dragness
 			lua_pop_top( pLuaState );

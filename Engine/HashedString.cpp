@@ -13,7 +13,7 @@ namespace Engine
 	{
 		// FNV hash, http://isthe.com/chongo/tech/comp/fnv/
 
-		register const unsigned char * p = static_cast<const unsigned char *>( i_bytes );
+		const unsigned char * p = static_cast<const unsigned char *>( i_bytes );
 		unsigned int hash = 2166136261;
 
 		for ( size_t i = 0; i < i_bytecount; ++i )
