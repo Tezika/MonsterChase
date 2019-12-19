@@ -2,53 +2,54 @@
 #include "InputController.h"
 #include "Point2D.h"
 #include "game.h"
-#include "GLib.h"
 #include "PhysicsManager.h"
 #include "Vector3.h"
 #include "Vector3SSE.h"
 #include "ConsolePrint.h"
 #include <iostream>
+#include  <../GLib/GLib.h>
+#include "player.h"
 
 namespace TPong
 {
-	void InputCallback( unsigned int i_VKeyID, bool bWentDown )
+	void InputCallback( unsigned int i_VKeyID, bool i_bWentDown )
 	{
 		using namespace Engine;
 		// Access the current player's controller.
-		static InputController * pCurrentController = nullptr;
-		static Physics::PhysicsInfo * pCachedPhysicsInfo = nullptr;
+		static TPong::InputController* pCurrentController = nullptr;
+		static Physics::PhysicsInfo* pCachedPhysicsInfo = nullptr;
 		static Vector3 cachedDrivingForce = Vector3::Zero;
 		bool bApplyForce = true;
-		if ( bWentDown )
+		if (i_bWentDown)
 		{
 			// Maybe need to encapsulate a little bit better.
 			// If I want to make it support the arrow keys, I need to modify the input.cpp from GLib.
-			switch ( i_VKeyID )
+			switch (i_VKeyID)
 			{
 				// For W
 			case 0x57:
-				pCurrentController = static_cast< InputController * >(Game::GetInstance().GetPlayer1()->GetController());
+				pCurrentController = static_cast<TPong::InputController*>(Game::GetInstance().GetPlayer1()->GetController());
 				cachedDrivingForce.x = 0;
 				cachedDrivingForce.y = pCurrentController->GetDrivingForce();
 				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of up for player 1" );
 				break;
 				// For S
 			case 0x53:
-				pCurrentController = static_cast< InputController * >(Game::GetInstance().GetPlayer1()->GetController());
+				pCurrentController = static_cast<TPong::InputController*>(Game::GetInstance().GetPlayer1()->GetController());
 				cachedDrivingForce.x = 0;
 				cachedDrivingForce.y = -pCurrentController->GetDrivingForce();
 				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of down for player 1" );
 				break;
 				// For O
 			case 0x4F:
-				pCurrentController = static_cast< InputController * >(Game::GetInstance().GetPlayer2()->GetController());
+				pCurrentController = static_cast<TPong::InputController*>(Game::GetInstance().GetPlayer2()->GetController());
 				cachedDrivingForce.x = 0;
 				cachedDrivingForce.y = pCurrentController->GetDrivingForce();
 				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of up for player 2" );
 				break;
 				// For K
 			case 0x4B:
-				pCurrentController = static_cast< InputController * >(Game::GetInstance().GetPlayer2()->GetController());
+				pCurrentController = static_cast<TPong::InputController*>(Game::GetInstance().GetPlayer2()->GetController());
 				cachedDrivingForce.x = 0;
 				cachedDrivingForce.y = -pCurrentController->GetDrivingForce();
 				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of down for player 2" );
@@ -75,12 +76,12 @@ namespace TPong
 			cachedDrivingForce.y = 0;
 			DEBUG_PRINT_GAMEPLAY( "Stop applying the force right now!" );
 		}
-		if ( !bApplyForce )
+		if (!bApplyForce)
 		{
 			return;
 		}
 		// If the controller is not available right now, 
-		if ( !pCurrentController->IsEnable() )
+		if (!pCurrentController->IsEnable())
 		{
 			return;
 		}
@@ -112,24 +113,24 @@ namespace TPong
 
 	void InputController::UpdateGameObject( float i_dt )
 	{
-		if ( !m_bIsEnable )
+		if (!m_bIsEnable)
 		{
 			return;
 		}
 	}
 
-	void InputController::SetEnable( bool isEnable )
+	void InputController::SetEnable( bool i_isEnable )
 	{
-		m_bIsEnable = isEnable;
-		if ( !m_bIsEnable )
+		m_bIsEnable = i_isEnable;
+		if (!m_bIsEnable)
 		{
 			this->GetPhysicsInfo()->SetDrivingForce( Engine::Vector3SSE{ 0,0,0 } );
 		}
 	}
 
-	Engine::Physics::PhysicsInfo * InputController::GetPhysicsInfo()
+	Engine::Physics::PhysicsInfo* InputController::GetPhysicsInfo()
 	{
-		if ( m_pCachedPhysicsInfo == nullptr )
+		if (m_pCachedPhysicsInfo == nullptr)
 		{
 			m_pCachedPhysicsInfo = Engine::Physics::PhysicsManager::GetInstance().GetInfoByGameObject( m_pControlObject );
 		}

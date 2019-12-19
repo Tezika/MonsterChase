@@ -10,7 +10,6 @@
 #include <math.h>
 #include "player.h"
 #include "game.h" 
-
 #include "InputController.h"
 
 namespace TPong
@@ -19,7 +18,7 @@ namespace TPong
 	{
 	}
 
-	Player::Player( const Engine::HashedString & i_name, const Engine::Vector3SSE & i_position ):
+	Player::Player( const Engine::HashedString& i_name, const Engine::Vector3SSE& i_position ) :
 		Entity::Entity( i_name, i_position )
 	{
 	}

@@ -33,8 +33,8 @@ namespace TPong
 		srand( time_t( NULL ) );
 
 		// Create the two players
-		m_player_1 = SPP( Engine::CreateGameObjectByFile( "Resources\\Lua\\player_1.lua" ) );
-		m_player_2 = SPP( Engine::CreateGameObjectByFile( "Resources\\Lua\\player_2.lua" ) );
+		m_player_1 = SPP( Engine::CreateGameObjectByFile( "Content\\Lua\\player_1.lua" ) );
+		m_player_2 = SPP( Engine::CreateGameObjectByFile( "Content\\Lua\\player_2.lua" ) );
 		this->InitializePlayer( m_player_1 );
 		this->InitializePlayer( m_player_2 );
 		// Cache the player's start position for further use.
@@ -42,7 +42,7 @@ namespace TPong
 		m_cachedStartPosition_player2 = m_player_2->GetPosition();
 
 		// Create the ball
-		m_ball = SPB( Engine::CreateGameObjectByFile( "Resources\\Lua\\ball.lua" ) );
+		m_ball = SPB( Engine::CreateGameObjectByFile( "Content\\Lua\\ball.lua" ) );
 
 		// Set up Walls
 		this->SetupWalls();
@@ -137,10 +137,10 @@ namespace TPong
 	void Game::SetupWalls()
 	{
 		// Create the wall based on the lua files.
-		m_wall_bottom = SPW( Engine::CreateGameObjectByFile( "Resources\\Lua\\wall_bottom.lua" ) );
-		m_wall_up = SPW( Engine::CreateGameObjectByFile( "Resources\\Lua\\wall_up.lua" ) );
-		m_wall_right = SPW( Engine::CreateGameObjectByFile( "Resources\\Lua\\wall_right.lua" ) );
-		m_wall_left = SPW( Engine::CreateGameObjectByFile( "Resources\\Lua\\wall_left.lua" ) );
+		m_wall_bottom = SPW( Engine::CreateGameObjectByFile( "Content\\Lua\\wall_bottom.lua" ) );
+		m_wall_up = SPW( Engine::CreateGameObjectByFile( "Content\\Lua\\wall_up.lua" ) );
+		m_wall_right = SPW( Engine::CreateGameObjectByFile( "Content\\Lua\\wall_right.lua" ) );
+		m_wall_left = SPW( Engine::CreateGameObjectByFile( "Content\\Lua\\wall_left.lua" ) );
 		// Set the left and right wall as the dead walls.
 		m_wall_left->SetDead();
 		m_wall_right->SetDead();
