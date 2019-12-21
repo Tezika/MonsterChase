@@ -15,7 +15,7 @@
 typedef TPong::Game FinalGame;
 int WINAPI wWinMain( HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow )
 {
-	Engine::Initialize( i_hInstance, i_nCmdShow, 800, 600 );
+	Engine::Initialize( i_hInstance, i_nCmdShow, 800, 600, "TPong" );
 	bool bSuccess = FinalGame::GetInstance().Initialize();
 	if (bSuccess)
 	{

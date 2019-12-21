@@ -9,7 +9,7 @@
 
 namespace Engine
 {
-	bool Engine::Initialize( HINSTANCE i_hInstance, int i_nCmdShow, int i_wWidth, int i_wHeight )
+	bool Engine::Initialize( HINSTANCE i_hInstance, int i_nCmdShow, int i_wWidth, int i_wHeight, const char* i_pWindowName )
 	{
 
 #ifdef USE_CUSTOM_MEMORYMANAGEMENT
@@ -18,7 +18,7 @@ namespace Engine
 		const size_t 	 sizeHeap = 600 * 1000 * 1000;
 		const unsigned int 	numDescriptors = 2048;
 		// Allocate memory for my test heap.
-		void * pHeapMemory = HeapAlloc( GetProcessHeap(), 0, sizeHeap );
+		void* pHeapMemory = HeapAlloc( GetProcessHeap(), 0, sizeHeap );
 		assert( pHeapMemory );
 
 		// Create your HeapManager and FixedSizeAllocators.
@@ -32,13 +32,12 @@ namespace Engine
 		bSuccess = Messaging::MessageSystem::GetInstance().Initialize();
 		assert( bSuccess );
 
-
 		// For Physics
 		bSuccess = Physics::PhysicsManager::GetInstance().Initialize();
 		assert( bSuccess );
 
 		// For Rendering
-		bSuccess = Render::RenderManager::GetInstance().Initialize( i_hInstance, i_nCmdShow, i_wWidth, i_wHeight );
+		bSuccess = Render::RenderManager::GetInstance().Initialize( i_hInstance, i_nCmdShow, i_wWidth, i_wHeight, i_pWindowName );
 		assert( bSuccess );
 
 		// For Controller Manager

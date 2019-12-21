@@ -22,13 +22,13 @@ namespace Engine
 {
 	namespace Render
 	{
-		extern GLib::Sprites::Sprite * CreateSprite( const char * i_pFilename );
+		extern GLib::Sprites::Sprite* CreateSprite( const char* i_pFilename );
 
-		bool RenderManager::Initialize( HINSTANCE i_hInstance, int i_nCmdShow, int i_wWidth, int i_wHeight )
+		bool RenderManager::Initialize( HINSTANCE i_hInstance, int i_nCmdShow, int i_wWidth, int i_wHeight, const char* i_pWindowName )
 		{
 			// Setup the GLib.
-			bool bSuccess = GLib::Initialize( i_hInstance, i_nCmdShow, "Game Window", -1, i_wWidth, i_wHeight );
-			if ( !bSuccess )
+			bool bSuccess = GLib::Initialize( i_hInstance, i_nCmdShow, i_pWindowName, -1, i_wWidth, i_wHeight );
+			if (!bSuccess)
 			{
 				return bSuccess;
 			}
@@ -45,11 +45,11 @@ namespace Engine
 			return true;
 		}
 
-		void RenderManager::Update( float i_dt, bool & bEnd )
+		void RenderManager::Update( float i_dt, bool& i_bEnd )
 		{
-			GLib::Service( bEnd );
+			GLib::Service( i_bEnd );
 
-			if ( bEnd )
+			if (i_bEnd)
 			{
 				return;
 			}
@@ -69,17 +69,17 @@ namespace Engine
 			GLib::EndRendering();
 		}
 
-		RenderInfo * RenderManager::AddRenderObject( SmartPtr<GameObject> i_pGo, const char * i_strSpriteName, float i_spriteSizeX, float i_spriteSizeY )
+		RenderInfo* RenderManager::AddRenderObject( SmartPtr<GameObject> i_pGo, const char* i_strSpriteName, float i_spriteSizeX, float i_spriteSizeY )
 		{
 			assert( i_spriteSizeX != 0 );
 			assert( i_spriteSizeY != 0 );
 			// Add RenderInfo in
-			RenderInfo * pRetInfo = this->AddRenderInfo( m_pRenderInfos, i_pGo, i_strSpriteName, i_spriteSizeX, i_spriteSizeY );
+			RenderInfo* pRetInfo = this->AddRenderInfo( m_pRenderInfos, i_pGo, i_strSpriteName, i_spriteSizeX, i_spriteSizeY );
 			assert( pRetInfo );
 
 			// Add a debug AABB RenderInfo in.
 #if defined(_DEBUG) && defined(_DrawDebugInfo)
-			RenderInfo * pDebugInfo = this->AddRenderInfo( m_pDebugRenderInfos, i_pGo, "Data//BoundingBox_Collided.dds", i_spriteSizeX, i_spriteSizeY );
+			RenderInfo* pDebugInfo = this->AddRenderInfo( m_pDebugRenderInfos, i_pGo, "Data//BoundingBox_Collided.dds", i_spriteSizeX, i_spriteSizeY );
 			assert( pDebugInfo );
 			pDebugInfo->SetRenderable( false );
 #endif
@@ -100,18 +100,18 @@ namespace Engine
 			return bSucceed;
 		}
 
-		RenderInfo * RenderManager::AddRenderInfo( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo, const char * i_pStrName, float i_spriteSizeX, float i_spriteSizeY )
+		RenderInfo* RenderManager::AddRenderInfo( TList<RenderInfo>* pRenderInfos, SmartPtr<GameObject> i_pGo, const char* i_pStrName, float i_spriteSizeX, float i_spriteSizeY )
 		{
 			assert( i_spriteSizeX != 0 );
 			assert( i_spriteSizeY != 0 );
-			GLibSprite * pSprite = CreateSprite( i_pStrName );
+			GLibSprite* pSprite = CreateSprite( i_pStrName );
 			assert( pSprite );
-			RenderInfo * pNewRenderObject = RenderInfo::Create( i_pGo, pSprite, GLibPoint2D{ 0.0f, 0.0f } );
+			RenderInfo* pNewRenderObject = RenderInfo::Create( i_pGo, pSprite, GLibPoint2D{ 0.0f, 0.0f } );
 			assert( pNewRenderObject );
 			// Adjust the render sprite's size based on AABB size.
-			Physics::PhysicsInfo * pAssociatedPhysicsInfo = Physics::PhysicsManager::GetInstance().GetInfoByGameObject( i_pGo );
+			Physics::PhysicsInfo* pAssociatedPhysicsInfo = Physics::PhysicsManager::GetInstance().GetInfoByGameObject( i_pGo );
 			assert( pAssociatedPhysicsInfo );
-			AABB * pAABB = pAssociatedPhysicsInfo->GetAABB();
+			AABB* pAABB = pAssociatedPhysicsInfo->GetAABB();
 			float xScale = pAABB->extends.m_x * 2 / i_spriteSizeX;
 			float yScale = pAABB->extends.m_y * 2 / i_spriteSizeY;
 			pNewRenderObject->SetRenderScaleX( xScale );
@@ -119,15 +119,15 @@ namespace Engine
 			return pRenderInfos->Insert( pNewRenderObject )->GetData();
 		}
 
-		bool RenderManager::RemoveRenderInfo( TList<RenderInfo> * pRenderInfos, SmartPtr<GameObject> i_pGo )
+		bool RenderManager::RemoveRenderInfo( TList<RenderInfo>* pRenderInfos, SmartPtr<GameObject> i_pGo )
 		{
 			assert( i_pGo );
-			Node<RenderInfo> * ptr = pRenderInfos->GetHead();
-			RenderInfo * removeRenderInfo = nullptr;
-			while ( ptr != nullptr )
+			Node<RenderInfo>* ptr = pRenderInfos->GetHead();
+			RenderInfo* removeRenderInfo = nullptr;
+			while (ptr != nullptr)
 			{
 				removeRenderInfo = ptr->GetData();
-				if ( removeRenderInfo->GetGameObject() == i_pGo )
+				if (removeRenderInfo->GetGameObject() == i_pGo)
 				{
 					assert( removeRenderInfo );
 					ptr = pRenderInfos->Remove( ptr );
@@ -141,16 +141,16 @@ namespace Engine
 			return true;
 		}
 
-		RenderInfo * RenderManager::GetRenderInfoByGameObject( TList<RenderInfo> * i_pRenderInfos, SmartPtr<GameObject> i_pGo )
+		RenderInfo* RenderManager::GetRenderInfoByGameObject( TList<RenderInfo>* i_pRenderInfos, SmartPtr<GameObject> i_pGo )
 		{
 			assert( i_pGo );
 			assert( i_pRenderInfos );
-			Node<RenderInfo> * ptr = i_pRenderInfos->GetHead();
-			RenderInfo * pCurrentInfo = nullptr;
-			while ( ptr != nullptr )
+			Node<RenderInfo>* ptr = i_pRenderInfos->GetHead();
+			RenderInfo* pCurrentInfo = nullptr;
+			while (ptr != nullptr)
 			{
 				pCurrentInfo = ptr->GetData();
-				if ( pCurrentInfo->GetGameObject() == i_pGo )
+				if (pCurrentInfo->GetGameObject() == i_pGo)
 				{
 					return pCurrentInfo;
 				}
@@ -179,7 +179,7 @@ namespace Engine
 			return true;
 		}
 
-		bool RenderManager::ClearRenderInfos( TList<RenderInfo> * pRenderInfos )
+		bool RenderManager::ClearRenderInfos( TList<RenderInfo>* pRenderInfos )
 		{
 			assert( pRenderInfos );
 			pRenderInfos->Clear( true );
@@ -188,26 +188,26 @@ namespace Engine
 			return true;
 		}
 
-		void RenderManager::DrawRenderInfos( TList<RenderInfo> * pRenderInfos )
+		void RenderManager::DrawRenderInfos( TList<RenderInfo>* pRenderInfos )
 		{
 			assert( pRenderInfos );
 
 			// Iterate the list to update every RenderInfo
 			// And render every sprite into the screen
 			auto ptr = pRenderInfos->GetHead();
-			while ( ptr != nullptr )
+			while (ptr != nullptr)
 			{
-				RenderInfo * renderInfo = ptr->GetData();
+				RenderInfo* renderInfo = ptr->GetData();
 				// Check if it is renderable first
-				if ( !renderInfo->IsRenderable() )
+				if (!renderInfo->IsRenderable())
 				{
 					ptr = ptr->GetNext();
 					continue;
 				}
 
-				GLibSprite * pSprite = renderInfo->GetSprite();
+				GLibSprite* pSprite = renderInfo->GetSprite();
 				SmartPtr<GameObject> pGo = renderInfo->GetGameObject();
-				if ( pGo != nullptr )
+				if (pGo != nullptr)
 				{
 					Vector3SSE posOfGo = pGo->GetPosition();
 					// Set the render spirte's position based on the current position of gameObject
@@ -215,7 +215,7 @@ namespace Engine
 				}
 
 				// Render the sprite
-				if ( pSprite != nullptr )
+				if (pSprite != nullptr)
 				{
 					GLib::Sprites::RenderSprite( *pSprite,
 						renderInfo->GetPosition(),
@@ -228,13 +228,13 @@ namespace Engine
 			}
 		}
 
-		RenderInfo * RenderManager::GetRealRenderInfoByGameObject( SmartPtr<GameObject> i_pGo )
+		RenderInfo* RenderManager::GetRealRenderInfoByGameObject( SmartPtr<GameObject> i_pGo )
 		{
 			return this->GetRenderInfoByGameObject( m_pRenderInfos, i_pGo );
 		}
 
 #if defined(_DEBUG) && defined(_DrawDebugInfo)
-		RenderInfo * RenderManager::GetDebugRenderInfoByGameObject( SmartPtr<GameObject> i_pGo )
+		RenderInfo* RenderManager::GetDebugRenderInfoByGameObject( SmartPtr<GameObject> i_pGo )
 		{
 			return this->GetRenderInfoByGameObject( m_pDebugRenderInfos, i_pGo );
 		}
