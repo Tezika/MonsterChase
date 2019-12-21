@@ -16,7 +16,7 @@ gameObject =
         reflectable = true
     },
     render_settings = {
-        sprite_name = "Resources\\Bat.dds",
+        sprite_name = "Content\\Bat.dds",
         sprite_size = {x=256, y=256}
     }
 }

@@ -16,7 +16,7 @@ gameObject =
         reflectable = false
     },
     render_settings = {
-        sprite_name = "Resources\\Wall_Danger.dds",
+        sprite_name = "Content\\Wall_Danger.dds",
         sprite_size = {x=256, y=256}
     }
 }
