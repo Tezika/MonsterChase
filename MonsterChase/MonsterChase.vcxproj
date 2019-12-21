@@ -104,8 +104,8 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libs_Debug_$(platform);$(SolutionDir)Exports\GLib;$(SolutionDir)Exports\Lua;$(SolutionDir)Exports\FMOD\core\lib\$(platform);$(SolutionDir)Exports\FMOD\fsbank\lib\$(platform);$(SolutionDir)Exports\FMOD\studio\lib\$(platform)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalDependencies)</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -120,8 +120,8 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libs_Debug_$(platform);$(SolutionDir)Exports\GLib;$(SolutionDir)Exports\Lua;$(SolutionDir)Audio\FMOD\fsbank\lib\$(platform);$(SolutionDir)Audio\FMOD\core\lib\$(platform);$(SolutionDir)Audio\FMOD\studio\lib\$(platform)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalDependencies)</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -139,8 +139,8 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libs_Release_$(platform);$(SolutionDir)Exports\GLib;$(SolutionDir)Exports\Lua;$(SolutionDir)Exports\FMOD\core\lib\$(platform);$(SolutionDir)Exports\FMOD\fsbank\lib\$(platform);$(SolutionDir)Exports\FMOD\studio\lib\$(platform)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -157,8 +157,8 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libs_Release_$(platform);$(SolutionDir)Exports\GLib;$(SolutionDir)Exports\Lua;$(SolutionDir)Exports\FMOD\core\lib\$(platform);$(SolutionDir)Exports\FMOD\fsbank\lib\$(platform);$(SolutionDir)Exports\FMOD\studio\lib\$(platform)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -181,6 +181,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.vcxproj">
       <Project>{064c9bbd-cec0-4ad9-a4de-1b570bc9072a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\GLib\GLib.vcxproj">
+      <Project>{b2ab67de-b7fa-42ba-b060-959487392aea}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\LuaWinLibs\Lua-WinLibs.vcxproj">
+      <Project>{bdf98e69-fc1b-4010-b9d7-8db75e26a245}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

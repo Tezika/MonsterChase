@@ -34,6 +34,9 @@
     <Filter Include="Source Files\Sprite">
       <UniqueIdentifier>{5711840b-c7d1-406b-bd66-6697b8c1572e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Windows">
+      <UniqueIdentifier>{a45f1b73-a0a5-4127-968e-e2ec86d348e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -95,6 +98,9 @@
     </ClInclude>
     <ClInclude Include="_System\Input.h">
       <Filter>Source Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes.h">
+      <Filter>Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
