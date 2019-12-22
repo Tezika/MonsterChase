@@ -21,7 +21,8 @@
     <CustomBuildStep>
       <Outputs>$(GameInstallDir)$(TargetFileName)</Outputs>
       <Inputs>$(TargetPath)</Inputs>
-      <Command>copy "$(TargetPath)" "$(GameInstallDir)$(TargetFileName)" /y</Command>
+      <Command>copy "$(TargetPath)" "$(GameInstallDir)$(TargetFileName)"
+xcopy "$(GameDir)Content" "$(GameInstallDir)Content\" /Y /S /E</Command>
     </CustomBuildStep>
     <Link>
       <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
