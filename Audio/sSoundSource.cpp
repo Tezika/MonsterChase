@@ -2,55 +2,39 @@
 #include <algorithm>
 #include "sChannel.h"
 #include "sContext.h"
+
 namespace Audio
 {
 	namespace Sound
 	{
-		bool sSoundSource::Load( const std::string& i_path, sSoundSource*& o_pSound )
+		Engine::SmartPtr<sSoundSource> sSoundSource::Create( const std::string& i_path )
 		{
-			auto result = true;
+			Engine::SmartPtr<sSoundSource> ret( nullptr );
 			sSoundSource* newSound = nullptr;
-			//cScopeGuard scopeGuard( [&o_pSound, &result, &newSound]
-			//	{
-			//		if (result)
-			//		{
-			//			EAE6320_ASSERT( newSound != nullptr );
-			//			o_pSound = newSound;
-			//		}
-			//		else
-			//		{
-			//			if (newSound)
-			//			{
-			//				newSound->DecrementReferenceCount();
-			//				newSound = nullptr;
-			//			}
-			//			o_pSound = nullptr;
-			//		}
-			//	} );
 			sSoundInitializationParameters initializationParameters;
-			// Convert the string path to the wstring.
+			// Convert the string path to the wstring
 			std::wstring widePath( i_path.begin(), i_path.end() );
 			Audio::Sound::sSoundSource::PopulateSoundInitializationParameters( initializationParameters, widePath.c_str() );
-			// Allocate a new effect
+			// Allocate a new sound source
 			{
 				newSound = new (std::nothrow) sSoundSource();
 				if (!newSound)
 				{
-					result = false;
 					_ASSERT_EXPR( false, L"Couldn't allocate memory for the sound." );
-					return result;
+					return ret;
 				}
 			}
 			// Initialize the platform-specific sound object
-			if (!(result = newSound->Initialize( initializationParameters )))
+			if (!(newSound->Initialize( initializationParameters )))
 			{
 				_ASSERT_EXPR( false, L"Initialize the new sound failed" );
-				return result;
+				return ret;
 			}
 			newSound->SetLooping( false );
 			newSound->SetPitch( 1.0f );
 			newSound->SetVolume( 1.0f );
-			return result;
+			ret = Engine::SmartPtr<sSoundSource>( newSound );
+			return ret;
 		}
 
 		void sSoundSource::AddChannel( Audio::Channel::sChannel* i_pChannel )

@@ -2,6 +2,7 @@
 #include <vector>
 #include <mutex>
 #include "Includes.h"
+#include <Engine/SmartPtr.h>
 
 #if defined(PLATFORM_WINDOWS)
 #include <Audio/Windows/Utilities/WAVFileReader.h>
@@ -27,7 +28,7 @@ namespace Audio
 		{
 		public:
 			// Load Interface
-			static bool Load( const std::string& i_path, sSoundSource*& o_pSound );
+			static Engine::SmartPtr<sSoundSource> Create( const std::string& i_path );
 
 			// Populate initialization paratermers1
 			static void PopulateSoundInitializationParameters(
@@ -63,7 +64,7 @@ namespace Audio
 
 			inline DirectX::WAVData& GetWavData() { return m_wavData; };
 			inline std::unique_ptr<BYTE[]>& GetAudioData() { return m_pData; };
-
+			~sSoundSource();
 		private:
 #if defined(PLATFORM_WINDOWS)
 			DirectX::WAVData m_wavData;
@@ -77,8 +78,6 @@ namespace Audio
 			bool m_bLooping;
 
 			sSoundSource() = default;
-			~sSoundSource();
-
 			// Interfaces
 			// Initialization / Clean Up 
 			//--------------------------

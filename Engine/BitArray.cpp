@@ -10,25 +10,25 @@
 
 namespace Engine
 {
-	BitArray * BitArray::Create( size_t i_numBits, HeapManager * i_pDefaultHeap, bool i_clearAll )
+	BitArray* BitArray::Create( size_t i_numBits, HeapManager* i_pDefaultHeap, bool i_clearAll )
 	{
 		assert( i_pDefaultHeap );
 
-		BitArray * p_bitArray = reinterpret_cast< BitArray * >( i_pDefaultHeap->Alloc( sizeof( BitArray ), Engine::HeapManager::s_alignment ) );
+		BitArray* p_bitArray = reinterpret_cast<BitArray*>(i_pDefaultHeap->Alloc( sizeof( BitArray ), Engine::HeapManager::s_alignment ));
 		assert( p_bitArray );
 
 		p_bitArray->m_numOfBits = i_numBits;
 		float i_bitsPerUnit = 8;
-		p_bitArray->m_sizeOfBytes = ( size_t )ceil( ( float )( i_numBits / i_bitsPerUnit ) );
+		p_bitArray->m_sizeOfBytes = (size_t)ceil( (float)(i_numBits / i_bitsPerUnit) );
 
-		p_bitArray->m_pBits = reinterpret_cast< uint8_t * >( i_pDefaultHeap->Alloc( p_bitArray->m_sizeOfBytes, Engine::HeapManager::s_alignment ) );
+		p_bitArray->m_pBits = reinterpret_cast<uint8_t*>(i_pDefaultHeap->Alloc( p_bitArray->m_sizeOfBytes, Engine::HeapManager::s_alignment ));
 		memset( p_bitArray->m_pBits, i_clearAll ? 0 : UINT8_MAX, p_bitArray->m_sizeOfBytes );
 		return p_bitArray;
 	}
 
 	BitArray::~BitArray()
 	{
-		if ( m_pBits != nullptr )
+		if (m_pBits != nullptr)
 		{
 			delete m_pBits;
 			m_pBits = nullptr;
@@ -63,7 +63,7 @@ namespace Engine
 		size_t bit = i_bitNumber % 8;
 		size_t byteIndex = i_bitNumber / 8;
 		uint8_t byte = m_pBits[byteIndex];
-		byte |= ( 1U << bit );
+		byte |= (1U << bit);
 		m_pBits[byteIndex] = byte;
 	}
 
@@ -73,32 +73,32 @@ namespace Engine
 		size_t bit = i_bitNumber % 8;
 		size_t byteIndex = i_bitNumber / 8;
 		uint8_t byte = m_pBits[byteIndex];
-		byte &= ~( 1U << bit );
+		byte &= ~(1U << bit);
 		m_pBits[byteIndex] = byte;
 	}
 
-	bool BitArray::GetFirstClearBit( size_t & o_bitNumber ) const
+	bool BitArray::GetFirstClearBit( size_t& o_bitNumber ) const
 	{
 		size_t byteIndex = m_sizeOfBytes;
 		size_t bitIndex = 0;
-		bool foundBit = false;
-		for ( size_t i = 0; i < m_sizeOfBytes; i++ )
+		bool bFoundBit = false;
+		for (size_t i = 0; i < m_sizeOfBytes; i++)
 		{
-			if ( m_pBits[i] == UINT8_MAX )
+			if (m_pBits[i] == UINT8_MAX)
 			{
 				continue;
 			}
-			for ( size_t bit = 0; bit < 8; bit++ )
+			for (size_t bit = 0; bit < 8; bit++)
 			{
-				if ( this->IsBitClear( i * 8 + bit ) )
+				if (this->IsBitClear( i * 8 + bit ))
 				{
 					byteIndex = i;
 					bitIndex = bit;
-					foundBit = true;
+					bFoundBit = true;
 					break;
 				}
 			}
-			if ( foundBit )
+			if (bFoundBit)
 			{
 				break;
 			}
@@ -107,13 +107,13 @@ namespace Engine
 		return byteIndex != m_sizeOfBytes;
 	}
 
-	bool BitArray::GetFirstSetBit( size_t & o_bitNumber ) const
+	bool BitArray::GetFirstSetBit( size_t& o_bitNumber ) const
 	{
 		size_t byteIndex = m_sizeOfBytes;
 		// quick skip bytes where no bits are set   
-		while ( ( m_pBits[byteIndex] == 0 ) && ( byteIndex < m_sizeOfBytes ) )
+		while ((m_pBits[byteIndex] == 0) && (byteIndex < m_sizeOfBytes))
 			byteIndex++;
-		if ( byteIndex == m_sizeOfBytes )
+		if (byteIndex == m_sizeOfBytes)
 		{
 			return false;
 		}

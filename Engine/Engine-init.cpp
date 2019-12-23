@@ -10,7 +10,6 @@ namespace Engine
 {
 	bool Engine::Initialize( HINSTANCE i_hInstance, int i_nCmdShow, int i_wWidth, int i_wHeight, const char* i_pWindowName )
 	{
-
 #ifdef USE_CUSTOM_MEMORYMANAGEMENT
 		// Initial the memory system
 		// For 300M memory
@@ -18,7 +17,7 @@ namespace Engine
 		const unsigned int 	numDescriptors = 2048;
 		// Allocate memory for my test heap.
 		void* pHeapMemory = HeapAlloc( GetProcessHeap(), 0, sizeHeap );
-		_ASSERT_EXPR( false, L"Allocate the memory failed." );
+		_ASSERT_EXPR( pHeapMemory, L"Allocate the memory failed." );
 
 		// Create your HeapManager and FixedSizeAllocators.
 		bool successd = InitializeMemorySystem( pHeapMemory, sizeHeap, numDescriptors );
@@ -42,6 +41,8 @@ namespace Engine
 		// For Controller Manager
 		bSuccess = Controller::ControllerManager::GetInstance().Initialize();
 		_ASSERT_EXPR( bSuccess, L"Failed to initialize the controller system." );
+
+		// For Audio system
 
 		return true;
 	}

@@ -13,6 +13,7 @@
 #include "SmartPtr.h"
 #include "Delegate.h"
 #include "Vector3SSE.h"
+#include "sSoundSource.h"
 
 namespace TPong
 {
@@ -67,6 +68,9 @@ namespace TPong
 		SPW m_wall_up;
 		SPW m_wall_left;
 		SPW m_wall_right;
+
+		Engine::SmartPtr<Audio::Sound::sSoundSource> m_bgm;
+		uint32_t m_bgmChannelId;
 
 		// Delegates
 		DEL m_dBallCollideDeadWall;
