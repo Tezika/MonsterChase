@@ -1,22 +1,21 @@
-#include <Engine/Audio/sChannel.h>
-#include <Engine/Audio/sContext.h>
-#include <Engine/Audio/sSoundSource.h>
-#include <Engine/Results/cResult.h>
-#include <Engine/Asserts/Asserts.h>
+#include "assert.h"
+#include <Audio/sChannel.h>
+#include <Audio/sContext.h>
+#include <Audio/sSoundSource.h>
 
-eae6320::cResult eae6320::Audio::Channel::sChannel::Initialize( eae6320::Audio::sContext* i_pContext )
+bool Audio::Channel::sChannel::Initialize( Audio::sContext* i_pContext )
 {
-	auto result = eae6320::Results::Success;
+	auto result = true;
 	static VoiceCallback vcb;
 	// Preserve the index 0 as a invalid mark.
 	static uint32_t s_channelId = 1;
 	ZeroMemory( &m_audioBuffer, sizeof( m_audioBuffer ) );
 	m_audioBuffer.pContext = this;
-	auto hr = eae6320::Audio::sContext::g_audioContext.m_pXAudioEngine->CreateSourceVoice( &m_pSourceVoice, &i_pContext->m_audioFormat, 0u, 2.0f, &vcb );
+	auto hr = Audio::sContext::g_audioContext.m_pXAudioEngine->CreateSourceVoice( &m_pSourceVoice, &i_pContext->m_audioFormat, 0u, 2.0f, &vcb );
 	if (FAILED( hr ))
 	{
-		EAE6320_ASSERTF( false, "Error %#X creating source voice\n", hr );
-		result = Results::Failure;
+		assert( false, "Error %#X creating source voice\n", hr );
+		result = false;
 		return result;
 	}
 	// Assign the channel's ID;
@@ -26,9 +25,9 @@ eae6320::cResult eae6320::Audio::Channel::sChannel::Initialize( eae6320::Audio::
 	return result;
 }
 
-void eae6320::Audio::Channel::sChannel::PlaySoundBuffer( Audio::Sound::sSoundSource* i_pSound, float i_freqMod, float i_vol, bool i_bLooping )
+void Audio::Channel::sChannel::PlaySoundBuffer( Audio::Sound::sSoundSource* i_pSound, float i_freqMod, float i_vol, bool i_bLooping )
 {
-	EAE6320_ASSERTF( m_pSourceVoice && !m_pSound, "The channel plays the sound failed." );
+	assert( m_pSourceVoice && !m_pSound, "The channel plays the sound failed." );
 	i_pSound->AddChannel( this );
 	// Callback thread not running yet, so no sync necessary for pSound
 	m_pSound = i_pSound;
@@ -42,14 +41,14 @@ void eae6320::Audio::Channel::sChannel::PlaySoundBuffer( Audio::Sound::sSoundSou
 	m_pSourceVoice->Start();
 }
 
-void eae6320::Audio::Channel::sChannel::Stop()
+void Audio::Channel::sChannel::Stop()
 {
-	EAE6320_ASSERTF( m_pSourceVoice && m_pSound, "The channel stops the sound failed." );
+	assert( m_pSourceVoice && m_pSound, "The channel stops the sound failed." );
 	m_pSourceVoice->Stop( 0 );
 	m_pSourceVoice->FlushSourceBuffers();
 }
 
-void eae6320::Audio::Channel::sChannel::VoiceCallback::OnBufferEnd( void* i_pBufferContext )
+void Audio::Channel::sChannel::VoiceCallback::OnBufferEnd( void* i_pBufferContext )
 {
 	sChannel& channel = *(sChannel*)i_pBufferContext;
 	channel.Stop();
@@ -58,10 +57,10 @@ void eae6320::Audio::Channel::sChannel::VoiceCallback::OnBufferEnd( void* i_pBuf
 	sContext::g_audioContext.DeactivateChannel( &channel );
 }
 
-eae6320::cResult eae6320::Audio::Channel::sChannel::CleanUp()
+bool Audio::Channel::sChannel::CleanUp()
 {
-	EAE6320_ASSERTF( !m_pSound, "The channel's sound is still available" );
-	auto result = eae6320::Results::Success;
+	assert( !m_pSound, "The channel's sound is still available" );
+	auto result = true;
 	if (m_pSourceVoice)
 	{
 		m_pSourceVoice->DestroyVoice();
@@ -70,17 +69,17 @@ eae6320::cResult eae6320::Audio::Channel::sChannel::CleanUp()
 	return result;
 }
 
-bool eae6320::Audio::Channel::sChannel::isPlaying()
+bool Audio::Channel::sChannel::isPlaying()
 {
-	EAE6320_ASSERTF( m_pSourceVoice, "The channel's source voice is inavailable." );
+	assert( m_pSourceVoice, "The channel's source voice is inavailable." );
 	XAUDIO2_VOICE_STATE state;
 	m_pSourceVoice->GetState( &state );
 	return state.BuffersQueued > 0 && !m_bPaused;
 }
 
-void eae6320::Audio::Channel::sChannel::Pause()
+void Audio::Channel::sChannel::Pause()
 {
-	EAE6320_ASSERTF( m_pSound, "The channel has no sound to pause." );
+	assert( m_pSound, "The channel has no sound to pause." );
 	if (m_bPaused)
 	{
 		return;
@@ -91,9 +90,9 @@ void eae6320::Audio::Channel::sChannel::Pause()
 	m_pSourceVoice->Stop( opeartionFlag );
 }
 
-void eae6320::Audio::Channel::sChannel::Resume()
+void Audio::Channel::sChannel::Resume()
 {
-	EAE6320_ASSERTF( m_pSound, "The channel has no sound to resume." );
+	assert( m_pSound, "The channel has no sound to resume." );
 	if (!m_bPaused)
 	{
 		return;

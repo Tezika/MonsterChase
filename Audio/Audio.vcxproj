@@ -24,7 +24,6 @@
     <ClCompile Include="sContext.cpp" />
     <ClCompile Include="sSoundSource.cpp" />
     <ClCompile Include="sSoundSource.win.cpp" />
-    <ClCompile Include="sSoundEffect.cpp" />
     <ClCompile Include="Windows\sChannel.win.cpp" />
     <ClCompile Include="Windows\sContext.win.cpp" />
     <ClCompile Include="Windows\Utilities\WAVFileReader.cpp" />
@@ -35,29 +34,8 @@
     <ClInclude Include="sChannel.h" />
     <ClInclude Include="sContext.h" />
     <ClInclude Include="sSoundSource.h" />
-    <ClInclude Include="sSoundEffect.h" />
     <ClInclude Include="Windows\ExternalLibraries.win.h" />
     <ClInclude Include="Windows\Utilities\WAVFileReader.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Asserts\Asserts.vcxproj">
-      <Project>{464a6551-fca9-4027-bd9e-2b26914782ab}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Assets\Assets.vcxproj">
-      <Project>{e803347f-34d1-43ac-b234-5f8940fab26a}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Logging\Logging.vcxproj">
-      <Project>{a5c152ad-26a3-4835-bb10-ef292daf94ac}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Results\Results.vcxproj">
-      <Project>{5003f315-b5d5-48ab-ba3f-1cb0dec8c213}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ScopeGuard\ScopeGuard.vcxproj">
-      <Project>{b7ed3f7d-bfa1-42c9-9089-c6401ffde3d4}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Windows\Windows.vcxproj">
-      <Project>{6ff846d1-2377-4601-b2f6-83e31748cb16}</Project>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -158,7 +136,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>

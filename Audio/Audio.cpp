@@ -1,25 +1,25 @@
 #include "Audio.h"
 #include "sContext.h"
-#include <Engine/Asserts/Asserts.h>
+#include "assert.h"
 
-eae6320::cResult eae6320::Audio::Initialize( const eae6320::Audio::sAudioInitializationParameters& i_initializationParameters )
+bool Audio::Initialize( const Audio::sAudioInitializationParameters& i_initializationParameters )
 {
-	auto result = eae6320::Results::Success;
+	auto result = true;
 	// Initialize the context
-	if (!(result = eae6320::Audio::sContext::g_audioContext.Initialize( i_initializationParameters )))
+	if (!(result = Audio::sContext::g_audioContext.Initialize( i_initializationParameters )))
 	{
-		EAE6320_ASSERTF( false, "Cannot initialize the audio context" );
+		assert( false, "Cannot initialize the audio context" );
 		return result;
 	}
 	return result;
 }
 
-eae6320::cResult eae6320::Audio::CleanUp()
+bool Audio::CleanUp()
 {
-	auto result = eae6320::Results::Success;
+	auto result = true;
 	// Context
 	{
-		const auto result_context = eae6320::Audio::sContext::g_audioContext.CleanUp();
+		const auto result_context = Audio::sContext::g_audioContext.CleanUp();
 		if (!result_context)
 		{
 			result = result_context;
@@ -27,4 +27,3 @@ eae6320::cResult eae6320::Audio::CleanUp()
 	}
 	return result;
 }
-

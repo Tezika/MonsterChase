@@ -13,7 +13,6 @@
       <Filter>Windows</Filter>
     </ClCompile>
     <ClCompile Include="sChannel.cpp" />
-    <ClCompile Include="sSoundEffect.cpp" />
     <ClCompile Include="sSoundSource.cpp" />
     <ClCompile Include="sSoundSource.win.cpp">
       <Filter>Windows</Filter>
@@ -30,7 +29,6 @@
     <ClInclude Include="sContext.h" />
     <ClInclude Include="Includes.h" />
     <ClInclude Include="sChannel.h" />
-    <ClInclude Include="sSoundEffect.h" />
     <ClInclude Include="sSoundSource.h" />
   </ItemGroup>
   <ItemGroup>

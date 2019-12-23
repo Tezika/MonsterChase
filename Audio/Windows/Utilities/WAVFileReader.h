@@ -16,7 +16,6 @@
 #include <memory>
 #include <mmreg.h>
 
-
 namespace DirectX
 {
     HRESULT LoadWAVAudioInMemory(

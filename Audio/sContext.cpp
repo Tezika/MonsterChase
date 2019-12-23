@@ -1,16 +1,16 @@
 #include "sContext.h"
-#include <Engine/Asserts/Asserts.h>
 #include <algorithm>
 #include "sChannel.h"
+#include "assert.h"
 
-eae6320::Audio::sContext eae6320::Audio::sContext::g_audioContext;
-eae6320::Audio::sContext::~sContext()
+Audio::sContext Audio::sContext::g_audioContext;
+Audio::sContext::~sContext()
 {
 	const auto result = this->CleanUp();
-	EAE6320_ASSERT( result );
+	assert( result );
 }
 
-void eae6320::Audio::sContext::DeactivateChannel( Audio::Channel::sChannel* i_pChannel )
+void Audio::sContext::DeactivateChannel( Audio::Channel::sChannel* i_pChannel )
 {
 	std::lock_guard<std::mutex> lock( m_mutex );
 	auto i = std::find_if( m_pActiveChannels.begin(), m_pActiveChannels.end(),

@@ -1,12 +1,12 @@
 // Use the preprocessor to guard that this cpp file is only compiled in Windows platform.
-#if defined(EAE6320_PLATFORM_WINDOWS)
-#include <Engine/Audio/sChannel.h>
-#include <Engine/Audio/Audio.h>
-#include <Engine/Audio/sContext.h>
-#include <Engine/Audio/sSoundSource.h>
-#include <Engine/Asserts/Asserts.h>
-#include <Engine/Audio/sChannel.h>
+#if defined(PLATFORM_WINDOWS)
+#include <Audio/sChannel.h>
+#include <Audio/Audio.h>
+#include <Audio/sContext.h>
+#include <Audio/sSoundSource.h>
+#include <Audio/sChannel.h>
 #include <algorithm>
+#include "assert.h"
 
 namespace
 {
@@ -23,18 +23,17 @@ namespace
 	}
 }
 
-
-eae6320::cResult eae6320::Audio::sContext::Initialize( const eae6320::Audio::sAudioInitializationParameters& i_initializationParamters )
+bool Audio::sContext::Initialize( const Audio::sAudioInitializationParameters& i_initializationParamters )
 {
-	auto result = Results::Success;
+	auto result = true;
 	//
 	// Initialize XAudio2
 	//
 	auto hr = CoInitializeEx( nullptr, COINIT_MULTITHREADED );
 	if (FAILED( hr ))
 	{
-		EAE6320_ASSERTF( false, "Failed to init COM: %#X\n", hr );
-		result = Results::Failure;
+		assert( false, "Failed to init COM: %#X\n", hr );
+		result = false;
 		return result;
 	}
 
@@ -45,8 +44,8 @@ eae6320::cResult eae6320::Audio::sContext::Initialize( const eae6320::Audio::sAu
 	hr = XAudio2Create( m_pXAudioEngine.GetAddressOf(), flags );
 	if (FAILED( hr ))
 	{
-		EAE6320_ASSERTF( false, "Failed to init XAudio2 engine: %#X\n", hr );
-		result = Results::Failure;
+		assert( false, "Failed to init XAudio2 engine: %#X\n", hr );
+		result = false;
 		CoUninitialize();
 		return result;
 	}
@@ -71,18 +70,18 @@ eae6320::cResult eae6320::Audio::sContext::Initialize( const eae6320::Audio::sAu
 	m_pMasterVoice = nullptr;
 	if (FAILED( hr = m_pXAudioEngine->CreateMasteringVoice( &m_pMasterVoice ) ))
 	{
-		EAE6320_ASSERTF( false, "Failed creating mastering voice: %#X\n", hr );
+		assert( false, "Failed creating mastering voice: %#X\n", hr );
 		m_pXAudioEngine.Reset();
 		CoUninitialize();
-		result = Results::Failure;
+		result = false;
 		return result;
 	}
 	return result;
 }
 
-eae6320::cResult eae6320::Audio::sContext::CleanUp()
+bool Audio::sContext::CleanUp()
 {
-	auto result = Results::Success;
+	auto result = true;
 	for (size_t i = 0; i < m_pIdleChannels.size(); i++)
 	{
 		m_pIdleChannels[i].reset();
@@ -98,7 +97,7 @@ eae6320::cResult eae6320::Audio::sContext::CleanUp()
 	return result;
 }
 
-uint32_t eae6320::Audio::sContext::PlaySoundBuffer( Audio::Sound::sSoundSource* i_pSound, float i_freqMod, float i_vol, bool i_bLooping )
+uint32_t Audio::sContext::PlaySoundBuffer( Audio::Sound::sSoundSource* i_pSound, float i_freqMod, float i_vol, bool i_bLooping )
 {
 	std::lock_guard<std::mutex> lock( m_mutex );
 	const auto pWaveData = i_pSound->GetWavData();
@@ -131,7 +130,7 @@ uint32_t eae6320::Audio::sContext::PlaySoundBuffer( Audio::Sound::sSoundSource* 
 	return m_pActiveChannels.back().get()->GetChannelId();
 }
 
-void eae6320::Audio::sContext::AddNewIdleChannels( const WAVEFORMATEX* i_pFormat )
+void Audio::sContext::AddNewIdleChannels( const WAVEFORMATEX* i_pFormat )
 {
 	// Updated the audio formats
 	m_audioFormat.wFormatTag = i_pFormat->wFormatTag;
