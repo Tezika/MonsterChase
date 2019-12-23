@@ -1,17 +1,18 @@
 #pragma once
+#include <vector>
 #include <mutex>
 #include "Includes.h"
 
 #if defined(PLATFORM_WINDOWS)
 #include <Audio/Windows/Utilities/WAVFileReader.h>
 #endif
+
 namespace Audio
 {
 	namespace Channel
 	{
 		struct sChannel;
 	}
-
 	namespace Sound
 	{
 		struct sSoundInitializationParameters

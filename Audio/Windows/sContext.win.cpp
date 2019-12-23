@@ -6,7 +6,6 @@
 #include <Audio/sSoundSource.h>
 #include <Audio/sChannel.h>
 #include <algorithm>
-#include "assert.h"
 
 namespace
 {
@@ -32,7 +31,7 @@ bool Audio::sContext::Initialize( const Audio::sAudioInitializationParameters& i
 	auto hr = CoInitializeEx( nullptr, COINIT_MULTITHREADED );
 	if (FAILED( hr ))
 	{
-		assert( false, "Failed to init COM: %#X\n", hr );
+		_ASSERT_EXPR( false, "Failed to init COM." );
 		result = false;
 		return result;
 	}
@@ -44,7 +43,7 @@ bool Audio::sContext::Initialize( const Audio::sAudioInitializationParameters& i
 	hr = XAudio2Create( m_pXAudioEngine.GetAddressOf(), flags );
 	if (FAILED( hr ))
 	{
-		assert( false, "Failed to init XAudio2 engine: %#X\n", hr );
+		_ASSERT_EXPR( false, "Failed to init XAudio2 engine" );
 		result = false;
 		CoUninitialize();
 		return result;
@@ -70,7 +69,7 @@ bool Audio::sContext::Initialize( const Audio::sAudioInitializationParameters& i
 	m_pMasterVoice = nullptr;
 	if (FAILED( hr = m_pXAudioEngine->CreateMasteringVoice( &m_pMasterVoice ) ))
 	{
-		assert( false, "Failed creating mastering voice: %#X\n", hr );
+		_ASSERT_EXPR( false, "Failed creating mastering voice" );
 		m_pXAudioEngine.Reset();
 		CoUninitialize();
 		result = false;

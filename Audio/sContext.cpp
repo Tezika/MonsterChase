@@ -1,13 +1,12 @@
 #include "sContext.h"
 #include <algorithm>
 #include "sChannel.h"
-#include "assert.h"
 
 Audio::sContext Audio::sContext::g_audioContext;
 Audio::sContext::~sContext()
 {
 	const auto result = this->CleanUp();
-	assert( result );
+	_ASSERT_EXPR( result, "Cannot clean up the audio context." );
 }
 
 void Audio::sContext::DeactivateChannel( Audio::Channel::sChannel* i_pChannel )

@@ -1,6 +1,5 @@
 // Use the preprocessor to guard that this cpp file is only compiled in Windows platform.
 #if defined(PLATFORM_WINDOWS)
-#include "assert.h"
 #include "sContext.h"
 #include "sChannel.h"
 #include "sSoundSource.h"
@@ -12,7 +11,7 @@
 namespace
 {
 	_Use_decl_annotations_
-	HRESULT FindMediaFileCch( WCHAR* strDestPath, int cchDest, LPCWSTR strFilename )
+		HRESULT FindMediaFileCch( WCHAR* strDestPath, int cchDest, LPCWSTR strFilename )
 	{
 		bool bFound = false;
 
@@ -95,7 +94,10 @@ bool Audio::Sound::sSoundSource::Initialize( const Audio::Sound::sSoundInitializ
 	HRESULT hr = FindMediaFileCch( strFilePath, MAX_PATH, LPCWSTR( i_initializationParameters.m_soundFilePath ) );
 	if (FAILED( hr ))
 	{
-		assert( false, "Failed to find audio file: %s\n", i_initializationParameters.m_soundFilePath );
+		std::wstring errorMsg;
+		errorMsg += L"Failed to find audio file: ";
+		errorMsg += i_initializationParameters.m_soundFilePath;
+		_ASSERT_EXPR( false, errorMsg.c_str() );
 		result = false;
 		return result;
 	}
@@ -105,7 +107,10 @@ bool Audio::Sound::sSoundSource::Initialize( const Audio::Sound::sSoundInitializ
 	//
 	if (FAILED( hr = DirectX::LoadWAVAudioFromFileEx( strFilePath, m_pData, m_wavData ) ))
 	{
-		assert( false, "Failed reading WAV file: %#X (%s)\n", hr, strFilePath );
+		std::wstring errorMsg;
+		errorMsg += L"Failed to load the Wav audio file: ";
+		errorMsg += strFilePath;
+		_ASSERT_EXPR( false, errorMsg.c_str() );
 		result = false;
 		return result;
 	}

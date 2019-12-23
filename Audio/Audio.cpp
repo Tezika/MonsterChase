@@ -1,6 +1,5 @@
 #include "Audio.h"
 #include "sContext.h"
-#include "assert.h"
 
 bool Audio::Initialize( const Audio::sAudioInitializationParameters& i_initializationParameters )
 {
@@ -8,7 +7,7 @@ bool Audio::Initialize( const Audio::sAudioInitializationParameters& i_initializ
 	// Initialize the context
 	if (!(result = Audio::sContext::g_audioContext.Initialize( i_initializationParameters )))
 	{
-		assert( false, "Cannot initialize the audio context" );
+		_ASSERT_EXPR( false, "Cannot initialize the audio context" );
 		return result;
 	}
 	return result;

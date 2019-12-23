@@ -2,7 +2,6 @@
 #include <algorithm>
 #include "sChannel.h"
 #include "sContext.h"
-#include <assert.h>
 namespace Audio
 {
 	namespace Sound
@@ -38,14 +37,14 @@ namespace Audio
 				if (!newSound)
 				{
 					result = false;
-					assert( false, "Couldn't allocate memory for the sound." );
+					_ASSERT_EXPR( false, "Couldn't allocate memory for the sound." );
 					return result;
 				}
 			}
 			// Initialize the platform-specific sound object
 			if (!(result = newSound->Initialize( initializationParameters )))
 			{
-				assert( false, "Initialize the new sound failed" );
+				_ASSERT_EXPR( false, "Initialize the new sound failed" );
 				return result;
 			}
 			newSound->SetLooping( false );
@@ -89,7 +88,7 @@ namespace Audio
 		void sSoundSource::Pause( const uint32_t i_channelId )
 		{
 			std::lock_guard<std::mutex> lock( m_mutex );
-			assert( i_channelId != 0, " The channel Id cannot be zero." );
+			_ASSERT_EXPR( i_channelId != 0, " The channel Id cannot be zero." );
 			auto iFoundChannel = std::find_if( m_pActiveChannels.begin(), m_pActiveChannels.end(),
 				[i_channelId]( Audio::Channel::sChannel* pChan ) -> bool
 				{
@@ -104,7 +103,7 @@ namespace Audio
 		void sSoundSource::Resume( const uint32_t i_channelId )
 		{
 			std::lock_guard<std::mutex> lock( m_mutex );
-			assert( i_channelId != 0, " The channel Id cannot be zero." );
+			_ASSERT_EXPR( i_channelId != 0, " The channel Id cannot be zero." );
 			auto iFoundChannel = std::find_if( m_pActiveChannels.begin(), m_pActiveChannels.end(),
 				[i_channelId]( Audio::Channel::sChannel* pChan ) -> bool
 				{
@@ -153,7 +152,7 @@ namespace Audio
 #if defined(PLATFORM_WINDOWS)
 			//EAE6320_ASSERT( m_referenceCount == 0 );
 			const auto result = CleanUp();
-			assert( result );
+			_ASSERT_EXPR( result,"Cannot clean up the sound source." );
 #endif
 		}
 	}
