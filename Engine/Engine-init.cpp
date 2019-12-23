@@ -18,30 +18,30 @@ namespace Engine
 		const unsigned int 	numDescriptors = 2048;
 		// Allocate memory for my test heap.
 		void* pHeapMemory = HeapAlloc( GetProcessHeap(), 0, sizeHeap );
-		_ASSERT_EXPR( pHeapMemory, "Allocate the memory failed." );
+		_ASSERT_EXPR( false, L"Allocate the memory failed." );
 
 		// Create your HeapManager and FixedSizeAllocators.
 		bool successd = InitializeMemorySystem( pHeapMemory, sizeHeap, numDescriptors );
-		_ASSERT_EXPR( successd, "Failed to initialize the memory system." );
+		_ASSERT_EXPR( successd, L"Failed to initialize the memory system." );
 #endif
 		// Initialize the sub systems
 		bool bSuccess = false;
 
 		// For Message System
 		bSuccess = Messaging::MessageSystem::GetInstance().Initialize();
-		_ASSERT_EXPR( bSuccess, "Failed to initialize the message system." );
+		_ASSERT_EXPR( bSuccess, L"Failed to initialize the message system." );
 
 		// For Physics
 		bSuccess = Physics::PhysicsManager::GetInstance().Initialize();
-		_ASSERT_EXPR( bSuccess, "Failed to initialize the physics system." );
+		_ASSERT_EXPR( bSuccess, L"Failed to initialize the physics system." );
 
 		// For Rendering
 		bSuccess = Render::RenderManager::GetInstance().Initialize( i_hInstance, i_nCmdShow, i_wWidth, i_wHeight, i_pWindowName );
-		_ASSERT_EXPR( bSuccess, "Failed to initialize the renderring system." );
+		_ASSERT_EXPR( bSuccess, L"Failed to initialize the renderring system." );
 
 		// For Controller Manager
 		bSuccess = Controller::ControllerManager::GetInstance().Initialize();
-		_ASSERT_EXPR( bSuccess, "Failed to initialize the controller system." );
+		_ASSERT_EXPR( bSuccess, L"Failed to initialize the controller system." );
 
 		return true;
 	}
@@ -52,19 +52,19 @@ namespace Engine
 		bool bSuccess = false;
 		// For Physics
 		bSuccess = Physics::PhysicsManager::GetInstance().Destroy();
-		_ASSERT_EXPR( bSuccess, "Failed to uninitialize the physics system." );
+		_ASSERT_EXPR( bSuccess, L"Failed to uninitialize the physics system." );
 
 		// For Controller Manager
 		bSuccess = Controller::ControllerManager::GetInstance().Destroy();
-		_ASSERT_EXPR( bSuccess, "Failed to uninitialize the controller system." );
+		_ASSERT_EXPR( bSuccess, L"Failed to uninitialize the controller system." );
 
 		// For Rendering
 		bSuccess = Render::RenderManager::GetInstance().Destroy();
-		_ASSERT_EXPR( bSuccess, "Failed to uninitialize the rendering system." );
+		_ASSERT_EXPR( bSuccess, L"Failed to uninitialize the rendering system." );
 
 		// For Messaging
 		bSuccess = Messaging::MessageSystem::GetInstance().Destroy();
-		_ASSERT_EXPR( bSuccess, "Failed to uninitialize the messaging system." );
+		_ASSERT_EXPR( bSuccess, L"Failed to uninitialize the messaging system." );
 
 #ifdef USE_CUSTOM_MEMORYMANAGEMENT
 		// Destroy the memory management system

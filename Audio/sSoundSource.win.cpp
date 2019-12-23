@@ -97,7 +97,7 @@ bool Audio::Sound::sSoundSource::Initialize( const Audio::Sound::sSoundInitializ
 		std::wstring errorMsg;
 		errorMsg += L"Failed to find audio file: ";
 		errorMsg += i_initializationParameters.m_soundFilePath;
-		_ASSERT_EXPR( false, errorMsg.c_str() );
+		_ASSERT_EXPR( false, errorMsg );
 		result = false;
 		return result;
 	}
@@ -110,7 +110,7 @@ bool Audio::Sound::sSoundSource::Initialize( const Audio::Sound::sSoundInitializ
 		std::wstring errorMsg;
 		errorMsg += L"Failed to load the Wav audio file: ";
 		errorMsg += strFilePath;
-		_ASSERT_EXPR( false, errorMsg.c_str() );
+		_ASSERT_EXPR( false, errorMsg );
 		result = false;
 		return result;
 	}

@@ -7,7 +7,7 @@ bool Audio::Initialize( const Audio::sAudioInitializationParameters& i_initializ
 	// Initialize the context
 	if (!(result = Audio::sContext::g_audioContext.Initialize( i_initializationParameters )))
 	{
-		_ASSERT_EXPR( false, "Cannot initialize the audio context" );
+		_ASSERT_EXPR( false, L"Cannot initialize the audio context" );
 		return result;
 	}
 	return result;

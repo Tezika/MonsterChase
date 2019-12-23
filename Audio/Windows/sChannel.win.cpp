@@ -13,7 +13,7 @@ bool Audio::Channel::sChannel::Initialize( Audio::sContext* i_pContext )
 	auto hr = Audio::sContext::g_audioContext.m_pXAudioEngine->CreateSourceVoice( &m_pSourceVoice, &i_pContext->m_audioFormat, 0u, 2.0f, &vcb );
 	if (FAILED( hr ))
 	{
-		_ASSERT_EXPR( false, "Error: creating source voice\n" );
+		_ASSERT_EXPR( false, L"Error: creating source voice\n" );
 		result = false;
 		return result;
 	}
@@ -26,7 +26,7 @@ bool Audio::Channel::sChannel::Initialize( Audio::sContext* i_pContext )
 
 void Audio::Channel::sChannel::PlaySoundBuffer( Audio::Sound::sSoundSource* i_pSound, float i_freqMod, float i_vol, bool i_bLooping )
 {
-	_ASSERT_EXPR( m_pSourceVoice && !m_pSound, "The channel plays the sound failed." );
+	_ASSERT_EXPR( m_pSourceVoice && !m_pSound, L"The channel plays the sound failed." );
 	i_pSound->AddChannel( this );
 	// Callback thread not running yet, so no sync necessary for pSound
 	m_pSound = i_pSound;
@@ -42,7 +42,7 @@ void Audio::Channel::sChannel::PlaySoundBuffer( Audio::Sound::sSoundSource* i_pS
 
 void Audio::Channel::sChannel::Stop()
 {
-	_ASSERT_EXPR( m_pSourceVoice && m_pSound, "The channel stops the sound failed." );
+	_ASSERT_EXPR( m_pSourceVoice && m_pSound, L"The channel stops the sound failed." );
 	m_pSourceVoice->Stop( 0 );
 	m_pSourceVoice->FlushSourceBuffers();
 }
@@ -58,7 +58,7 @@ void Audio::Channel::sChannel::VoiceCallback::OnBufferEnd( void* i_pBufferContex
 
 bool Audio::Channel::sChannel::CleanUp()
 {
-	_ASSERT_EXPR( !m_pSound, "The channel's sound is still available" );
+	_ASSERT_EXPR( !m_pSound, L"The channel's sound is still available" );
 	auto result = true;
 	if (m_pSourceVoice)
 	{
@@ -70,7 +70,7 @@ bool Audio::Channel::sChannel::CleanUp()
 
 bool Audio::Channel::sChannel::isPlaying()
 {
-	_ASSERT_EXPR( m_pSourceVoice, "The channel's source voice is inavailable." );
+	_ASSERT_EXPR( m_pSourceVoice, L"The channel's source voice is inavailable." );
 	XAUDIO2_VOICE_STATE state;
 	m_pSourceVoice->GetState( &state );
 	return state.BuffersQueued > 0 && !m_bPaused;
@@ -78,7 +78,7 @@ bool Audio::Channel::sChannel::isPlaying()
 
 void Audio::Channel::sChannel::Pause()
 {
-	_ASSERT_EXPR( m_pSound, "The channel has no sound to pause." );
+	_ASSERT_EXPR( m_pSound, L"The channel has no sound to pause." );
 	if (m_bPaused)
 	{
 		return;
@@ -91,7 +91,7 @@ void Audio::Channel::sChannel::Pause()
 
 void Audio::Channel::sChannel::Resume()
 {
-	_ASSERT_EXPR( m_pSound, "The channel has no sound to resume." );
+	_ASSERT_EXPR( m_pSound, L"The channel has no sound to resume." );
 	if (!m_bPaused)
 	{
 		return;

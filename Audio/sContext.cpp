@@ -6,7 +6,7 @@ Audio::sContext Audio::sContext::g_audioContext;
 Audio::sContext::~sContext()
 {
 	const auto result = this->CleanUp();
-	_ASSERT_EXPR( result, "Cannot clean up the audio context." );
+	_ASSERT_EXPR( result, L"Cannot clean up the audio context." );
 }
 
 void Audio::sContext::DeactivateChannel( Audio::Channel::sChannel* i_pChannel )
