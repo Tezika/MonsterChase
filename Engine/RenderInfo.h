@@ -1,7 +1,7 @@
 #pragma once
 #include <GLib/GLib.h>
-#include "SmartPtr.h"
-#include "WeakPtr.h"
+#include <ReferenceCounting/SmartPtr.h>
+#include <ReferenceCounting/WeakPtr.h>
 
 namespace Engine
 {

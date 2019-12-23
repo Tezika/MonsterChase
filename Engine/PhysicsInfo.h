@@ -1,8 +1,7 @@
 #pragma once
-#include "SmartPtr.h"
 #include "Vector3SSE.h"
 #include "Delegate.h"
-
+#include <ReferenceCounting/SmartPtr.h>
 namespace Engine
 {
 	struct AABB;

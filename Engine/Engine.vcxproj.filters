@@ -73,12 +73,6 @@
     <Filter Include="Source Files\Controller">
       <UniqueIdentifier>{b039f0c5-c312-4074-92ed-6918c2676df0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\DataSharing">
-      <UniqueIdentifier>{3a635469-f35f-4681-9941-6a08d7303d68}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\DataSharing">
-      <UniqueIdentifier>{2f30213c-0dbc-4c3a-8785-28109fbb8143}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\String">
       <UniqueIdentifier>{224b48fb-f763-4b27-b749-b83fcdf9b8c6}</UniqueIdentifier>
     </Filter>
@@ -149,15 +143,6 @@
     </ClInclude>
     <ClInclude Include="ControllerManager.h">
       <Filter>Header Files\Controller</Filter>
-    </ClInclude>
-    <ClInclude Include="ReferenceCounter.h">
-      <Filter>Header Files\DataSharing</Filter>
-    </ClInclude>
-    <ClInclude Include="SmartPtr.h">
-      <Filter>Header Files\DataSharing</Filter>
-    </ClInclude>
-    <ClInclude Include="WeakPtr.h">
-      <Filter>Header Files\DataSharing</Filter>
     </ClInclude>
     <ClInclude Include="LuaParser.h">
       <Filter>Header Files\Utility</Filter>
@@ -259,9 +244,6 @@
     </ClCompile>
     <ClCompile Include="ControllerManager.cpp">
       <Filter>Source Files\Controller</Filter>
-    </ClCompile>
-    <ClCompile Include="ReferenceCounter.cpp">
-      <Filter>Source Files\DataSharing</Filter>
     </ClCompile>
     <ClCompile Include="LuaParser.cpp">
       <Filter>Source Files\Utility</Filter>

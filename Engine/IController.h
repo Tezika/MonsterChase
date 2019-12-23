@@ -1,5 +1,5 @@
 #pragma once
-#include "SmartPtr.h"
+#include <ReferenceCounting/SmartPtr.h>
 
 namespace Engine
 {

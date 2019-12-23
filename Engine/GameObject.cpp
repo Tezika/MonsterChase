@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "GameObject.h"
-#include "SmartPtr.h"
 #include "Matrix4x4.h"
 #include "Vector3.h"
+#include <ReferenceCounting/SmartPtr.h>
 
 namespace Engine
 {

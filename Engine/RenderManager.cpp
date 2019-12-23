@@ -6,11 +6,11 @@
 #include "Assert.h"
 #include "TString.h"
 #include "GLibUtility.h"
-#include "SmartPtr.h"
 #include "PhysicsManager.h"
 #include "PhysicsInfo.h"
 #include "AABB.h"
 #include "HashedString.h"
+#include <ReferenceCounting/SmartPtr.h>
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846

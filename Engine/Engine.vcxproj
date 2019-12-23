@@ -183,10 +183,8 @@
     <ClInclude Include="MultiCastDelegate.h" />
     <ClInclude Include="PhysicsInfo.h" />
     <ClInclude Include="PhysicsManager.h" />
-    <ClInclude Include="ReferenceCounter.h" />
     <ClInclude Include="RenderInfo.h" />
     <ClInclude Include="RenderManager.h" />
-    <ClInclude Include="SmartPtr.h" />
     <ClInclude Include="SubSystemHeaders.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TList.h" />
@@ -198,7 +196,6 @@
     <ClInclude Include="Vector3SSE.h" />
     <ClInclude Include="Vector4.h" />
     <ClInclude Include="Vector4SSE.h" />
-    <ClInclude Include="WeakPtr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AABB.cpp" />
@@ -221,7 +218,6 @@
     <ClCompile Include="MessageSystem.cpp" />
     <ClCompile Include="PhysicsInfo.cpp" />
     <ClCompile Include="PhysicsManager.cpp" />
-    <ClCompile Include="ReferenceCounter.cpp" />
     <ClCompile Include="RenderInfo.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -243,6 +239,9 @@
     </ProjectReference>
     <ProjectReference Include="..\LuaWinLibs\Lua-WinLibs.vcxproj">
       <Project>{bdf98e69-fc1b-4010-b9d7-8db75e26a245}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ReferenceCounting\ReferenceCounting.vcxproj">
+      <Project>{2b2ff632-f6f5-43fd-b14c-b0693538a035}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

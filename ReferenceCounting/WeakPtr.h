@@ -1,7 +1,6 @@
 #pragma once
 #include "SmartPtr.h"
 #include "ReferenceCounter.h"
-#include "Assert.h"
 
 namespace Engine
 {

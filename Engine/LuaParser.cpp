@@ -4,11 +4,12 @@
 #include "SubSystemHeaders.h"
 #include "Assert.h"
 #include "CommonUtility.h"
-#include "SmartPtr.h"
+
 #include "ConsolePrint.h"
 #include "Point2D.h"
 #include "AABB.h"
 #include <LuaWinLibs/lua.hpp>
+#include <ReferenceCounting/SmartPtr.h>
 
 #define lua_pop_top(L) lua_pop(L,1);
 

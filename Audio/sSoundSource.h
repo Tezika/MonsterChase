@@ -2,7 +2,7 @@
 #include <vector>
 #include <mutex>
 #include "Includes.h"
-#include <Engine/SmartPtr.h>
+#include <ReferenceCounting/SmartPtr.h>
 
 #if defined(PLATFORM_WINDOWS)
 #include <Audio/Windows/Utilities/WAVFileReader.h>

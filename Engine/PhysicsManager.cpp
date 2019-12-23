@@ -5,7 +5,6 @@
 #include "Assert.h"
 #include "GameObject.h"
 #include "Point2D.h"
-#include "SmartPtr.h"
 #include "Matrix4x4.h"
 #include "Vector3SSE.h"
 #include "Vector4SSE.h"
@@ -19,6 +18,7 @@
 #include <ctime>
 #include "MessageSystem.h"
 #include "Timer.h"
+#include <ReferenceCounting/SmartPtr.h>
 
 namespace Engine
 {
