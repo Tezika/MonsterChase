@@ -2,7 +2,7 @@
 #include "IController.h"
 #include "GameObject.h"
 #include "PhysicsInfo.h"
-#include "SmartPtr.h"
+#include <ReferenceCounting/SmartPtr.h>
 
 namespace TPong
 {

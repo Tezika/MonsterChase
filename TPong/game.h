@@ -10,10 +10,10 @@
 #include "player.h"
 #include "ball.h"
 #include "wall.h"
-#include "SmartPtr.h"
 #include "Delegate.h"
 #include "Vector3SSE.h"
 #include "sSoundSource.h"
+#include <ReferenceCounting/SmartPtr.h>
 
 namespace TPong
 {
