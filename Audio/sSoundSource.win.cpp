@@ -11,7 +11,7 @@
 namespace
 {
 	_Use_decl_annotations_
-		HRESULT FindMediaFileCch( WCHAR* strDestPath, int cchDest, LPCWSTR strFilename )
+	HRESULT FindMediaFileCch( WCHAR* strDestPath, int cchDest, LPCWSTR strFilename )
 	{
 		bool bFound = false;
 

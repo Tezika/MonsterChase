@@ -5,6 +5,7 @@
 #include "SubSystemHeaders.h"
 #include "MemorySystem.h"
 #include "MessageSystem.h"
+#include <Audio/Audio.h>
 
 namespace Engine
 {
@@ -43,7 +44,9 @@ namespace Engine
 		_ASSERT_EXPR( bSuccess, L"Failed to initialize the controller system." );
 
 		// For Audio system
-
+		Audio::sAudioInitializationParameters audioInitializationParamters;
+		bSuccess = Audio::Initialize( audioInitializationParamters );
+		_ASSERT_EXPR( bSuccess, L"Faild to initialize the audio system." );
 		return true;
 	}
 
@@ -66,6 +69,10 @@ namespace Engine
 		// For Messaging
 		bSuccess = Messaging::MessageSystem::GetInstance().Destroy();
 		_ASSERT_EXPR( bSuccess, L"Failed to uninitialize the messaging system." );
+
+		// For Audio system
+		bSuccess = Audio::CleanUp();
+		_ASSERT_EXPR( bSuccess, L"Failed to unintialize the audio system." );
 
 #ifdef USE_CUSTOM_MEMORYMANAGEMENT
 		// Destroy the memory management system

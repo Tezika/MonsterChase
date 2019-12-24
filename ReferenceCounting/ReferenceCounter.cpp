@@ -18,7 +18,6 @@ namespace Engine
 		refCount( i_other.refCount ),
 		weakCount( i_other.weakCount )
 	{
-
 	}
 
 	ReferenceCounter & ReferenceCounter::operator=( const ReferenceCounter & i_other )

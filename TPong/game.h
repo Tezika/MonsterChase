@@ -12,7 +12,7 @@
 #include "wall.h"
 #include "Delegate.h"
 #include "Vector3SSE.h"
-#include "sSoundSource.h"
+#include <Audio/sSoundSource.h>
 #include <ReferenceCounting/SmartPtr.h>
 
 namespace TPong
