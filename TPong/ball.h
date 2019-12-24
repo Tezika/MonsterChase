@@ -1,13 +1,14 @@
 #pragma once
-
+#include <Engine/HashedString.h>
+#include "entity.h"
 namespace TPong
 {
-	class Engine::HashedString;
-	class Ball
+	class Ball :public Entity
 	{
 	public:
-		Ball();
-		Ball( const Engine::HashedString & i_name, const Engine::Vector3SSE & i_position );
+		Ball() = default;
+		Ball( const Ball& ) = delete;
+		Ball& operator=( const Ball& ) = delete;
 		void Shoot();
 		void Reset();
 		virtual ~Ball();

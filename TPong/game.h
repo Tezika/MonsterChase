@@ -1,12 +1,13 @@
 #pragma once
-#include <iostream>
 #include "player.h"
 #include "ball.h"
 #include "wall.h"
-#include "Delegate.h"
-#include "Vector3SSE.h"
+#include <Engine/Delegate.h>
+#include <Engine/Vector3SSE.h>
+#include <Engine/GameObject.h>
 #include <Audio/sSoundSource.h>
 #include <ReferenceCounting/SmartPtr.h>
+#include <iostream>
 
 namespace TPong
 {
@@ -28,8 +29,8 @@ namespace TPong
 			return game;
 		}
 
-		Game( Game const & ) = delete;
-		Game & operator=( Game const & ) = delete;
+		Game( Game const& ) = delete;
+		Game& operator=( Game const& ) = delete;
 
 	private:
 		Game();
@@ -45,8 +46,8 @@ namespace TPong
 		inline void TriggerEnd() { m_bEnd = true; };
 		inline bool InPaused() { return m_bPause; };
 		inline void TooglePause() { m_bPause = !m_bPause; };
-		SPP & GetPlayer1() { return m_player_1; };
-		SPP & GetPlayer2() { return m_player_2; };
+		SPP& GetPlayer1() { return m_player_1; };
+		SPP& GetPlayer2() { return m_player_2; };
 
 	private:
 		// Players
@@ -72,9 +73,9 @@ namespace TPong
 		VEC3SEE m_cachedStartPosition_player1;
 		VEC3SEE m_cachedStartPosition_player2;
 
-		void InitializePlayer( const SPP & i_player );
+		void InitializePlayer( const SPP& i_player );
 		void SetupWalls();
-		void OnBallCollideDeadWall( void * i_pInfo );
+		void OnBallCollideDeadWall( void* i_pInfo );
 		bool m_bEnd;
 		bool m_bPause;
 	};

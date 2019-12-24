@@ -1,12 +1,13 @@
 #pragma once
-
+#include "entity.h"
 namespace TPong
 {
-	class Player
+	class Player :public Entity
 	{
 	public:
-		Player();
-		Player( const Engine::HashedString& i_name, const Engine::Vector3SSE& i_position );
+		Player() = default;
+		Player( const Player& ) = delete;
+		Player& operator=( const Player& ) = delete;
 		virtual ~Player();
 	};
 }

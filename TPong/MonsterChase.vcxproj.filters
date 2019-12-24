@@ -30,9 +30,6 @@
     <ClCompile Include="InputController.cpp">
       <Filter>Source Files\Interfaces</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -49,9 +46,6 @@
     </ClInclude>
     <ClInclude Include="InputController.h">
       <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="entity.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ball.h">
       <Filter>Header Files</Filter>

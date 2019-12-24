@@ -1,21 +1,11 @@
-#include "stdafx.h"
 #include "ball.h"
 #include "CommonUtility.h"
 #include "ConsolePrint.h"
 #include "Vector3SSE.h"
+#include <random>
 
 namespace TPong
 {
-	Ball::Ball() :
-		Entity::Entity()
-	{
-	}
-
-	Ball::Ball( const Engine::HashedString& i_name, const Engine::Vector3SSE& i_position ) :
-		Entity::Entity( i_name, i_position )
-	{
-	}
-
 	void Ball::Shoot()
 	{
 		using namespace Engine;
