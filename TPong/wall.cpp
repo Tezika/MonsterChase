@@ -7,13 +7,7 @@
 
 namespace TPong
 {
-	Wall::Wall() :
-		Entity::Entity(), m_bDead( false )
-	{
-	}
-
-	Wall::Wall( const Engine::HashedString& i_name, const Engine::Vector3SSE& i_position ) :
-		Entity::Entity( i_name, i_position ), m_bDead( false )
+	Wall::Wall() : m_bDead( false )
 	{
 	}
 
@@ -34,7 +28,7 @@ namespace TPong
 		assert( pCollisionPair );
 		SmartPtr<GameObject> pGO1 = pCollisionPair->m_pCollidables[0]->GetGameObject();
 		SmartPtr<GameObject> pGO2 = pCollisionPair->m_pCollidables[1]->GetGameObject();
-		if (pGO1 == this || pGO2 == this)
+		if (pGO1 == m_go || pGO2 == m_go)
 		{
 			Messaging::MessageSystem::GetInstance().SendMessageW( "OnBallCollideDeadWall", this );
 		}

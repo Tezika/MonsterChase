@@ -19,6 +19,18 @@
 extern float Engine::Timing::GetLastFrameTime();
 extern TPong::SPG Engine::CreateGameObjectByFile( const char* pFileName );
 
+namespace
+{
+	void CreateWall( const char* i_filePath, Engine::SmartPtr<TPong::Wall>& o_wall )
+	{
+		auto go_temp = Engine::CreateGameObjectByFile( i_filePath );
+		if (go_temp == nullptr)
+		{
+			_ASSERT_EXPR( false, L"Failed to load the wall's lua file." );
+		}
+		o_wall->SetGameObject( go_temp );
+	}
+}
 namespace TPong
 {
 	Game::Game()
@@ -33,22 +45,41 @@ namespace TPong
 		srand( time_t( NULL ) );
 
 		// Create the two players
-		m_player_1 = SPP( Engine::CreateGameObjectByFile( "Content\\Lua\\player_1.lua" ) );
-		m_player_2 = SPP( Engine::CreateGameObjectByFile( "Content\\Lua\\player_2.lua" ) );
+		auto go_player_1 = Engine::CreateGameObjectByFile( "Content\\Lua\\player_1.lua" );
+		if (go_player_1 == nullptr)
+		{
+			_ASSERT_EXPR( false, L"Failed to load the player one lua file." );
+			return false;
+		}
+		m_player_1->SetGameObject( go_player_1 );
 		this->InitializePlayer( m_player_1 );
+		auto go_player_2 = Engine::CreateGameObjectByFile( "Content\\Lua\\player_2.lua" );
+		if (go_player_2 == nullptr)
+		{
+			_ASSERT_EXPR( false, L"Failed to load the player two lua file." );
+			return false;
+		}
+		m_player_2->SetGameObject( go_player_2 );
 		this->InitializePlayer( m_player_2 );
+
 		// Cache the player's start position for further use.
-		m_cachedStartPosition_player1 = m_player_1->GetPosition();
-		m_cachedStartPosition_player2 = m_player_2->GetPosition();
+		m_cachedStartPosition_player1 = go_player_1->GetPosition();
+		m_cachedStartPosition_player2 = go_player_2->GetPosition();
 
 		// Create the ball
-		m_ball = SPB( Engine::CreateGameObjectByFile( "Content\\Lua\\ball.lua" ) );
+		auto go_ball = Engine::CreateGameObjectByFile( "Content\\Lua\\ball.lua" );
+		if (go_ball == nullptr)
+		{
+			_ASSERT_EXPR( false, L"Failed to load the ball lua file." );
+			return false;
+		}
+		m_ball->SetGameObject( go_ball );
 
 		// Create the sound
 		m_bgm = Audio::Sound::sSoundSource::Create( "Content\\Sound\\bgm.wav" );
 		if (m_bgm == nullptr)
 		{
-			_ASSERT_EXPR( false, "Failed to load the bgm." );
+			_ASSERT_EXPR( false, L"Failed to load the bgm." );
 		}
 		m_bgmChannelId = m_bgm->Play();
 
@@ -86,16 +117,18 @@ namespace TPong
 
 	void Game::Reset()
 	{
+		auto go_player_1 = m_player_1->GetGameObject();
+		auto go_player_2 = m_player_2->GetGameObject();
 		// Close the controllers
-		m_player_1->GetController()->SetEnable( false );
-		m_player_2->GetController()->SetEnable( false );
+		go_player_1->GetController()->SetEnable( false );
+		go_player_2->GetController()->SetEnable( false );
 
 		// Reset the player's velocity abd position
-		m_player_1->SetVelocity( VEC3SEE{ 0,0,0 } );
-		m_player_2->SetVelocity( VEC3SEE{ 0,0,0 } );
+		go_player_1->SetVelocity( VEC3SEE{ 0,0,0 } );
+		go_player_2->SetVelocity( VEC3SEE{ 0,0,0 } );
 
-		m_player_1->SetPosition( m_cachedStartPosition_player1 );
-		m_player_2->SetPosition( m_cachedStartPosition_player2 );
+		go_player_1->SetPosition( m_cachedStartPosition_player1 );
+		go_player_2->SetPosition( m_cachedStartPosition_player2 );
 
 		//Reset the ball
 		m_ball->Reset();
@@ -129,8 +162,8 @@ namespace TPong
 			return;
 		}
 		// Open the controllers
-		m_player_1->GetController()->SetEnable( true );
-		m_player_2->GetController()->SetEnable( true );
+		m_player_1->GetGameObject()->GetController()->SetEnable( true );
+		m_player_2->GetGameObject()->GetController()->SetEnable( true );
 		m_ball->Shoot();
 		DEBUG_PRINT_GAMEPLAY( "----------Reset the game successfully.----------" );
 	}
@@ -143,17 +176,16 @@ namespace TPong
 		// For controller: Create an input controller and assign it to the player.
 		InputController* pInputController = new InputController( i_player, drivingForce );
 		pInputController->SetControlGameObject( i_player );
-		i_player->SetController( pInputController );
+		i_player->GetGameObject()->SetController( pInputController );
 		Controller::ControllerManager::GetInstance().AddContrller( pInputController );
 	}
 
 	void Game::SetupWalls()
 	{
-		// Create the wall based on the lua files.
-		m_wall_bottom = SPW( Engine::CreateGameObjectByFile( "Content\\Lua\\wall_bottom.lua" ) );
-		m_wall_up = SPW( Engine::CreateGameObjectByFile( "Content\\Lua\\wall_up.lua" ) );
-		m_wall_right = SPW( Engine::CreateGameObjectByFile( "Content\\Lua\\wall_right.lua" ) );
-		m_wall_left = SPW( Engine::CreateGameObjectByFile( "Content\\Lua\\wall_left.lua" ) );
+		CreateWall( "Content\\Lua\\wall_bottom.lua", m_wall_bottom );
+		CreateWall( "Content\\Lua\\wall_up.lua", m_wall_up );
+		CreateWall( "Content\\Lua\\wall_right.lua", m_wall_right );
+		CreateWall( "Content\\Lua\\wall_left.lua", m_wall_left );
 		// Set the left and right wall as the dead walls.
 		m_wall_left->SetDead();
 		m_wall_right->SetDead();

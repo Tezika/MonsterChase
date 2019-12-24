@@ -7,7 +7,7 @@ namespace TPong
 	class Wall : public Entity
 	{
 	public:
-		Wall() = default;
+		Wall();
 		Wall( const Wall& ) = delete;
 		Wall& operator=( const Wall& ) = delete;
 		void SetDead();

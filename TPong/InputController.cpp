@@ -19,6 +19,8 @@ namespace TPong
 		static TPong::InputController* pCurrentController = nullptr;
 		static Physics::PhysicsInfo* pCachedPhysicsInfo = nullptr;
 		static Vector3 cachedDrivingForce = Vector3::Zero;
+		auto go_player_1 = Game::GetInstance().GetPlayer1()->GetGameObject();
+		auto go_player_2 = Game::GetInstance().GetPlayer2()->GetGameObject();
 		bool bApplyForce = true;
 		if (i_bWentDown)
 		{
@@ -28,28 +30,28 @@ namespace TPong
 			{
 				// For W
 			case 0x57:
-				pCurrentController = static_cast<TPong::InputController*>(Game::GetInstance().GetPlayer1()->GetController());
+				pCurrentController = static_cast<TPong::InputController*>(go_player_1->GetController());
 				cachedDrivingForce.x = 0;
 				cachedDrivingForce.y = pCurrentController->GetDrivingForce();
 				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of up for player 1" );
 				break;
 				// For S
 			case 0x53:
-				pCurrentController = static_cast<TPong::InputController*>(Game::GetInstance().GetPlayer1()->GetController());
+				pCurrentController = static_cast<TPong::InputController*>(go_player_1->GetController());
 				cachedDrivingForce.x = 0;
 				cachedDrivingForce.y = -pCurrentController->GetDrivingForce();
 				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of down for player 1" );
 				break;
 				// For O
 			case 0x4F:
-				pCurrentController = static_cast<TPong::InputController*>(Game::GetInstance().GetPlayer2()->GetController());
+				pCurrentController = static_cast<TPong::InputController*>(go_player_2->GetController());
 				cachedDrivingForce.x = 0;
 				cachedDrivingForce.y = pCurrentController->GetDrivingForce();
 				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of up for player 2" );
 				break;
 				// For K
 			case 0x4B:
-				pCurrentController = static_cast<TPong::InputController*>(Game::GetInstance().GetPlayer2()->GetController());
+				pCurrentController = static_cast<TPong::InputController*>(go_player_2->GetController());
 				cachedDrivingForce.x = 0;
 				cachedDrivingForce.y = -pCurrentController->GetDrivingForce();
 				DEBUG_PRINT_GAMEPLAY( "Start applying the force with direction of down for player 2" );

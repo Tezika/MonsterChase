@@ -35,16 +35,16 @@ namespace TPong
 			velocity_y = -velocity_y;
 		}
 		Vector3SSE newVelocity = Vector3SSE{ velocity_x, velocity_y, 0 };
-		this->SetVelocity( newVelocity );
-		this->SetPosition( Vector3SSE{ 0, deltaPosition, 0 } );
+		m_go->SetVelocity( newVelocity );
+		m_go->SetPosition( Vector3SSE{ 0, deltaPosition, 0 } );
 		DEBUG_PRINT_GAMEPLAY( "----------Reset the ball successfully.----------" );
 	}
 
 	void Ball::Reset()
 	{
 		using namespace Engine;
-		this->SetVelocity( Vector3SSE{ 0,0,0 } );
-		this->SetPosition( Vector3SSE{ 0,0,0 } );
+		m_go->SetVelocity( Vector3SSE{ 0,0,0 } );
+		m_go->SetPosition( Vector3SSE{ 0,0,0 } );
 	}
 
 	Ball::~Ball()
