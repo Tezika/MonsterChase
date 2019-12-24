@@ -1,16 +1,15 @@
 #pragma once
-#include "entity.h"
 #include "Delegate.h"
 
 namespace TPong
 {
-	class Wall : public Entity
+	class Wall
 	{
 	public:
 		Wall();
 		Wall( const Engine::HashedString & name, const Engine::Vector3SSE & i_position );
 		void SetDead();
-		~Wall();
+		virtual ~Wall();
 	private:
 		Engine::Messaging::Delegate<void*> m_dOnCollision;
 		bool m_bDead;

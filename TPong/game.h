@@ -1,10 +1,3 @@
-//
-//  game.h
-//  MonsterChase
-//
-//  Created by  TezikaZhou on 2018/9/1.
-//  Copyright © 2018 Tezika ZHou. All rights reserved.
-//
 #pragma once
 #include <iostream>
 #include "player.h"
