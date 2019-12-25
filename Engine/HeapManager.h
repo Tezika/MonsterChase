@@ -6,7 +6,7 @@ namespace Engine
 {
 
 #ifndef ALIGNMENT_ALLOCATION
-//#define ALIGNMENT_ALLOCATION
+#define ALIGNMENT_ALLOCATION
 #endif // ALIGNMENT_ALLOCATION
 
 	struct BlockDescriptor

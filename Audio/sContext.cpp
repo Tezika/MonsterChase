@@ -2,7 +2,6 @@
 #include <algorithm>
 #include "sChannel.h"
 
-Audio::sContext Audio::sContext::g_audioContext;
 Audio::sContext::~sContext()
 {
 }

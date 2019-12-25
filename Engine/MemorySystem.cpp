@@ -7,21 +7,21 @@
 
 namespace Engine
 {
-	HeapManager * s_pDefaultHeap;
+	HeapManager* s_pDefaultHeap;
 
 #ifdef USE_FIXED_ALLOCATORS
-	FSAInitData * s_pFSASizes = nullptr;
-	FixedSizeAllocator ** s_pFixedSizeAllocators = nullptr;
+	FSAInitData* s_pFSASizes = nullptr;
+	FixedSizeAllocator** s_pFixedSizeAllocators = nullptr;
 	size_t s_numOfFSASize = 6;
 	size_t s_maxFSASize = 256;
 	size_t s_minFSASize = 8;
 #endif
 
-	bool InitializeMemorySystem( void * i_pHeapMemory, size_t i_sizeHeapMemory, unsigned int i_OptionalNumDescriptors )
+	bool InitializeMemorySystem( void* i_pHeapMemory, size_t i_sizeHeapMemory, unsigned int i_OptionalNumDescriptors )
 	{
 		// Create your HeapManager and FixedSizeAllocators
 		// Create a heap manager for my custom heap.
-		HeapManager * pHeapManager = HeapManager::Create( i_pHeapMemory, i_sizeHeapMemory, i_OptionalNumDescriptors );
+		HeapManager* pHeapManager = HeapManager::Create( i_pHeapMemory, i_sizeHeapMemory, i_OptionalNumDescriptors );
 		assert( pHeapManager );
 
 		s_pDefaultHeap = pHeapManager;
@@ -47,12 +47,12 @@ namespace Engine
 		// Destroy your HeapManager and FixedSizeAllocators
 		// Destory FixedSizeAllocators
 #ifdef USE_FIXED_ALLOCATORS
-		FixedSizeAllocator * pTempAllocator;
+		FixedSizeAllocator* pTempAllocator;
 		for (size_t i = 0; i < s_numOfFSASize; i++)
 		{
 			pTempAllocator = s_pFixedSizeAllocators[i];
-			s_pFixedSizeAllocators[i] = nullptr;
 			delete pTempAllocator;
+			s_pFixedSizeAllocators[i] = nullptr;
 		}
 		delete s_pFixedSizeAllocators;
 #endif
@@ -62,7 +62,7 @@ namespace Engine
 		DEBUG_PRINT_ENGINE( "The memory management system destroied succuessfully!" );
 	}
 
-	HeapManager * GetDefaultHeap()
+	HeapManager* GetDefaultHeap()
 	{
 		return s_pDefaultHeap;
 	}
@@ -72,11 +72,11 @@ namespace Engine
 	{
 		bool successful = InitializeFSAInitData();
 		assert( successful );
-		s_pFixedSizeAllocators = reinterpret_cast< FixedSizeAllocator ** >(s_pDefaultHeap->Alloc( sizeof( FixedSizeAllocator * ) * s_numOfFSASize, Engine::HeapManager::s_alignment ));
+		s_pFixedSizeAllocators = reinterpret_cast<FixedSizeAllocator * *>(s_pDefaultHeap->Alloc( sizeof( FixedSizeAllocator* ) * s_numOfFSASize, Engine::HeapManager::s_alignment ));
 		assert( s_pFixedSizeAllocators );
 		for (size_t i = 0; i < s_numOfFSASize; i++)
 		{
-			FixedSizeAllocator * pAllocator = FixedSizeAllocator::Create( s_pFSASizes[i].sizeBlock, s_pFSASizes[i].numBlocks, s_pDefaultHeap );
+			FixedSizeAllocator* pAllocator = FixedSizeAllocator::Create( s_pFSASizes[i].sizeBlock, s_pFSASizes[i].numBlocks, s_pDefaultHeap );
 			assert( pAllocator );
 			s_pFixedSizeAllocators[i] = pAllocator;
 		}
@@ -86,18 +86,18 @@ namespace Engine
 
 	bool InitializeFSAInitData()
 	{
-		s_pFSASizes = reinterpret_cast< FSAInitData * >(s_pDefaultHeap->Alloc( sizeof( FSAInitData ) * s_numOfFSASize, Engine::HeapManager::s_alignment ));
+		s_pFSASizes = reinterpret_cast<FSAInitData*>(s_pDefaultHeap->Alloc( sizeof( FSAInitData ) * s_numOfFSASize, Engine::HeapManager::s_alignment ));
 		assert( s_pFSASizes );
 		//For test, the size of block are 8, 16, 32, 64, 128, 256. the number of blocks is 500
 		for (size_t i = 0; i < s_numOfFSASize; i++)
 		{
-			s_pFSASizes[i].sizeBlock = ( size_t )pow( 2, i + 3 );
+			s_pFSASizes[i].sizeBlock = (size_t)pow( 2, i + 3 );
 			s_pFSASizes[i].numBlocks = 500;
 		}
 		return true;
 	}
 
-	FixedSizeAllocator * FindFixedSizeAllocator( size_t i_size )
+	FixedSizeAllocator* FindFixedSizeAllocator( size_t i_size )
 	{
 		if (i_size == 0)
 		{
@@ -126,7 +126,7 @@ namespace Engine
 		return nullptr;
 	}
 
-	bool FreeFromFixedSizeAllocators( void * i_ptr )
+	bool FreeFromFixedSizeAllocators( void* i_ptr )
 	{
 		assert( i_ptr != nullptr );
 		bool successful = false;

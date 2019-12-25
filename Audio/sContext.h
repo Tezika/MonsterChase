@@ -1,5 +1,6 @@
 #pragma once
 #include "Includes.h"
+#include "sChannel.h"
 #include <mutex>
 
 #if defined(PLATFORM_WINDOWS)
@@ -22,8 +23,14 @@ namespace Audio
 	struct sContext
 	{
 	public:
-		// Static variable
-		static sContext g_audioContext;
+		static sContext& GetInstance()
+		{
+			static sContext s_context;
+			return s_context;
+		}
+
+		sContext( const sContext& ) = delete;
+		sContext& operator=( const sContext& ) = delete;
 
 		// Initialization / Clean Up
 		//--------------------------

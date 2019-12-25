@@ -52,7 +52,7 @@ namespace Audio
 
 		uint32_t sSoundSource::Play()
 		{
-			return Audio::sContext::g_audioContext.PlaySoundBuffer( this, m_pitch, m_volume, m_bLooping );
+			return Audio::sContext::GetInstance().PlaySoundBuffer( this, m_pitch, m_volume, m_bLooping );
 		}
 
 		void sSoundSource::Stop( uint32_t i_channelId )

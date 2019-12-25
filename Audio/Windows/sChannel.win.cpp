@@ -10,7 +10,7 @@ bool Audio::Channel::sChannel::Initialize( Audio::sContext* i_pContext )
 	static uint32_t s_channelId = 1;
 	ZeroMemory( &m_audioBuffer, sizeof( m_audioBuffer ) );
 	m_audioBuffer.pContext = this;
-	auto hr = Audio::sContext::g_audioContext.m_pXAudioEngine->CreateSourceVoice( &m_pSourceVoice, &i_pContext->m_audioFormat, 0u, 2.0f, &vcb );
+	auto hr = Audio::sContext::GetInstance().m_pXAudioEngine->CreateSourceVoice( &m_pSourceVoice, &i_pContext->m_audioFormat, 0u, 2.0f, &vcb );
 	if (FAILED( hr ))
 	{
 		_ASSERT_EXPR( false, L"Error: creating source voice\n" );
@@ -53,7 +53,7 @@ void Audio::Channel::sChannel::VoiceCallback::OnBufferEnd( void* i_pBufferContex
 	channel.Stop();
 	channel.m_pSound->RemoveActiveChannel( &channel );
 	channel.m_pSound = nullptr;
-	sContext::g_audioContext.DeactivateChannel( &channel );
+	sContext::GetInstance().DeactivateChannel( &channel );
 }
 
 bool Audio::Channel::sChannel::CleanUp()
