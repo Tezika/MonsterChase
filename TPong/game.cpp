@@ -23,11 +23,13 @@ namespace
 {
 	void CreateWall( const char* i_filePath, Engine::SmartPtr<TPong::Wall>& o_wall )
 	{
-		auto go_temp = Engine::CreateGameObjectByFile( i_filePath );
+		using namespace Engine;
+		auto go_temp = CreateGameObjectByFile( i_filePath );
 		if (go_temp == nullptr)
 		{
 			_ASSERT_EXPR( false, L"Failed to load the wall's lua file." );
 		}
+		o_wall = SmartPtr<TPong::Wall>( new TPong::Wall() );
 		o_wall->SetGameObject( go_temp );
 	}
 }
@@ -45,20 +47,23 @@ namespace TPong
 		srand( time_t( NULL ) );
 
 		// Create the two players
-		auto go_player_1 = Engine::CreateGameObjectByFile( "Content\\Lua\\player_1.lua" );
+		auto go_player_1 = CreateGameObjectByFile( "Content\\Lua\\player_1.lua" );
 		if (go_player_1 == nullptr)
 		{
 			_ASSERT_EXPR( false, L"Failed to load the player one lua file." );
 			return false;
 		}
+		m_player_1 = SmartPtr<Player>( new Player() );
 		m_player_1->SetGameObject( go_player_1 );
 		this->InitializePlayer( m_player_1 );
-		auto go_player_2 = Engine::CreateGameObjectByFile( "Content\\Lua\\player_2.lua" );
+
+		auto go_player_2 = CreateGameObjectByFile( "Content\\Lua\\player_2.lua" );
 		if (go_player_2 == nullptr)
 		{
 			_ASSERT_EXPR( false, L"Failed to load the player two lua file." );
 			return false;
 		}
+		m_player_2 = Engine::SmartPtr<Player>( new Player() );
 		m_player_2->SetGameObject( go_player_2 );
 		this->InitializePlayer( m_player_2 );
 
@@ -67,21 +72,22 @@ namespace TPong
 		m_cachedStartPosition_player2 = go_player_2->GetPosition();
 
 		// Create the ball
-		auto go_ball = Engine::CreateGameObjectByFile( "Content\\Lua\\ball.lua" );
+		auto go_ball = CreateGameObjectByFile( "Content\\Lua\\ball.lua" );
 		if (go_ball == nullptr)
 		{
 			_ASSERT_EXPR( false, L"Failed to load the ball lua file." );
 			return false;
 		}
+		m_ball = SmartPtr<Ball>( new Ball() );
 		m_ball->SetGameObject( go_ball );
 
 		// Create the sound
-		m_bgm = Audio::Sound::sSoundSource::Create( "Content\\Sound\\bgm.wav" );
-		if (m_bgm == nullptr)
-		{
-			_ASSERT_EXPR( false, L"Failed to load the bgm." );
-		}
-		m_bgmChannelId = m_bgm->Play();
+		//m_bgm = Audio::Sound::sSoundSource::Create( "Content\\Sound\\bgm.wav" );
+		//if (m_bgm == nullptr)
+		//{
+		//	_ASSERT_EXPR( false, L"Failed to load the bgm." );
+		//}
+		//m_bgmChannelId = m_bgm->Play();
 
 		// Set up Walls
 		this->SetupWalls();
@@ -147,11 +153,11 @@ namespace TPong
 		m_wall_up = nullptr;
 		m_wall_left = nullptr;
 		m_wall_right = nullptr;
-		if (m_bgm != nullptr)
-		{
-			m_bgm->Stop( m_bgmChannelId );
-		}
-		m_bgm = nullptr;
+		//if (m_bgm != nullptr)
+		//{
+		//	m_bgm->Stop( m_bgmChannelId );
+		//}
+		//m_bgm = nullptr;
 		DEBUG_PRINT_GAMEPLAY( "----------Shutdown the game successfully.----------" );
 	}
 
@@ -175,8 +181,9 @@ namespace TPong
 		const float drivingForce = 600.0f;
 		// For controller: Create an input controller and assign it to the player.
 		InputController* pInputController = new InputController( i_player, drivingForce );
-		pInputController->SetControlGameObject( i_player );
-		i_player->GetGameObject()->SetController( pInputController );
+		auto go_player = i_player->GetGameObject();
+		pInputController->SetControlGameObject( go_player );
+		go_player->SetController( pInputController );
 		Controller::ControllerManager::GetInstance().AddContrller( pInputController );
 	}
 

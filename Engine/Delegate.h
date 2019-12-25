@@ -53,6 +53,8 @@ namespace Engine
 
 			~Delegate()
 			{
+				m_pInstance = nullptr;
+				m_pMethod = nullptr;
 			}
 
 		private:
