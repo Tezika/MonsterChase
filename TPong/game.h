@@ -63,8 +63,8 @@ namespace TPong
 		SPW m_wall_left;
 		SPW m_wall_right;
 
-		Engine::SmartPtr<Audio::Sound::sSoundSource> m_bgm;
-		uint32_t m_bgmChannelId;
+		//Engine::SmartPtr<Audio::Sound::sSoundSource> m_bgm;
+		//uint32_t m_bgmChannelId;
 
 		// Delegates
 		DEL m_dBallCollideDeadWall;

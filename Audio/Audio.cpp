@@ -1,5 +1,6 @@
 #include "Audio.h"
 #include "sContext.h"
+#include <Engine/ConsolePrint.h>
 
 bool Audio::Initialize( const Audio::sAudioInitializationParameters& i_initializationParameters )
 {
@@ -10,6 +11,7 @@ bool Audio::Initialize( const Audio::sAudioInitializationParameters& i_initializ
 		_ASSERT_EXPR( false, L"Cannot initialize the audio context" );
 		return result;
 	}
+	DEBUG_PRINT_ENGINE( "The audio system initialized successfully." );
 	return result;
 }
 
@@ -24,5 +26,6 @@ bool Audio::CleanUp()
 			result = result_context;
 		}
 	}
+	DEBUG_PRINT_ENGINE( "The audio system shutdown successfully." );
 	return result;
 }
