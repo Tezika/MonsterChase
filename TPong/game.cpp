@@ -82,12 +82,12 @@ namespace TPong
 		m_ball->SetGameObject( go_ball );
 
 		// Create the sound
-		//m_bgm = Audio::Sound::sSoundSource::Create( "Content\\Sound\\bgm.wav" );
-		//if (m_bgm == nullptr)
-		//{
-		//	_ASSERT_EXPR( false, L"Failed to load the bgm." );
-		//}
-		//m_bgmChannelId = m_bgm->Play();
+		m_bgm = Audio::Sound::sSoundSource::Create( "Content\\Sound\\bgm.wav" );
+		if (m_bgm == nullptr)
+		{
+			_ASSERT_EXPR( false, L"Failed to load the bgm." );
+		}
+		m_bgmChannelId = m_bgm->Play();
 
 		// Set up Walls
 		this->SetupWalls();
@@ -153,11 +153,11 @@ namespace TPong
 		m_wall_up = nullptr;
 		m_wall_left = nullptr;
 		m_wall_right = nullptr;
-		//if (m_bgm != nullptr)
-		//{
-		//	m_bgm->Stop( m_bgmChannelId );
-		//}
-		//m_bgm = nullptr;
+		if (m_bgm != nullptr)
+		{
+			m_bgm->Stop( m_bgmChannelId );
+		}
+		m_bgm = nullptr;
 		DEBUG_PRINT_GAMEPLAY( "----------Shutdown the game successfully.----------" );
 	}
 

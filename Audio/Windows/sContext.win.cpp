@@ -91,7 +91,8 @@ bool Audio::sContext::CleanUp()
 		m_pActiveChannels[i].reset();
 	}
 	m_pActiveChannels.clear();
-	m_pMasterVoice = nullptr;
+	m_pMasterVoice->DestroyVoice();
+	m_pXAudioEngine.Reset();
 	CoUninitialize();
 	return result;
 }

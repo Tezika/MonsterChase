@@ -14,12 +14,9 @@ namespace Engine
 			itr = m_pMessage2Delegates->find( i_message );
 			if ( itr == m_pMessage2Delegates->end() )
 			{
-				{
 					MultiCastDelegate<void*> newMultiCastDelegate;
 					newMultiCastDelegate.AddDelegate( i_delegate );
-					auto newPair = std::make_pair( i_message, newMultiCastDelegate );
-					m_pMessage2Delegates->insert( newPair );
-				}
+					m_pMessage2Delegates->insert( std::make_pair( i_message, newMultiCastDelegate ) );
 			}
 			else
 			{
@@ -60,17 +57,8 @@ namespace Engine
 
 		bool MessageSystem::Destroy()
 		{
-			for (auto it = m_pMessage2Delegates->begin(); it != m_pMessage2Delegates->end(); it++)
-			{
-				it->second.RemoveAll();
-			}
 			m_pMessage2Delegates->clear();
 			delete m_pMessage2Delegates;
-
-#if defined _DEBUG
-			_CrtDumpMemoryLeaks();
-#endif // _DEBUG
-
 			m_pMessage2Delegates = nullptr;
 			return true;
 		}
