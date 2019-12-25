@@ -51,10 +51,11 @@ namespace Engine
 		for (size_t i = 0; i < s_numOfFSASize; i++)
 		{
 			pTempAllocator = s_pFixedSizeAllocators[i];
-			delete pTempAllocator;
 			s_pFixedSizeAllocators[i] = nullptr;
+			delete pTempAllocator;
 		}
 		delete s_pFixedSizeAllocators;
+		s_pFixedSizeAllocators = nullptr;
 #endif
 		// Destory the heap manager
 		assert( s_pDefaultHeap != nullptr );
@@ -129,7 +130,12 @@ namespace Engine
 	bool FreeFromFixedSizeAllocators( void* i_ptr )
 	{
 		assert( i_ptr != nullptr );
+		if (s_pFixedSizeAllocators == nullptr)
+		{
+			return false;
+		}
 		bool successful = false;
+
 		for (size_t i = 0; i < s_numOfFSASize; i++)
 		{
 			if (s_pFixedSizeAllocators[i] == nullptr)
