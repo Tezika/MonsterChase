@@ -32,9 +32,9 @@ namespace TPong
 	{
 		using namespace Engine;
 		// Reset ball: Random its position, inital velocity
-		constexpr float range_velocity_x_max = 300;
-		constexpr float range_velocity_x_min = 50;
-		constexpr float range_velocity_y_max = 260;
+		constexpr float range_velocity_x_max = 400;
+		constexpr float range_velocity_x_min = 150;
+		constexpr float range_velocity_y_max = 300;
 		constexpr float range_velocity_y_min = 0;
 		constexpr float range_vertical_position = 60;
 		float r = 0;
@@ -81,6 +81,7 @@ namespace TPong
 		assert( pCollisionPair );
 		SmartPtr<GameObject> pGO1 = pCollisionPair->m_pCollidables[0]->GetGameObject();
 		SmartPtr<GameObject> pGO2 = pCollisionPair->m_pCollidables[1]->GetGameObject();
+		// When the ball collides the player's pad.
 		if ((pGO1->GetTag() == "ball" && pGO2->GetTag() == "player") ||
 			(pGO1->GetTag() == "player" && pGO2->GetTag() == "ball"))
 		{
@@ -88,8 +89,14 @@ namespace TPong
 			{
 				m_sound_collision->Play();
 			}
+			this->RandVelocity();
 		}
+	}
 
+	void Ball::RandVelocity()
+	{
+		auto newVelocity = m_go->GetVelocity().Normalize() * 300;
+		m_go->SetVelocity( newVelocity );
 	}
 
 	Ball::~Ball()

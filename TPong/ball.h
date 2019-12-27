@@ -18,6 +18,7 @@ namespace TPong
 		virtual ~Ball();
 	private:
 		void OnCollision( void* i_pCollisionInfo );
+		void RandVelocity();
 		Engine::Messaging::Delegate<void*> m_dOnCollision;
 		Engine::SmartPtr<Audio::Sound::sSoundSource> m_sound_collision;
 		Engine::SmartPtr<Audio::Sound::sSoundSource> m_sound_fire;
