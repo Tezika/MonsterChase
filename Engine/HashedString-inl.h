@@ -54,7 +54,8 @@ namespace Engine
 			delete m_pStr;
 			m_pStr = nullptr;
 		}
-		m_pStr = _strdup( i_other.m_pStr );
+		m_pStr = new char[strlen( i_other.m_pStr ) + 1];
+		strcpy_s( const_cast<char*>(m_pStr), strlen( i_other.m_pStr ) + 1, i_other.m_pStr );
 #endif
 		return *this;
 	}
