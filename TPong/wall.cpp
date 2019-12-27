@@ -18,6 +18,7 @@ namespace TPong
 		// Register the delegate for the collision event
 		this->m_dOnCollision = Messaging::Delegate<void*>::Create<Wall, & Wall::OnCollision>( this );
 		Messaging::MessageSystem::GetInstance().RegisterMessageDelegate( "OnCollision", this->m_dOnCollision );
+		m_go->SetTag( "deadwall" );
 	}
 
 	void Wall::OnCollision( void* i_pCollisionInfo )
@@ -28,7 +29,7 @@ namespace TPong
 		assert( pCollisionPair );
 		SmartPtr<GameObject> pGO1 = pCollisionPair->m_pCollidables[0]->GetGameObject();
 		SmartPtr<GameObject> pGO2 = pCollisionPair->m_pCollidables[1]->GetGameObject();
-		if (pGO1 == m_go || pGO2 == m_go)
+		if (pGO1->GetTag() == "deadwall" || pGO2->GetTag() == "deadwall")
 		{
 			Messaging::MessageSystem::GetInstance().SendMessageW( "OnBallCollideDeadWall", this );
 		}

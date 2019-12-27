@@ -1,7 +1,9 @@
 #include "ball.h"
-#include "CommonUtility.h"
-#include "ConsolePrint.h"
-#include "Vector3SSE.h"
+#include <Engine/CommonUtility.h>
+#include <Engine/ConsolePrint.h>
+#include <Engine/Vector3SSE.h>
+#include <Engine/PhysicsManager.h>
+#include <Engine/PhysicsInfo.h>
 #include <random>
 
 namespace TPong
@@ -73,10 +75,21 @@ namespace TPong
 
 	void Ball::OnCollision( void* i_pCollisionInfo )
 	{
-		if (m_sound_collision != nullptr)
+		using namespace Engine;
+		using namespace Engine::Physics;
+		CollisionPair* pCollisionPair = reinterpret_cast<CollisionPair*>(i_pCollisionInfo);
+		assert( pCollisionPair );
+		SmartPtr<GameObject> pGO1 = pCollisionPair->m_pCollidables[0]->GetGameObject();
+		SmartPtr<GameObject> pGO2 = pCollisionPair->m_pCollidables[1]->GetGameObject();
+		if ((pGO1->GetTag() == "ball" && pGO2->GetTag() == "player") ||
+			(pGO1->GetTag() == "player" && pGO2->GetTag() == "ball"))
 		{
-			m_sound_collision->Play();
+			if (m_sound_collision != nullptr)
+			{
+				m_sound_collision->Play();
+			}
 		}
+
 	}
 
 	Ball::~Ball()

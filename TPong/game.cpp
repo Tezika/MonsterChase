@@ -24,13 +24,14 @@ namespace
 	void CreateWall( const char* i_filePath, Engine::SmartPtr<TPong::Wall>& o_wall )
 	{
 		using namespace Engine;
-		auto go_temp = CreateGameObjectByFile( i_filePath );
-		if (go_temp == nullptr)
+		auto go_wall = CreateGameObjectByFile( i_filePath );
+		if (go_wall == nullptr)
 		{
 			_ASSERT_EXPR( false, L"Failed to load the wall's lua file." );
 		}
+		go_wall->SetTag( "wall" );
 		o_wall = SmartPtr<TPong::Wall>( new TPong::Wall() );
-		o_wall->SetGameObject( go_temp );
+		o_wall->SetGameObject( go_wall );
 	}
 }
 namespace TPong
@@ -53,6 +54,7 @@ namespace TPong
 			_ASSERT_EXPR( false, L"Failed to load the player one lua file." );
 			return false;
 		}
+		go_player_1->SetTag( "player" );
 		m_player_1 = SmartPtr<Player>( new Player() );
 		m_player_1->SetGameObject( go_player_1 );
 		this->InitializePlayer( m_player_1 );
@@ -63,6 +65,7 @@ namespace TPong
 			_ASSERT_EXPR( false, L"Failed to load the player two lua file." );
 			return false;
 		}
+		go_player_2->SetTag( "player" );
 		m_player_2 = Engine::SmartPtr<Player>( new Player() );
 		m_player_2->SetGameObject( go_player_2 );
 		this->InitializePlayer( m_player_2 );
@@ -78,7 +81,8 @@ namespace TPong
 			_ASSERT_EXPR( false, L"Failed to load the ball lua file." );
 			return false;
 		}
-		m_ball = SmartPtr<Ball>( new Ball("Content/Sound/collision.wav","Content/Sound/fire.wav") );
+		go_ball->SetTag( "ball" );
+		m_ball = SmartPtr<Ball>( new Ball( "Content/Sound/collision.wav", "Content/Sound/fire.wav" ) );
 		m_ball->SetGameObject( go_ball );
 
 		// Create the sound

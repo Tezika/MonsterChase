@@ -18,7 +18,8 @@ namespace Engine
 		m_velocity( Vector3SSE { 0.0f,0.0,0.0f } ),
 		m_scale( Vector3SSE { 1.0, 1.0, 1.0f } ),
 		m_zRot( 0 ),
-		m_pController( nullptr )
+		m_pController( nullptr ),
+		m_tag("default")
 	{
 	}
 

@@ -16,8 +16,12 @@ namespace Engine
 		static SmartPtr<GameObject> Create( const HashedString&, const Vector3SSE& );
 
 		virtual ~GameObject();
+
 		inline const HashedString& GetName() { return m_name; };
 		inline void SetName( const HashedString& i_name ) { m_name = i_name; }
+
+		inline const HashedString& GetTag() { return m_tag; }
+		inline void SetTag( const HashedString& i_tag ) { m_tag = i_tag; }
 
 		inline const Vector3SSE& GetPosition() { return m_position; }
 		inline void SetPosition( const Vector3SSE& i_other ) { m_position = i_other; }
@@ -46,6 +50,7 @@ namespace Engine
 
 	private:
 		HashedString m_name;
+		HashedString m_tag;
 		Vector3SSE m_position;
 		Vector3SSE m_velocity;
 		Vector3SSE m_scale;
