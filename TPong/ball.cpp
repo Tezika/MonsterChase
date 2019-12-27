@@ -95,8 +95,8 @@ namespace TPong
 
 	void Ball::RandVelocity()
 	{
-		auto newVelocity = m_go->GetVelocity().Normalize() * 300;
-		m_go->SetVelocity( newVelocity );
+		//auto newVelocity = -m_go->GetVelocity().Normalize() * 300;
+		//m_go->SetVelocity( newVelocity );
 	}
 
 	Ball::~Ball()

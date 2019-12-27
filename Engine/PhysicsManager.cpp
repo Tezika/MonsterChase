@@ -37,7 +37,7 @@ namespace Engine
 
 		void PhysicsManager::Simulate( float i_dt )
 		{
-			CollisionPair * pEarliestCollisionPair = nullptr;
+			CollisionPair* pEarliestCollisionPair = nullptr;
 			float tLeft = 0;
 			float tProcess = 0;
 			// Gather the collision pairs in one pass.
@@ -45,7 +45,7 @@ namespace Engine
 
 			pEarliestCollisionPair = this->GetEarliestCollisionPair();
 
-			if ( pEarliestCollisionPair == nullptr )
+			if (pEarliestCollisionPair == nullptr)
 			{
 				// If there is no collision, it'll simulate the movement directly
 				this->SimulateMovement( i_dt );
@@ -56,25 +56,14 @@ namespace Engine
 				tLeft = i_dt;
 
 				// Simualte the collision again based on that.
-				while ( pEarliestCollisionPair != nullptr )
+				while (pEarliestCollisionPair != nullptr)
 				{
-					//DEBUG_PRINT_ENGINE( "The count of collision pairs is %d", m_pCollisionPairs->Length() );
-					// Still curious about how to deal with the situation while the collision time < 0.
-					if ( pEarliestCollisionPair->m_collisionTime <= 0.0f )
-					{
-						SmartPtr<GameObject> pGoA = pEarliestCollisionPair->m_pCollidables[0]->GetGameObject();
-						SmartPtr<GameObject> pGoB = pEarliestCollisionPair->m_pCollidables[1]->GetGameObject();
-						pGoA->SetVelocity( -pGoA->GetVelocity() );
-						pGoB->SetVelocity( -pGoB->GetVelocity() );
-						this->SimulateMovement( tLeft );
-						break;
-					}
 					//DEBUG_PRINT_ENGINE( "The left time is %f, the collision time is %f, and the process time is %f", tLeft, pEarliestCollisionPair->m_collisionTime, tProcess );
 					// Subtract the process time
 					tLeft -= tProcess;
 					// Subtract the collision time
 					tLeft -= pEarliestCollisionPair->m_collisionTime;
-					if ( tLeft <= 0 )
+					if (tLeft <= 0)
 					{
 						// Run out of time and jump out the loop.
 						break;
@@ -97,7 +86,7 @@ namespace Engine
 		void PhysicsManager::SimulateMovement( float i_dt )
 		{
 			// Iterate every physics object in the moving object list
-			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
+			Node<PhysicsInfo>* ptr = m_pPhysicsInfos->GetHead();
 			Vector3SSE cachedAcceleration;
 			Vector3SSE cachedVelocity;
 			Vector3SSE cachedAverageVelocity;
@@ -105,9 +94,9 @@ namespace Engine
 			SmartPtr<GameObject> pCachedGo;
 
 			// Simulate the position
-			while ( ptr != nullptr )
+			while (ptr != nullptr)
 			{
-				PhysicsInfo * pInfo = ptr->GetData();
+				PhysicsInfo* pInfo = ptr->GetData();
 				pCachedGo = pInfo->GetGameObject();
 				Vector3SSE drivingForce = pInfo->GetDrivingForce();
 				assert( pCachedGo != nullptr );
@@ -131,31 +120,31 @@ namespace Engine
 			}
 		}
 
-		void  PhysicsManager::SimulateCollision( float i_dt, TList<CollisionPair> * i_pCollisionPairs )
+		void  PhysicsManager::SimulateCollision( float i_dt, TList<CollisionPair>* i_pCollisionPairs )
 		{
-			CollisionPair * pEarliestCollisionPair = nullptr;
+			CollisionPair* pEarliestCollisionPair = nullptr;
 			i_pCollisionPairs->Clear( true );
-			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
+			Node<PhysicsInfo>* ptr = m_pPhysicsInfos->GetHead();
 			// Check the collision between two objects
-			PhysicsInfo * pPhysicsA = nullptr;
-			PhysicsInfo * pPhysicsB = nullptr;
+			PhysicsInfo* pPhysicsA = nullptr;
+			PhysicsInfo* pPhysicsB = nullptr;
 
-			Node<PhysicsInfo> * ptr_1 = m_pPhysicsInfos->GetHead();
+			Node<PhysicsInfo>* ptr_1 = m_pPhysicsInfos->GetHead();
 			SmartPtr<GameObject> pCachedGo;
 
-			while ( ptr != nullptr )
+			while (ptr != nullptr)
 			{
 				pPhysicsA = ptr->GetData();
 				// if the current object cannot be collided, then move to next one.
-				if ( !pPhysicsA->GetCollidable() )
+				if (!pPhysicsA->GetCollidable())
 				{
 					ptr = ptr->GetNext();
 					continue;
 				}
 				ptr_1 = ptr->GetNext();
-				while ( ptr_1 != nullptr )
+				while (ptr_1 != nullptr)
 				{
-					if ( ptr == ptr_1 )
+					if (ptr == ptr_1)
 					{
 						ptr_1 = ptr_1->GetNext();
 						continue;
@@ -163,7 +152,7 @@ namespace Engine
 
 					// if the current object cannot be collided, then move to next one.
 					pPhysicsB = ptr_1->GetData();
-					if ( !pPhysicsB->GetCollidable() )
+					if (!pPhysicsB->GetCollidable())
 					{
 						ptr_1 = ptr_1->GetNext();
 						continue;
@@ -172,9 +161,9 @@ namespace Engine
 					float collisionTime;
 					Vector3SSE collisionNormal = Vector3SSE{ 0,0,0 };
 					// Check the collision between the A and B
-					if ( this->IsCollisionSSE( pPhysicsA, pPhysicsB, i_dt, collisionTime, collisionNormal ) )
+					if (this->IsCollisionSSE( pPhysicsA, pPhysicsB, i_dt, collisionTime, collisionNormal ))
 					{
-						Node<CollisionPair> * pNewCollisionPair = m_pCollisionPairs->Insert( new CollisionPair( collisionTime, collisionNormal, pPhysicsA, pPhysicsB ) );
+						Node<CollisionPair>* pNewCollisionPair = m_pCollisionPairs->Insert( new CollisionPair( collisionTime, collisionNormal, pPhysicsA, pPhysicsB ) );
 						pPhysicsA->SetIsCollision( true );
 						pPhysicsB->SetIsCollision( true );
 						Messaging::MessageSystem::GetInstance().SendMessageW( "OnCollision", pNewCollisionPair->GetData() );
@@ -192,14 +181,14 @@ namespace Engine
 			// Draw the debug visual information to indicate the collision.
 #if defined(_DEBUG) && defined(_DrawDebugInfoWhileColliding)
 			ptr = this->m_pPhysicsInfos->GetHead();
-			while ( ptr != nullptr )
+			while (ptr != nullptr)
 			{
 				pPhysicsA = ptr->GetData();
 				pCachedGo = pPhysicsA->GetGameObject();
-				Render::RenderInfo * pRenderInfo = Render::RenderManager::GetInstance().GetRealRenderInfoByGameObject( pCachedGo );
-				Render::RenderInfo * pDebugRenderInfo = Render::RenderManager::GetInstance().GetDebugRenderInfoByGameObject( pCachedGo );
+				Render::RenderInfo* pRenderInfo = Render::RenderManager::GetInstance().GetRealRenderInfoByGameObject( pCachedGo );
+				Render::RenderInfo* pDebugRenderInfo = Render::RenderManager::GetInstance().GetDebugRenderInfoByGameObject( pCachedGo );
 				// If the object is in collision, it'll render the debug sprite
-				if ( pPhysicsA->GetIsCollision() )
+				if (pPhysicsA->GetIsCollision())
 				{
 					pRenderInfo->SetRenderable( false );
 					pDebugRenderInfo->SetRenderable( true );
@@ -215,21 +204,21 @@ namespace Engine
 #endif
 		}
 
-		bool PhysicsManager::AddPhysicsObject( PhysicsInfo * i_pInfo )
+		bool PhysicsManager::AddPhysicsObject( PhysicsInfo* i_pInfo )
 		{
 			assert( i_pInfo );
 			return m_pPhysicsInfos->Insert( i_pInfo );
 		}
 
-		bool PhysicsManager::RemovePhysicsObject( GameObject * i_pGo )
+		bool PhysicsManager::RemovePhysicsObject( GameObject* i_pGo )
 		{
 			assert( i_pGo );
-			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
-			PhysicsInfo * removePhysicsInfo = nullptr;
-			while ( ptr != nullptr )
+			Node<PhysicsInfo>* ptr = m_pPhysicsInfos->GetHead();
+			PhysicsInfo* removePhysicsInfo = nullptr;
+			while (ptr != nullptr)
 			{
 				removePhysicsInfo = ptr->GetData();
-				if ( removePhysicsInfo->GetGameObject() == i_pGo )
+				if (removePhysicsInfo->GetGameObject() == i_pGo)
 				{
 					assert( removePhysicsInfo );
 					ptr = m_pPhysicsInfos->Remove( ptr );
@@ -243,15 +232,15 @@ namespace Engine
 			return true;
 		}
 
-		PhysicsInfo * PhysicsManager::GetInfoByGameObject( SmartPtr<GameObject> i_pGO )
+		PhysicsInfo* PhysicsManager::GetInfoByGameObject( SmartPtr<GameObject> i_pGO )
 		{
 			assert( i_pGO );
-			Node<PhysicsInfo> * ptr = m_pPhysicsInfos->GetHead();
-			PhysicsInfo * pCurrentInfo = nullptr;
-			while ( ptr != nullptr )
+			Node<PhysicsInfo>* ptr = m_pPhysicsInfos->GetHead();
+			PhysicsInfo* pCurrentInfo = nullptr;
+			while (ptr != nullptr)
 			{
 				pCurrentInfo = ptr->GetData();
-				if ( pCurrentInfo->GetGameObject() == i_pGO )
+				if (pCurrentInfo->GetGameObject() == i_pGO)
 				{
 					return pCurrentInfo;
 				}
@@ -278,11 +267,11 @@ namespace Engine
 		}
 
 		bool PhysicsManager::IsCollisionSSE(
-			PhysicsInfo * i_pPhysicsInfoA,
-			PhysicsInfo * i_pPhysicsInfoB,
+			PhysicsInfo* i_pPhysicsInfoA,
+			PhysicsInfo* i_pPhysicsInfoB,
 			float i_dt,
-			float & i_collisionTime,
-			Vector3SSE & i_collisionNormal
+			float& i_collisionTime,
+			Vector3SSE& i_collisionNormal
 		)
 		{
 			// Initialize the min and max value for time;
@@ -293,7 +282,7 @@ namespace Engine
 
 			// Check for the A projected onto B's in world.
 			bCollided = this->CheckCollisionSSE( i_pPhysicsInfoA, i_pPhysicsInfoB, i_dt, tCloseLatest, tOpenEarilest, collisionAxis );
-			if ( !bCollided )
+			if (!bCollided)
 			{
 				return false;
 			}
@@ -301,12 +290,12 @@ namespace Engine
 			// Swap A and B. Then do the check again.
 			bCollided = true;
 			bCollided = this->CheckCollisionSSE( i_pPhysicsInfoB, i_pPhysicsInfoA, i_dt, tCloseLatest, tOpenEarilest, collisionAxis );
-			if ( !bCollided )
+			if (!bCollided)
 			{
 				return false;
 			}
 
-			if ( tCloseLatest < tOpenEarilest )
+			if (tCloseLatest < tOpenEarilest)
 			{
 				i_collisionTime = tCloseLatest;
 				// Use a trick short-cut to calculate the 2d vector's normal.
@@ -317,22 +306,22 @@ namespace Engine
 		}
 
 		bool PhysicsManager::CheckCollisionSSE(
-			PhysicsInfo * pPhysicsInfoA,
-			PhysicsInfo * pPhysicsInfoB,
+			PhysicsInfo* pPhysicsInfoA,
+			PhysicsInfo* pPhysicsInfoB,
 			float tFrameEnd,
-			float & tCloseLatest,
-			float & tOpenEarilest,
-			Vector3SSE & i_collisionAxis
+			float& tCloseLatest,
+			float& tOpenEarilest,
+			Vector3SSE& i_collisionAxis
 		)
 		{
 			SmartPtr<GameObject> pGoA = pPhysicsInfoA->GetGameObject();
 			assert( pGoA );
-			AABB * pABB = pPhysicsInfoA->GetAABB();
+			AABB* pABB = pPhysicsInfoA->GetAABB();
 			assert( pABB );
 
 			SmartPtr<GameObject> pGoB = pPhysicsInfoB->GetGameObject();
 			assert( pGoB );
-			AABB * pBBB = pPhysicsInfoB->GetAABB();
+			AABB* pBBB = pPhysicsInfoB->GetAABB();
 			assert( pBBB );
 
 			// Calculate the necessary matrixes
@@ -379,7 +368,7 @@ namespace Engine
 				vct3_collisionAxis,
 				i_collisionAxis
 			);
-			if ( !bCollided )
+			if (!bCollided)
 			{
 				return false;
 			}
@@ -414,7 +403,7 @@ namespace Engine
 				vct3_collisionAxis,
 				i_collisionAxis
 			);
-			if ( !bCollided )
+			if (!bCollided)
 			{
 				return false;
 			}
@@ -429,10 +418,10 @@ namespace Engine
 			float aBBCenterOntoAxis,
 			float velARelBOnAxis,
 			float tFrameEnd,
-			float & tOpenEarilest,
-			float & tCloseLatest,
-			const Vector3SSE & i_currentAxis,
-			Vector3SSE & i_collisionAxis
+			float& tOpenEarilest,
+			float& tCloseLatest,
+			const Vector3SSE& i_currentAxis,
+			Vector3SSE& i_collisionAxis
 		)
 		{
 			float bExtends = bBBExtendsOntoAxis + aBBExtendsProjectedOntoAxis;
@@ -446,10 +435,10 @@ namespace Engine
 			float tClose = 0;
 
 			// When the realtive velocity projection is zero
-			if ( velARelBOnAxis == 0.0f )
+			if (velARelBOnAxis == 0.0f)
 			{
 				// If A's bb center outside the bleft ~ bRight, there is no collision. 
-				if ( aBBCenterOntoAxis < bLeft || aBBCenterOntoAxis > bRight )
+				if (aBBCenterOntoAxis < bLeft || aBBCenterOntoAxis > bRight)
 				{
 					return false;
 				}
@@ -459,23 +448,23 @@ namespace Engine
 				tOpen = dOpen / velARelBOnAxis;
 				tClose = dClose / velARelBOnAxis;
 				// A move to B in the -x direction, and we just swap two value
-				if ( tOpen < tClose )
+				if (tOpen < tClose)
 				{
 					std::swap( tOpen, tClose );
 				}
 				// Check the edge: If the close happens in the time point after this frame, there should be no collision
-				if ( tClose > tFrameEnd )
+				if (tClose > tFrameEnd)
 				{
 					return false;
 				}
 				// Check the edge: If the open's time less than zero, which means the gap should always be in the right, there is no collision too.
-				if ( tOpen < 0 )
+				if (tOpen < 0)
 				{
 					return false;
 				}
 				// While passing the edge check, update the earliest open and latest close time
 				tOpenEarilest = tOpen < tOpenEarilest ? tOpen : tOpenEarilest;
-				if ( tClose > tCloseLatest )
+				if (tClose > tCloseLatest)
 				{
 					// Update the latest closing time
 					tCloseLatest = tClose;
@@ -487,11 +476,11 @@ namespace Engine
 		}
 
 		bool PhysicsManager::IsCollision(
-			PhysicsInfo * i_pPhysicsInfoA,
-			PhysicsInfo * i_pPhysicsInfoB,
+			PhysicsInfo* i_pPhysicsInfoA,
+			PhysicsInfo* i_pPhysicsInfoB,
 			float i_dt,
-			float & i_collisionTime,
-			Vector3 & i_collisionNormal
+			float& i_collisionTime,
+			Vector3& i_collisionNormal
 		)
 		{
 			// Initialize the min and max value for time;
@@ -502,7 +491,7 @@ namespace Engine
 
 			// Check for the A projected onto B's in world.
 			bCollided = this->CheckCollision( i_pPhysicsInfoA, i_pPhysicsInfoB, i_dt, tCloseLatest, tOpenEarilest, collisionAxis );
-			if ( !bCollided )
+			if (!bCollided)
 			{
 				return false;
 			}
@@ -510,12 +499,12 @@ namespace Engine
 			// Swap A and B. Then do the check again.
 			bCollided = true;
 			bCollided = this->CheckCollision( i_pPhysicsInfoB, i_pPhysicsInfoA, i_dt, tCloseLatest, tOpenEarilest, collisionAxis );
-			if ( !bCollided )
+			if (!bCollided)
 			{
 				return false;
 			}
 
-			if ( tCloseLatest < tOpenEarilest )
+			if (tCloseLatest < tOpenEarilest)
 			{
 				i_collisionTime = tCloseLatest;
 				// Use a trick short-cut to calculate the 2d vector's normal.
@@ -526,22 +515,22 @@ namespace Engine
 		}
 
 		bool PhysicsManager::CheckCollision(
-			PhysicsInfo * i_pPhysicsInfoA,
-			PhysicsInfo * i_pPhysicsInfoB,
+			PhysicsInfo* i_pPhysicsInfoA,
+			PhysicsInfo* i_pPhysicsInfoB,
 			float i_tFrameEnd,
-			float & i_tOpenEarilest,
-			float & i_tCloseLatest,
-			Vector3 & i_collisionAxis
+			float& i_tOpenEarilest,
+			float& i_tCloseLatest,
+			Vector3& i_collisionAxis
 		)
 		{
 			SmartPtr<GameObject> pGoA = i_pPhysicsInfoA->GetGameObject();
 			assert( pGoA );
-			AABB * pABB = i_pPhysicsInfoB->GetAABB();
+			AABB* pABB = i_pPhysicsInfoB->GetAABB();
 			assert( pABB );
 
 			SmartPtr<GameObject> pGoB = i_pPhysicsInfoB->GetGameObject();
 			assert( pGoB );
-			AABB * pBBB = i_pPhysicsInfoB->GetAABB();
+			AABB* pBBB = i_pPhysicsInfoB->GetAABB();
 			assert( pBBB );
 
 			// Calculate the necessary matrixes
@@ -588,7 +577,7 @@ namespace Engine
 				vct3_collisionAxis,
 				i_collisionAxis
 			);
-			if ( !bCollided )
+			if (!bCollided)
 			{
 				return false;
 			}
@@ -623,7 +612,7 @@ namespace Engine
 				vct3_collisionAxis,
 				i_collisionAxis
 			);
-			if ( !bCollided )
+			if (!bCollided)
 			{
 				return false;
 			}
@@ -638,10 +627,10 @@ namespace Engine
 			float aBBCenterOntoAxis,
 			float velARelBOnAxis,
 			float tFrameEnd,
-			float & tOpenEarilest,
-			float & tCloseLatest,
-			const Vector3 & i_currentAxis,
-			Vector3 & i_collisionAxis
+			float& tOpenEarilest,
+			float& tCloseLatest,
+			const Vector3& i_currentAxis,
+			Vector3& i_collisionAxis
 		)
 		{
 			float bExtends = bBBExtendsOntoAxis + aBBExtendsProjectedOntoAxis;
@@ -655,10 +644,10 @@ namespace Engine
 			float tClose = 0;
 
 			// When the realtive velocity projection is zero
-			if ( velARelBOnAxis == 0.0f )
+			if (velARelBOnAxis == 0.0f)
 			{
 				// If A's bb center outside the bleft ~ bRight, there is no collision. 
-				if ( aBBCenterOntoAxis < bLeft || aBBCenterOntoAxis > bRight )
+				if (aBBCenterOntoAxis < bLeft || aBBCenterOntoAxis > bRight)
 				{
 					return false;
 				}
@@ -668,23 +657,23 @@ namespace Engine
 				tOpen = dOpen / velARelBOnAxis;
 				tClose = dClose / velARelBOnAxis;
 				// A move to B in the -x direction, and we just swap two value
-				if ( tOpen < tClose )
+				if (tOpen < tClose)
 				{
 					std::swap( tOpen, tClose );
 				}
 				// Check the edge: If the close happens in the time point after this frame, there should be no collision
-				if ( tClose > tFrameEnd )
+				if (tClose > tFrameEnd)
 				{
 					return false;
 				}
 				// Check the edge: If the open's time less than zero, which means the gap should always be in the right, there is no collision too.
-				if ( tOpen < 0 )
+				if (tOpen < 0)
 				{
 					return false;
 				}
 				// While passing the edge check, update the earliest open and latest close time
 				tOpenEarilest = tOpen < tOpenEarilest ? tOpen : tOpenEarilest;
-				if ( tClose > tCloseLatest )
+				if (tClose > tCloseLatest)
 				{
 					// Update the latest closing time
 					tCloseLatest = tClose;
@@ -695,7 +684,7 @@ namespace Engine
 			return true;
 		}
 
-		void PhysicsManager::RecalculateVelByMomentum( const PhysicsInfo * pPhysicsInfoA, const PhysicsInfo * pPhysicsInfoB, const Vector3SSE & velA_dir, const Vector3SSE & velB_dir )
+		void PhysicsManager::RecalculateVelByMomentum( const PhysicsInfo* pPhysicsInfoA, const PhysicsInfo* pPhysicsInfoB, const Vector3SSE& velA_dir, const Vector3SSE& velB_dir )
 		{
 			SmartPtr<GameObject> pGoA = pPhysicsInfoA->GetGameObject();
 			SmartPtr<GameObject> pGoB = pPhysicsInfoB->GetGameObject();
@@ -726,21 +715,21 @@ namespace Engine
 			// Check if there is any reflectable in the collidables or not.
 			bool anyReflectable = false;
 
-			if ( pCollisionPair->m_pCollidables[0]->IsReflectable() )
+			if (pCollisionPair->m_pCollidables[0]->IsReflectable())
 			{
 				anyReflectable = true;
 				Vector3SSE curVelocity = pGoA->GetVelocity();
 				pGoA->SetVelocity( dir_vel_A * curVelocity.Length() );
 			}
 
-			if ( pCollisionPair->m_pCollidables[1]->IsReflectable() )
+			if (pCollisionPair->m_pCollidables[1]->IsReflectable())
 			{
 				anyReflectable = true;
 				Vector3SSE curVelocity = pGoB->GetVelocity();
 				pGoB->SetVelocity( dir_vel_B * curVelocity.Length() );
 			}
 
-			if ( anyReflectable )
+			if (anyReflectable)
 			{
 				return;
 			}
@@ -749,17 +738,17 @@ namespace Engine
 			this->RecalculateVelByMomentum( pCollisionPair->m_pCollidables[0], pCollisionPair->m_pCollidables[1], dir_vel_A, dir_vel_B );
 		}
 
-		CollisionPair * PhysicsManager::GetEarliestCollisionPair()
+		CollisionPair* PhysicsManager::GetEarliestCollisionPair()
 		{
-			if ( m_pCollisionPairs->Length() == 0 )
+			if (m_pCollisionPairs->Length() == 0)
 			{
 				return nullptr;
 			}
-			Node<CollisionPair> * pCachedCollisionPair = nullptr;
-			Node<CollisionPair> * ptr = m_pCollisionPairs->GetHead();
-			while ( ptr != nullptr )
+			Node<CollisionPair>* pCachedCollisionPair = nullptr;
+			Node<CollisionPair>* ptr = m_pCollisionPairs->GetHead();
+			while (ptr != nullptr)
 			{
-				if ( pCachedCollisionPair == nullptr || ptr->GetData()->m_collisionTime < pCachedCollisionPair->GetData()->m_collisionTime )
+				if (pCachedCollisionPair == nullptr || ptr->GetData()->m_collisionTime < pCachedCollisionPair->GetData()->m_collisionTime)
 				{
 					pCachedCollisionPair = ptr;
 				}

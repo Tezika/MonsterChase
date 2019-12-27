@@ -13,7 +13,7 @@ gameObject =
             extends = {x=16, y=48}
         },
         collidable = true,
-        reflectable = true
+        reflectable = false
     },
     render_settings = {
         sprite_name = "Content\\Bat.dds",
