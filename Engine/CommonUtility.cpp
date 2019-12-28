@@ -1,9 +1,9 @@
-#include "stdafx.h"
 #include "CommonUtility.h"
 #include <stdint.h>
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+
 
 namespace Engine
 {

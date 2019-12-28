@@ -11,12 +11,7 @@
 #include "AABB.h"
 #include "HashedString.h"
 #include <ReferenceCounting/SmartPtr.h>
-
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif // !M_PI
-
-#define degToRad(angleDegrees) (float)((angleDegrees) * M_PI / 180.0)
+#include "CommonUtility.h"
 
 namespace Engine
 {
