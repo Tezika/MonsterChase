@@ -22,6 +22,7 @@ namespace TPong
 		Engine::Messaging::Delegate<void*> m_dOnCollision;
 		Engine::SmartPtr<Audio::Sound::sSoundSource> m_sound_collision;
 		Engine::SmartPtr<Audio::Sound::sSoundSource> m_sound_fire;
-		float m_maxiumSpeed;
+		float m_maximumSpeed;
+		float m_randAngleRangeInDegree;
 	};
 }

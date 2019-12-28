@@ -26,15 +26,16 @@ namespace TPong
 		// Register the collision delegate
 		this->m_dOnCollision = Engine::Messaging::Delegate<void*>::Create<Ball, & Ball::OnCollision>( this );
 		Engine::Messaging::MessageSystem::GetInstance().RegisterMessageDelegate( "OnCollision", this->m_dOnCollision );
-		m_maxiumSpeed = 500.0f;
+		m_maximumSpeed = 500.0f;
+		m_randAngleRangeInDegree = 15.0f;
 	}
 
 	void Ball::Shoot()
 	{
 		using namespace Engine;
 		// Reset ball: Random its position, inital velocity
-		constexpr float range_velocity_x_max = 400;
-		constexpr float range_velocity_x_min = 100;
+		constexpr float range_velocity_x_max = 350;
+		constexpr float range_velocity_x_min = 150;
 		constexpr float range_velocity_y_max = 300;
 		constexpr float range_velocity_y_min = 0;
 		constexpr float range_vertical_position = 60;
@@ -96,7 +97,12 @@ namespace TPong
 
 	void Ball::RandVelocity()
 	{
-
+		// Make the reflection direction randomly.
+		auto velocity = m_go->GetVelocity();
+		auto randomAngle = degToRad( Engine::RandomInRange( -m_randAngleRangeInDegree, m_randAngleRangeInDegree ) );
+		auto xx = cos( randomAngle ) * velocity.x() - sin( randomAngle ) * velocity.y();
+		auto yy = sin( randomAngle ) * velocity.x() + cos( randomAngle ) * velocity.y();
+		m_go->SetVelocity( Engine::Vector3SSE{ xx,yy,velocity.z() } );
 	}
 
 	Ball::~Ball()
