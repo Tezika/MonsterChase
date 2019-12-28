@@ -6,9 +6,8 @@ namespace Engine
 {
 	struct Vector3SSE
 	{
-
 	public:
-		Vector3SSE() {};
+		Vector3SSE() = default;
 		Vector3SSE( float i_x, float i_y, float i_z ) :m_vec( _mm_set_ps( 0, i_z, i_y, i_x ) ) {};
 		Vector3SSE( const __m128& i_otherVec ) :m_vec( i_otherVec ) {};
 		Vector3SSE( const Vector3SSE &  i_other ) : m_vec( i_other.m_vec ) {};
