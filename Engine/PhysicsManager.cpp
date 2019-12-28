@@ -42,9 +42,7 @@ namespace Engine
 			float tProcess = 0;
 			// Gather the collision pairs in one pass.
 			this->SimulateCollision( i_dt, m_pCollisionPairs );
-
 			pEarliestCollisionPair = this->GetEarliestCollisionPair();
-
 			if (pEarliestCollisionPair == nullptr)
 			{
 				// If there is no collision, it'll simulate the movement directly
@@ -54,10 +52,10 @@ namespace Engine
 			{
 				// Assign timer's time equal to the frame time
 				tLeft = i_dt;
-
 				// Simualte the collision again based on that.
 				while (pEarliestCollisionPair != nullptr)
 				{
+
 					//DEBUG_PRINT_ENGINE( "The left time is %f, the collision time is %f, and the process time is %f", tLeft, pEarliestCollisionPair->m_collisionTime, tProcess );
 					// Subtract the process time
 					tLeft -= tProcess;
@@ -69,10 +67,10 @@ namespace Engine
 						break;
 					}
 					tProcess = Timing::Clock();
-					// Simulate all objects' movment toward that time point.
-					this->SimulateMovement( tLeft );
 					// Resolve the collision
 					this->ResolveCollision( pEarliestCollisionPair );
+					// Simulate all objects' movment toward that time point.
+					this->SimulateMovement( tLeft );
 					// After resolving, it needs to remove the 'CollisionPair' from the link list.
 					m_pCollisionPairs->Remove( pEarliestCollisionPair );
 					delete pEarliestCollisionPair;
@@ -298,8 +296,7 @@ namespace Engine
 			if (tCloseLatest < tOpenEarilest)
 			{
 				i_collisionTime = tCloseLatest;
-				// Use a trick short-cut to calculate the 2d vector's normal.
-				i_collisionNormal = Vector3SSE( -collisionAxis.y(), collisionAxis.x(), collisionAxis.z() );
+				i_collisionNormal = collisionAxis;
 				return true;
 			}
 			return false;
@@ -508,7 +505,7 @@ namespace Engine
 			{
 				i_collisionTime = tCloseLatest;
 				// Use a trick short-cut to calculate the 2d vector's normal.
-				i_collisionNormal = Vector3( -collisionAxis.y, collisionAxis.x, collisionAxis.z );
+				i_collisionNormal = collisionAxis;
 				return true;
 			}
 			return false;

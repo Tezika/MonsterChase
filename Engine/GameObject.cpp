@@ -6,20 +6,20 @@
 
 namespace Engine
 {
-	SmartPtr<GameObject> GameObject::Create( const HashedString & i_otherName, const Vector3SSE & i_otherPosition )
+	SmartPtr<GameObject> GameObject::Create( const HashedString& i_otherName, const Vector3SSE& i_otherPosition )
 	{
 		return SmartPtr<GameObject>( new GameObject( i_otherName, i_otherPosition ) );
 	}
 
-	GameObject::GameObject( const HashedString & i_otherName, const Vector3SSE & i_otherPosition ) :
+	GameObject::GameObject( const HashedString& i_otherName, const Vector3SSE& i_otherPosition ) :
 		m_name( i_otherName ),
 		m_position( i_otherPosition ),
 		// Set the initial velocity as zero
-		m_velocity( Vector3SSE { 0.0f,0.0,0.0f } ),
-		m_scale( Vector3SSE { 1.0, 1.0, 1.0f } ),
+		m_velocity( Vector3SSE{ 0.0f,0.0,0.0f } ),
+		m_scale( Vector3SSE{ 1.0, 1.0, 1.0f } ),
 		m_zRot( 0 ),
 		m_pController( nullptr ),
-		m_tag("default")
+		m_tag( "default" )
 	{
 	}
 
@@ -48,7 +48,7 @@ namespace Engine
 
 	GameObject::~GameObject()
 	{
-		if ( m_pController != nullptr )
+		if (m_pController != nullptr)
 		{
 			m_pController = nullptr;
 		}

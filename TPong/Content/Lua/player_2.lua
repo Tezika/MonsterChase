@@ -9,11 +9,11 @@ gameObject =
         dragness = 0.00005,
         AABB = 
         {
-            center = {x=0, y=48},
-            extends = {x=16, y=48}
+            center = {x=0, y=64},
+            extends = {x=8, y=64}
         },
         collidable = true,
-        reflectable = false
+        reflectable = true
     },
     render_settings = {
         sprite_name = "Content\\Bat.dds",

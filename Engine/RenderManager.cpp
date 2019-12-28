@@ -79,9 +79,9 @@ namespace Engine
 
 			// Add a debug AABB RenderInfo in.
 #if defined(_DEBUG) && defined(_DrawDebugInfo)
-			RenderInfo* pDebugInfo = this->AddRenderInfo( m_pDebugRenderInfos, i_pGo, "Data//BoundingBox_Collided.dds", i_spriteSizeX, i_spriteSizeY );
+			RenderInfo* pDebugInfo = this->AddRenderInfo( m_pDebugRenderInfos, i_pGo, "Content//BoundingBox_Collided.dds", i_spriteSizeX, i_spriteSizeY );
 			assert( pDebugInfo );
-			pDebugInfo->SetRenderable( false );
+			pDebugInfo->SetRenderable( true );
 #endif
 			return pRetInfo;
 		}
