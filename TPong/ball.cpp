@@ -26,6 +26,7 @@ namespace TPong
 		// Register the collision delegate
 		this->m_dOnCollision = Engine::Messaging::Delegate<void*>::Create<Ball, & Ball::OnCollision>( this );
 		Engine::Messaging::MessageSystem::GetInstance().RegisterMessageDelegate( "OnCollision", this->m_dOnCollision );
+		m_maxiumSpeed = 500.0f;
 	}
 
 	void Ball::Shoot()
@@ -33,7 +34,7 @@ namespace TPong
 		using namespace Engine;
 		// Reset ball: Random its position, inital velocity
 		constexpr float range_velocity_x_max = 400;
-		constexpr float range_velocity_x_min = 150;
+		constexpr float range_velocity_x_min = 100;
 		constexpr float range_velocity_y_max = 300;
 		constexpr float range_velocity_y_min = 0;
 		constexpr float range_vertical_position = 60;
@@ -95,8 +96,7 @@ namespace TPong
 
 	void Ball::RandVelocity()
 	{
-		//auto newVelocity = -m_go->GetVelocity().Normalize() * 300;
-		//m_go->SetVelocity( newVelocity );
+
 	}
 
 	Ball::~Ball()
