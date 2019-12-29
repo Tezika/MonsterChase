@@ -48,7 +48,7 @@ namespace TPong
 		srand( time_t( NULL ) );
 
 		// Create the two players
-		auto go_player_1 = CreateGameObjectByFile( "Content\\Lua\\player_1.lua" );
+		auto go_player_1 = CreateGameObjectByFile( "Content/Lua/player_1.lua" );
 		if (go_player_1 == nullptr)
 		{
 			_ASSERT_EXPR( false, L"Failed to load the player one lua file." );
@@ -59,7 +59,7 @@ namespace TPong
 		m_player_1->SetGameObject( go_player_1 );
 		this->InitializePlayer( m_player_1 );
 
-		auto go_player_2 = CreateGameObjectByFile( "Content\\Lua\\player_2.lua" );
+		auto go_player_2 = CreateGameObjectByFile( "Content/Lua/player_2.lua" );
 		if (go_player_2 == nullptr)
 		{
 			_ASSERT_EXPR( false, L"Failed to load the player two lua file." );
@@ -85,6 +85,7 @@ namespace TPong
 		m_ball = SmartPtr<Ball>( new Ball( "Content/Sound/collision.wav", "Content/Sound/fire.wav" ) );
 		m_ball->SetGameObject( go_ball );
 
+		m_sGameOver = Audio::Sound::sSoundSource::Create( "Content/Sound/gameover.wav" );
 		// Set up Walls
 		this->SetupWalls();
 
@@ -149,6 +150,7 @@ namespace TPong
 		m_wall_up = nullptr;
 		m_wall_left = nullptr;
 		m_wall_right = nullptr;
+		m_sGameOver = nullptr;
 		DEBUG_PRINT_GAMEPLAY( "----------Shutdown the game successfully.----------" );
 	}
 
@@ -192,6 +194,10 @@ namespace TPong
 	void Game::OnBallCollideDeadWall( void* i_pInfo )
 	{
 		DEBUG_PRINT_GAMEPLAY( "----------Since the ball collided the dead wall, reset the game right now .----------" );
+		if (m_sGameOver != nullptr)
+		{
+			m_sGameOver->Play();
+		}
 		this->Reset();
 	}
 }
