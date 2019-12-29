@@ -14,7 +14,7 @@ namespace Engine
 #endif // !USE_FIXED_ALLOCATORS
 
 #ifndef OUTPUT_ALLOC_INFO
-#define OUTPUT_ALLOC_INFO
+//#define OUTPUT_ALLOC_INFO
 #endif // !OUTPUT_ALLOC_INFO
 
 #ifdef _DEBUG

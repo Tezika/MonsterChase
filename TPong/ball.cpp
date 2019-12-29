@@ -92,6 +92,14 @@ namespace TPong
 			}
 			this->RandVelocity();
 		}
+		else if ((pGO1->GetTag() == "ball" && pGO2->GetTag() == "wall") ||
+			(pGO1->GetTag() == "wall" && pGO2->GetTag() == "ball"))
+		{
+			if (m_sound_collision != nullptr)
+			{
+				m_sound_collision->Play();
+			}
+		}
 	}
 
 	void Ball::RandVelocity()
